@@ -34,6 +34,14 @@
 
     <h2>Inventory</h2>
 
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
     <form method="POST" action="/inventory">
         <input type="text" name="product_name" placeholder="Product Name">
         <input type="number" step="0.01" name="unit_buy_price" placeholder="Unit Buy Price">

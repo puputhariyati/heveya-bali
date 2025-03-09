@@ -4,31 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Product</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        button {
-            background-color: #6ba54a;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            margin: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        input {
-            padding: 10px;
-            margin: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .container {
-            width: 50%;
-            margin: auto;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='add_bundle.css') }}">
 </head>
 <body>
     <button onclick="location.href='/'">Check Stock</button>
@@ -38,14 +14,26 @@
         <h2>Add New Product</h2>
         <input type="text" placeholder="Product Name">
         <input type="text" placeholder="Unit Sell Price">
-        <input type="text" placeholder="Qty">
         <input type="text" placeholder="Tags">
 
         <h3>Unit Bill Of Materials</h3>
-        <input type="text" placeholder="Product Name"> <input type="text" placeholder="Qty"><br>
-        <input type="text" placeholder="Product Name"> <input type="text" placeholder="Qty"><br>
+        <div id="billOfMaterials">
+            <div class="bom-item">
+                <input type="text" class="bom-product" placeholder="Product Name">
+                <input type="text" class="bom-qty" placeholder="Qty">
+            </div>
+            <div class="bom-item">
+                <input type="text" class="bom-product" placeholder="Product Name">
+                <input type="text" class="bom-qty" placeholder="Qty">
+            </div>
+            <div class="bom-item">
+                <input type="text" class="bom-product" placeholder="Product Name">
+                <input type="text" class="bom-qty" placeholder="Qty">
+            </div>
+        </div>
 
-        <button>Create Product</button>
+        <button onclick="addProduct()">Create Product</button>
     </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

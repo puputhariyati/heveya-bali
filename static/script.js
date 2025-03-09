@@ -1,7 +1,14 @@
-function checkStock() {
-    let productName = document.getElementById("productName").value;
+document.getElementById("productName").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        checkStock();  // Call the function when Enter is pressed
+    }
+});
 
-    fetch(`/check_stock?name=${productName}`)
+function checkStock() {
+    let productName = document.getElementById("productName").value.trim();
+//    console.log("Searching for:", productName); // Debugging line
+
+    fetch(`/check_stock?name=${encodeURIComponent(productName)}`)
         .then(response => response.json())
         .then(data => {
             let tableBody = document.querySelector("#resultTable tbody");
@@ -22,6 +29,7 @@ function checkStock() {
                     tableBody.innerHTML += row;
                 });
             }
+            console.log("Response:", data); // Debugging line
         })
         .catch(error => console.error("Error:", error));
 }
@@ -41,3 +49,26 @@ function addProduct() {
     .then(data => alert(data.message))
     .catch(error => console.error("Error:", error));
 }
+
+// Attach click event listener to the button
+document.getElementById("addProduct").addEventListener("click", addProduct);
+
+document.querySelector("form").addEventListener("submit", function(event) {
+    let inputs = document.querySelectorAll("input");
+    let allFilled = true;
+
+    inputs.forEach(input => {
+        if (input.value.trim() === "") {
+            allFilled = false;
+            input.style.border = "2px solid red";  // Highlight empty fields
+        } else {
+            input.style.border = "";  // Reset border if filled
+        }
+    });
+
+    if (!allFilled) {
+        event.preventDefault();  // Prevent form submission
+        alert("All fields must be filled!");
+    }
+});
+
