@@ -1,269 +1,102 @@
-import tkinter as tk
-from tkinter import messagebox
+from flask import Flask, request, jsonify, render_template, redirect
+import sqlite3
 
-# Define your components and stock
-components = {
-    #block base
-    "(D70) 210 x 80 x 15cm (full piece) (with inner cover)": 1,
-    "(D80) 210 x 80 x 15cm (full piece) (with inner cover)": 1,
+app = Flask(__name__)
 
-    "(D70) 200 x 90 x 15cm (full piece) (with inner cover)": 2,
-    "(D80) 200 x 90 x 15cm (full piece) (with inner cover)": 6,
-    "(D95) 200 x 90 x 15cm (full piece) (with inner cover)": 2,
 
-    "(D70) 200 x 100 x 15cm (full piece) (with inner cover)": 2,
-    "(D80) 200 x 100 x 15cm (full piece) (with inner cover)": 6,
-    "(D95) 200 x 100 x 15cm (full piece) (with inner cover)": 2,
+# Ensure the database and table are created
+def init_db():
+    conn = sqlite3.connect('stock.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS inventory (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            product_name TEXT NOT NULL,
+            unit_buy_price REAL NOT NULL,
+            quantity INTEGER NOT NULL,
+            tags TEXT
+        )
+    ''')
+    conn.commit()
+    conn.close()
 
-    "(D70) 200 x 160 x 15cm (full piece) (with inner cover)": 2,
-    "(D80) 200 x 160 x 15cm (full piece) (with inner cover)": 6,
-    "(D95) 200 x 160 x 15cm (full piece) (with inner cover)": 2,
+# Call the function to create the table at startup
+init_db()
 
-    #topper (inner & outer)
-    "(D65) 200 x 90 x 5cm (full piece) (with inner cover)": 8,
-    "(D65) 200 x 100 x 5cm (full piece) (with inner cover)": 8,
-    "(D65) 200 x 160 x 5cm (full piece) (with inner cover)": 6,
-    "(D65) 200 x 180 x 5cm (full piece) (with inner cover)": 6,
-    "(D65) 200 x 200 x 5cm (full piece) (with inner cover)": 6,
 
-    "(D80) 200 x 90 x 5cm (full piece) (with inner cover)": 8,
-    "(D80) 200 x 100 x 5cm (full piece) (with inner cover)": 8,
-    "(D80) 200 x 160 x 5cm (full piece) (with inner cover)": 6,
+@app.route('/')
+def home():
+    return render_template('index.html')
 
-    #quilted cover (mattress & topper)
-    "quilted cover 200 x 90 x 5cm": 2,
-    "quilted cover 200 x 160 x 5cm": 2,
-    "quilted cover 200 x 180 x 5cm": 2,
-    "quilted cover 200 x 200 x 5cm": 2,
 
-    "quilted cover 200 x 90 x 15cm": 2,
-    "quilted cover 200 x 160 x 15cm": 2,
-    "quilted cover 200 x 180 x 15cm": 2,
-    "quilted cover 200 x 200 x 15cm": 2,
+@app.route('/add_product')
+def add_product_page():
+    return render_template('add_product.html')
 
-    "quilted cover 200 x 90 x 20cm": 2,
-    "quilted cover 200 x 160 x 20cm": 2,
-    "quilted cover 200 x 180 x 20cm": 2,
-    "quilted cover 200 x 200 x 20cm": 2,
-}
 
-# Define the Bill of Materials (BOM) for each product
-products = {
-    "Heveya Mattress III - Super King (200x200) - Soft": {
-        "(D70) 200 x 100 x 15cm (full piece) (with inner cover)": 2,
-        "(D65) 200 x 100 x 5cm (full piece) (with inner cover)": 2,
-        "(D65) 200 x 200 x 5cm (full piece) (with inner cover)": 1,
-        "quilted cover 200 x 200 x 20cm": 1,
-        "quilted cover 200 x 200 x 5cm": 1,
-    },
-    "Heveya Mattress III - Super King (200x200) - Medium": {
-        "(D80) 200 x 100 x 15cm (full piece) (with inner cover)": 2,
-        "(D65) 200 x 100 x 5cm (full piece) (with inner cover)": 2,
-        "(D65) 200 x 200 x 5cm (full piece) (with inner cover)": 1,
-        "quilted cover 200 x 200 x 20cm": 1,
-        "quilted cover 200 x 200 x 5cm": 1,
-    },
-    "Heveya Mattress III - Super King (200x200) - Firm": {
-        "(D95) 200 x 100 x 15cm (full piece) (with inner cover)": 2,
-        "(D80) 200 x 100 x 5cm (full piece) (with inner cover)": 2,
-        "(D65) 200 x 200 x 5cm (full piece) (with inner cover)": 1,
-        "quilted cover 200 x 200 x 20cm": 1,
-        "quilted cover 200 x 200 x 5cm": 1,
-    },
+@app.route('/inventory', methods=['GET', 'POST'])
+def inventory_page():
+    if request.method == 'POST':
+        product_name = request.form.getlist('product_name')
+        unit_buy_price = request.form.getlist('unit_buy_price')
+        quantity = request.form.getlist('quantity')
+        tags = request.form.getlist('tags')
 
-    "Heveya Mattress III - King (180x200) - Soft": {
-        "(D70) 200 x 90 x 15cm (full piece) (with inner cover)": 2,
-        "(D65) 200 x 90 x 5cm (full piece) (with inner cover)": 2,
-        "(D65) 200 x 180 x 5cm (full piece) (with inner cover)": 1,
-        "quilted cover 200 x 180 x 20cm": 1,
-        "quilted cover 200 x 180 x 5cm": 1,
-    },
-    "Heveya Mattress III - King (180x200) - Medium": {
-        "(D80) 200 x 90 x 15cm (full piece) (with inner cover)": 2,
-        "(D65) 200 x 90 x 5cm (full piece) (with inner cover)": 2,
-        "(D65) 200 x 180 x 5cm (full piece) (with inner cover)": 1,
-        "quilted cover 200 x 180 x 20cm": 1,
-        "quilted cover 200 x 180 x 5cm": 1,
-    },
-    "Heveya Mattress III - King (180x200) - Firm": {
-        "(D95) 200 x 90 x 15cm (full piece) (with inner cover)": 2,
-        "(D80) 200 x 90 x 5cm (full piece) (with inner cover)": 2,
-        "(D65) 200 x 180 x 5cm (full piece) (with inner cover)": 1,
-        "quilted cover 200 x 180 x 20cm": 1,
-        "quilted cover 200 x 180 x 5cm": 1,
-    },
+        conn = sqlite3.connect('stock.db')
+        cursor = conn.cursor()
 
-    "Heveya Mattress III - Queen (160x200) - Soft": {
-        "(D70) 200 x 160 x 15cm (full piece) (with inner cover)": 1,
-        "(D65) 200 x 160 x 5cm (full piece) (with inner cover)": 2,
-        "quilted cover 200 x 160 x 20cm": 1,
-        "quilted cover 200 x 160 x 5cm": 1,
-    },
-    "Heveya Mattress III - Queen (160x200) - Medium": {
-        "(D80) 200 x 160 x 15cm (full piece) (with inner cover)": 1,
-        "(D65) 200 x 160 x 5cm (full piece) (with inner cover)": 2,
-        "quilted cover 200 x 160 x 20cm": 1,
-        "quilted cover 200 x 160 x 5cm": 1,
-    },
-    "Heveya Mattress III - Queen (160x200) - Firm": {
-        "(D95) 200 x 160 x 15cm (full piece) (with inner cover)": 1,
-        "(D80) 200 x 160 x 5cm (full piece) (with inner cover)": 1,
-        "(D65) 200 x 160 x 5cm (full piece) (with inner cover)": 1,
-        "quilted cover 200 x 160 x 20cm": 1,
-        "quilted cover 200 x 160 x 5cm": 1,
-    },
+        for i in range(len(product_name)):
+            cursor.execute(
+                "INSERT INTO inventory (product_name, unit_buy_price, quantity, tags) VALUES (?, ?, ?, ?)",
+                (product_name[i], unit_buy_price[i], quantity[i], tags[i])
+            )
 
-    "Heveya Mattress III - Single (90x200) - Soft": {
-        "(D70) 200 x 90 x 15cm (full piece) (with inner cover)": 1,
-        "(D65) 200 x 90 x 5cm (full piece) (with inner cover)": 2,
-        "quilted cover 200 x 90 x 20cm": 1,
-        "quilted cover 200 x 90 x 5cm": 1,
-    },
-    "Heveya Mattress III - Single (90x200) - Medium": {
-        "(D80) 200 x 90 x 15cm (full piece) (with inner cover)": 1,
-        "(D65) 200 x 90 x 5cm (full piece) (with inner cover)": 2,
-        "quilted cover 200 x 90 x 20cm": 1,
-        "quilted cover 200 x 90 x 5cm": 1,
-    },
-    "Heveya Mattress III - Single (90x200) - Firm": {
-        "(D95) 200 x 90 x 15cm (full piece) (with inner cover)": 1,
-        "(D80) 200 x 90 x 5cm (full piece) (with inner cover)": 1,
-        "(D65) 200 x 90 x 5cm (full piece) (with inner cover)": 1,
-        "quilted cover 200 x 90 x 20cm": 1,
-        "quilted cover 200 x 90 x 5cm": 1,
-    },
+        conn.commit()
+        conn.close()
+        return redirect('/inventory')
 
-    "Heveya Mattress II - Super King (200x200) - Soft": {
-        "(D70) 200 x 100 x 15cm (full piece) (with inner cover)": 2,
-        "(D65) 200 x 100 x 5cm (full piece) (with inner cover)": 2,
-        "quilted cover 200 x 200 x 15cm": 1,
-    },
-    "Heveya Mattress II - Super King (200x200) - Medium": {
-        "(D80) 200 x 100 x 15cm (full piece) (with inner cover)": 2,
-        "(D65) 200 x 100 x 5cm (full piece) (with inner cover)": 2,
-        "quilted cover 200 x 200 x 15cm": 1,
-    },
-    "Heveya Mattress II - Super King (200x200) - Firm": {
-        "(D95) 200 x 100 x 15cm (full piece) (with inner cover)": 2,
-        "(D80) 200 x 100 x 5cm (full piece) (with inner cover)": 2,
-        "quilted cover 200 x 200 x 15cm": 1,
-    },
+    return render_template('inventory.html')
 
-    "Heveya Mattress II - King (180x200) - Soft": {
-        "(D70) 200 x 90 x 15cm (full piece) (with inner cover)": 2,
-        "(D65) 200 x 90 x 5cm (full piece) (with inner cover)": 2,
-        "quilted cover 200 x 180 x 15cm": 1,
-    },
-    "Heveya Mattress II - King (180x200) - Medium": {
-        "(D80) 200 x 90 x 15cm (full piece) (with inner cover)": 2,
-        "(D65) 200 x 90 x 5cm (full piece) (with inner cover)": 2,
-        "quilted cover 200 x 180 x 15cm": 1,
-    },
-    "Heveya Mattress II - King (180x200) - Firm": {
-        "(D95) 200 x 90 x 15cm (full piece) (with inner cover)": 2,
-        "(D80) 200 x 90 x 5cm (full piece) (with inner cover)": 2,
-        "quilted cover 200 x 180 x 15cm": 1,
-    },
+@app.route("/add_product", methods=["POST"])
+def add_product():
+    data = request.get_json()
+    name = data.get("name")
+    stock = int(data.get("stock", 0))
+    price = int(data.get("price", 0))
+    tags = data.get("tags", "")
 
-    "Heveya Mattress II - Queen (160x200) - Soft": {
-        "(D70) 200 x 160 x 15cm (full piece) (with inner cover)": 1,
-        "(D65) 200 x 160 x 5cm (full piece) (with inner cover)": 1,
-        "quilted cover 200 x 160 x 15cm": 1,
-    },
-    "Heveya Mattress II - Queen (160x200) - Medium": {
-        "(D80) 200 x 160 x 15cm (full piece) (with inner cover)": 1,
-        "(D65) 200 x 160 x 5cm (full piece) (with inner cover)": 1,
-        "quilted cover 200 x 160 x 15cm": 1,
-    },
-    "Heveya Mattress II - Queen (160x200) - Firm": {
-        "(D95) 200 x 160 x 15cm (full piece) (with inner cover)": 1,
-        "(D80) 200 x 160 x 5cm (full piece) (with inner cover)": 1,
-        "quilted cover 200 x 160 x 15cm": 1,
-    },
+    if not name or stock < 0 or price < 0:
+        return jsonify({"message": "Invalid input"}), 400
 
-    "Heveya Mattress II - Single (90x200) - Soft": {
-        "(D70) 200 x 90 x 15cm (full piece) (with inner cover)": 1,
-        "(D65) 200 x 90 x 5cm (full piece) (with inner cover)": 1,
-        "quilted cover 200 x 90 x 15cm": 1,
-    },
-    "Heveya Mattress II - Single (90x200) - Medium": {
-        "(D80) 200 x 90 x 15cm (full piece) (with inner cover)": 1,
-        "(D65) 200 x 90 x 5cm (full piece) (with inner cover)": 1,
-        "quilted cover 200 x 90 x 15cm": 1,
-    },
-    "Heveya Mattress II - Single (90x200) - Firm": {
-        "(D95) 200 x 90 x 15cm (full piece) (with inner cover)": 1,
-        "(D80) 200 x 90 x 5cm (full piece) (with inner cover)": 1,
-        "quilted cover 200 x 90 x 15cm": 1,
-    },
-}
+    with sqlite3.connect("stock.db") as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO products (name, stock, price, tags)
+            VALUES (?, ?, ?, ?)
+            ON CONFLICT(name) DO UPDATE SET stock = stock + ?, price = ?, tags = ?
+        """, (name, stock, price, tags, stock, price, tags))
+        conn.commit()
 
-# Function to calculate product availability
-def calculate_availability(products, components):
-    availability = {}
-    for product, materials in products.items():
-        # Calculate the availability based on the components
-        min_stock = float('inf')
-        for component, qty_needed in materials.items():
-            if component in components:
-                available_qty = components[component] // qty_needed
-                min_stock = min(min_stock, available_qty)
-            else:
-                min_stock = 0
-        availability[product] = min_stock
-    return availability
+    return jsonify({"message": f"{name} added successfully!"})
 
-# Function to search for products based on keywords
-def search_product_stock(keyword, availability):
-    keywords = keyword.lower().split()  # Split the search term into individual words
-    matching_products = {}
 
-    for product, stock in availability.items():
-        product_lower = product.lower()
-        # Check if all keywords are in the product name
-        if all(kw in product_lower for kw in keywords):
-            matching_products[product] = stock
+@app.route("/check_stock", methods=["GET"])
+def check_stock():
+    name = request.args.get("name", "")
 
-    if matching_products:
-        result = "\n".join([f"{product}: {stock} available" for product, stock in matching_products.items()])
-    else:
-        result = "No matching products found."
+    with sqlite3.connect("stock.db") as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT name, stock, price, tags FROM products WHERE name LIKE ?", ('%' + name + '%',))
+        products = cursor.fetchall()
 
-    return result
+    if not products:
+        return jsonify({"message": "No products found"}), 404
 
-# Function to handle search button click or Enter key press
-def handle_search(event=None):  # Accept `event` for key binding
-    keyword = search_entry.get()
-    if not keyword:
-        messagebox.showerror("Error", "Please enter a keyword.")
-        return
+    return jsonify([
+        {"name": p[0], "stock": p[1], "price": p[2], "tags": p[3].split(", ")} for p in products
+    ])
 
-    result = search_product_stock(keyword, availability)
-    result_label.config(text=result)
 
-# Calculate initial availability
-availability = calculate_availability(products, components)
-
-# GUI Setup
-root = tk.Tk()
-root.title("Product Stock Checker")
-
-# Search bar and button
-search_label = tk.Label(root, text="Enter Product Keyword:")
-search_label.pack(pady=5)
-
-search_entry = tk.Entry(root, width=50)
-search_entry.pack(pady=5)
-
-# Bind the Enter key to the handle_search function
-search_entry.bind("<Return>", handle_search)  # Bind Enter key
-
-search_button = tk.Button(root, text="Check Stock", command=handle_search)
-search_button.pack(pady=10)
-
-# Result display
-result_label = tk.Label(root, text="", font=("Arial", 12), fg="blue", justify="left")
-result_label.pack(pady=20)
-
-# Run the GUI loop
-root.mainloop()
+if __name__ == "__main__":
+    init_db()
+    app.run(debug=True)
