@@ -1,0 +1,53 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+input {
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+.error {
+    border: 1px solid red;
+}
+.container {
+    text-align: center;
+}
+.button {
+    background-color: green;
+    color: white;
+    padding: 8px 12px;
+    margin: 10px;
+    border: none;
+    cursor: pointer;
+}
+#stockList {
+    margin-top: 20px;
+    text-align: left;
+    display: inline-block;
+}
+.productRow {
+    margin-bottom: 10px;
+}
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+}
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+.productRow {
+    margin-bottom: 10px;
+}
+.addProduct {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}

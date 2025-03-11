@@ -3,36 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        button {
-            background-color: #6aa84f;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        button:hover {
-            background-color: #5c9245;
-        }
-        input {
-            padding: 8px;
-            margin: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-    </style>
+    <title>Add Product</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='add_product.css') }}">
 </head>
 <body>
     <button onclick="location.href='/'">Check Stock</button>
     <button onclick="location.href='/add_product'">Add New Product</button>
 
-    <h2>Inventory</h2>
+    <h2>Add Inventory Product</h2>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
@@ -42,27 +20,39 @@
       {% endif %}
     {% endwith %}
 
-    <form method="POST" action="/inventory">
-        <input type="text" name="product_name" placeholder="Product Name">
-        <input type="number" step="0.01" name="unit_buy_price" placeholder="Unit Buy Price">
-        <input type="number" name="quantity" placeholder="Qty">
-        <input type="text" name="tags" placeholder="Tags">
-        <br>
+    <div class="container">
+        <form id="inventoryForm">
+            <div id="productList">
+                <div class="productRow">
+                    <input type="text" placeholder="Product Name" class="product-name">
+                    <input type="number" placeholder="Unit Buy Price" class="unit-price">
+                    <input type="number" placeholder="Qty" class="quantity">
+                    <input type="text" placeholder="Tags" class="tags">
+                </div>
+            </div>
+            <p onclick="addNewRow()" class="addProduct">
+                + Add More Product
+            </p>
+            <button type="button" class="button" onclick="saveProduct()">Save Product</button>
+        </form>
 
-        <input type="text" name="product_name" placeholder="Product Name">
-        <input type="number" step="0.01" name="unit_buy_price" placeholder="Unit Buy Price">
-        <input type="number" name="quantity" placeholder="Qty">
-        <input type="text" name="tags" placeholder="Tags">
-        <br>
-
-        <input type="text" name="product_name" placeholder="Product Name">
-        <input type="number" step="0.01" name="unit_buy_price" placeholder="Unit Buy Price">
-        <input type="number" name="quantity" placeholder="Qty">
-        <input type="text" name="tags" placeholder="Tags">
-        <br>
-
-        <button type="submit">Save</button>
-    </form>
-
+        <div id="stockList">
+            <h3>Stock Inventory:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Product Name</th>
+                        <th>Unit Buy Price</th>
+                        <th>Qty</th>
+                        <th>Tags</th>
+                    </tr>
+                </thead>
+                <tbody id="stockTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='add_product.js') }}"></script>
 </body>
 </html>

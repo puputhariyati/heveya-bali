@@ -67,3 +67,47 @@ th {
     background: #5a9c4a;
     color: white;
 }
+
+/* Ensure the input container is properly positioned */
+.input-container {
+    position: relative;
+    display: inline-block;
+    width: 80%;
+}
+
+/* Style the suggestions dropdown */
+#suggestions {
+    position: absolute;
+    left: 0;
+    width: 100%; /* Match input field width */
+    background: #fff;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: none;
+    z-index: 100;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    max-height: 200px; /* Prevent overflow */
+    overflow-y: auto; /* Enable scrolling */
+}
+
+/* Individual suggestion items */
+.suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+}
+
+.suggestion-item:hover {
+    background: #f0f0f0;
+}
+
+/* Styling for 'Add New Product' option */
+.add-product {
+    background: white;
+    color: blue;
+    text-align: center;
+    padding: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}

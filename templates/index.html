@@ -7,11 +7,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
+    <a href="/add_product" class="add-btn">Add New Product</a>
+    <button onclick="location.href='/inventory'">Inventory</button>
 
     <h1>Check Stock</h1>
-    <input type="text" id="productName" placeholder="Product Name">
+    <div class="input-container">
+        <input type="text" id="productName" placeholder="Select Product" oninput="suggestProducts()">
+        <div id="suggestions"></div>
+    </div>
     <button onclick="checkStock()">Check Stock</button>
-    <a href="/add_product" class="add-btn">Add New Product</a>
 
     <h2>Result:</h2>
     <table id="resultTable">
