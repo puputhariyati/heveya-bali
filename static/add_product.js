@@ -17,6 +17,34 @@ async function fetchStockData() {
     }
 }
 
+function toggleBOMSection() {
+    const productType = document.getElementById("productType").value;
+    const bomSection = document.getElementById("bomSection");
+
+    // Show BOM section if "Bundle" is selected
+    if (productType === "bundle") {
+        bomSection.style.display = "block";
+    } else {
+        bomSection.style.display = "none";
+    }
+}
+
+function addBOMEntry() {
+    const bomContainer = document.getElementById("bomContainer");
+    const entry = document.createElement("div");
+    entry.classList.add("bom-entry");
+    entry.innerHTML = `
+        <input type="text" placeholder="Product Name">
+        <input type="number" placeholder="Qty">
+        <button type="button" onclick="removeBOMEntry(this)">Remove</button>
+    `;
+    bomContainer.appendChild(entry);
+}
+
+function removeBOMEntry(button) {
+    button.parentElement.remove();
+}
+
 function addNewRow() {
     const productList = document.getElementById("productList");
     const newRow = document.createElement("div");
@@ -27,6 +55,23 @@ function addNewRow() {
         <input type="number" placeholder="Unit Buy Price" class="unit-price">
         <input type="number" placeholder="Qty" class="quantity">
         <input type="text" placeholder="Tags" class="tags">
+        <label for="productType">Product Type:</label>
+        <select id="productType" onchange="toggleBOMSection()">
+            <option value="single">Single Item</option>
+            <option value="bundle">Bundle</option>
+        </select>
+        <!-- BOM Section (Hidden by Default) -->
+        <div id="bomSection" style="display: none;">
+            <h3>Unit Bill Of Materials</h3>
+            <div id="bomContainer">
+                <div class="bom-entry">
+                    <input type="text" placeholder="Product Name">
+                    <input type="number" placeholder="Qty">
+                    <button type="button" onclick="removeBOMEntry(this)">Remove</button>
+                </div>
+            </div>
+            <button type="button" onclick="addBOMEntry()">+ Add More Component</button>
+        </div>
     `;
 
     productList.appendChild(newRow);
@@ -94,7 +139,8 @@ function renderStockTable(stockData) {
 
     stockTableBody.innerHTML = ""; // Clear previous data
 
-    stockData.forEach((item, index) => {
+    // Reverse the stockData array to show the newest first
+    stockData.slice().reverse().forEach((item, index) => {
         let row = document.createElement("tr");
 
         row.innerHTML = `

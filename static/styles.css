@@ -5,15 +5,37 @@ body {
     background-color: #f4f4f4;
 }
 
-input {
-    width: 80%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
+.add-product-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #5a9c4a;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
     border-radius: 5px;
 }
 
-button {
+.add-product-btn:hover {
+    background: #4a8c3a;
+}
+
+input {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    flex: 1;
+}
+
+/* Ensure the input container is properly positioned */
+.input-container {
+    position: relative;
+    display: inline;
+}
+
+.check-stock-btn {
     background: #5a9c4a;
     color: white;
     padding: 10px 15px;
@@ -68,13 +90,6 @@ th {
     color: white;
 }
 
-/* Ensure the input container is properly positioned */
-.input-container {
-    position: relative;
-    display: inline-block;
-    width: 80%;
-}
-
 /* Style the suggestions dropdown */
 #suggestions {
     position: absolute;
@@ -106,7 +121,7 @@ th {
 .add-product {
     background: white;
     color: blue;
-    text-align: center;
+    text-align: top-right;
     padding: 8px;
     cursor: pointer;
     font-weight: bold;

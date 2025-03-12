@@ -144,66 +144,47 @@ def get_stock():
     conn.close()
     return jsonify(stock)
 
-
-@app.route('/add_product')
-def add_product_page():
-    return render_template('add_product.html')
+#
+# @app.route('/add_product')
+# def add_product_page():
+#     return render_template('add_product.html')
 
 
 @app.route('/inventory', methods=['GET', 'POST'])
 def inventory_page():
-    conn = sqlite3.connect('stock.db')
-    cursor = conn.cursor()
-
     if request.method == 'POST':
-        data = request.get_json()
+        product_name = request.form.getlist('product_name')
+        unit_buy_price = request.form.getlist('unit_buy_price')
+        quantity = request.form.getlist('quantity')
+        tags = request.form.getlist('tags')
 
-        if not data or "products" not in data:
-            return jsonify({'success': False, 'error': 'Invalid JSON data'}), 400
+        # Debugging: Print the received form data
+        print("Received Data:")
+        print("Product Names:", product_name)
+        print("Unit Buy Prices:", unit_buy_price)
+        print("Quantities:", quantity)
+        print("Tags:", tags)
 
-        products = data["products"]
+        # Check if any field is empty before inserting
+        if not all(product_name) or not all(unit_buy_price) or not all(quantity) or not all(tags):
+            flash("Error: All fields must be filled", "danger")
+            return redirect('/inventory')
 
-        if not isinstance(products, list) or len(products) == 0:
-            return jsonify({'success': False, 'error': 'No products provided'}), 400
+        conn = sqlite3.connect('stock.db')
+        cursor = conn.cursor()
 
-        # Insert products into the database
-        for product in products:
-            product_name = product.get("product-name")
-            unit_buy_price = product.get("unit-price")
-            quantity = product.get("quantity")
-            tags = product.get("tags")
-
-            # Validate that no fields are missing
-            if not all([product_name, unit_buy_price, quantity, tags]):
-                return jsonify({'success': False, 'error': 'All fields must be filled'}), 400
-
+        for i in range(len(product_name)):
             cursor.execute(
                 "INSERT INTO inventory (product_name, unit_buy_price, quantity, tags) VALUES (?, ?, ?, ?)",
-                (product_name, unit_buy_price, quantity, tags)
+                (product_name[i], unit_buy_price[i], quantity[i], tags[i])
             )
 
-            # Debugging: Print the received form data
-            print("Received Data:")
-            print("Product Names:", product_name)
-            print("Unit Buy Prices:", unit_buy_price)
-            print("Quantities:", quantity)
-            print("Tags:", tags)
-
         conn.commit()
-
-        # Fetch updated inventory after insertion
-        cursor.execute("SELECT * FROM inventory ORDER BY id DESC")
-        stock_data = cursor.fetchall()
         conn.close()
+        flash("Data saved successfully!", "success")  # Show success message
+        return redirect('/inventory')
 
-        return jsonify({"success": True, "stock_data": stock_data})
-
-    # If GET request, return the stock inventory
-    cursor.execute("SELECT * FROM inventory ORDER BY id DESC")
-    stock_data = cursor.fetchall()
-    conn.close()
-
-    return render_template('inventory.html', stock_data=stock_data)
+    return render_template('add_product.html')
 
 
 # Route to add a new product's BOM
