@@ -2,73 +2,26 @@ body {
     font-family: Arial, sans-serif;
     text-align: center;
 }
+
 input {
     margin: 5px;
     padding: 5px;
     border: 1px solid #ccc;
 }
-.error {
-    border: 1px solid red;
-}
+
 .container {
     text-align: center;
 }
-.button {
-    background-color: green;
+.saveProduct-btn {
+    background-color: #5a9c4a;
     color: white;
     padding: 8px 12px;
     margin: 10px;
     border: none;
     cursor: pointer;
 }
-#stockList {
-    margin-top: 20px;
-    text-align: left;
-    display: inline-block;
-}
-.productRow {
-    margin-bottom: 10px;
-}
-table {
-    width: 80%;
-    margin: 20px auto;
-    border-collapse: collapse;
-}
-th, td {
-    border: 1px solid black;
-    padding: 10px;
-    text-align: center;
-}
-th {
-    background-color: #4CAF50;
-    color: white;
-}
-.productRow {
-    margin-bottom: 10px;
-}
-.addProduct {
-    cursor: pointer;
-    color: blue;
-    text-decoration: underline;
-}
 
-.checkStock-btn {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: #5a9c4a;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.checkStock-btn:hover {
-    background: #4a8c3a;
-}
-
-#bomSection {
+.bomSection {
     margin: 20px auto; /* Center the section */
     margin-top: 10px;
     padding: 10px;
@@ -95,4 +48,50 @@ th {
     border: none;
     padding: 5px 10px;
     cursor: pointer;
+}
+
+#stockList {
+    margin-top: 20px;
+    text-align: left;
+    display: inline-block;
+    width: 80%;
+}
+.productRow {
+    margin-bottom: 10px;
+}
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+}
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.addMoreProduct {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}
+
+.checkStock-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #5a9c4a;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.checkStock-btn:hover {
+    background: #4a8c3a;
 }

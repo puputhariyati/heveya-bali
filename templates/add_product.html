@@ -11,14 +11,6 @@
 
     <h2>Add / Edit Product</h2>
 
-<!--    {% with messages = get_flashed_messages(with_categories=true) %}-->
-<!--      {% if messages %}-->
-<!--        {% for category, message in messages %}-->
-<!--          <div class="alert alert-{{ category }}">{{ message }}</div>-->
-<!--        {% endfor %}-->
-<!--      {% endif %}-->
-<!--    {% endwith %}-->
-
     <div class="container">
         <form id="inventoryForm" method="POST" action="/inventory">
             <div id="productList">
@@ -28,29 +20,29 @@
                     <input type="number" name="quantity" placeholder="Qty" class="quantity">
                     <input type="text" name="tags" placeholder="Tags" class="tags">
                     <!-- Product Type Dropdown -->
-                    <label for="productType">Product Type:</label>
-                    <select id="productType" onchange="toggleBOMSection()">
+                    <label>Product Type:</label>
+                    <select class="product-type" onchange="toggleBOMSection(this)">
                         <option value="single">Single Item</option>
                         <option value="bundle">Bundle</option>
                     </select>
-                </div>
-                <!-- BOM Section (Hidden by Default) -->
-                <div id="bomSection" style="display: none;">
-                    <h3>Unit Bill Of Materials</h3>
-                    <div id="bomContainer">
-                        <div class="bom-entry">
-                            <input type="text" placeholder="Product Name">
-                            <input type="number" placeholder="Qty">
-                            <button type="button" onclick="removeBOMEntry(this)">Remove</button>
+                    <button type="button" onclick="removeBOMEntry(this)">Remove</button>
+
+                    <!-- BOM Section (Hidden by Default) -->
+                    <div class="bomSection" style="display: none;">
+                        <h3>Unit Bill Of Materials</h3>
+                        <div class="bomContainer">
+                            <div class="bom-entry">
+                                <input type="text" placeholder="Product Name">
+                                <input type="number" placeholder="Qty">
+                                <button type="button" onclick="removeBOMEntry(this)">Remove</button>
+                            </div>
                         </div>
+                        <button type="button" onclick="addBOMEntry()">+ Add More Component</button>
                     </div>
-                    <button type="button" onclick="addBOMEntry()">+ Add More Component</button>
                 </div>
             </div>
-            <p onclick="addNewRow()" class="addProduct">
-                + Add More Product
-            </p>
-            <button type="submit" class="button">Save Product</button>
+            <p onclick="addNewRow()" class="addMoreProduct">+ Add More Product</p>
+            <button type="submit" class="saveProduct-btn">Save Product</button>
         </form>
 
         <div id="stockList">

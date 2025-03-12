@@ -17,16 +17,15 @@ async function fetchStockData() {
     }
 }
 
-function toggleBOMSection() {
-    const productType = document.getElementById("productType").value;
-    const bomSection = document.getElementById("bomSection");
+function toggleBOMSection(selectElement) {
+    const row = selectElement.closest(".productRow"); // Find the parent row
+    if (!row) return; // Prevent errors if row is not found
 
-    // Show BOM section if "Bundle" is selected
-    if (productType === "bundle") {
-        bomSection.style.display = "block";
-    } else {
-        bomSection.style.display = "none";
-    }
+    const bomSection = row.querySelector(".bomSection"); // Find BOM section in the same row
+    if (!bomSection) return; // Prevent errors if BOM section is missing
+
+    // Show or hide BOM section based on selection
+    bomSection.style.display = selectElement.value === "bundle" ? "block" : "none";
 }
 
 function addBOMEntry() {
@@ -51,19 +50,19 @@ function addNewRow() {
     newRow.classList.add("productRow");
 
     newRow.innerHTML = `
-        <input type="text" placeholder="Product Name" class="product-name">
-        <input type="number" placeholder="Unit Buy Price" class="unit-price">
-        <input type="number" placeholder="Qty" class="quantity">
-        <input type="text" placeholder="Tags" class="tags">
+        <input type="text" name="product_name" placeholder="Product Name" class="product-name">
+        <input type="number" step="0.01" name="unit_buy_price" placeholder="Unit Buy Price" class="unit-price">
+        <input type="number" name="quantity" placeholder="Qty" class="quantity">
+        <input type="text" name="tags" placeholder="Tags" class="tags">
         <label for="productType">Product Type:</label>
-        <select id="productType" onchange="toggleBOMSection()">
+        <select name="product_type" class="product-type" onchange="toggleBOMSection(this)">
             <option value="single">Single Item</option>
             <option value="bundle">Bundle</option>
         </select>
-        <!-- BOM Section (Hidden by Default) -->
-        <div id="bomSection" style="display: none;">
+        <button type="button" onclick="removeBOMEntry(this)">Remove</button>
+        <div class="bomSection" style="display: none;">
             <h3>Unit Bill Of Materials</h3>
-            <div id="bomContainer">
+            <div class="bomContainer">
                 <div class="bom-entry">
                     <input type="text" placeholder="Product Name">
                     <input type="number" placeholder="Qty">
@@ -76,6 +75,7 @@ function addNewRow() {
 
     productList.appendChild(newRow);
 }
+
 
 // Function to collect and send multiple products
 function saveProduct() {
