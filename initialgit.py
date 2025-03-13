@@ -196,10 +196,15 @@ products = {
         "(D80) 200 x 90 x 5cm (full piece) (with inner cover)": 1,
         "quilted cover 200 x 90 x 15cm": 1,
     },
-    "Heveya Mattress II - King (180x200) - Medium": {
+    "Heveya Mattress II - King (180x200) - Medium1": {
         "Heveya Natural Organic Latex 15cm - King - Medium": 1,
         "Heveya Natural Organic Latex 5cm - King - Soft": 1,
         "Heveya Bamboo Fiber Quilted Outer Cover 2 - King": 1,
+    },
+    "Heveya Mattress II - King (180x200) - Medium": {
+        "Latex 15cm - King 180 x 200 - Medium (D80)": 1,
+        "Latex 5cm - King 180 x 200 - Soft (D65)": 1,
+        "Bamboo Quilted Cover II 15cm - King 180 x 200": 1,
     }
 }
 

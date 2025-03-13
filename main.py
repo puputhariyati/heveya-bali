@@ -24,9 +24,13 @@ def init_db():
         CREATE TABLE IF NOT EXISTS inventory (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             product_name TEXT NOT NULL,
+            sold_qty INTEGER NOT NULL,
+            free_qty INTEGER NOT NULL,
+            upcoming_qty INTEGER NOT NULL,
+            unit_sell_price REAL NOT NULL,
             unit_buy_price REAL NOT NULL,
-            quantity INTEGER NOT NULL,
-            tags TEXT
+            tags TEXT,
+            on_hand INTEGER GENERATED ALWAYS AS (sold_qty + free_qty) VIRTUAL -- Auto-calculated column
         )
     ''')
 
@@ -130,13 +134,18 @@ def check_bom_stock(product_name):
 def get_stock():
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT id, product_name, unit_buy_price, quantity, tags FROM inventory")
+    cursor.execute("SELECT id, product_name, sold_qty, free_qty, (sold_qty + free_qty) AS on_hand, upcoming_qty, "
+                   "unit_sell_price, unit_buy_price, tags FROM inventory")
     stock = [
         {
             "id": row["id"],
-            "name": row["product_name"],
-            "price": row["unit_buy_price"],
-            "qty": row["quantity"],
+            "product_name": row["product_name"],
+            "on_hand": row["on_hand"],
+            "sold_qty": row["sold_qty"],
+            "free_qty": row["free_qty"],
+            "upcoming_qty": row["upcoming_qty"],
+            "unit_sell_price": row["unit_sell_price"],
+            "unit_buy_price": row["unit_buy_price"],
             "tags": row["tags"]
         }
         for row in cursor.fetchall()
@@ -144,44 +153,49 @@ def get_stock():
     conn.close()
     return jsonify(stock)
 
-#
-# @app.route('/add_product')
-# def add_product_page():
-#     return render_template('add_product.html')
-
 
 @app.route('/inventory', methods=['GET', 'POST'])
 def inventory_page():
     if request.method == 'POST':
         product_name = request.form.getlist('product_name')
+        sold_qty = request.form.getlist('sold_qty')
+        free_qty = request.form.getlist('free_qty')
+        upcoming_qty = request.form.getlist('upcoming_qty')
+        unit_sell_price = request.form.getlist('unit_sell_price')
         unit_buy_price = request.form.getlist('unit_buy_price')
-        quantity = request.form.getlist('quantity')
         tags = request.form.getlist('tags')
 
-        # Debugging: Print the received form data
-        print("Received Data:")
-        print("Product Names:", product_name)
-        print("Unit Buy Prices:", unit_buy_price)
-        print("Quantities:", quantity)
-        print("Tags:", tags)
-
-        # Check if any field is empty before inserting
-        if not all(product_name) or not all(unit_buy_price) or not all(quantity) or not all(tags):
-            flash("Error: All fields must be filled", "danger")
+        # Ensure all lists have the same length
+        num_products = len(product_name)
+        if not (num_products and all(len(lst) == num_products for lst in
+                                     [sold_qty, free_qty, upcoming_qty, unit_sell_price, unit_buy_price, tags])):
+            flash("Error: Incomplete data submission. Check product entries.", "danger")
             return redirect('/inventory')
 
-        conn = sqlite3.connect('stock.db')
-        cursor = conn.cursor()
+        # Check if any field is empty before inserting
+        if not all(product_name) or not all(free_qty) or not all(tags):
+            flash("Error: Product name & Free Qty must be filled", "danger")
+            return redirect('/inventory')
 
-        for i in range(len(product_name)):
-            cursor.execute(
-                "INSERT INTO inventory (product_name, unit_buy_price, quantity, tags) VALUES (?, ?, ?, ?)",
-                (product_name[i], unit_buy_price[i], quantity[i], tags[i])
-            )
+        try:
+            conn = sqlite3.connect('stock.db')
+            cursor = conn.cursor()
 
-        conn.commit()
-        conn.close()
-        flash("Data saved successfully!", "success")  # Show success message
+            for i in range(num_products):
+                cursor.execute(
+                    "INSERT INTO inventory (product_name, sold_qty, free_qty, upcoming_qty, unit_sell_price, "
+                    "unit_buy_price, tags) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    (product_name[i], sold_qty[i], free_qty[i], upcoming_qty[i], unit_sell_price[i], unit_buy_price[i],
+                     tags[i])
+                )
+
+            conn.commit()
+            flash("Data saved successfully!", "success")
+        except sqlite3.Error as e:
+            flash(f"Database error: {e}", "danger")
+        finally:
+            conn.close()
+
         return redirect('/inventory')
 
     return render_template('add_product.html')
@@ -208,7 +222,7 @@ def add_product():
     cursor.execute("""
             INSERT INTO inventory (product_name, unit_buy_price, quantity, tags)
             VALUES (?, ?, ?, ?)
-            ON CONFLICT(product_name) DO UPDATE 
+            SELECT(product_name) DO UPDATE 
             SET quantity = quantity + ?, unit_buy_price = ?, tags = ?
         """, (product_name, unit_buy_price, stock, tags, stock, unit_buy_price, tags))
 

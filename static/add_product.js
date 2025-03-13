@@ -28,8 +28,16 @@ function toggleBOMSection(selectElement) {
     bomSection.style.display = selectElement.value === "bundle" ? "block" : "none";
 }
 
-function addBOMEntry() {
-    const bomContainer = document.getElementById("bomContainer");
+function addBOMEntry(button) {
+    const row = button.closest(".productRow"); // Find the closest product row
+    if (!row) return;
+
+    const bomContainer = row.querySelector(".bomContainer"); // Find BOM container in the same row
+    if (!bomContainer) {
+        console.error("BOM container not found");
+        return;
+    }
+
     const entry = document.createElement("div");
     entry.classList.add("bom-entry");
     entry.innerHTML = `
@@ -37,11 +45,31 @@ function addBOMEntry() {
         <input type="number" placeholder="Qty">
         <button type="button" onclick="removeBOMEntry(this)">Remove</button>
     `;
+
     bomContainer.appendChild(entry);
 }
 
 function removeBOMEntry(button) {
     button.parentElement.remove();
+}
+
+function saveBOM(button) {
+    const row = button.closest(".productRow");
+    if (!row) return;
+
+    const bomEntries = row.querySelectorAll(".bom-entry");
+    const bomData = [];
+
+    bomEntries.forEach(entry => {
+        const productName = entry.querySelector("input[type='text']").value;
+        const quantity = entry.querySelector("input[type='number']").value;
+        if (productName && quantity) {
+            bomData.push({ productName, quantity });
+        }
+    });
+
+    console.log("BOM Saved:", bomData);
+    alert("BOM saved successfully!");
 }
 
 function addNewRow() {
@@ -77,37 +105,48 @@ function addNewRow() {
 }
 
 
-// Function to collect and send multiple products
-function saveProduct() {
-    const products = [];
-    document.querySelectorAll(".productRow").forEach(row => {
-        const productName = row.querySelector(".product-name")?.value || "";
-        const unitPrice = row.querySelector(".unit-price")?.value || "";
-        const quantity = row.querySelector(".quantity")?.value || "";
-        const tags = row.querySelector(".tags")?.value || "";
-
-        if (productName && unitPrice && quantity && tags) {
-            products.push({ product_name: productName, unit_buy_price: unitPrice, quantity, tags });
-        }
-    });
-
-    if (products.length === 0) {
-        alert("Please fill in product details before saving.");
-        return;
-    }
-
-    fetch("/inventory", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ products: products })
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert("Products saved successfully!");
-        fetchStockData(); // Refresh the stock table
-    })
-    .catch(error => console.error("Error:", error));
-}
+//// Function to collect and send multiple products
+//function saveProduct() {
+//    const products = [];
+//    document.querySelectorAll(".productRow").forEach(row => {
+//        const productName = row.querySelector(".product-name")?.value || "";
+//        const soldQty = row.querySelector(".sold-qty")?.value || "";
+//        const freeQty = row.querySelector(".free-qty")?.value || "";
+//        const upcomingQty = row.querySelector(".upcoming-qty")?.value || "";
+//        const unitSellPrice = row.querySelector(".unit-sell-price")?.value || "";
+//        const unitBuyPrice = row.querySelector(".unit-buy-price")?.value || "";
+//        const tags = row.querySelector(".tags")?.value || "";
+//
+//        if (productName && soldQty && freeQty && upcomingQty && unitSellPrice && unitBuyPrice && tags) {
+//            products.push({
+//                product_name: productName,
+//                sold_qty: soldQty,
+//                free_qty: freeQty,
+//                upcoming_qty: upcomingQty,
+//                unit_sell_price: unitSellPrice,
+//                unit_buy_price: unitBuyPrice,
+//                tags: tags
+//            });
+//        }
+//    });
+//
+//    if (products.length === 0) {
+//        alert("Please fill in product details before saving.");
+//        return;
+//    }
+//
+//    fetch("/inventory", {
+//        method: "POST",
+//        headers: { "Content-Type": "application/json" },
+//        body: JSON.stringify({ products: products })
+//    })
+//    .then(response => response.json())
+//    .then(data => {
+//        alert("Products saved successfully!");
+//        fetchStockData(); // Refresh the stock table
+//    })
+//    .catch(error => console.error("Error:", error));
+//}
 
 // Function to send data to the server
 function sendDataToServer(data) {
@@ -128,7 +167,6 @@ function sendDataToServer(data) {
     .catch(error => console.error("Error:", error));
 }
 
-
 function renderStockTable(stockData) {
     const stockTableBody = document.getElementById("stockTableBody");
 
@@ -145,9 +183,13 @@ function renderStockTable(stockData) {
 
         row.innerHTML = `
             <td>${index + 1}</td>
-            <td>${item.name}</td>
-            <td>${item.price}</td>
-            <td>${item.qty}</td>
+            <td>${item.product_name}</td>
+            <td>${item.on_hand}</td>
+            <td>${item.sold_qty}</td>
+            <td>${item.free_qty}</td>
+            <td>${item.upcoming_qty}</td>
+            <td>${item.unit_sell_price}</td>
+            <td>${item.unit_buy_price}</td>
             <td>${item.tags}</td>
         `;
 

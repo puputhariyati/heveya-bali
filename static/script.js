@@ -41,8 +41,18 @@ function suggestProducts() {
             } else {
                 // If no products found, show "Add New Product" option
                 let addOption = document.createElement("div");
-                addOption.innerHTML = `<a href="/add_product" style="color: white; text-decoration: none;">➕ Add New Product</a>`;
+                addOption.textContent = "+ Add New Product";
+                addOption.style.color = "blue";
+                addOption.style.cursor = "pointer";
+                addOption.style.textDecoration = "none";
+
                 addOption.classList.add("suggestion-item", "add-product");
+
+                // Add click event listener
+                addOption.addEventListener("click", function () {
+                    window.location.href = "/inventory";
+                });
+
                 suggestionsDiv.appendChild(addOption);
             }
         })
