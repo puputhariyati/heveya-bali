@@ -17,20 +17,27 @@ async function fetchStockData() {
     }
 }
 
-function toggleBOMSection() {
-    const productType = document.getElementById("productType").value;
-    const bomSection = document.getElementById("bomSection");
+function toggleBOMSection(selectElement) {
+    const row = selectElement.closest(".productRow"); // Find the parent row
+    if (!row) return; // Prevent errors if row is not found
 
-    // Show BOM section if "Bundle" is selected
-    if (productType === "bundle") {
-        bomSection.style.display = "block";
-    } else {
-        bomSection.style.display = "none";
-    }
+    const bomSection = row.querySelector(".bomSection"); // Find BOM section in the same row
+    if (!bomSection) return; // Prevent errors if BOM section is missing
+
+    // Show or hide BOM section based on selection
+    bomSection.style.display = selectElement.value === "bundle" ? "block" : "none";
 }
 
-function addBOMEntry() {
-    const bomContainer = document.getElementById("bomContainer");
+function addBOMEntry(button) {
+    const row = button.closest(".productRow"); // Find the closest product row
+    if (!row) return;
+
+    const bomContainer = row.querySelector(".bomContainer"); // Find BOM container in the same row
+    if (!bomContainer) {
+        console.error("BOM container not found");
+        return;
+    }
+
     const entry = document.createElement("div");
     entry.classList.add("bom-entry");
     entry.innerHTML = `
@@ -38,6 +45,7 @@ function addBOMEntry() {
         <input type="number" placeholder="Qty">
         <button type="button" onclick="removeBOMEntry(this)">Remove</button>
     `;
+
     bomContainer.appendChild(entry);
 }
 

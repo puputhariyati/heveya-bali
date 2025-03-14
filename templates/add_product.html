@@ -25,7 +25,7 @@
                     <input type="text" name="tags" placeholder="Tags" class="tags">
                     <!-- Product Type Dropdown -->
                     <label for="productType">Product Type:</label>
-                    <select id="productType" onchange="toggleBOMSection()">
+                    <select id="productType" onchange="toggleBOMSection(this)">
                         <option value="single">Single Item</option>
                         <option value="bundle">Bundle</option>
                     </select>
@@ -36,13 +36,12 @@
                         <h3>Unit Bill Of Materials</h3>
                         <div class="bomContainer">
                             <div class="bom-entry">
-                                <input type="text" placeholder="Select Product">
+                                <input type="text" placeholder="Product Name">
                                 <input type="number" placeholder="Qty">
                                 <button type="button" onclick="removeBOMEntry(this)">Remove</button>
                             </div>
                         </div>
-                        <button type="button" onclick="addBOMEntry(this)">+ Add More Component</button>
-                        <button type="button" onclick="saveBOM(this)">Save BOM</button>
+                        <button type="button" onclick="addBOMEntry()">+ Add More Component</button>
                     </div>
                 </div>
             </div>
