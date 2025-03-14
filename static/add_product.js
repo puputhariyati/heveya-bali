@@ -17,27 +17,20 @@ async function fetchStockData() {
     }
 }
 
-function toggleBOMSection(selectElement) {
-    const row = selectElement.closest(".productRow"); // Find the parent row
-    if (!row) return; // Prevent errors if row is not found
+function toggleBOMSection() {
+    const productType = document.getElementById("productType").value;
+    const bomSection = document.getElementById("bomSection");
 
-    const bomSection = row.querySelector(".bomSection"); // Find BOM section in the same row
-    if (!bomSection) return; // Prevent errors if BOM section is missing
-
-    // Show or hide BOM section based on selection
-    bomSection.style.display = selectElement.value === "bundle" ? "block" : "none";
+    // Show BOM section if "Bundle" is selected
+    if (productType === "bundle") {
+        bomSection.style.display = "block";
+    } else {
+        bomSection.style.display = "none";
+    }
 }
 
-function addBOMEntry(button) {
-    const row = button.closest(".productRow"); // Find the closest product row
-    if (!row) return;
-
-    const bomContainer = row.querySelector(".bomContainer"); // Find BOM container in the same row
-    if (!bomContainer) {
-        console.error("BOM container not found");
-        return;
-    }
-
+function addBOMEntry() {
+    const bomContainer = document.getElementById("bomContainer");
     const entry = document.createElement("div");
     entry.classList.add("bom-entry");
     entry.innerHTML = `
@@ -45,7 +38,6 @@ function addBOMEntry(button) {
         <input type="number" placeholder="Qty">
         <button type="button" onclick="removeBOMEntry(this)">Remove</button>
     `;
-
     bomContainer.appendChild(entry);
 }
 
@@ -104,69 +96,6 @@ function addNewRow() {
     productList.appendChild(newRow);
 }
 
-
-//// Function to collect and send multiple products
-//function saveProduct() {
-//    const products = [];
-//    document.querySelectorAll(".productRow").forEach(row => {
-//        const productName = row.querySelector(".product-name")?.value || "";
-//        const soldQty = row.querySelector(".sold-qty")?.value || "";
-//        const freeQty = row.querySelector(".free-qty")?.value || "";
-//        const upcomingQty = row.querySelector(".upcoming-qty")?.value || "";
-//        const unitSellPrice = row.querySelector(".unit-sell-price")?.value || "";
-//        const unitBuyPrice = row.querySelector(".unit-buy-price")?.value || "";
-//        const tags = row.querySelector(".tags")?.value || "";
-//
-//        if (productName && soldQty && freeQty && upcomingQty && unitSellPrice && unitBuyPrice && tags) {
-//            products.push({
-//                product_name: productName,
-//                sold_qty: soldQty,
-//                free_qty: freeQty,
-//                upcoming_qty: upcomingQty,
-//                unit_sell_price: unitSellPrice,
-//                unit_buy_price: unitBuyPrice,
-//                tags: tags
-//            });
-//        }
-//    });
-//
-//    if (products.length === 0) {
-//        alert("Please fill in product details before saving.");
-//        return;
-//    }
-//
-//    fetch("/inventory", {
-//        method: "POST",
-//        headers: { "Content-Type": "application/json" },
-//        body: JSON.stringify({ products: products })
-//    })
-//    .then(response => response.json())
-//    .then(data => {
-//        alert("Products saved successfully!");
-//        fetchStockData(); // Refresh the stock table
-//    })
-//    .catch(error => console.error("Error:", error));
-//}
-
-// Function to send data to the server
-function sendDataToServer(data) {
-    fetch('/inventory', {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(result => {
-        if (result.success) {
-            alert("Product added successfully!");
-            fetchStockData();  // Fetch updated stock list from backend
-        } else {
-            alert("Error: " + result.error);
-        }
-    })
-    .catch(error => console.error("Error:", error));
-}
-
 function renderStockTable(stockData) {
     const stockTableBody = document.getElementById("stockTableBody");
 
@@ -198,3 +127,14 @@ function renderStockTable(stockData) {
 }
 
 window.onload = fetchStockData; // Load real stock on page load
+
+document.addEventListener("DOMContentLoaded", function () {
+    function updateOnHand() {
+        let soldQty = parseInt(document.querySelector(".sold-qty").value) || 0;
+        let freeQty = parseInt(document.querySelector(".free-qty").value) || 0;
+        document.querySelector(".on-hand").value = soldQty + freeQty;
+    }
+
+    document.querySelector(".sold-qty").addEventListener("input", updateOnHand);
+    document.querySelector(".free-qty").addEventListener("input", updateOnHand);
+});

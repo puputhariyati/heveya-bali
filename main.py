@@ -10,6 +10,7 @@ app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")  # Retrieve secret key from .env
 DATABASE = "stock.db"  # Path to your database file
 
+
 def get_db_connection():
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row  # Enables accessing rows as dictionaries
@@ -20,17 +21,22 @@ def get_db_connection():
 def init_db():
     conn = get_db_connection()
     cursor = conn.cursor()
+
+    # # Drop existing inventory table
+    # cursor.execute("DROP TABLE IF EXISTS inventory;")
+
+    # Recreate table with correct schema
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS inventory (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             product_name TEXT NOT NULL,
-            sold_qty INTEGER NOT NULL,
-            free_qty INTEGER NOT NULL,
-            upcoming_qty INTEGER NOT NULL,
-            unit_sell_price REAL NOT NULL,
-            unit_buy_price REAL NOT NULL,
-            tags TEXT,
-            on_hand INTEGER GENERATED ALWAYS AS (sold_qty + free_qty) VIRTUAL -- Auto-calculated column
+            on_hand INTEGER NOT NULL DEFAULT 0, 
+            sold_qty INTEGER NOT NULL DEFAULT 0,
+            free_qty INTEGER NOT NULL DEFAULT 0,
+            upcoming_qty INTEGER NOT NULL DEFAULT 0,
+            unit_sell_price REAL NOT NULL DEFAULT 0,
+            unit_buy_price REAL NOT NULL DEFAULT 0,
+            tags TEXT
         )
     ''')
 
@@ -82,8 +88,8 @@ def check_stock():
     with sqlite3.connect("stock.db") as conn:
         cursor = conn.cursor()
         cursor.execute("""
-                    SELECT product_name, quantity, unit_buy_price, tags 
-                    FROM inventory 
+                    SELECT product_name, unit_buy_price, tags
+                    FROM inventory
                     WHERE LOWER(product_name) LIKE LOWER(?)
                 """, ('%' + name + '%',))
         products = cursor.fetchall()
@@ -134,15 +140,15 @@ def check_bom_stock(product_name):
 def get_stock():
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT id, product_name, sold_qty, free_qty, (sold_qty + free_qty) AS on_hand, upcoming_qty, "
-                   "unit_sell_price, unit_buy_price, tags FROM inventory")
+    cursor.execute("SELECT id, product_name, sold_qty, free_qty, on_hand, upcoming_qty, unit_sell_price, "
+                   "unit_buy_price, tags FROM inventory")
     stock = [
         {
             "id": row["id"],
             "product_name": row["product_name"],
-            "on_hand": row["on_hand"],
             "sold_qty": row["sold_qty"],
             "free_qty": row["free_qty"],
+            "on_hand": row["on_hand"],
             "upcoming_qty": row["upcoming_qty"],
             "unit_sell_price": row["unit_sell_price"],
             "unit_buy_price": row["unit_buy_price"],
@@ -165,37 +171,35 @@ def inventory_page():
         unit_buy_price = request.form.getlist('unit_buy_price')
         tags = request.form.getlist('tags')
 
-        # Ensure all lists have the same length
-        num_products = len(product_name)
-        if not (num_products and all(len(lst) == num_products for lst in
-                                     [sold_qty, free_qty, upcoming_qty, unit_sell_price, unit_buy_price, tags])):
-            flash("Error: Incomplete data submission. Check product entries.", "danger")
-            return redirect('/inventory')
-
         # Check if any field is empty before inserting
-        if not all(product_name) or not all(free_qty) or not all(tags):
-            flash("Error: Product name & Free Qty must be filled", "danger")
+        if not all(product_name) or not all(unit_buy_price) or not all(tags):
+            flash("Error: All fields must be filled", "danger")
             return redirect('/inventory')
 
-        try:
-            conn = sqlite3.connect('stock.db')
-            cursor = conn.cursor()
+        conn = sqlite3.connect('stock.db')
+        cursor = conn.cursor()
 
-            for i in range(num_products):
-                cursor.execute(
-                    "INSERT INTO inventory (product_name, sold_qty, free_qty, upcoming_qty, unit_sell_price, "
-                    "unit_buy_price, tags) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                    (product_name[i], sold_qty[i], free_qty[i], upcoming_qty[i], unit_sell_price[i], unit_buy_price[i],
-                     tags[i])
-                )
+        for i in range(len(product_name)):
+            # Convert values to integers (handle empty inputs)
+            sold = int(sold_qty[i]) if sold_qty[i] else 0
+            free = int(free_qty[i]) if free_qty[i] else 0
+            upcoming = int(upcoming_qty[i]) if upcoming_qty[i] else 0
+            sell_price = float(unit_sell_price[i]) if unit_sell_price[i] else 0.0
+            buy_price = float(unit_buy_price[i]) if unit_buy_price[i] else 0.0
 
-            conn.commit()
-            flash("Data saved successfully!", "success")
-        except sqlite3.Error as e:
-            flash(f"Database error: {e}", "danger")
-        finally:
-            conn.close()
+            # Auto-calculate on_hand
+            on_hand = sold + free
 
+            cursor.execute(
+                "INSERT INTO inventory (product_name, on_hand, sold_qty, free_qty, upcoming_qty, unit_sell_price, "
+                "unit_buy_price, tags)"
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                (product_name[i], on_hand, sold, free, upcoming, sell_price, buy_price, tags[i])
+            )
+
+        conn.commit()
+        conn.close()
+        flash("Data saved successfully!", "success")  # Show success message
         return redirect('/inventory')
 
     return render_template('add_product.html')
@@ -222,7 +226,7 @@ def add_product():
     cursor.execute("""
             INSERT INTO inventory (product_name, unit_buy_price, quantity, tags)
             VALUES (?, ?, ?, ?)
-            SELECT(product_name) DO UPDATE 
+            ON CONFLICT(product_name) DO UPDATE 
             SET quantity = quantity + ?, unit_buy_price = ?, tags = ?
         """, (product_name, unit_buy_price, stock, tags, stock, unit_buy_price, tags))
 

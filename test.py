@@ -10,11 +10,9 @@ print("\n📌 Inventory Table Data:")
 for row in inventory_data:
     print(row)
 
-# Check contents of 'products' table
-cursor.execute("SELECT * FROM products")
-products_data = cursor.fetchall()
-print("\n📌 Products Table Data:")
-for row in products_data:
-    print(row)
+# Check existing columns
+cursor.execute("PRAGMA table_info(inventory);")
+columns = cursor.fetchall()
+print("\n Existing Columns:", columns)
 
 conn.close()
