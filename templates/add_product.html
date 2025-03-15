@@ -36,12 +36,16 @@
                         <h3>Unit Bill Of Materials</h3>
                         <div class="bomContainer">
                             <div class="bom-entry">
-                                <input type="text" placeholder="Product Name">
+                                <div class="input-container">
+                                    <input type="text" id="productName" placeholder="Select Product" oninput="suggestProducts(this)">
+                                    <div class="suggestions"></div>
+                                </div>
                                 <input type="number" placeholder="Qty">
                                 <button type="button" onclick="removeBOMEntry(this)">Remove</button>
                             </div>
                         </div>
-                        <button type="button" onclick="addBOMEntry()">+ Add More Component</button>
+                        <button type="button" onclick="addBOMEntry(this)">+ Add More Component</button>
+                        <button type="button" onclick="saveBOM(this)">Save BOM</button>
                     </div>
                 </div>
             </div>

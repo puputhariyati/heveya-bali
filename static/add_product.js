@@ -29,25 +29,34 @@ function toggleBOMSection(selectElement) {
 }
 
 function addBOMEntry(button) {
-    const row = button.closest(".productRow"); // Find the closest product row
-    if (!row) return;
+    const row = button.closest(".productRow"); // Find the closest row
+    if (!row) {
+        console.error("Row not found");
+        return;
+    }
 
-    const bomContainer = row.querySelector(".bomContainer"); // Find BOM container in the same row
+    const bomContainer = row.querySelector(".bomContainer"); // Find BOM container
     if (!bomContainer) {
         console.error("BOM container not found");
         return;
     }
 
+    // Create a new BOM entry
     const entry = document.createElement("div");
     entry.classList.add("bom-entry");
     entry.innerHTML = `
-        <input type="text" placeholder="Product Name">
+        <div class="input-container">
+            <input type="text" id="productName" placeholder="Select Product" oninput="suggestProducts(this)">
+            <div class="suggestions"></div> <!-- Use class instead of ID -->
+        </div>
         <input type="number" placeholder="Qty">
         <button type="button" onclick="removeBOMEntry(this)">Remove</button>
     `;
 
+    // Append to BOM container
     bomContainer.appendChild(entry);
 }
+
 
 function removeBOMEntry(button) {
     button.parentElement.remove();
@@ -145,4 +154,72 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.querySelector(".sold-qty").addEventListener("input", updateOnHand);
     document.querySelector(".free-qty").addEventListener("input", updateOnHand);
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    let productInput = document.getElementById("productName");
+    if (productInput) {  // Check if it exists
+        productInput.addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                checkStock();
+            }
+        });
+    }
+});
+
+// Fetch product suggestions dynamically
+function suggestProducts(inputField) {
+    let suggestionsDiv = inputField.closest(".input-container").querySelector(".suggestions");
+
+    let query = inputField.value.trim();
+    if (query.length < 2) {
+        suggestionsDiv.innerHTML = "";
+        suggestionsDiv.style.display = "none";
+        return;
+    }
+
+    fetch(`/get_product_suggestions?query=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(products => {
+            suggestionsDiv.innerHTML = ""; // Clear previous suggestions
+            suggestionsDiv.style.display = "block"; // Show suggestions
+
+            if (products.length > 0) {
+                products.forEach(product => {
+                    let option = document.createElement("div");
+                    option.textContent = product;
+                    option.classList.add("suggestion-item");
+                    option.onclick = function () {
+                        inputField.value = product;
+                        suggestionsDiv.innerHTML = "";
+                        suggestionsDiv.style.display = "none";
+                    };
+                    suggestionsDiv.appendChild(option);
+                });
+            } else {
+                suggestionsDiv.style.display = "none";
+            }
+        })
+        .catch(error => console.error("Error fetching suggestions:", error));
+}
+
+
+// Prevent form submission if the product is not valid
+document.getElementById("bomForm").addEventListener("submit", function (event) {
+    let productInput = document.getElementById("productName");
+
+    if (productInput.getAttribute("data-valid") !== "true") {
+        alert("Product not found in stock! Please select a valid product.");
+        event.preventDefault(); // Stop form submission
+    }
+});
+
+
+
+// Hide suggestions when clicking outside
+document.addEventListener("click", function (event) {
+    let suggestionsDiv = document.getElementById("suggestions");
+    if (!document.getElementById("productName").contains(event.target)) {
+        suggestionsDiv.style.display = "none";
+    }
 });
