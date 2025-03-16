@@ -1,19 +1,55 @@
 async function fetchStockData() {
     try {
         const response = await fetch("/api/get_stock");
-        if (!response.ok) {
-            throw new Error("Failed to fetch stock data.");
-        }
-        const stockData = await response.json();
+        if (!response.ok) throw new Error("Failed to fetch stock data.");
+        let stockData = await response.json();
 
         if (!Array.isArray(stockData)) {
             console.error("Stock data is not an array:", stockData);
             return;
         }
 
+        // Fetch BOM status for each product
+        await Promise.all(stockData.map(async (item) => {
+            try {
+                const productName = encodeURIComponent(item.product_name.trim());
+                console.log(`Fetching BOM for: "${item.product_name}"`);
+
+                const bomResponse = await fetch(`/api/get_bom?product=${productName}`);
+                if (!bomResponse.ok) {
+                    console.error(`Error fetching BOM for ${item.product_name}:`, bomResponse.statusText);
+                    item.hasBOM = false;
+                    return;
+                }
+
+                const bomData = await bomResponse.json();
+                console.log(`BOM Data for ${item.product_name}:`, bomData);
+
+                // Assign BOM status correctly
+                item.hasBOM = !!(Array.isArray(bomData) && bomData.length);
+            } catch (error) {
+                console.error(`Failed to fetch BOM for ${item.product_name}:`, error);
+                item.hasBOM = false;
+            }
+        }));
+
         renderStockTable(stockData);
     } catch (error) {
         console.error("Error fetching stock data:", error);
+    }
+}
+
+async function fetchBomData(productName) {
+    try {
+        const response = await fetch(`/api/get_bom?product=${encodeURIComponent(productName)}`);
+        if (!response.ok) {
+            throw new Error("Failed to fetch BOM data.");
+        }
+
+        const bomData = await response.json();
+        openBomModal(productName, bomData); // Ensure this function is defined
+    } catch (error) {
+        console.error("Error fetching BOM data:", error);
     }
 }
 
@@ -66,19 +102,27 @@ function saveBOM(button) {
     const row = button.closest(".productRow");
     if (!row) return;
 
+    const product = row.querySelector(".product-name").value;
     const bomEntries = row.querySelectorAll(".bom-entry");
     const bomData = [];
 
     bomEntries.forEach(entry => {
-        const productName = entry.querySelector("input[type='text']").value;
+        const component = entry.querySelector("input[type='text']").value;
         const quantity = entry.querySelector("input[type='number']").value;
-        if (productName && quantity) {
-            bomData.push({ productName, quantity });
+        if (component && quantity) {
+            bomData.push({ product, component, quantity });
         }
     });
 
-    console.log("BOM Saved:", bomData);
-    alert("BOM saved successfully!");
+    // Send BOM data to Python backend
+    fetch('/save_bom', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bomData)
+    })
+    .then(response => response.json())
+    .then(data => alert(data.message))
+    .catch(error => console.error("Error:", error));
 }
 
 function addNewRow() {
@@ -115,35 +159,57 @@ function addNewRow() {
 
 function renderStockTable(stockData) {
     const stockTableBody = document.getElementById("stockTableBody");
-
-    if (!stockTableBody) {
-        console.error("Error: 'stockTableBody' not found in the DOM.");
-        return;
-    }
-
-    stockTableBody.innerHTML = ""; // Clear previous data
+    stockTableBody.innerHTML = ""; // Clear previous content
 
     // Reverse the stockData array to show the newest first
-    stockData.slice().reverse().forEach((item, index) => {
-        let row = document.createElement("tr");
+    stockData.reverse().forEach((item, index) => {
+        console.log(`Product: ${item.product_name}, hasBOM: ${item.hasBOM}`); // Debugging log
 
+        const row = document.createElement("tr");
         row.innerHTML = `
             <td>${index + 1}</td>
-            <td>${item.product_name}</td>
+            <td>
+                ${item.hasBOM
+                    ? `<a href="#" class="bom-link" data-product="${encodeURIComponent(item.product_name)}"
+                        style="color: blue; text-decoration: underline;">${item.product_name}</a>`
+                    : item.product_name}
+            </td>
             <td>${item.on_hand}</td>
             <td>${item.sold_qty}</td>
             <td>${item.free_qty}</td>
             <td>${item.upcoming_qty}</td>
             <td>${item.unit_sell_price}</td>
             <td>${item.unit_buy_price}</td>
-            <td>${item.tags}</td>
+            <td>${item.tags || ""}</td>
         `;
 
         stockTableBody.appendChild(row);
     });
 }
 
+// ✅ Attach event listener ONCE, outside the function
+document.addEventListener("click", function (event) {
+    if (event.target.classList.contains("bom-link")) {
+        event.preventDefault();
+        const productName = decodeURIComponent(event.target.dataset.product);
+        fetchBomData(productName);
+    }
+});
+
+
+
 window.onload = fetchStockData; // Load real stock on page load
+
+function openBomModal(productName, bomData) {
+    const modal = document.getElementById("bomModal");
+    const modalContent = document.getElementById("bomModalContent");
+
+    modalContent.innerHTML = `<h3>BOM for ${productName}</h3><ul>` +
+        bomData.map(item => `<li>${item.component} - ${item.quantity}</li>`).join("") +
+        `</ul>`;
+
+    modal.style.display = "block";
+}
 
 document.addEventListener("DOMContentLoaded", function () {
     function updateOnHand() {
@@ -214,8 +280,6 @@ document.getElementById("bomForm").addEventListener("submit", function (event) {
     }
 });
 
-
-
 // Hide suggestions when clicking outside
 document.addEventListener("click", function (event) {
     let suggestionsDiv = document.getElementById("suggestions");
@@ -223,3 +287,28 @@ document.addEventListener("click", function (event) {
         suggestionsDiv.style.display = "none";
     }
 });
+
+// Function to fetch BOM and show popup
+function showBOM(product) {
+    fetch(`/get_bom?product=${encodeURIComponent(product)}`)
+        .then(response => response.json())
+        .then(data => {
+            const bomBody = document.getElementById("bomBody");
+            bomBody.innerHTML = "";
+
+            if (data.length === 0) {
+                bomBody.innerHTML = "<tr><td colspan='2'>No BOM data found</td></tr>";
+            } else {
+                data.forEach(item => {
+                    let row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${item.component}</td>
+                        <td>${item.quantity}</td>
+                    `;
+                    bomBody.appendChild(row);
+                });
+            }
+
+            document.getElementById("bomModal").style.display = "block";
+        });
+}

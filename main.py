@@ -180,6 +180,15 @@ def inventory_page():
         cursor = conn.cursor()
 
         for i in range(len(product_name)):
+            # Check if product already exists in the database
+            cursor.execute("SELECT COUNT(*) FROM inventory WHERE product_name = ?", (product_name[i],))
+            existing_count = cursor.fetchone()[0]
+
+            if existing_count > 0:
+                flash(f"Error: Product '{product_name[i]}' already exists!", "danger")
+                conn.close()
+                return redirect('/inventory')
+
             # Convert values to integers (handle empty inputs)
             sold = int(sold_qty[i]) if sold_qty[i] else 0
             free = int(free_qty[i]) if free_qty[i] else 0
@@ -206,43 +215,41 @@ def inventory_page():
 
 
 # Route to add a new product's BOM
-@app.route("/add_product", methods=["POST"])
-def add_product():
-    """Add or update product in the inventory table"""
-    data = request.get_json()
-    product_name = data.get("name")
-    stock = int(data.get("stock", 0))
-    unit_buy_price = float(data.get("price", 0))
-    tags = data.get("tags", "")
-    materials = data.get("materials", [])  # List of {material_name, quantity_required}
-
-    if not product_name or stock < 0 or unit_buy_price < 0:
-        return jsonify({"message": "Invalid input"}), 400
-
+@app.route('/save_bom', methods=['POST'])
+def save_bom():
+    data = request.json
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    # Insert or update inventory
-    cursor.execute("""
-            INSERT INTO inventory (product_name, unit_buy_price, quantity, tags)
-            VALUES (?, ?, ?, ?)
-            ON CONFLICT(product_name) DO UPDATE 
-            SET quantity = quantity + ?, unit_buy_price = ?, tags = ?
-        """, (product_name, unit_buy_price, stock, tags, stock, unit_buy_price, tags))
-
-    # Insert BOM (delete existing BOM first to avoid duplicates)
-    cursor.execute("DELETE FROM bom WHERE product_name = ?", (product_name,))
-
-    for material in materials:
-        cursor.execute("""
-                INSERT INTO bom (product_name, material_name, quantity_required)
-                VALUES (?, ?, ?)
-            """, (product_name, material["name"], material["quantity"]))
+    for entry in data:
+        cursor.execute("INSERT INTO bom (product, component, quantity) VALUES (?, ?, ?)",
+                       (entry['product'], entry['component'], entry['quantity']))
 
     conn.commit()
     conn.close()
 
-    return jsonify({"message": f"Product '{product_name}' added/updated successfully!"})
+    return jsonify({"message": "✅ BOM saved successfully."})
+
+
+# API to get BOM data for a specific product
+@app.route('/api/get_bom', methods=['GET'])
+def get_bom():
+    product_name = request.args.get('product')
+
+    if not product_name:
+        return jsonify({"error": "Product name is required"}), 400
+
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM bom WHERE product = ?", (product_name,))
+        bom_data = cursor.fetchall()
+        conn.close()
+
+        return jsonify([dict(row) for row in bom_data])  # Convert SQLite result to JSON
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == "__main__":
