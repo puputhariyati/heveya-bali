@@ -200,6 +200,7 @@ document.addEventListener("click", function (event) {
 
 window.onload = fetchStockData; // Load real stock on page load
 
+//to show BOM pop up
 function openBomModal(productName, bomData) {
     const modal = document.getElementById("bomModal");
     const modalContent = document.getElementById("bomModalContent");
@@ -288,27 +289,22 @@ document.addEventListener("click", function (event) {
     }
 });
 
-// Function to fetch BOM and show popup
-function showBOM(product) {
-    fetch(`/get_bom?product=${encodeURIComponent(product)}`)
-        .then(response => response.json())
-        .then(data => {
-            const bomBody = document.getElementById("bomBody");
-            bomBody.innerHTML = "";
+// Function to calculate Free Stock for a Composite Product
+function calculateFreeStock(bom, inventory) {
+    let minStock = Infinity;
 
-            if (data.length === 0) {
-                bomBody.innerHTML = "<tr><td colspan='2'>No BOM data found</td></tr>";
-            } else {
-                data.forEach(item => {
-                    let row = document.createElement("tr");
-                    row.innerHTML = `
-                        <td>${item.component}</td>
-                        <td>${item.quantity}</td>
-                    `;
-                    bomBody.appendChild(row);
-                });
-            }
+    for (const component in bom) {
+        if (inventory[component]) {
+            const maxPossible = Math.floor(inventory[component].free / bom[component]);
+            minStock = Math.min(minStock, maxPossible);
+        } else {
+            return 0; // If any component is missing, the product cannot be made
+        }
+    }
 
-            document.getElementById("bomModal").style.display = "block";
-        });
+    return minStock;
 }
+
+// Calculate Free Stock for Heveya Mattress
+const freeMattresses = calculateFreeStock(bom, stockInventory);
+console.log(`Free stock of Heveya Mattress II - King (180x200) - Medium: ${freeMattresses}`);

@@ -140,22 +140,55 @@ def check_bom_stock(product_name):
 def get_stock():
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT id, product_name, sold_qty, free_qty, on_hand, upcoming_qty, unit_sell_price, "
-                   "unit_buy_price, tags FROM inventory")
-    stock = [
-        {
+
+    # Fetch inventory data
+    cursor.execute("SELECT * FROM inventory")
+    stock_data = cursor.fetchall()
+
+    # Fetch BOM components and their required quantity
+    cursor.execute("SELECT product, component, quantity FROM bom")
+    bom_data = cursor.fetchall()
+
+    # Convert BOM to a dictionary: {product_name: [(component_name, required_qty), ...]}
+    bom_dict = {}
+    for product, component, quantity in bom_data:
+        if product not in bom_dict:
+            bom_dict[product] = []
+        bom_dict[product].append((component, quantity))
+
+    # Convert inventory to dictionary for quick lookup
+    inventory_dict = {row["product_name"]: dict(row) for row in stock_data}
+
+    # Process stock with BOM dependencies
+    stock = []
+    for row in stock_data:
+        product_name = row["product_name"]
+        free_qty = row["free_qty"]  # Default from DB
+
+        # If the product has a BOM, calculate its free_qty dynamically
+        if product_name in bom_dict:
+            min_possible = float('inf')  # Start with a large number
+            for component, required_qty in bom_dict[product_name]:
+                component_stock = inventory_dict[component]["free_qty"] if component in inventory_dict else 0
+                if required_qty > 0:
+                    min_possible = min(min_possible, component_stock // required_qty)
+
+            free_qty = min_possible if min_possible != float('inf') else 0  # Ensure valid value
+
+    # cursor.execute("SELECT id, product_name, sold_qty, free_qty, on_hand, upcoming_qty, unit_sell_price, "
+    #                "unit_buy_price, tags FROM inventory")
+        stock.append({
             "id": row["id"],
-            "product_name": row["product_name"],
+            "product_name": product_name,
             "sold_qty": row["sold_qty"],
-            "free_qty": row["free_qty"],
+            "free_qty": free_qty,  # Updated dynamically
             "on_hand": row["on_hand"],
             "upcoming_qty": row["upcoming_qty"],
             "unit_sell_price": row["unit_sell_price"],
             "unit_buy_price": row["unit_buy_price"],
             "tags": row["tags"]
-        }
-        for row in cursor.fetchall()
-    ]
+        })
+
     conn.close()
     return jsonify(stock)
 
@@ -250,6 +283,21 @@ def get_bom():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+# Function to calculate free stock based on component stock
+def calculate_availability(products, components):
+    availability = {}
+    for product, materials in products.items():
+        min_stock = float('inf')
+        for component, qty_needed in materials.items():
+            if component in components:
+                available_qty = components[component] // qty_needed
+                min_stock = min(min_stock, available_qty)
+            else:
+                min_stock = 0
+        availability[product] = min_stock
+    return availability
 
 
 if __name__ == "__main__":
