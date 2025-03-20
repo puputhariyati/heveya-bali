@@ -2,7 +2,9 @@ async function fetchStockData() {
     try {
         const response = await fetch("/api/get_stock");
         if (!response.ok) throw new Error("Failed to fetch stock data.");
+
         let stockData = await response.json();
+        console.log("Fetched Stock Data:", stockData); // Debugging log
 
         if (!Array.isArray(stockData)) {
             console.error("Stock data is not an array:", stockData);
@@ -174,20 +176,61 @@ function renderStockTable(stockData) {
                         style="color: blue; text-decoration: underline;">${item.product_name}</a>`
                     : item.product_name}
             </td>
-            <td>${item.on_hand}</td>
-            <td>${item.sold_qty}</td>
-            <td>${item.free_qty}</td>
+            <td class="on-hand">${item.on_hand || 0}</td>
+            <td class="sold-qty">${item.sold_qty}</td>
+            <td class="free-qty">${item.free_qty}</td>
             <td>${item.upcoming_qty}</td>
             <td>${item.unit_sell_price}</td>
             <td>${item.unit_buy_price}</td>
             <td>${item.tags || ""}</td>
         `;
 
-        stockTableBody.appendChild(row);
+        stockTableBody.appendChild(row); // ✅ Fix here
+    });
+
+    attachEventListeners(); // ✅ Ensure function exists before calling
+}
+
+// Function to calculate On-Hand Stock for a Composite Product
+document.addEventListener("DOMContentLoaded", function () {
+    function updateOnHand(row) {
+        let soldQty = parseInt(row.querySelector(".sold-qty").textContent) || 0;
+        let freeQty = parseInt(row.querySelector(".free-qty").textContent) || 0;
+        row.querySelector(".on-hand").textContent = soldQty + freeQty;
+    }
+
+    function attachEventListeners() {
+        document.querySelectorAll("#stockTableBody tr").forEach((row) => {
+            updateOnHand(row); // Ensure it calculates on load
+
+            let soldQtyCell = row.querySelector(".sold-qty");
+            let freeQtyCell = row.querySelector(".free-qty");
+
+            if (soldQtyCell && freeQtyCell) {
+                soldQtyCell.addEventListener("input", () => updateOnHand(row));
+                freeQtyCell.addEventListener("input", () => updateOnHand(row));
+            }
+        });
+    }
+
+    attachEventListeners();
+});
+
+// ✅ Define attachEventListeners function
+function attachEventListeners() {
+    document.querySelectorAll(".bom-link").forEach(link => {
+        link.addEventListener("click", function (event) {
+            event.preventDefault();
+            const productName = decodeURIComponent(event.target.dataset.product);
+            fetchBomData(productName);
+        });
     });
 }
 
-// ✅ Attach event listener ONCE, outside the function
+// ✅ Fetch data and populate table
+fetchStockData();
+
+// ✅ Attach global click listener
 document.addEventListener("click", function (event) {
     if (event.target.classList.contains("bom-link")) {
         event.preventDefault();
@@ -196,7 +239,9 @@ document.addEventListener("click", function (event) {
     }
 });
 
-window.onload = fetchStockData; // Load real stock on page load
+// ✅ Fetch stock data on window load
+window.onload = fetchStockData;
+
 
 //to show BOM pop up
 function openBomModal(productName, bomData) {
@@ -209,28 +254,6 @@ function openBomModal(productName, bomData) {
 
     modal.style.display = "block";
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-    function updateOnHand() {
-        let soldQty = parseInt(document.querySelector(".sold-qty").value) || 0;
-        let freeQty = parseInt(document.querySelector(".free-qty").value) || 0;
-        document.querySelector(".on-hand").value = soldQty + freeQty;
-    }
-
-    document.querySelector(".sold-qty").addEventListener("input", updateOnHand);
-    document.querySelector(".free-qty").addEventListener("input", updateOnHand);
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    let productInput = document.getElementById("productName");
-    if (productInput) {  // Check if it exists
-        productInput.addEventListener("keypress", function (event) {
-            if (event.key === "Enter") {
-                checkStock();
-            }
-        });
-    }
-});
 
 // Fetch product suggestions dynamically
 function suggestProducts(inputField) {
@@ -287,6 +310,7 @@ document.addEventListener("click", function (event) {
     }
 });
 
+
 // Function to calculate Free Stock for a Composite Product
 function calculateFreeStock(bom, inventory) {
     let minStock = Infinity;
@@ -305,3 +329,4 @@ function calculateFreeStock(bom, inventory) {
 
 // Calculate Free Stock for Heveya Mattress
 const freeMattresses = calculateFreeStock(bom, stockInventory);
+

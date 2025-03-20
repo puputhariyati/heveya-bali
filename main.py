@@ -79,42 +79,6 @@ def get_product_suggestions():
     return jsonify(products)
 
 
-# @app.route("/check_stock", methods=["GET"])
-# def check_stock():
-#     """Check stock from the inventory table"""
-#     name = request.args.get("name", "").strip().lower()
-#
-#     if not name:
-#         return jsonify({"message": "Please enter a product name."}), 400
-#
-#     print(f"Searching for: {name}")  # Debugging
-#
-#     with sqlite3.connect("stock.db") as conn:
-#         cursor = conn.cursor()
-#         cursor.execute("""
-#             SELECT product_name, on_hand, sold_qty, free_qty, upcoming_qty, unit_sell_price, unit_buy_price, tags
-#             FROM inventory
-#             WHERE LOWER(product_name) LIKE LOWER(?)
-#         """, ('%' + name + '%',))
-#         products = cursor.fetchall()
-#
-#         if not products:
-#             return jsonify({"message": "No products found"}), 404
-#
-#     response_data = [{
-#         "product_name": p[0],
-#         "on_hand": p[1],
-#         "sold_qty": p[2],
-#         "free_qty": p[3],
-#         "upcoming_qty": p[4],
-#         "unit_sell_price": p[5],
-#         "unit_buy_price": p[6],
-#         "tags": p[7].split(", ") if p[7] else []
-#     } for p in products]
-#
-#     return jsonify(response_data)
-
-
 @app.route("/api/get_stock", methods=["GET"])
 def get_stock():
     conn = get_db_connection()
@@ -143,6 +107,8 @@ def get_stock():
     for row in stock_data:
         product_name = row["product_name"]
         free_qty = row["free_qty"]  # Default from DB
+        on_hand = row["on_hand"]  # Default from DB
+        sold_qty = row["sold_qty"]  # Default from DB
 
         # If the product has a BOM, calculate its free_qty dynamically
         if product_name in bom_dict:
@@ -153,13 +119,15 @@ def get_stock():
                     min_possible = min(min_possible, component_stock // required_qty)
 
             free_qty = min_possible if min_possible != float('inf') else 0  # Ensure valid value
+            # Dynamically calculate on_hand: it includes sold, free, and component availability
+            on_hand = sold_qty + free_qty
 
         stock.append({
             "id": row["id"],
             "product_name": product_name,
             "sold_qty": row["sold_qty"],
             "free_qty": free_qty,  # Updated dynamically
-            "on_hand": row["on_hand"],
+            "on_hand": on_hand,  # Updated dynamically
             "upcoming_qty": row["upcoming_qty"],
             "unit_sell_price": row["unit_sell_price"],
             "unit_buy_price": row["unit_buy_price"],
