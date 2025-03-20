@@ -79,61 +79,40 @@ def get_product_suggestions():
     return jsonify(products)
 
 
-@app.route("/check_stock", methods=["GET"])
-def check_stock():
-    """Check stock from the inventory table"""
-    name = request.args.get("name", "").strip().lower()
-    print(f"Searching for: {name}")  # Debugging
-
-    with sqlite3.connect("stock.db") as conn:
-        cursor = conn.cursor()
-        cursor.execute("""
-                    SELECT product_name, unit_buy_price, tags
-                    FROM inventory
-                    WHERE LOWER(product_name) LIKE LOWER(?)
-                """, ('%' + name + '%',))
-        products = cursor.fetchall()
-
-    if not products:
-        return jsonify({"message": "No products found"}), 404
-
-    return jsonify([
-        {"name": p[0], "stock": p[1], "price": p[2], "tags": p[3].split(", ") if p[3] else []}
-        for p in products
-    ])
-
-
-@app.route("/check_stock/<product_name>", methods=["GET"])
-def check_bom_stock(product_name):
-    """Check if a product can be produced based on available BOM stock"""
-    conn = get_db_connection()
-    cursor = conn.cursor()
-
-    # Get BOM for the requested product
-    cursor.execute("SELECT material_name, quantity_required FROM bom WHERE product_name = ?", (product_name,))
-    bom_items = cursor.fetchall()
-
-    if not bom_items:
-        return jsonify({"message": "Product not found or BOM not defined"}), 404
-
-    # Get available stock for each material
-    stock_data = {}
-    for row in bom_items:
-        material_name, quantity_required = row
-        cursor.execute("SELECT quantity FROM inventory WHERE product_name = ?", (material_name,))
-        stock_result = cursor.fetchone()
-        stock_data[material_name] = stock_result[0] if stock_result else 0
-
-    conn.close()
-
-    # Calculate max producible units
-    max_producible = min(stock_data[mat] // qty for mat, qty in stock_data.items())
-
-    return jsonify({
-        "product_name": product_name,
-        "max_producible": max_producible,
-        "stock_details": stock_data
-    })
+# @app.route("/check_stock", methods=["GET"])
+# def check_stock():
+#     """Check stock from the inventory table"""
+#     name = request.args.get("name", "").strip().lower()
+#
+#     if not name:
+#         return jsonify({"message": "Please enter a product name."}), 400
+#
+#     print(f"Searching for: {name}")  # Debugging
+#
+#     with sqlite3.connect("stock.db") as conn:
+#         cursor = conn.cursor()
+#         cursor.execute("""
+#             SELECT product_name, on_hand, sold_qty, free_qty, upcoming_qty, unit_sell_price, unit_buy_price, tags
+#             FROM inventory
+#             WHERE LOWER(product_name) LIKE LOWER(?)
+#         """, ('%' + name + '%',))
+#         products = cursor.fetchall()
+#
+#         if not products:
+#             return jsonify({"message": "No products found"}), 404
+#
+#     response_data = [{
+#         "product_name": p[0],
+#         "on_hand": p[1],
+#         "sold_qty": p[2],
+#         "free_qty": p[3],
+#         "upcoming_qty": p[4],
+#         "unit_sell_price": p[5],
+#         "unit_buy_price": p[6],
+#         "tags": p[7].split(", ") if p[7] else []
+#     } for p in products]
+#
+#     return jsonify(response_data)
 
 
 @app.route("/api/get_stock", methods=["GET"])
@@ -175,8 +154,6 @@ def get_stock():
 
             free_qty = min_possible if min_possible != float('inf') else 0  # Ensure valid value
 
-    # cursor.execute("SELECT id, product_name, sold_qty, free_qty, on_hand, upcoming_qty, unit_sell_price, "
-    #                "unit_buy_price, tags FROM inventory")
         stock.append({
             "id": row["id"],
             "product_name": product_name,
@@ -283,21 +260,6 @@ def get_bom():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-
-# Function to calculate free stock based on component stock
-def calculate_availability(products, components):
-    availability = {}
-    for product, materials in products.items():
-        min_stock = float('inf')
-        for component, qty_needed in materials.items():
-            if component in components:
-                available_qty = components[component] // qty_needed
-                min_stock = min(min_stock, available_qty)
-            else:
-                min_stock = 0
-        availability[product] = min_stock
-    return availability
 
 
 if __name__ == "__main__":

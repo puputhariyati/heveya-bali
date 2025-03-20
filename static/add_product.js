@@ -196,8 +196,6 @@ document.addEventListener("click", function (event) {
     }
 });
 
-
-
 window.onload = fetchStockData; // Load real stock on page load
 
 //to show BOM pop up
@@ -307,4 +305,3 @@ function calculateFreeStock(bom, inventory) {
 
 // Calculate Free Stock for Heveya Mattress
 const freeMattresses = calculateFreeStock(bom, stockInventory);
-console.log(`Free stock of Heveya Mattress II - King (180x200) - Medium: ${freeMattresses}`);

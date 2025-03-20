@@ -1,13 +1,86 @@
-document.addEventListener("DOMContentLoaded", function () {
-    let productInput = document.getElementById("productName");
-    if (productInput) {  // Check if it exists
-        productInput.addEventListener("keypress", function (event) {
-            if (event.key === "Enter") {
-                checkStock();
+let stockDataGlobal = []; // Store fetched stock data globally
+
+async function fetchStockData() {
+    try {
+        const response = await fetch("/api/get_stock");
+        if (!response.ok) throw new Error("Failed to fetch stock data.");
+        let stockData = await response.json();
+
+        if (!Array.isArray(stockData)) {
+            console.error("Stock data is not an array:", stockData);
+            return;
+        }
+
+        // Store data globally for filtering
+        stockDataGlobal = stockData;
+
+        // Fetch BOM status for each product
+        await Promise.all(stockData.map(async (item) => {
+            try {
+                const productName = encodeURIComponent(item.product_name.trim());
+                console.log(`Fetching BOM for: "${item.product_name}"`);
+
+                const bomResponse = await fetch(`/api/get_bom?product=${productName}`);
+                if (!bomResponse.ok) {
+                    console.error(`Error fetching BOM for ${item.product_name}:`, bomResponse.statusText);
+                    item.hasBOM = false;
+                    return;
+                }
+
+                const bomData = await bomResponse.json();
+                console.log(`BOM Data for ${item.product_name}:`, bomData);
+
+                // Assign BOM status correctly
+                item.hasBOM = !!(Array.isArray(bomData) && bomData.length);
+            } catch (error) {
+                console.error(`Failed to fetch BOM for ${item.product_name}:`, error);
+                item.hasBOM = false;
             }
-        });
+        }));
+
+//        checkStock(stockData);
+        filterTable(); // Apply filtering after fetching stock data
+    } catch (error) {
+        console.error("Error fetching stock data:", error);
     }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const searchButton = document.getElementById("searchButton");
+    const productNameInput = document.getElementById("productName");
+
+    // Trigger search when the button is clicked
+    searchButton.addEventListener("click", filterTable);
+
+    // Trigger search when Enter is pressed in the input field
+    productNameInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault(); // Prevent form submission
+            filterTable();
+        }
+    });
+
+    // Trigger search when the input value changes (for autocomplete selections)
+    productNameInput.addEventListener("change", function () {
+        filterTable();
+    });
 });
+
+
+async function fetchBomData(productName) {
+    try {
+        const response = await fetch(`/api/get_bom?product=${encodeURIComponent(productName)}`);
+        if (!response.ok) {
+            throw new Error("Failed to fetch BOM data.");
+        }
+
+        const bomData = await response.json();
+        openBomModal(productName, bomData); // Ensure this function is defined
+    } catch (error) {
+        console.error("Error fetching BOM data:", error);
+    }
+}
+
 
 // Fetch product suggestions dynamically
 function suggestProducts() {
@@ -67,115 +140,113 @@ document.addEventListener("click", function (event) {
     }
 });
 
+//// Modify checkStock to accept filtering
+//function checkStock(stockData) {
+//    if (!Array.isArray(stockData)) {
+//        console.error("Error: stockData is not an array. Received:", stockData);
+//        return;
+//    }
+//
+//    let filter = document.getElementById("productName").value.trim().toLowerCase();
+//    const stockTableBody = document.getElementById("stockTableBody");
+//    stockTableBody.innerHTML = ""; // Clear previous content
+//
+//    stockData.slice().reverse().forEach(item => {
+//        if (!filter || item.product_name.toLowerCase().includes(filter)) {
+//            const row = document.createElement("tr");
+//            row.innerHTML = `
+//                <td>
+//                    ${item.hasBOM
+//                        ? `<a href="#" class="bom-link" data-product="${encodeURIComponent(item.product_name)}"
+//                            style="color: blue; text-decoration: underline;">${item.product_name}</a>`
+//                        : item.product_name}
+//                </td>
+//                <td>${item.on_hand}</td>
+//                <td>${item.sold_qty}</td>
+//                <td>${item.free_qty}</td>
+//                <td>${item.upcoming_qty}</td>
+//                <td>${item.unit_sell_price}</td>
+//                <td>${item.unit_buy_price}</td>
+//                <td>${item.tags || ""}</td>
+//            `;
+//            stockTableBody.appendChild(row);
+//        }
+//    });
+//}
 
-function checkStock() {
-    let productName = document.getElementById("productName").value.trim();
-    let suggestionsDiv = document.getElementById("suggestions");
-    suggestionsDiv.innerHTML = "";
-    suggestionsDiv.style.display = "none"; // Hide dropdown
-//    console.log("Searching for:", productName); // Debugging line
-
-    // Fetch general stock data
-    fetch(`/check_stock?name=${encodeURIComponent(productName)}`)
-        .then(response => response.json())
-        .then(data => {
-            let tableBody = document.querySelector("#resultTable tbody");
-            tableBody.innerHTML = "";
-
-            if (data.message) {
-                tableBody.innerHTML = `<tr><td colspan="4">${data.message}</td></tr>`;
-            } else {
-                data.forEach(product => {
-                    let row = `
-                        <tr>
-                            <td>${product.name}</td>
-                            <td>${product.stock}</td>
-                            <td>${product.price.toLocaleString()}</td>
-                            <td>${product.tags.join(", ")}</td>
-                        </tr>
-                    `;
-                    tableBody.innerHTML += row;
-                });
-            }
-            console.log("Response:", data); // Debugging line
-        })
-        .catch(error => console.error("Error:", error));
-
-    // Fetch BOM-based stock availability
-    fetch(`/check_stock/${productName}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.max_producible !== undefined) {
-                alert(`You can produce ${data.max_producible} units of '${data.product_name}'.`);
-            }
-        })
-        .catch(error => console.error("Error fetching BOM stock:", error));
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("addProduct").addEventListener("click", addProduct);
-    document.getElementById("createProduct").addEventListener("click", addProductWithBOM);
-});
-
-function addProduct() {
-    let name = document.getElementById("productName").value;
-    let stock = document.getElementById("productStock").value;
-    let price = document.getElementById("productPrice").value;
-    let tags = document.getElementById("productTags").value;
-
-    fetch("/add_product", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, stock, price, tags })
-    })
-    .then(response => response.json())
-    .then(data => alert(data.message))
-    .catch(error => console.error("Error:", error));
-}
-
-function addProductWithBOM() {
-    alert("Create Product button clicked!"); // Debugging
-    let productName = document.getElementById("productName").value;
-    let materials = [];
-
-    // Collect material data dynamically (checks for elements)
-    let materialInputs = document.querySelectorAll("[data-material]");
-    materialInputs.forEach(input => {
-        let materialName = input.dataset.material;
-        let quantity = parseInt(input.value);
-
-        if (!isNaN(quantity) && quantity > 0) {
-            materials.push({ name: materialName, quantity: quantity });
-        }
-    });
-
-    fetch("/add_product", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ product_name: productName, materials: materials })
-    })
-    .then(response => response.json())
-    .then(data => alert(data.message))
-    .catch(error => console.error("Error:", error));
-}
-
-
-document.querySelector("form").addEventListener("submit", function(event) {
-    let inputs = document.querySelectorAll("input");
-    let allFilled = true;
-
-    inputs.forEach(input => {
-        if (input.value.trim() === "") {
-            allFilled = false;
-            input.style.border = "2px solid red";  // Highlight empty fields
-        } else {
-            input.style.border = "";  // Reset border if filled
-        }
-    });
-
-    if (!allFilled) {
-        event.preventDefault();  // Prevent form submission
-        alert("All fields must be filled!");
+// ✅ Attach event listener ONCE, outside the function
+document.addEventListener("click", function (event) {
+    if (event.target.classList.contains("bom-link")) {
+        event.preventDefault();
+        const productName = decodeURIComponent(event.target.dataset.product);
+        fetchBomData(productName);
     }
 });
+
+window.onload = fetchStockData; // Load real stock on page load
+
+//to show BOM pop up
+function openBomModal(productName, bomData) {
+    const modal = document.getElementById("bomModal");
+    const modalContent = document.getElementById("bomModalContent");
+
+    modalContent.innerHTML = `<h3>BOM for ${productName}</h3><ul>` +
+        bomData.map(item => `<li>${item.component} - ${item.quantity}</li>`).join("") +
+        `</ul>`;
+
+    modal.style.display = "block";
+}
+
+// Function to calculate Free Stock for a Composite Product
+function calculateFreeStock(bom, inventory) {
+    let minStock = Infinity;
+
+    for (const component in bom) {
+        if (inventory[component]) {
+            const maxPossible = Math.floor(inventory[component].free / bom[component]);
+            minStock = Math.min(minStock, maxPossible);
+        } else {
+            return 0; // If any component is missing, the product cannot be made
+        }
+    }
+
+    return minStock;
+}
+
+// Calculate Free Stock for Heveya Mattress
+const freeMattresses = calculateFreeStock(bom, stockInventory);
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("productName").addEventListener("input", filterTable);
+    fetchStockData();
+});
+
+// Function to update the stock table based on the search filter
+function filterTable() {
+    let filter = document.getElementById("productName").value.trim().toLowerCase();
+    const stockTableBody = document.getElementById("stockTableBody");
+    stockTableBody.innerHTML = ""; // Clear previous content
+
+    stockDataGlobal.reverse().forEach(item => {
+        if (!filter || item.product_name.toLowerCase().includes(filter)) {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>
+                    ${item.hasBOM
+                        ? `<a href="#" class="bom-link" data-product="${encodeURIComponent(item.product_name)}"
+                            style="color: blue; text-decoration: underline;">${item.product_name}</a>`
+                        : item.product_name}
+                </td>
+                <td>${item.on_hand}</td>
+                <td>${item.sold_qty}</td>
+                <td>${item.free_qty}</td>
+                <td>${item.upcoming_qty}</td>
+                <td>${item.unit_sell_price}</td>
+                <td>${item.unit_buy_price}</td>
+                <td>${item.tags || ""}</td>
+            `;
+            stockTableBody.appendChild(row);
+        }
+    });
+}
 

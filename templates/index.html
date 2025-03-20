@@ -14,20 +14,32 @@
         <input type="text" id="productName" placeholder="Select Product" oninput="suggestProducts()">
         <div id="suggestions"></div>
     </div>
-    <button onclick="checkStock()" class="check-stock-btn">Check Stock</button>
+    <button id="searchButton" class="check-stock-btn">Search</button>
 
     <h2>Result:</h2>
     <table id="resultTable">
         <thead>
             <tr>
                 <th>Product Name</th>
-                <th>Total Stock</th>
-                <th>Unit Price</th>
-                <th>Product Tags</th>
+                <th>On Hand</th>
+                <th>Booked/Sold</th>
+                <th>Free</th>
+                <th>Upcoming</th>
+                <th>Unit Sell Price</th>
+                <th>Unit Buy Price</th>
+                <th>tags</th>
             </tr>
         </thead>
-        <tbody></tbody>
+        <tbody id="stockTableBody"></tbody>
     </table>
+
+    <!-- Modal for BOM -->
+    <div id="bomModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="document.getElementById('bomModal').style.display='none'">&times;</span>
+            <div id="bomModalContent"></div>
+        </div>
+    </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
