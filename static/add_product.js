@@ -13,7 +13,13 @@ async function fetchStockData() {
             return;
         }
 
-        // Store data globally for filtering
+        // Load previously deleted items from localStorage
+        let deletedProducts = JSON.parse(localStorage.getItem("deletedProducts")) || [];
+
+        // Remove deleted items from fetched stock data
+        stockData = stockData.filter(item => !deletedProducts.includes(item.product_name));
+
+        // Store updated stock data globally
         stockDataGlobal = stockData;
 
         // Fetch BOM status for each product
@@ -40,12 +46,15 @@ async function fetchStockData() {
             }
         }));
 
-//        checkStock(stockData);
+        // ✅ Save filtered stock data to localStorage
+        localStorage.setItem("stockData", JSON.stringify(stockData));
+
         filterTable(); // Apply filtering after fetching stock data
     } catch (error) {
         console.error("Error fetching stock data:", error);
     }
 }
+
 
 document.addEventListener("DOMContentLoaded", function () {
     const searchButton = document.getElementById("searchButton");
@@ -453,20 +462,34 @@ function loadInventory() {
 
 // Function to delete row
 function deleteRow(button) {
-    if (confirm("Are you sure you want to delete this item?")) {
-        let row = button.parentNode.parentNode;
-        let productName = row.cells[1].innerText; // Get product name from the table
+    let row = button.closest("tr");
+    let productName = row.cells[1].textContent.trim();
 
-        // Find and remove the item from the inventory array
-        inventory = inventory.filter(item => item.product_name !== productName);
+    // Remove from stockDataGlobal
+    stockDataGlobal = stockDataGlobal.filter(item => item.product_name !== productName);
 
-        // Save updated inventory to localStorage
-        localStorage.setItem("inventoryData", JSON.stringify(inventory));
-
-        // Remove row from the table
-        row.parentNode.removeChild(row);
+    // Save deleted product name to localStorage
+    let deletedProducts = JSON.parse(localStorage.getItem("deletedProducts")) || [];
+    if (!deletedProducts.includes(productName)) {
+        deletedProducts.push(productName);
+        localStorage.setItem("deletedProducts", JSON.stringify(deletedProducts));
     }
+
+    // Update stockData in localStorage
+    localStorage.setItem("stockData", JSON.stringify(stockDataGlobal));
+
+    row.remove();
 }
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    let savedStockData = localStorage.getItem("stockData");
+    if (savedStockData) {
+        stockDataGlobal = JSON.parse(savedStockData);
+        renderStockTable(); // Function to update your table
+    }
+});
+
 
 // Function to populate the table
 function populateTable() {
