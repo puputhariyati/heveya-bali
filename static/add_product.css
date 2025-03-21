@@ -129,6 +129,32 @@ input {
     text-align: center;
 }
 
+.search-container {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    gap: 10px; /* Space between input and button */
+    width: 70%; /* Ensures it takes full width */
+}
+
+.searchbar {
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    flex: 1; /* Allows it to fill available space */
+}
+
+.check-stock-btn {
+    background: #5a9c4a;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    white-space: nowrap; /* Prevents button from shrinking */
+}
+
+
 #stockList {
     margin-top: 20px;
     text-align: left;

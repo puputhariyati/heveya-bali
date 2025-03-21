@@ -1,3 +1,5 @@
+let stockDataGlobal = []; // Store fetched stock data globally
+
 async function fetchStockData() {
     try {
         const response = await fetch("/api/get_stock");
@@ -10,6 +12,9 @@ async function fetchStockData() {
             console.error("Stock data is not an array:", stockData);
             return;
         }
+
+        // Store data globally for filtering
+        stockDataGlobal = stockData;
 
         // Fetch BOM status for each product
         await Promise.all(stockData.map(async (item) => {
@@ -35,11 +40,33 @@ async function fetchStockData() {
             }
         }));
 
-        renderStockTable(stockData);
+//        checkStock(stockData);
+        filterTable(); // Apply filtering after fetching stock data
     } catch (error) {
         console.error("Error fetching stock data:", error);
     }
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const searchButton = document.getElementById("searchButton");
+    const productNameInput = document.getElementById("productName");
+
+    // Trigger search when the button is clicked
+    searchButton.addEventListener("click", filterTable);
+
+    // Trigger search when Enter is pressed in the input field
+    productNameInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault(); // Prevent form submission
+            filterTable();
+        }
+    });
+
+    // Trigger search when the input value changes (for autocomplete selections)
+    productNameInput.addEventListener("change", function () {
+        filterTable();
+    });
+});
 
 async function fetchBomData(productName) {
     try {
@@ -159,40 +186,39 @@ function addNewRow() {
     productList.appendChild(newRow);
 }
 
-function renderStockTable(stockData) {
+
+// Function to update the stock table based on the search filter
+function filterTable() {
+    let filter = document.getElementById("productName").value.trim().toLowerCase();
     const stockTableBody = document.getElementById("stockTableBody");
     stockTableBody.innerHTML = ""; // Clear previous content
 
-    // Reverse the stockData array to show the newest first
-    stockData.reverse().forEach((item, index) => {
-        console.log(`Product: ${item.product_name}, hasBOM: ${item.hasBOM}`); // Debugging log
-
-        const row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${index + 1}</td>
-            <td>
-                ${item.hasBOM
-                    ? `<a href="#" class="bom-link" data-product="${encodeURIComponent(item.product_name)}"
-                        style="color: blue; text-decoration: underline;">${item.product_name}</a>`
-                    : item.product_name}
-            </td>
-            <td class="on-hand">${item.on_hand || 0}</td>
-            <td class="sold-qty">${item.sold_qty}</td>
-            <td class="free-qty">${item.free_qty}</td>
-            <td>${item.upcoming_qty}</td>
-            <td>${item.unit_sell_price}</td>
-            <td>${item.unit_buy_price}</td>
-            <td>${item.tags || ""}</td>
-            <td>
-                <button class="edit-btn" onclick="editRow(this)">Edit</button>
-                <button class="delete-btn" onclick="deleteRow(this)">Delete</button>
-            </td>
-        `;
-
-        stockTableBody.appendChild(row); // ✅ Fix here
+    stockDataGlobal.reverse().forEach((item, index) => {
+        if (!filter || item.product_name.toLowerCase().includes(filter)) {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>
+                    ${item.hasBOM
+                        ? `<a href="#" class="bom-link" data-product="${encodeURIComponent(item.product_name)}"
+                            style="color: blue; text-decoration: underline;">${item.product_name}</a>`
+                        : item.product_name}
+                </td>
+                <td>${item.on_hand}</td>
+                <td>${item.sold_qty}</td>
+                <td>${item.free_qty}</td>
+                <td>${item.upcoming_qty}</td>
+                <td>${item.unit_sell_price}</td>
+                <td>${item.unit_buy_price}</td>
+                <td>${item.tags || ""}</td>
+                <td>
+                    <button class="edit-btn" onclick="editRow(this)">Edit</button>
+                    <button class="delete-btn" onclick="deleteRow(this)">Delete</button>
+                </td>
+            `;
+            stockTableBody.appendChild(row);
+        }
     });
-
-    attachEventListeners(); // ✅ Ensure function exists before calling
 }
 
 // Function to calculate On-Hand Stock for a Composite Product
@@ -306,6 +332,56 @@ document.getElementById("bomForm").addEventListener("submit", function (event) {
     }
 });
 
+// Fetch product suggestions dynamically for searchbar
+function suggestProducts() {
+    let query = document.getElementById("productName").value.trim();
+    let suggestionsDiv = document.getElementById("suggestions");
+
+    if (query.length < 2) {
+        suggestionsDiv.innerHTML = "";
+        suggestionsDiv.style.display = "none"; // Hide when empty
+        return;
+    }
+
+    fetch(`/get_product_suggestions?query=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(products => {
+            suggestionsDiv.innerHTML = "";
+            suggestionsDiv.style.display = "block";
+
+            if (products.length > 0) {
+                products.forEach(product => {
+                    let option = document.createElement("div");
+                    option.textContent = product;
+                    option.classList.add("suggestion-item");
+                    option.onclick = function () {
+                        document.getElementById("productName").value = product;
+                        suggestionsDiv.innerHTML = "";
+                        suggestionsDiv.style.display = "none"; // Hide dropdown
+                    };
+                    suggestionsDiv.appendChild(option);
+                });
+            } else {
+                // If no products found, show "Add New Product" option
+                let addOption = document.createElement("div");
+                addOption.textContent = "+ Add New Product";
+                addOption.style.color = "blue";
+                addOption.style.cursor = "pointer";
+                addOption.style.textDecoration = "none";
+
+                addOption.classList.add("suggestion-item", "add-product");
+
+                // Add click event listener
+                addOption.addEventListener("click", function () {
+                    window.location.href = "/inventory";
+                });
+
+                suggestionsDiv.appendChild(addOption);
+            }
+        })
+        .catch(error => console.error("Error fetching suggestions:", error));
+}
+
 // Hide suggestions when clicking outside
 document.addEventListener("click", function (event) {
     let suggestionsDiv = document.getElementById("suggestions");
@@ -366,9 +442,57 @@ function editRow(button) {
     if (newTags) cells[8].innerText = newTags;
 }
 
+// Function to load data from localStorage
+function loadInventory() {
+    let savedData = localStorage.getItem("inventoryData");
+    if (savedData) {
+        inventory = JSON.parse(savedData);
+    }
+    populateTable();
+}
+
+// Function to delete row
 function deleteRow(button) {
     if (confirm("Are you sure you want to delete this item?")) {
         let row = button.parentNode.parentNode;
+        let productName = row.cells[1].innerText; // Get product name from the table
+
+        // Find and remove the item from the inventory array
+        inventory = inventory.filter(item => item.product_name !== productName);
+
+        // Save updated inventory to localStorage
+        localStorage.setItem("inventoryData", JSON.stringify(inventory));
+
+        // Remove row from the table
         row.parentNode.removeChild(row);
     }
 }
+
+// Function to populate the table
+function populateTable() {
+    let tableBody = document.getElementById("table-body");
+    tableBody.innerHTML = ""; // Clear existing table
+
+    inventory.forEach((item, index) => {
+        let row = tableBody.insertRow();
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${item.product_name}</td>
+            <td>${item.on_hand || 0}</td>
+            <td>${item.sold_qty}</td>
+            <td>${item.free_qty}</td>
+            <td>${item.upcoming_qty}</td>
+            <td>${item.unit_sell_price}</td>
+            <td>${item.unit_buy_price}</td>
+            <td>${item.tags || ""}</td>
+            <td>
+                <button class="edit-btn" onclick="editRow(this)">Edit</button>
+                <button class="delete-btn" onclick="deleteRow(this)">Delete</button>
+            </td>
+        `;
+    });
+}
+
+// Load inventory when the page loads
+window.onload = loadInventory;
+

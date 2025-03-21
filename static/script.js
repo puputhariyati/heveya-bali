@@ -4,7 +4,9 @@ async function fetchStockData() {
     try {
         const response = await fetch("/api/get_stock");
         if (!response.ok) throw new Error("Failed to fetch stock data.");
+
         let stockData = await response.json();
+        console.log("Fetched Stock Data:", stockData); // Debugging log
 
         if (!Array.isArray(stockData)) {
             console.error("Stock data is not an array:", stockData);
@@ -140,39 +142,6 @@ document.addEventListener("click", function (event) {
     }
 });
 
-//// Modify checkStock to accept filtering
-//function checkStock(stockData) {
-//    if (!Array.isArray(stockData)) {
-//        console.error("Error: stockData is not an array. Received:", stockData);
-//        return;
-//    }
-//
-//    let filter = document.getElementById("productName").value.trim().toLowerCase();
-//    const stockTableBody = document.getElementById("stockTableBody");
-//    stockTableBody.innerHTML = ""; // Clear previous content
-//
-//    stockData.slice().reverse().forEach(item => {
-//        if (!filter || item.product_name.toLowerCase().includes(filter)) {
-//            const row = document.createElement("tr");
-//            row.innerHTML = `
-//                <td>
-//                    ${item.hasBOM
-//                        ? `<a href="#" class="bom-link" data-product="${encodeURIComponent(item.product_name)}"
-//                            style="color: blue; text-decoration: underline;">${item.product_name}</a>`
-//                        : item.product_name}
-//                </td>
-//                <td>${item.on_hand}</td>
-//                <td>${item.sold_qty}</td>
-//                <td>${item.free_qty}</td>
-//                <td>${item.upcoming_qty}</td>
-//                <td>${item.unit_sell_price}</td>
-//                <td>${item.unit_buy_price}</td>
-//                <td>${item.tags || ""}</td>
-//            `;
-//            stockTableBody.appendChild(row);
-//        }
-//    });
-//}
 
 // ✅ Attach event listener ONCE, outside the function
 document.addEventListener("click", function (event) {
