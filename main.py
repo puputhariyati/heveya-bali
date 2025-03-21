@@ -230,6 +230,66 @@ def get_bom():
         return jsonify({"error": str(e)}), 500
 
 
+@app.route("/delete_product", methods=["POST"])
+def delete_product():
+    data = request.json
+    product_name = data["product_name"]
+
+    try:
+        conn = sqlite3.connect("stock.db")
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM inventory WHERE product_name = ?", (product_name,))
+        conn.commit()
+        conn.close()
+        return jsonify({"success": True})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)})
+
+
+@app.route("/update_product", methods=["POST"])
+def update_product():
+    try:
+        data = request.json
+        print("Received data:", data)  # Debugging step
+
+        if not data:
+            return jsonify({"success": False, "error": "No data received"}), 400
+
+        product_name = data.get("product_name")  # ✅ Use .get() to avoid KeyError
+        print("Extracted product_name:", product_name)  # Debugging step
+
+        if not product_name:
+            return jsonify({"success": False, "error": "Missing product_name"}), 400
+
+        conn = sqlite3.connect("stock.db")
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            UPDATE inventory
+            SET on_hand = ?, sold_qty = ?, free_qty = ?, upcoming_qty = ?, 
+                unit_sell_price = ?, unit_buy_price = ?
+            WHERE product_name = ?
+        """, (
+            data.get("on_hand", 0),
+            data.get("sold_qty", 0),
+            data.get("free_qty", 0),
+            data.get("upcoming_qty", 0),
+            data.get("unit_sell_price", 0),
+            data.get("unit_buy_price", 0),
+            product_name
+        ))
+
+        conn.commit()
+        conn.close()
+
+        return jsonify({"success": True})
+
+    except Exception as e:
+        print("Error:", str(e))
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+
 if __name__ == "__main__":
     init_db()
     app.run(debug=True)

@@ -420,75 +420,148 @@ function calculateFreeStock(bom, inventory) {
 const freeMattresses = calculateFreeStock(bom, stockInventory);
 
 function editRow(button) {
-    let row = button.parentNode.parentNode; // Get the row
+    let row = button.closest("tr"); // Get the row
     let cells = row.getElementsByTagName("td");
+    let updatedData = {}; // Object to store new values for database
+    let product_name = row.cells[1].textContent.trim(); // Get product name from 2nd column
 
-    let productName = cells[1].innerText;
-    let onHand = cells[2].innerText;
-    let booked = cells[3].innerText;
-    let freeStock = cells[4].innerText;
-    let upcoming = cells[5].innerText;
-    let sellPrice = cells[6].innerText;
-    let buyPrice = cells[7].innerText;
-    let tags = cells[8].innerText;
+    // Check if it's already in edit mode
+    if (button.innerText === "Save") {
+        for (let i = 1; i <= 8; i++) {
+            let input = cells[i].querySelector("input");
+            if (input) {
+                let key = cells[i].getAttribute("data-field"); // Get database field name
+                let newValue = input.value;
 
-    let newName = prompt("Edit Product Name:", productName);
-    let newOnHand = prompt("Edit On Hand Stock:", onHand);
-    let newBooked = prompt("Edit Booked/Sold:", booked);
-    let newFree = prompt("Edit Free Stock:", freeStock);
-    let newUpcoming = prompt("Edit Upcoming Stock:", upcoming);
-    let newSellPrice = prompt("Edit Sell Price:", sellPrice);
-    let newBuyPrice = prompt("Edit Buy Price:", buyPrice);
-    let newTags = prompt("Edit Tags:", tags);
+                updatedData[key] = newValue; // Store value for database update
+                cells[i].innerText = newValue; // Save input value back to UI
+            }
+        }
 
-    if (newName) cells[1].innerText = newName;
-    if (newOnHand) cells[2].innerText = newOnHand;
-    if (newBooked) cells[3].innerText = newBooked;
-    if (newFree) cells[4].innerText = newFree;
-    if (newUpcoming) cells[5].innerText = newUpcoming;
-    if (newSellPrice) cells[6].innerText = newSellPrice;
-    if (newBuyPrice) cells[7].innerText = newBuyPrice;
-    if (newTags) cells[8].innerText = newTags;
+        // ✅ Ensure product_name is included
+        updatedData["product_name"] = product_name;
+
+        // Call function to update calculations (On Hand Qty)
+        updateStockData(row);
+
+        // Send updated data to backend
+        updateDatabase(updatedData);
+
+        // Change button back to "Edit"
+        button.innerText = "Edit";
+        return;
+    }
+
+    // Convert cells to input fields for editing
+    for (let i = 1; i <= 8; i++) {
+        let currentValue = cells[i].innerText;
+        cells[i].innerHTML = `<input type="text" value="${currentValue}" style="width:100%">`;
+    }
+
+    // Change button to "Save"
+    button.innerText = "Save";
 }
+
+
+
+function updateStockData(row) {
+    let productName = row.cells[1].innerText.trim(); // Ensure no extra spaces
+
+    // Find the matching product in stockDataGlobal
+    let product = stockDataGlobal.find(item => item.product_name === productName);
+    if (!product) {
+        console.error("Product not found:", productName);
+        return;
+    }
+
+    // Read and parse input values
+    let soldQty = parseInt(row.cells[3].innerText) || 0;
+    let freeStock = parseInt(row.cells[4].innerText) || 0;
+
+    // Calculate On Hand
+    let onHand = soldQty + freeStock;
+    row.cells[2].innerText = onHand; // Update table cell
+
+    // Prepare updated product data
+    let updatedData = {
+        product_name: productName,  // Ensure product name is included
+        on_hand: onHand,
+        sold_qty: soldQty,
+        free_qty: freeStock,
+        upcoming_qty: parseInt(row.cells[5].innerText) || 0,
+        unit_sell_price: parseFloat(row.cells[6].innerText) || 0,
+        unit_buy_price: parseFloat(row.cells[7].innerText) || 0,
+        tags: row.cells[8].innerText.trim()
+    };
+
+    // Update local array
+    Object.assign(product, updatedData);
+
+    // Save updated data to localStorage
+    localStorage.setItem("stockData", JSON.stringify(stockDataGlobal));
+
+    // Send updated data to the database
+    updateDatabase(updatedData);
+}
+
+
+function updateDatabase(updatedData) {
+    console.log("Sending data to backend:", updatedData); // Debugging step
+
+    fetch("/update_product", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedData),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Database response:", data);
+        if (!data.success) {
+            console.error("Update failed:", data.error);
+        }
+    })
+    .catch(error => console.error("Error updating database:", error));
+}
+
+
+
 
 // Function to load data from localStorage
-function loadInventory() {
-    let savedData = localStorage.getItem("inventoryData");
-    if (savedData) {
-        inventory = JSON.parse(savedData);
+function loadStockData() {
+    let storedData = localStorage.getItem("stockData");
+    if (storedData) {
+        stockDataGlobal = JSON.parse(storedData);
+        renderTable(); // Function to re-populate the table
     }
-    populateTable();
 }
+
+// Call this function on page load
+window.onload = loadStockData;
+
 
 // Function to delete row
 function deleteRow(button) {
-    let row = button.closest("tr");
-    let productName = row.cells[1].textContent.trim();
+    let row = button.parentNode.parentNode;
+    let productName = row.cells[1].innerText; // Get product name
 
-    // Remove from stockDataGlobal
-    stockDataGlobal = stockDataGlobal.filter(item => item.product_name !== productName);
-
-    // Save deleted product name to localStorage
-    let deletedProducts = JSON.parse(localStorage.getItem("deletedProducts")) || [];
-    if (!deletedProducts.includes(productName)) {
-        deletedProducts.push(productName);
-        localStorage.setItem("deletedProducts", JSON.stringify(deletedProducts));
-    }
-
-    // Update stockData in localStorage
-    localStorage.setItem("stockData", JSON.stringify(stockDataGlobal));
-
-    row.remove();
+    // Send DELETE request to the backend
+    fetch("/delete_product", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ product_name: productName })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            row.remove(); // Remove row from table only if deletion is successful
+        } else {
+            alert("Error deleting product.");
+        }
+    })
+    .catch(error => console.error("Error:", error));
 }
-
-
-document.addEventListener("DOMContentLoaded", function() {
-    let savedStockData = localStorage.getItem("stockData");
-    if (savedStockData) {
-        stockDataGlobal = JSON.parse(savedStockData);
-        renderStockTable(); // Function to update your table
-    }
-});
 
 
 // Function to populate the table
