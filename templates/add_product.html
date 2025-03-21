@@ -9,7 +9,7 @@
 <body>
     <button onclick="location.href='/'" class="checkStock-btn">Check Stock</button>
 
-    <h2>Add / Edit Product</h2>
+    <h1>Add / Edit Product</h1>
 
     <div class="container">
         <!-- Flash Messages Section -->
@@ -20,23 +20,47 @@
             {% endfor %}
           {% endif %}
         {% endwith %}
+
         <form id="inventoryForm" method="POST" action="/inventory">
             <div id="productList">
                 <div class="productRow">
-                    <input type="text" name="product_name" placeholder="Product Name" class="product-name">
-                    <input type="number" name="sold_qty" placeholder="Sold Qty" class="sold-qty">
-                    <input type="number" name="free_qty" placeholder="Free Qty" class="free-qty">
-                    <input type="number" name="on_hand" placeholder="On Hand" class="on-hand" readonly>
-                    <input type="number" name="upcoming_qty" placeholder="Upcoming Qty" class="upcoming-qty">
-                    <input type="number" step="0.01" name="unit_sell_price" placeholder="Unit Sell Price" class="unit-sell-price">
-                    <input type="number" step="0.01" name="unit_buy_price" placeholder="Unit Buy Price" class="unit-buy-price">
-                    <input type="text" name="tags" placeholder="Tags" class="tags">
-                    <!-- Product Type Dropdown -->
+                    <!-- Product Name -->
+                    <label>Product Name</label>
+                    <input type="text" name="product_name" placeholder="Enter product name" class="product-name">
+
+                    <!-- Stock Information -->
+                    <div class="stock-group">
+                        <label>Sold Qty</label>
+                        <input type="number" name="sold_qty" placeholder="0" class="sold-qty">
+
+                        <label>Free Stock</label>
+                        <input type="number" name="free_qty" placeholder="0" class="free-qty">
+
+                        <label>On Hand</label>
+                        <input type="number" name="on_hand" placeholder="0" class="on-hand" readonly>
+
+                        <label>Upcoming Stock</label>
+                        <input type="number" name="upcoming_qty" placeholder="0" class="upcoming-qty">
+                    </div>
+
+                    <!-- Pricing Section -->
+                    <div class="pricing-group">
+                        <label>Unit Buy Price</label>
+                        <input type="number" step="0.01" name="unit_buy_price" placeholder="Enter price" class="unit-buy-price">
+
+                        <label>Unit Sell Price</label>
+                        <input type="number" step="0.01" name="unit_sell_price" placeholder="Enter price" class="unit-sell-price">
+                    </div>
+
+                    <!-- Tags & Product Type -->
+                    <label>Tags</label>
+                    <input type="text" name="tags" placeholder="E.g., Mattress, King" class="tags">
+
+                    <label>Product Type</label>
                     <select id="productType" onchange="toggleBOMSection(this)">
                         <option value="single">Single Item</option>
                         <option value="bundle">Bundle</option>
                     </select>
-                    <button type="button" onclick="removeBOMEntry(this)">Remove</button>
 
                     <!-- BOM Section (Hidden by Default) -->
                     <div class="bomSection" style="display: none;">
@@ -44,21 +68,25 @@
                         <div class="bomContainer">
                             <div class="bom-entry">
                                 <div class="input-container">
-                                    <input type="text" id="productName" placeholder="Select Product" oninput="suggestProducts(this)">
+                                    <input type="text" placeholder="Select Product" oninput="suggestProducts(this)">
                                     <div class="suggestions"></div>
                                 </div>
                                 <input type="number" placeholder="Qty">
-                                <button type="button" onclick="removeBOMEntry(this)">Remove</button>
+                                <button type="button" class="remove-btn" onclick="removeBOMEntry(this)">X</button>
                             </div>
                         </div>
-                        <button type="button" onclick="addBOMEntry(this)">+ Add More Component</button>
-                        <button type="button" onclick="saveBOM(this)">Save BOM</button>
+                        <button type="button" class="add-btn" onclick="addBOMEntry(this)">+ Add More Component</button>
+                        <button type="button" class="save-btn" onclick="saveBOM(this)">Save BOM</button>
+                    </div>
+
+                    <!-- Remove & Save Buttons -->
+                    <div class="button-group">
+                        <button type="submit" class="saveProduct-btn">Save Product</button>
                     </div>
                 </div>
             </div>
-            <p onclick="addNewRow()" class="addMoreProduct">+ Add More Product</p>
-            <button type="submit" class="saveProduct-btn">Save Product</button>
         </form>
+
 
         <div id="stockList">
             <h3>Stock Inventory:</h3>
@@ -74,6 +102,7 @@
                         <th>Unit Sell Price</th>
                         <th>Unit Buy Price</th>
                         <th>tags</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="stockTableBody">

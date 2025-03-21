@@ -183,6 +183,10 @@ function renderStockTable(stockData) {
             <td>${item.unit_sell_price}</td>
             <td>${item.unit_buy_price}</td>
             <td>${item.tags || ""}</td>
+            <td>
+                <button class="edit-btn" onclick="editRow(this)">Edit</button>
+                <button class="delete-btn" onclick="deleteRow(this)">Delete</button>
+            </td>
         `;
 
         stockTableBody.appendChild(row); // ✅ Fix here
@@ -330,3 +334,41 @@ function calculateFreeStock(bom, inventory) {
 // Calculate Free Stock for Heveya Mattress
 const freeMattresses = calculateFreeStock(bom, stockInventory);
 
+function editRow(button) {
+    let row = button.parentNode.parentNode; // Get the row
+    let cells = row.getElementsByTagName("td");
+
+    let productName = cells[1].innerText;
+    let onHand = cells[2].innerText;
+    let booked = cells[3].innerText;
+    let freeStock = cells[4].innerText;
+    let upcoming = cells[5].innerText;
+    let sellPrice = cells[6].innerText;
+    let buyPrice = cells[7].innerText;
+    let tags = cells[8].innerText;
+
+    let newName = prompt("Edit Product Name:", productName);
+    let newOnHand = prompt("Edit On Hand Stock:", onHand);
+    let newBooked = prompt("Edit Booked/Sold:", booked);
+    let newFree = prompt("Edit Free Stock:", freeStock);
+    let newUpcoming = prompt("Edit Upcoming Stock:", upcoming);
+    let newSellPrice = prompt("Edit Sell Price:", sellPrice);
+    let newBuyPrice = prompt("Edit Buy Price:", buyPrice);
+    let newTags = prompt("Edit Tags:", tags);
+
+    if (newName) cells[1].innerText = newName;
+    if (newOnHand) cells[2].innerText = newOnHand;
+    if (newBooked) cells[3].innerText = newBooked;
+    if (newFree) cells[4].innerText = newFree;
+    if (newUpcoming) cells[5].innerText = newUpcoming;
+    if (newSellPrice) cells[6].innerText = newSellPrice;
+    if (newBuyPrice) cells[7].innerText = newBuyPrice;
+    if (newTags) cells[8].innerText = newTags;
+}
+
+function deleteRow(button) {
+    if (confirm("Are you sure you want to delete this item?")) {
+        let row = button.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+    }
+}
