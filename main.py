@@ -1,6 +1,6 @@
 import os
 import sqlite3
-from flask import Flask, request, jsonify, render_template, redirect, flash, json
+from flask import Flask, request, jsonify, render_template, redirect, flash
 from dotenv import load_dotenv
 
 load_dotenv("key.env")  # Load environment variables from .env file
@@ -22,10 +22,7 @@ def init_db():
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    # # Drop existing inventory table
-    # cursor.execute("DROP TABLE IF EXISTS inventory;")
-
-    # Recreate table with correct schema
+    # Create inventory table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS inventory (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -52,6 +49,7 @@ def init_db():
 
     conn.commit()
     conn.close()
+
 
 # Call the function to create the table at startup
 init_db()

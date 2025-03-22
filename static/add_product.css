@@ -89,6 +89,27 @@ input {
     cursor: pointer !important;
 }
 
+.suggestions {
+    position: absolute;
+    background: white;
+    border: 1px solid #ddd;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+    display: none; /* Initially hidden */
+}
+
+.suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background: #f0f0f0;
+}
+
+
 .modal {
     display: none;
     position: fixed;

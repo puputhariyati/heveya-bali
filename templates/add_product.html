@@ -68,7 +68,7 @@
                         <div class="bomContainer">
                             <div class="bom-entry">
                                 <div class="input-container">
-                                    <input type="text" placeholder="Select Product" oninput="suggestProducts(this)">
+                                    <input type="text" placeholder="Select Product" oninput="suggestBomProducts(this)">
                                     <div class="suggestions"></div>
                                 </div>
                                 <input type="number" placeholder="Qty">
@@ -89,7 +89,7 @@
 
         <h2>Search Product</h2>
         <div class="search-container">
-            <input type="text" id="productName" class="searchbar" placeholder="Select Product" oninput="suggestProducts()">
+            <input type="text" id="productName" class="searchbar" placeholder="Select Product" oninput="suggestSearchProducts()">
             <button id="searchButton" class="check-stock-btn">Search</button>
         </div>
         <div id="suggestions"></div>

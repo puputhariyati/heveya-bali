@@ -294,11 +294,13 @@ function openBomModal(productName, bomData) {
     modal.style.display = "block";
 }
 
-// Fetch product suggestions dynamically
-function suggestProducts(inputField) {
+// Fetch product suggestions dynamically for bom inputs
+function suggestBomProducts(inputField) {
     let suggestionsDiv = inputField.closest(".input-container").querySelector(".suggestions");
 
     let query = inputField.value.trim();
+    console.log("User typed for BOM:", query);  // ✅ Check if function runs
+
     if (query.length < 2) {
         suggestionsDiv.innerHTML = "";
         suggestionsDiv.style.display = "none";
@@ -308,6 +310,8 @@ function suggestProducts(inputField) {
     fetch(`/get_product_suggestions?query=${encodeURIComponent(query)}`)
         .then(response => response.json())
         .then(products => {
+            console.log("BOM Suggestions received:", products);  // ✅ Debug API response
+
             suggestionsDiv.innerHTML = ""; // Clear previous suggestions
             suggestionsDiv.style.display = "block"; // Show suggestions
 
@@ -327,8 +331,9 @@ function suggestProducts(inputField) {
                 suggestionsDiv.style.display = "none";
             }
         })
-        .catch(error => console.error("Error fetching suggestions:", error));
+        .catch(error => console.error("Error fetching BOM suggestions:", error));
 }
+
 
 
 // Prevent form submission if the product is not valid
@@ -342,7 +347,7 @@ document.getElementById("bomForm").addEventListener("submit", function (event) {
 });
 
 // Fetch product suggestions dynamically for searchbar
-function suggestProducts() {
+function suggestSearchProducts() {
     let query = document.getElementById("productName").value.trim();
     let suggestionsDiv = document.getElementById("suggestions");
 
@@ -388,8 +393,9 @@ function suggestProducts() {
                 suggestionsDiv.appendChild(addOption);
             }
         })
-        .catch(error => console.error("Error fetching suggestions:", error));
+        .catch(error => console.error("Error fetching search suggestions:", error));
 }
+
 
 // Hide suggestions when clicking outside
 document.addEventListener("click", function (event) {
