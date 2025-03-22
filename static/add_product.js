@@ -120,17 +120,16 @@ function addBOMEntry(button) {
     entry.classList.add("bom-entry");
     entry.innerHTML = `
         <div class="input-container">
-            <input type="text" id="productName" placeholder="Select Product" oninput="suggestProducts(this)">
+            <input type="text" id="productName" placeholder="Select Product" oninput="suggestBomProducts(this)">
             <div class="suggestions"></div> <!-- Use class instead of ID -->
         </div>
         <input type="number" placeholder="Qty">
-        <button type="button" onclick="removeBOMEntry(this)">Remove</button>
+        <button type="button" onclick="removeBOMEntry(this)">X</button>
     `;
 
     // Append to BOM container
     bomContainer.appendChild(entry);
 }
-
 
 function removeBOMEntry(button) {
     button.parentElement.remove();
@@ -221,14 +220,53 @@ function filterTable() {
                 <td>${item.unit_buy_price}</td>
                 <td>${item.tags || ""}</td>
                 <td>
-                    <button class="edit-btn" onclick="editRow(this)">Edit</button>
-                    <button class="delete-btn" onclick="deleteRow(this)">Delete</button>
+                    <select onchange="handleAction(this, '${item.product_name}')">
+                        <option value="">⬇️ Actions</option>
+                        <option value="convert">Convert to Booked</option>
+                        <option value="sell">Sold</option>
+                        <option value="edit">Edit/Adjust</option>
+                        <option value="delete">Delete</option>
+                    </select>
                 </td>
             `;
             stockTableBody.appendChild(row);
         }
     });
 }
+
+// Function to handle dropdown actions
+function handleAction(selectElement, productName) {
+    let action = selectElement.value;
+    selectElement.value = ""; // Reset dropdown after selection
+
+    // Find the row with the matching product name
+    let row = [...document.querySelectorAll("#stockTableBody tr")]
+        .find(tr => tr.cells[1].textContent.trim() === productName);
+
+    if (!row) return; // Exit if row is not found
+
+    switch (action) {
+        case "convert":
+            convertToBooked(productName);
+            break;
+        case "sell":
+            sellProduct(productName);
+            break;
+        case "edit":
+            let editBtn = row.querySelector(".edit-btn");
+            if (editBtn) {
+                editRow(editBtn);
+            }
+            break;
+        case "delete":
+            deleteRow(row);
+            break;
+        default:
+            console.log("No action selected");
+    }
+}
+
+
 
 // Function to calculate On-Hand Stock for a Composite Product
 document.addEventListener("DOMContentLoaded", function () {
@@ -425,6 +463,7 @@ function calculateFreeStock(bom, inventory) {
 // Calculate Free Stock for Heveya Mattress
 const freeMattresses = calculateFreeStock(bom, stockInventory);
 
+// Function to edit row
 function editRow(button) {
     let row = button.closest("tr"); // Get the row
     let cells = row.getElementsByTagName("td");
@@ -433,7 +472,7 @@ function editRow(button) {
 
     // Check if it's already in edit mode
     if (button.innerText === "Save") {
-        for (let i = 1; i <= 8; i++) {
+        for (let i = 2; i <= 8; i++) { // Skip first column (#) and Product Name
             let input = cells[i].querySelector("input");
             if (input) {
                 let key = cells[i].getAttribute("data-field"); // Get database field name
@@ -459,7 +498,7 @@ function editRow(button) {
     }
 
     // Convert cells to input fields for editing
-    for (let i = 1; i <= 8; i++) {
+    for (let i = 2; i <= 8; i++) {
         let currentValue = cells[i].innerText;
         cells[i].innerHTML = `<input type="text" value="${currentValue}" style="width:100%">`;
     }
@@ -467,7 +506,6 @@ function editRow(button) {
     // Change button to "Save"
     button.innerText = "Save";
 }
-
 
 
 function updateStockData(row) {
@@ -512,7 +550,12 @@ function updateStockData(row) {
 
 
 function updateDatabase(updatedData) {
-    console.log("Sending data to backend:", updatedData); // Debugging step
+    console.log("Sending data to backend:", updatedData);
+
+    if (!updatedData.product_name || updatedData.product_name.trim() === "") {
+        console.error("Error: Missing product_name in update request.");
+        return;
+    }
 
     fetch("/update_product", {
         method: "POST",
@@ -524,11 +567,38 @@ function updateDatabase(updatedData) {
         console.log("Database response:", data);
         if (!data.success) {
             console.error("Update failed:", data.error);
+            return;
+        }
+
+        // ✅ Step 1: Update Free Stock from the Backend Response
+        const productElement = document.querySelector(`#free-stock-${productId}`);
+        if (productElement) {
+            productElement.textContent = data.free_qty; // ✅ Use backend value
+        } else {
+            console.warn(`Could not find element for ${updatedData.product_name}`);
+        }
+
+        // ✅ Step 2: Update Parent Products ONLY Using Backend Data
+        if (data.updated_parents) {
+            data.updated_parents.forEach(parent => {
+                const parentId = parent.product_name
+                    .toLowerCase()
+                    .trim()
+                    .replace(/\s+/g, "-")
+                    .replace(/[^a-z0-9-]/g, "")
+                    .replace(/-+/g, "-");
+
+                const parentElement = document.querySelector(`#free-stock-${parentId}`);
+                if (parentElement) {
+                    parentElement.textContent = parent.free_qty; // ✅ Use backend value
+                } else {
+                    console.warn(`Could not find element for ${parent.product_name}`);
+                }
+            });
         }
     })
     .catch(error => console.error("Error updating database:", error));
 }
-
 
 
 
@@ -546,11 +616,13 @@ window.onload = loadStockData;
 
 
 // Function to delete row
-function deleteRow(button) {
-    let row = button.parentNode.parentNode;
-    let productName = row.cells[1].innerText; // Get product name
+function deleteRow(row) {
+    let productName = row.cells[1].innerText.trim(); // Get product name
 
-    // Send DELETE request to the backend
+    if (!confirm(`Are you sure you want to delete "${productName}"? This action cannot be undone.`)) {
+        return;
+    }
+
     fetch("/delete_product", {
         method: "POST",
         headers: {
@@ -561,14 +633,17 @@ function deleteRow(button) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            row.remove(); // Remove row from table only if deletion is successful
+            row.remove(); // ✅ Remove row from table if deletion is successful
         } else {
-            alert("Error deleting product.");
+            console.error("Backend deletion failed:", data.error);
+            alert("Error deleting product: " + (data.error || "Unknown error"));
         }
     })
-    .catch(error => console.error("Error:", error));
+    .catch(error => {
+        console.error("Error deleting:", error);
+        alert("An error occurred while deleting.");
+    });
 }
-
 
 // Function to populate the table
 function populateTable() {

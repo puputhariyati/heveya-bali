@@ -230,62 +230,131 @@ def get_bom():
 
 @app.route("/delete_product", methods=["POST"])
 def delete_product():
-    data = request.json
-    product_name = data["product_name"]
-
     try:
+        data = request.json
+        product_name = data.get("product_name")
+
+        if not product_name:
+            return jsonify({"success": False, "error": "Missing product name"}), 400
+
         conn = sqlite3.connect("stock.db")
         cursor = conn.cursor()
+
+        # Delete from BOM table first (if applicable)
+        cursor.execute("DELETE FROM bom WHERE product = ?", (product_name,))
+
+        # Delete from inventory table
         cursor.execute("DELETE FROM inventory WHERE product_name = ?", (product_name,))
+
         conn.commit()
         conn.close()
+
         return jsonify({"success": True})
     except Exception as e:
-        return jsonify({"success": False, "error": str(e)})
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 @app.route("/update_product", methods=["POST"])
 def update_product():
     try:
         data = request.json
-        print("Received data:", data)  # Debugging step
-
-        if not data:
-            return jsonify({"success": False, "error": "No data received"}), 400
-
-        product_name = data.get("product_name")  # ✅ Use .get() to avoid KeyError
-        print("Extracted product_name:", product_name)  # Debugging step
-
+        product_name = data.get("product_name")
         if not product_name:
             return jsonify({"success": False, "error": "Missing product_name"}), 400
 
         conn = sqlite3.connect("stock.db")
         cursor = conn.cursor()
 
+        # Update stock values (except free_qty, which we recalculate)
         cursor.execute("""
             UPDATE inventory
-            SET on_hand = ?, sold_qty = ?, free_qty = ?, upcoming_qty = ?, 
+            SET on_hand = ?, sold_qty = ?, upcoming_qty = ?, 
                 unit_sell_price = ?, unit_buy_price = ?
             WHERE product_name = ?
         """, (
             data.get("on_hand", 0),
             data.get("sold_qty", 0),
-            data.get("free_qty", 0),
             data.get("upcoming_qty", 0),
             data.get("unit_sell_price", 0),
             data.get("unit_buy_price", 0),
             product_name
         ))
 
+        # Fetch updated stock after changes
+        cursor.execute("SELECT on_hand, sold_qty FROM inventory WHERE product_name = ?", (product_name,))
+        row = cursor.fetchone()
+        if not row:
+            return jsonify({"success": False, "error": "Product not found"}), 404
+
+        on_hand, sold_qty = row
+        free_qty = recalculate_free_stock(cursor, product_name, on_hand, sold_qty)
+
+        # Update inventory with recalculated free_qty
+        cursor.execute("UPDATE inventory SET free_qty = ? WHERE product_name = ?", (free_qty, product_name))
+
+        # ✅ UPDATE PARENT PRODUCTS THAT DEPEND ON THIS COMPONENT
+        updated_parents = update_parent_products(cursor, product_name)
+
         conn.commit()
         conn.close()
 
-        return jsonify({"success": True})
+        return jsonify({
+            "success": True,
+            "free_qty": free_qty,
+            "sold_qty": sold_qty,
+            "updated_parents": updated_parents  # Send updated parent products back to frontend
+        })
 
     except Exception as e:
-        print("Error:", str(e))
         return jsonify({"success": False, "error": str(e)}), 500
 
+
+def recalculate_free_stock(cursor, product_name, on_hand, sold_qty):
+    """Recalculate free stock based on BOM components."""
+    cursor.execute("SELECT component, quantity FROM bom WHERE product = ?", (product_name,))
+    bom_components = cursor.fetchall()
+
+    if bom_components:
+        min_possible = float('inf')
+        component_names = [component for component, _ in bom_components]
+
+        # Fetch all component stocks in one query
+        cursor.execute(
+            f"SELECT product_name, free_qty FROM inventory WHERE product_name IN ({','.join(['?'] * len(component_names))})",
+            component_names)
+        component_stocks = dict(cursor.fetchall())  # Convert to dict {component_name: free_qty}
+
+        for component, required_qty in bom_components:
+            component_free_qty = component_stocks.get(component, 0)
+            if required_qty > 0:
+                min_possible = min(min_possible, component_free_qty // required_qty)
+
+        return min_possible if min_possible != float('inf') else 0
+    else:
+        return max(on_hand - sold_qty, 0)
+
+
+def update_parent_products(cursor, component_name):
+    """Update all parent products that use the given component."""
+    cursor.execute("SELECT product FROM bom WHERE component = ?", (component_name,))
+    parent_products = [row[0] for row in cursor.fetchall()]
+
+    if not parent_products:
+        return []
+
+    updated_parents = []
+    for parent_product in parent_products:
+        cursor.execute("SELECT on_hand, sold_qty FROM inventory WHERE product_name = ?", (parent_product,))
+        row = cursor.fetchone()
+        if row:
+            parent_on_hand, parent_sold_qty = row
+            parent_free_qty = recalculate_free_stock(cursor, parent_product, parent_on_hand, parent_sold_qty)
+
+            cursor.execute("UPDATE inventory SET free_qty = ? WHERE product_name = ?",
+                           (parent_free_qty, parent_product))
+            updated_parents.append({"product_name": parent_product, "free_qty": parent_free_qty})
+
+    return updated_parents
 
 
 if __name__ == "__main__":
