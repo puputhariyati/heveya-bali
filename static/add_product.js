@@ -162,38 +162,6 @@ function saveBOM(button) {
     .catch(error => console.error("Error:", error));
 }
 
-function addNewRow() {
-    const productList = document.getElementById("productList");
-    const newRow = document.createElement("div");
-    newRow.classList.add("productRow");
-
-    newRow.innerHTML = `
-        <input type="text" name="product_name" placeholder="Product Name" class="product-name">
-        <input type="number" step="0.01" name="unit_buy_price" placeholder="Unit Buy Price" class="unit-price">
-        <input type="number" name="quantity" placeholder="Qty" class="quantity">
-        <input type="text" name="tags" placeholder="Tags" class="tags">
-        <label for="productType">Product Type:</label>
-        <select name="product_type" class="product-type" onchange="toggleBOMSection(this)">
-            <option value="single">Single Item</option>
-            <option value="bundle">Bundle</option>
-        </select>
-        <button type="button" onclick="removeBOMEntry(this)">Remove</button>
-        <div class="bomSection" style="display: none;">
-            <h3>Unit Bill Of Materials</h3>
-            <div class="bomContainer">
-                <div class="bom-entry">
-                    <input type="text" placeholder="Product Name">
-                    <input type="number" placeholder="Qty">
-                    <button type="button" onclick="removeBOMEntry(this)">Remove</button>
-                </div>
-            </div>
-            <button type="button" onclick="addBOMEntry()">+ Add More Component</button>
-        </div>
-    `;
-
-    productList.appendChild(newRow);
-}
-
 
 // Function to update the stock table based on the search filter
 function filterTable() {
@@ -208,7 +176,7 @@ function filterTable() {
                 <td>${index + 1}</td>
                 <td>
                     ${item.hasBOM
-                        ? `<a href="#" class="bom-link" data-product="${encodeURIComponent(item.product_name)}"
+                        ? `<a href="#" class="bom-link" data-product-name="${encodeURIComponent(item.product_name)}"
                             style="color: blue; text-decoration: underline;">${item.product_name}</a>`
                         : item.product_name}
                 </td>
@@ -234,6 +202,7 @@ function filterTable() {
     });
 }
 
+
 // Function to handle dropdown actions
 function handleAction(selectElement, productName) {
     let action = selectElement.value;
@@ -253,10 +222,7 @@ function handleAction(selectElement, productName) {
             sellProduct(productName);
             break;
         case "edit":
-            let editBtn = row.querySelector(".edit-btn");
-            if (editBtn) {
-                editRow(editBtn);
-            }
+            editRow(row); // ✅ Directly pass the row instead of looking for `.edit-btn`
             break;
         case "delete":
             deleteRow(row);
@@ -265,7 +231,6 @@ function handleAction(selectElement, productName) {
             console.log("No action selected");
     }
 }
-
 
 
 // Function to calculate On-Hand Stock for a Composite Product
@@ -373,7 +338,6 @@ function suggestBomProducts(inputField) {
 }
 
 
-
 // Prevent form submission if the product is not valid
 document.getElementById("bomForm").addEventListener("submit", function (event) {
     let productInput = document.getElementById("productName");
@@ -416,7 +380,6 @@ function suggestSearchProducts() {
             } else {
                 // If no products found, show "Add New Product" option
                 let addOption = document.createElement("div");
-                addOption.textContent = "+ Add New Product";
                 addOption.style.color = "blue";
                 addOption.style.cursor = "pointer";
                 addOption.style.textDecoration = "none";
@@ -464,71 +427,78 @@ function calculateFreeStock(bom, inventory) {
 const freeMattresses = calculateFreeStock(bom, stockInventory);
 
 // Function to edit row
-function editRow(button) {
-    let row = button.closest("tr"); // Get the row
+function editRow(row) {
     let cells = row.getElementsByTagName("td");
-    let updatedData = {}; // Object to store new values for database
-    let product_name = row.cells[1].textContent.trim(); // Get product name from 2nd column
+    let updatedData = {};
+    let product_name = row.cells[1].textContent.trim();
 
-    // Check if it's already in edit mode
-    if (button.innerText === "Save") {
-        for (let i = 2; i <= 8; i++) { // Skip first column (#) and Product Name
+    let isEditing = row.getAttribute("data-editing") === "true";
+
+    if (isEditing) {
+        // ✅ Save Changes
+        for (let i = 2; i <= 8; i++) {
             let input = cells[i].querySelector("input");
             if (input) {
-                let key = cells[i].getAttribute("data-field"); // Get database field name
+                let key = cells[i].getAttribute("data-field");
                 let newValue = input.value;
-
-                updatedData[key] = newValue; // Store value for database update
-                cells[i].innerText = newValue; // Save input value back to UI
+                updatedData[key] = newValue;
+                cells[i].innerText = newValue;
             }
         }
 
-        // ✅ Ensure product_name is included
         updatedData["product_name"] = product_name;
 
-        // Call function to update calculations (On Hand Qty)
-        updateStockData(row);
+        updateStockData(row); // ✅ Let this function handle the database update
 
-        // Send updated data to backend
-        updateDatabase(updatedData);
+        row.setAttribute("data-editing", "false");
+        row.style.backgroundColor = "";
 
-        // Change button back to "Edit"
-        button.innerText = "Edit";
+        // ✅ Remove Save Button
+        let saveBtn = row.querySelector(".save-btn");
+        if (saveBtn) saveBtn.remove();
+
         return;
     }
 
-    // Convert cells to input fields for editing
+    // ✅ Convert cells to input fields
     for (let i = 2; i <= 8; i++) {
         let currentValue = cells[i].innerText;
         cells[i].innerHTML = `<input type="text" value="${currentValue}" style="width:100%">`;
     }
 
-    // Change button to "Save"
-    button.innerText = "Save";
+    // ✅ Add Save Button
+    let actionsCell = cells[9]; // Last column for actions
+    let saveButton = document.createElement("button");
+    saveButton.innerText = "Save";
+    saveButton.classList.add("save-btn");
+    saveButton.style.marginLeft = "5px";
+    saveButton.onclick = function () {
+        editRow(row);
+    };
+
+    actionsCell.appendChild(saveButton);
+
+    row.setAttribute("data-editing", "true");
+    row.style.backgroundColor = "#ffffcc";
 }
 
 
 function updateStockData(row) {
-    let productName = row.cells[1].innerText.trim(); // Ensure no extra spaces
+    let productName = row.cells[1].innerText.trim();
 
-    // Find the matching product in stockDataGlobal
     let product = stockDataGlobal.find(item => item.product_name === productName);
     if (!product) {
         console.error("Product not found:", productName);
         return;
     }
 
-    // Read and parse input values
     let soldQty = parseInt(row.cells[3].innerText) || 0;
     let freeStock = parseInt(row.cells[4].innerText) || 0;
 
-    // Calculate On Hand
     let onHand = soldQty + freeStock;
-    row.cells[2].innerText = onHand; // Update table cell
 
-    // Prepare updated product data
     let updatedData = {
-        product_name: productName,  // Ensure product name is included
+        product_name: productName,
         on_hand: onHand,
         sold_qty: soldQty,
         free_qty: freeStock,
@@ -538,15 +508,19 @@ function updateStockData(row) {
         tags: row.cells[8].innerText.trim()
     };
 
-    // Update local array
     Object.assign(product, updatedData);
-
-    // Save updated data to localStorage
     localStorage.setItem("stockData", JSON.stringify(stockDataGlobal));
 
-    // Send updated data to the database
-    updateDatabase(updatedData);
+    // ✅ Call updateDatabase and then update the UI
+    updateDatabase(updatedData).then(response => {
+        if (response.success) {
+            row.cells[2].innerText = onHand; // ✅ Now update the UI
+        } else {
+            console.error("Database update failed:", response.error);
+        }
+    });
 }
+
 
 
 function updateDatabase(updatedData) {
@@ -570,27 +544,26 @@ function updateDatabase(updatedData) {
             return;
         }
 
-        // ✅ Step 1: Update Free Stock from the Backend Response
-        const productElement = document.querySelector(`#free-stock-${productId}`);
+        // ✅ Step 1: Update Free Stock Using Product Name
+        const productElement = document.querySelector(`[data-product-name="${updatedData.product_name}"]`);
         if (productElement) {
-            productElement.textContent = data.free_qty; // ✅ Use backend value
+            const productStock = productElement.querySelector(".free-stock");
+            if (productStock) {
+                productStock.textContent = data.free_qty; // ✅ Use backend value
+            }
         } else {
             console.warn(`Could not find element for ${updatedData.product_name}`);
         }
 
-        // ✅ Step 2: Update Parent Products ONLY Using Backend Data
+        // ✅ Step 2: Update Parent Products Using Product Names
         if (data.updated_parents) {
             data.updated_parents.forEach(parent => {
-                const parentId = parent.product_name
-                    .toLowerCase()
-                    .trim()
-                    .replace(/\s+/g, "-")
-                    .replace(/[^a-z0-9-]/g, "")
-                    .replace(/-+/g, "-");
-
-                const parentElement = document.querySelector(`#free-stock-${parentId}`);
+                const parentElement = document.querySelector(`[data-product-name="${parent.product_name}"]`);
                 if (parentElement) {
-                    parentElement.textContent = parent.free_qty; // ✅ Use backend value
+                    const parentStock = parentElement.querySelector(".free-stock");
+                    if (parentStock) {
+                        parentStock.textContent = parent.free_qty; // ✅ Use backend value
+                    }
                 } else {
                     console.warn(`Could not find element for ${parent.product_name}`);
                 }
@@ -599,7 +572,6 @@ function updateDatabase(updatedData) {
     })
     .catch(error => console.error("Error updating database:", error));
 }
-
 
 
 // Function to load data from localStorage
