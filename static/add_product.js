@@ -176,7 +176,7 @@ function filterTable() {
                 <td>${index + 1}</td>
                 <td>
                     ${item.hasBOM
-                        ? `<a href="#" class="bom-link" data-product-name="${encodeURIComponent(item.product_name)}"
+                        ? `<a href="#" class="bom-link" data-product="${encodeURIComponent(item.product_name)}"
                             style="color: blue; text-decoration: underline;">${item.product_name}</a>`
                         : item.product_name}
                 </td>
@@ -426,12 +426,10 @@ function calculateFreeStock(bom, inventory) {
 // Calculate Free Stock for Heveya Mattress
 const freeMattresses = calculateFreeStock(bom, stockInventory);
 
-// Function to edit row
 function editRow(row) {
     let cells = row.getElementsByTagName("td");
     let updatedData = {};
     let product_name = row.cells[1].textContent.trim();
-
     let isEditing = row.getAttribute("data-editing") === "true";
 
     if (isEditing) {
@@ -440,7 +438,7 @@ function editRow(row) {
             let input = cells[i].querySelector("input");
             if (input) {
                 let key = cells[i].getAttribute("data-field");
-                let newValue = input.value;
+                let newValue = input.value.trim();
                 updatedData[key] = newValue;
                 cells[i].innerText = newValue;
             }
@@ -448,7 +446,7 @@ function editRow(row) {
 
         updatedData["product_name"] = product_name;
 
-        updateStockData(row); // ✅ Let this function handle the database update
+        updateStockData(row); // ✅ Handle database update & UI refresh
 
         row.setAttribute("data-editing", "false");
         row.style.backgroundColor = "";
@@ -482,11 +480,10 @@ function editRow(row) {
     row.style.backgroundColor = "#ffffcc";
 }
 
-
 function updateStockData(row) {
     let productName = row.cells[1].innerText.trim();
-
     let product = stockDataGlobal.find(item => item.product_name === productName);
+
     if (!product) {
         console.error("Product not found:", productName);
         return;
@@ -494,7 +491,6 @@ function updateStockData(row) {
 
     let soldQty = parseInt(row.cells[3].innerText) || 0;
     let freeStock = parseInt(row.cells[4].innerText) || 0;
-
     let onHand = soldQty + freeStock;
 
     let updatedData = {
@@ -511,16 +507,39 @@ function updateStockData(row) {
     Object.assign(product, updatedData);
     localStorage.setItem("stockData", JSON.stringify(stockDataGlobal));
 
-    // ✅ Call updateDatabase and then update the UI
+    // ✅ Send update request to backend
     updateDatabase(updatedData).then(response => {
         if (response.success) {
-            row.cells[2].innerText = onHand; // ✅ Now update the UI
+            row.cells[2].innerText = onHand; // ✅ Update "On Hand" in UI
+
+            // ✅ Dynamically update parent stock
+            if (response.updated_parents) {
+                response.updated_parents.forEach(parent => {
+                    updateParentStock(parent);
+                });
+            }
+
+            // ✅ Recalculate Free Stock
+            calculateFreeStock();
         } else {
             console.error("Database update failed:", response.error);
         }
     });
 }
 
+function updateParentStock(parentData) {
+    let parentRow = [...document.querySelectorAll("#stockTable tr")].find(row =>
+        row.cells[1].innerText.trim() === parentData.product_name
+    );
+
+    if (parentRow) {
+        parentRow.cells[3].innerText = parentData.sold_qty; // Update sold stock
+        parentRow.cells[4].innerText = parentData.free_qty; // Update free stock
+        parentRow.cells[2].innerText = parentData.on_hand; // Update on-hand total
+    } else {
+        console.warn(`Could not find parent row for ${parentData.product_name}`);
+    }
+}
 
 
 function updateDatabase(updatedData) {
@@ -531,7 +550,7 @@ function updateDatabase(updatedData) {
         return;
     }
 
-    fetch("/update_product", {
+    return fetch("/update_product", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedData),
@@ -539,52 +558,49 @@ function updateDatabase(updatedData) {
     .then(response => response.json())
     .then(data => {
         console.log("Database response:", data);
+
         if (!data.success) {
             console.error("Update failed:", data.error);
-            return;
+            return { success: false, error: data.error };
         }
 
-        // ✅ Step 1: Update Free Stock Using Product Name
+        // ✅ Update free stock for edited product
         const productElement = document.querySelector(`[data-product-name="${updatedData.product_name}"]`);
         if (productElement) {
             const productStock = productElement.querySelector(".free-stock");
             if (productStock) {
-                productStock.textContent = data.free_qty; // ✅ Use backend value
+                productStock.textContent = data.free_qty;
             }
         } else {
             console.warn(`Could not find element for ${updatedData.product_name}`);
         }
 
-        // ✅ Step 2: Update Parent Products Using Product Names
+        // ✅ Update parent products' free stock
         if (data.updated_parents) {
             data.updated_parents.forEach(parent => {
-                const parentElement = document.querySelector(`[data-product-name="${parent.product_name}"]`);
-                if (parentElement) {
-                    const parentStock = parentElement.querySelector(".free-stock");
-                    if (parentStock) {
-                        parentStock.textContent = parent.free_qty; // ✅ Use backend value
-                    }
-                } else {
-                    console.warn(`Could not find element for ${parent.product_name}`);
-                }
+                updateParentStock(parent);
             });
         }
+
+        return { success: true, updated_parents: data.updated_parents };
     })
-    .catch(error => console.error("Error updating database:", error));
+    .catch(error => {
+        console.error("Error updating database:", error);
+        return { success: false, error };
+    });
 }
 
-
-// Function to load data from localStorage
-function loadStockData() {
-    let storedData = localStorage.getItem("stockData");
-    if (storedData) {
-        stockDataGlobal = JSON.parse(storedData);
-        renderTable(); // Function to re-populate the table
-    }
-}
-
-// Call this function on page load
-window.onload = loadStockData;
+//// Function to load data from localStorage
+//function loadStockData() {
+//    let storedData = localStorage.getItem("stockData");
+//    if (storedData) {
+//        stockDataGlobal = JSON.parse(storedData);
+//        renderTable(); // Function to re-populate the table
+//    }
+//}
+//
+//// Call this function on page load
+//window.onload = loadStockData;
 
 
 // Function to delete row
@@ -617,31 +633,31 @@ function deleteRow(row) {
     });
 }
 
-// Function to populate the table
-function populateTable() {
-    let tableBody = document.getElementById("table-body");
-    tableBody.innerHTML = ""; // Clear existing table
-
-    inventory.forEach((item, index) => {
-        let row = tableBody.insertRow();
-        row.innerHTML = `
-            <td>${index + 1}</td>
-            <td>${item.product_name}</td>
-            <td>${item.on_hand || 0}</td>
-            <td>${item.sold_qty}</td>
-            <td>${item.free_qty}</td>
-            <td>${item.upcoming_qty}</td>
-            <td>${item.unit_sell_price}</td>
-            <td>${item.unit_buy_price}</td>
-            <td>${item.tags || ""}</td>
-            <td>
-                <button class="edit-btn" onclick="editRow(this)">Edit</button>
-                <button class="delete-btn" onclick="deleteRow(this)">Delete</button>
-            </td>
-        `;
-    });
-}
-
-// Load inventory when the page loads
-window.onload = loadInventory;
+//// Function to populate the table
+//function populateTable() {
+//    let tableBody = document.getElementById("table-body");
+//    tableBody.innerHTML = ""; // Clear existing table
+//
+//    inventory.forEach((item, index) => {
+//        let row = tableBody.insertRow();
+//        row.innerHTML = `
+//            <td>${index + 1}</td>
+//            <td>${item.product_name}</td>
+//            <td>${item.on_hand || 0}</td>
+//            <td>${item.sold_qty}</td>
+//            <td>${item.free_qty}</td>
+//            <td>${item.upcoming_qty}</td>
+//            <td>${item.unit_sell_price}</td>
+//            <td>${item.unit_buy_price}</td>
+//            <td>${item.tags || ""}</td>
+//            <td>
+//                <button class="edit-btn" onclick="editRow(this)">Edit</button>
+//                <button class="delete-btn" onclick="deleteRow(this)">Delete</button>
+//            </td>
+//        `;
+//    });
+//}
+//
+//// Load inventory when the page loads
+//window.onload = loadInventory;
 
