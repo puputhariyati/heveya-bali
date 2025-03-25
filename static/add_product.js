@@ -633,31 +633,4 @@ function deleteRow(row) {
     });
 }
 
-//// Function to populate the table
-//function populateTable() {
-//    let tableBody = document.getElementById("table-body");
-//    tableBody.innerHTML = ""; // Clear existing table
-//
-//    inventory.forEach((item, index) => {
-//        let row = tableBody.insertRow();
-//        row.innerHTML = `
-//            <td>${index + 1}</td>
-//            <td>${item.product_name}</td>
-//            <td>${item.on_hand || 0}</td>
-//            <td>${item.sold_qty}</td>
-//            <td>${item.free_qty}</td>
-//            <td>${item.upcoming_qty}</td>
-//            <td>${item.unit_sell_price}</td>
-//            <td>${item.unit_buy_price}</td>
-//            <td>${item.tags || ""}</td>
-//            <td>
-//                <button class="edit-btn" onclick="editRow(this)">Edit</button>
-//                <button class="delete-btn" onclick="deleteRow(this)">Delete</button>
-//            </td>
-//        `;
-//    });
-//}
-//
-//// Load inventory when the page loads
-//window.onload = loadInventory;
 
