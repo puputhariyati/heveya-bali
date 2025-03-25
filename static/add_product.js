@@ -232,7 +232,6 @@ function handleAction(selectElement, productName) {
     }
 }
 
-
 // Function to calculate On-Hand Stock for a Composite Product
 document.addEventListener("DOMContentLoaded", function () {
     function updateOnHand(row) {
@@ -426,6 +425,71 @@ function calculateFreeStock(bom, inventory) {
 // Calculate Free Stock for Heveya Mattress
 const freeMattresses = calculateFreeStock(bom, stockInventory);
 
+
+
+function convertToBooked(productName) {
+    let qty = prompt(`Enter quantity to convert for ${productName}:`);
+    if (!qty || isNaN(qty) || qty <= 0) {
+        alert("Invalid quantity!");
+        return;
+    }
+
+    qty = parseInt(qty);
+
+    // Find the row
+    let row = [...document.querySelectorAll("#stockTableBody tr")]
+        .find(tr => tr.cells[1].textContent.trim() === productName);
+
+    if (!row) {
+        alert("Product not found in table!");
+        return;
+    }
+
+    // Get table cell references
+    let onHandCell = row.cells[2];  // Adjust index based on your table
+    let bookedCell = row.cells[3];  // Adjust index based on your table
+    let freeCell = row.cells[4];    // Adjust index based on your table
+
+    // Convert text content to numbers
+    let onHandQty = parseInt(onHandCell.textContent.trim()) || 0;
+    let bookedQty = parseInt(bookedCell.textContent.trim()) || 0;
+    let freeQty = parseInt(freeCell.textContent.trim()) || 0;
+
+    if (qty > freeQty) {
+        alert("Not enough stock available to convert!");
+        return;
+    }
+
+    // Update values in the table
+    freeCell.textContent = freeQty - qty;
+    bookedCell.textContent = bookedQty + qty;
+    // ✅ Do NOT change onHandQty
+
+    // Send update to backend
+    fetch("/convert_to_booked", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ product_name: productName, qty: qty })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (!data.success) {
+            alert("Error: " + data.error);
+            // Revert UI changes if backend fails
+            freeCell.textContent = freeQty;
+            bookedCell.textContent = bookedQty;
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        // Revert UI changes on error
+        freeCell.textContent = freeQty;
+        bookedCell.textContent = bookedQty;
+    });
+}
+
+
+
 function editRow(row) {
     let cells = row.getElementsByTagName("td");
     let updatedData = {};
@@ -589,18 +653,6 @@ function updateDatabase(updatedData) {
         return { success: false, error };
     });
 }
-
-//// Function to load data from localStorage
-//function loadStockData() {
-//    let storedData = localStorage.getItem("stockData");
-//    if (storedData) {
-//        stockDataGlobal = JSON.parse(storedData);
-//        renderTable(); // Function to re-populate the table
-//    }
-//}
-//
-//// Call this function on page load
-//window.onload = loadStockData;
 
 
 // Function to delete row

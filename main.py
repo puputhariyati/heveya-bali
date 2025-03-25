@@ -357,6 +357,54 @@ def update_parent_products(cursor, component_name):
     return updated_parents
 
 
+@app.route("/convert_to_booked", methods=["POST"])
+def convert_to_booked():
+    try:
+        data = request.json
+        product_name = data.get("product_name")
+        qty_to_convert = int(data.get("qty", 0))
+
+        if qty_to_convert <= 0:
+            return jsonify({"success": False, "error": "Invalid quantity"}), 400
+
+        conn = sqlite3.connect("stock.db")
+        cursor = conn.cursor()
+
+        # Fetch current stock levels
+        cursor.execute("SELECT free_qty, sold_qty FROM inventory WHERE product_name = ?", (product_name,))
+        row = cursor.fetchone()
+        if not row:
+            return jsonify({"success": False, "error": "Product not found"}), 404
+
+        free_qty, sold_qty = row
+
+        # ✅ Allow converting all available free stock
+        if qty_to_convert > free_qty:
+            qty_to_convert = free_qty  # Convert all available free stock
+
+        # ✅ Update correct fields
+        new_free_qty = free_qty - qty_to_convert  # Reduce free stock
+        new_sold_qty = sold_qty + qty_to_convert  # Increase booked stock
+
+        cursor.execute("""
+            UPDATE inventory
+            SET free_qty = ?, sold_qty = ?
+            WHERE product_name = ?
+        """, (new_free_qty, new_sold_qty, product_name))
+
+        conn.commit()
+        conn.close()
+
+        return jsonify({
+            "success": True,
+            "new_free_qty": new_free_qty,
+            "new_sold_qty": new_sold_qty
+        })
+
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
 if __name__ == "__main__":
     init_db()
     app.run(debug=True)
