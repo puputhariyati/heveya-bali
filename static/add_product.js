@@ -177,7 +177,7 @@ function filterTable() {
                 <td>${index + 1}</td>
                 <td>
                     ${item.hasBOM
-                        ? `<a href="#" class="bom-link" data-product-name="${encodeURIComponent(item.product_name)}"
+                        ? `<a href="#" class="bom-link" data-product="${encodeURIComponent(item.product_name)}"
                             style="color: blue; text-decoration: underline;">${item.product_name}</a>`
                         : item.product_name}
                 </td>
