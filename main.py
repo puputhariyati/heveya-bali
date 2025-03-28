@@ -27,9 +27,10 @@ def init_db():
         CREATE TABLE IF NOT EXISTS inventory (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             product_name TEXT NOT NULL,
-            on_hand INTEGER NOT NULL DEFAULT 0, 
-            sold_qty INTEGER NOT NULL DEFAULT 0,
-            free_qty INTEGER NOT NULL DEFAULT 0,
+            on_hand INTEGER NOT NULL DEFAULT 0,
+            free_qty INTEGER NOT NULL DEFAULT 0, 
+            booked_qty INTEGER NOT NULL DEFAULT 0,
+            delivered_qty INTEGER NOT NULL DEFAULT 0,
             upcoming_qty INTEGER NOT NULL DEFAULT 0,
             unit_sell_price REAL NOT NULL DEFAULT 0,
             unit_buy_price REAL NOT NULL DEFAULT 0,
@@ -106,26 +107,33 @@ def get_stock():
         product_name = row["product_name"]
         free_qty = row["free_qty"]  # Default from DB
         on_hand = row["on_hand"]  # Default from DB
-        sold_qty = row["sold_qty"]  # Default from DB
+        booked_qty = row["booked_qty"]  # Default from DB
+        delivered_qty = row["delivered_qty"]  # Default from DB
 
         # If the product has a BOM, calculate its free_qty dynamically
         if product_name in bom_dict:
             min_possible = float('inf')  # Start with a large number
             for component, required_qty in bom_dict[product_name]:
-                component_stock = inventory_dict[component]["free_qty"] if component in inventory_dict else 0
+                component_stock = inventory_dict.get(component, {}).get("free_qty", 0)
                 if required_qty > 0:
                     min_possible = min(min_possible, component_stock // required_qty)
 
             free_qty = min_possible if min_possible != float('inf') else 0  # Ensure valid value
-            # Dynamically calculate on_hand: it includes sold, free, and component availability
-            on_hand = sold_qty + free_qty
+        else:
+            free_qty = row["free_qty"]  # Keep the original DB value for non-BOM items
+
+        # Ensure on_hand is properly recalculated
+        on_hand = row["on_hand"]  # Default from DB
+        if product_name in bom_dict:
+            on_hand = free_qty + booked_qty  # On-hand should be the calculated free stock
 
         stock.append({
             "id": row["id"],
             "product_name": product_name,
-            "sold_qty": row["sold_qty"],
-            "free_qty": free_qty,  # Updated dynamically
             "on_hand": on_hand,  # Updated dynamically
+            "free_qty": free_qty,  # Updated dynamically
+            "booked_qty": booked_qty,
+            "delivered_qty": delivered_qty,
             "upcoming_qty": row["upcoming_qty"],
             "unit_sell_price": row["unit_sell_price"],
             "unit_buy_price": row["unit_buy_price"],
@@ -133,22 +141,38 @@ def get_stock():
         })
 
     conn.close()
-    return jsonify(stock)
+
+    # Add cache-busting headers
+    response = jsonify(stock)
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+
+    return response
 
 
 @app.route('/inventory', methods=['GET', 'POST'])
 def inventory_page():
     if request.method == 'POST':
         product_name = request.form.getlist('product_name')
-        sold_qty = request.form.getlist('sold_qty')
-        free_qty = request.form.getlist('free_qty')
-        upcoming_qty = request.form.getlist('upcoming_qty')
-        unit_sell_price = request.form.getlist('unit_sell_price')
-        unit_buy_price = request.form.getlist('unit_buy_price')
-        tags = request.form.getlist('tags')
+        free_qty = request.form.getlist('free_qty') or ["0"]
+        unit_buy_price = request.form.getlist('unit_buy_price') or ["0.0"]
+        unit_sell_price = request.form.getlist('unit_sell_price') or ["0.0"]
+        tags = request.form.getlist('tags') or [""]
+        product_type = request.form.getlist('product_type') or ["single"]
 
-        # Check if any field is empty before inserting
-        if not all(product_name) or not all(unit_buy_price) or not all(tags):
+        # Retrieve missing quantities
+        booked_qty = request.form.getlist('booked_qty') or ["0"]
+        delivered_qty = request.form.getlist('delivered_qty') or ["0"]
+        upcoming_qty = request.form.getlist('upcoming_qty') or ["0"]
+
+        # Ensure all lists have the same length
+        if len(set(map(len, [product_name, free_qty, unit_buy_price, unit_sell_price, tags, product_type, booked_qty,
+                             delivered_qty, upcoming_qty]))) > 1:
+            flash("Error: Mismatch in field lengths. Please fill all fields properly.", "danger")
+            return redirect('/inventory')
+
+        # Check if required fields are filled
+        if not all(product_name) or not all(tags):
             flash("Error: All fields must be filled", "danger")
             return redirect('/inventory')
 
@@ -165,21 +189,22 @@ def inventory_page():
                 conn.close()
                 return redirect('/inventory')
 
-            # Convert values to integers (handle empty inputs)
-            sold = int(sold_qty[i]) if sold_qty[i] else 0
+            # Convert values to appropriate types
             free = int(free_qty[i]) if free_qty[i] else 0
+            booked = int(booked_qty[i]) if booked_qty[i] else 0
+            delivered = int(delivered_qty[i]) if delivered_qty[i] else 0
             upcoming = int(upcoming_qty[i]) if upcoming_qty[i] else 0
             sell_price = float(unit_sell_price[i]) if unit_sell_price[i] else 0.0
             buy_price = float(unit_buy_price[i]) if unit_buy_price[i] else 0.0
 
             # Auto-calculate on_hand
-            on_hand = sold + free
+            on_hand = booked + free
 
             cursor.execute(
-                "INSERT INTO inventory (product_name, on_hand, sold_qty, free_qty, upcoming_qty, unit_sell_price, "
-                "unit_buy_price, tags)"
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                (product_name[i], on_hand, sold, free, upcoming, sell_price, buy_price, tags[i])
+                "INSERT INTO inventory (product_name, on_hand, free_qty, booked_qty, delivered_qty, upcoming_qty, "
+                "unit_sell_price, unit_buy_price, tags) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (product_name[i], on_hand, free, booked, delivered, upcoming, sell_price, buy_price, tags[i])
             )
 
         conn.commit()
@@ -268,12 +293,12 @@ def update_product():
         # Update stock values (except free_qty, which we recalculate)
         cursor.execute("""
             UPDATE inventory
-            SET on_hand = ?, sold_qty = ?, upcoming_qty = ?, 
+            SET on_hand = ?, booked_qty = ?, upcoming_qty = ?, 
                 unit_sell_price = ?, unit_buy_price = ?
             WHERE product_name = ?
         """, (
             data.get("on_hand", 0),
-            data.get("sold_qty", 0),
+            data.get("booked_qty", 0),
             data.get("upcoming_qty", 0),
             data.get("unit_sell_price", 0),
             data.get("unit_buy_price", 0),
@@ -281,13 +306,13 @@ def update_product():
         ))
 
         # Fetch updated stock after changes
-        cursor.execute("SELECT on_hand, sold_qty FROM inventory WHERE product_name = ?", (product_name,))
+        cursor.execute("SELECT on_hand, booked_qty FROM inventory WHERE product_name = ?", (product_name,))
         row = cursor.fetchone()
         if not row:
             return jsonify({"success": False, "error": "Product not found"}), 404
 
-        on_hand, sold_qty = row
-        free_qty = recalculate_free_stock(cursor, product_name, on_hand, sold_qty)
+        on_hand, booked_qty = row
+        free_qty = recalculate_free_stock(cursor, product_name, on_hand, booked_qty)
 
         # Update inventory with recalculated free_qty
         cursor.execute("UPDATE inventory SET free_qty = ? WHERE product_name = ?", (free_qty, product_name))
@@ -301,7 +326,7 @@ def update_product():
         return jsonify({
             "success": True,
             "free_qty": free_qty,
-            "sold_qty": sold_qty,
+            "booked_qty": booked_qty,
             "updated_parents": updated_parents  # Send updated parent products back to frontend
         })
 
@@ -309,7 +334,7 @@ def update_product():
         return jsonify({"success": False, "error": str(e)}), 500
 
 
-def recalculate_free_stock(cursor, product_name, on_hand, sold_qty):
+def recalculate_free_stock(cursor, product_name, on_hand, booked_qty):
     """Recalculate free stock based on BOM components."""
     cursor.execute("SELECT component, quantity FROM bom WHERE product = ?", (product_name,))
     bom_components = cursor.fetchall()
@@ -331,7 +356,7 @@ def recalculate_free_stock(cursor, product_name, on_hand, sold_qty):
 
         return min_possible if min_possible != float('inf') else 0
     else:
-        return max(on_hand - sold_qty, 0)
+        return max(on_hand - booked_qty, 0)
 
 
 def update_parent_products(cursor, component_name):
@@ -344,11 +369,11 @@ def update_parent_products(cursor, component_name):
 
     updated_parents = []
     for parent_product in parent_products:
-        cursor.execute("SELECT on_hand, sold_qty FROM inventory WHERE product_name = ?", (parent_product,))
+        cursor.execute("SELECT on_hand, booked_qty FROM inventory WHERE product_name = ?", (parent_product,))
         row = cursor.fetchone()
         if row:
-            parent_on_hand, parent_sold_qty = row
-            parent_free_qty = recalculate_free_stock(cursor, parent_product, parent_on_hand, parent_sold_qty)
+            parent_on_hand, parent_booked_qty = row
+            parent_free_qty = recalculate_free_stock(cursor, parent_product, parent_on_hand, parent_booked_qty)
 
             cursor.execute("UPDATE inventory SET free_qty = ? WHERE product_name = ?",
                            (parent_free_qty, parent_product))
@@ -371,12 +396,12 @@ def convert_to_booked():
         cursor = conn.cursor()
 
         # Fetch current stock levels
-        cursor.execute("SELECT free_qty, sold_qty FROM inventory WHERE product_name = ?", (product_name,))
+        cursor.execute("SELECT free_qty, booked_qty FROM inventory WHERE product_name = ?", (product_name,))
         row = cursor.fetchone()
         if not row:
             return jsonify({"success": False, "error": "Product not found"}), 404
 
-        free_qty, sold_qty = row
+        free_qty, booked_qty = row
 
         # ✅ Allow converting all available free stock
         if qty_to_convert > free_qty:
@@ -384,13 +409,13 @@ def convert_to_booked():
 
         # ✅ Update correct fields
         new_free_qty = free_qty - qty_to_convert  # Reduce free stock
-        new_sold_qty = sold_qty + qty_to_convert  # Increase booked stock
+        new_booked_qty = booked_qty + qty_to_convert  # Increase booked stock
 
         cursor.execute("""
             UPDATE inventory
-            SET free_qty = ?, sold_qty = ?
+            SET free_qty = ?, booked_qty = ?
             WHERE product_name = ?
-        """, (new_free_qty, new_sold_qty, product_name))
+        """, (new_free_qty, new_booked_qty, product_name))
 
         conn.commit()
         conn.close()
@@ -398,7 +423,7 @@ def convert_to_booked():
         return jsonify({
             "success": True,
             "new_free_qty": new_free_qty,
-            "new_sold_qty": new_sold_qty
+            "new_booked_qty": new_booked_qty
         })
 
     except Exception as e:

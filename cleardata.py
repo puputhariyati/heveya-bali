@@ -7,6 +7,9 @@ cursor = conn.cursor()
 # # Delete all rows from the stock table
 # cursor.execute("DELETE FROM inventory;")
 
+# Delete table from the stock table
+cursor.execute("DROP TABLE IF EXISTS inventory;")
+
 # Delete all rows from the BOM Table
 cursor.execute("DELETE FROM bom;")
 

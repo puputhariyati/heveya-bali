@@ -26,38 +26,22 @@
                 <div class="productRow">
                     <!-- Product Name -->
                     <label>Product Name</label>
-                    <input type="text" name="product_name" placeholder="Enter product name" class="product-name">
+                    <input type="text" name="product_name" placeholder="Enter product name" class="product-name" required>
 
-                    <!-- Stock Information -->
-                    <div class="stock-group">
-<!--                        <label>Sold Qty</label>-->
-<!--                        <input type="number" name="sold_qty" placeholder="0" class="sold-qty">-->
+                    <label>Free Stock</label>
+                    <input type="number" name="free_qty" placeholder="0" class="free-qty" required>
 
-                        <label>Free Stock</label>
-                        <input type="number" name="free_qty" placeholder="0" class="free-qty">
+                    <label>Unit Buy Price</label>
+                    <input type="number" step="0.01" name="unit_buy_price" placeholder="Enter price" class="unit-buy-price" required>
 
-<!--                        <label>On Hand</label>-->
-<!--                        <input type="number" name="on_hand" placeholder="auto" class="on-hand" readonly>-->
+                    <label>Unit Sell Price</label>
+                    <input type="number" step="0.01" name="unit_sell_price" placeholder="Enter price" class="unit-sell-price" required>
 
-<!--                        <label>Upcoming Stock</label>-->
-<!--                        <input type="number" name="upcoming_qty" placeholder="0" class="upcoming-qty">-->
-                    </div>
-
-                    <!-- Pricing Section -->
-                    <div class="pricing-group">
-                        <label>Unit Buy Price</label>
-                        <input type="number" step="0.01" name="unit_buy_price" placeholder="Enter price" class="unit-buy-price">
-
-                        <label>Unit Sell Price</label>
-                        <input type="number" step="0.01" name="unit_sell_price" placeholder="Enter price" class="unit-sell-price">
-                    </div>
-
-                    <!-- Tags & Product Type -->
                     <label>Tags</label>
-                    <input type="text" name="tags" placeholder="E.g., Mattress, King" class="tags">
+                    <input type="text" name="tags" placeholder="E.g., Mattress, King" class="tags" required>
 
                     <label>Product Type</label>
-                    <select id="productType" onchange="toggleBOMSection(this)">
+                    <select id="productType" name="product_type" onchange="toggleBOMSection(this)">
                         <option value="single">Single Item</option>
                         <option value="bundle">Bundle</option>
                     </select>
@@ -68,10 +52,10 @@
                         <div class="bomContainer">
                             <div class="bom-entry">
                                 <div class="input-container">
-                                    <input type="text" placeholder="Select Product" oninput="suggestBomProducts(this)">
+                                    <input type="text" name="bom_product" placeholder="Select Product" oninput="suggestBomProducts(this)">
                                     <div class="suggestions"></div>
                                 </div>
-                                <input type="number" placeholder="Qty">
+                                <input type="number" name="bom_qty" placeholder="Qty">
                                 <button type="button" class="remove-btn" onclick="removeBOMEntry(this)">X</button>
                             </div>
                         </div>
@@ -86,6 +70,7 @@
                 </div>
             </div>
         </form>
+
 
         <h2>Search Product</h2>
         <div class="search-container">
@@ -103,8 +88,9 @@
                         <th>#</th>
                         <th>Product Name</th>
                         <th>On Hand</th>
-                        <th>Booked/Sold</th>
                         <th>Free</th>
+                        <th>Booked</th>
+                        <th>Delivered</th>
                         <th>Upcoming</th>
                         <th>Unit Sell Price</th>
                         <th>Unit Buy Price</th>

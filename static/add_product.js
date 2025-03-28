@@ -164,6 +164,7 @@ function saveBOM(button) {
 
 
 // Function to update the stock table based on the search filter
+// Function to update the stock table based on the search filter
 function filterTable() {
     let filter = document.getElementById("productName").value.trim().toLowerCase();
     const stockTableBody = document.getElementById("stockTableBody");
@@ -176,13 +177,14 @@ function filterTable() {
                 <td>${index + 1}</td>
                 <td>
                     ${item.hasBOM
-                        ? `<a href="#" class="bom-link" data-product="${encodeURIComponent(item.product_name)}"
+                        ? `<a href="#" class="bom-link" data-product-name="${encodeURIComponent(item.product_name)}"
                             style="color: blue; text-decoration: underline;">${item.product_name}</a>`
                         : item.product_name}
                 </td>
                 <td>${item.on_hand}</td>
-                <td>${item.sold_qty}</td>
                 <td>${item.free_qty}</td>
+                <td>${item.booked_qty}</td>
+                <td>${item.delivered_qty}</td>
                 <td>${item.upcoming_qty}</td>
                 <td>${item.unit_sell_price}</td>
                 <td>${item.unit_buy_price}</td>
@@ -191,7 +193,7 @@ function filterTable() {
                     <select onchange="handleAction(this, '${item.product_name}')">
                         <option value="">⬇️ Actions</option>
                         <option value="convert">Convert to Booked</option>
-                        <option value="sell">Sold</option>
+                        <option value="sell">Delivered</option>
                         <option value="edit">Edit/Adjust</option>
                         <option value="delete">Delete</option>
                     </select>
@@ -235,20 +237,20 @@ function handleAction(selectElement, productName) {
 // Function to calculate On-Hand Stock for a Composite Product
 document.addEventListener("DOMContentLoaded", function () {
     function updateOnHand(row) {
-        let soldQty = parseInt(row.querySelector(".sold-qty").textContent) || 0;
+        let bookedQty = parseInt(row.querySelector(".booked-qty").textContent) || 0;
         let freeQty = parseInt(row.querySelector(".free-qty").textContent) || 0;
-        row.querySelector(".on-hand").textContent = soldQty + freeQty;
+        row.querySelector(".on-hand").textContent = bookedQty + freeQty;
     }
 
     function attachEventListeners() {
         document.querySelectorAll("#stockTableBody tr").forEach((row) => {
             updateOnHand(row); // Ensure it calculates on load
 
-            let soldQtyCell = row.querySelector(".sold-qty");
+            let bookedQtyCell = row.querySelector(".booked-qty");
             let freeQtyCell = row.querySelector(".free-qty");
 
-            if (soldQtyCell && freeQtyCell) {
-                soldQtyCell.addEventListener("input", () => updateOnHand(row));
+            if (bookedQtyCell && freeQtyCell) {
+                bookedQtyCell.addEventListener("input", () => updateOnHand(row));
                 freeQtyCell.addEventListener("input", () => updateOnHand(row));
             }
         });
@@ -498,7 +500,9 @@ function editRow(row) {
 
     if (isEditing) {
         // ✅ Save Changes
-        for (let i = 2; i <= 8; i++) {
+        for (let i = 2; i <= 9; i++) {
+            if ([2, 4, 5].includes(i)) continue; // ❌ Skip "On Hand," "Booked," and "Delivered"
+
             let input = cells[i].querySelector("input");
             if (input) {
                 let key = cells[i].getAttribute("data-field");
@@ -509,7 +513,6 @@ function editRow(row) {
         }
 
         updatedData["product_name"] = product_name;
-
         updateStockData(row); // ✅ Handle database update & UI refresh
 
         row.setAttribute("data-editing", "false");
@@ -522,14 +525,16 @@ function editRow(row) {
         return;
     }
 
-    // ✅ Convert cells to input fields
-    for (let i = 2; i <= 8; i++) {
+    // ✅ Convert editable cells to input fields
+    for (let i = 2; i <= 9; i++) {
+        if ([2, 4, 5].includes(i)) continue; // ❌ Skip these columns
+
         let currentValue = cells[i].innerText;
         cells[i].innerHTML = `<input type="text" value="${currentValue}" style="width:100%">`;
     }
 
     // ✅ Add Save Button
-    let actionsCell = cells[9]; // Last column for actions
+    let actionsCell = cells[10]; // Last column for actions
     let saveButton = document.createElement("button");
     saveButton.innerText = "Save";
     saveButton.classList.add("save-btn");
@@ -544,6 +549,7 @@ function editRow(row) {
     row.style.backgroundColor = "#ffffcc";
 }
 
+
 function updateStockData(row) {
     let productName = row.cells[1].innerText.trim();
     let product = stockDataGlobal.find(item => item.product_name === productName);
@@ -553,19 +559,20 @@ function updateStockData(row) {
         return;
     }
 
-    let soldQty = parseInt(row.cells[3].innerText) || 0;
-    let freeStock = parseInt(row.cells[4].innerText) || 0;
-    let onHand = soldQty + freeStock;
+    let bookedQty = parseInt(row.cells[4].innerText) || 0;
+    let freeStock = parseInt(row.cells[3].innerText) || 0;
+    let onHand = bookedQty + freeStock;
 
     let updatedData = {
         product_name: productName,
         on_hand: onHand,
-        sold_qty: soldQty,
+        booked_qty: bookedQty,
         free_qty: freeStock,
-        upcoming_qty: parseInt(row.cells[5].innerText) || 0,
-        unit_sell_price: parseFloat(row.cells[6].innerText) || 0,
-        unit_buy_price: parseFloat(row.cells[7].innerText) || 0,
-        tags: row.cells[8].innerText.trim()
+        delivered_qty: parseInt(row.cells[5].innerText) || 0,
+        upcoming_qty: parseInt(row.cells[6].innerText) || 0,
+        unit_sell_price: parseFloat(row.cells[7].innerText) || 0,
+        unit_buy_price: parseFloat(row.cells[8].innerText) || 0,
+        tags: row.cells[9].innerText.trim()
     };
 
     Object.assign(product, updatedData);
@@ -597,14 +604,13 @@ function updateParentStock(parentData) {
     );
 
     if (parentRow) {
-        parentRow.cells[3].innerText = parentData.sold_qty; // Update sold stock
-        parentRow.cells[4].innerText = parentData.free_qty; // Update free stock
+        parentRow.cells[4].innerText = parentData.booked_qty; // Update sold stock
+        parentRow.cells[3].innerText = parentData.free_qty; // Update free stock
         parentRow.cells[2].innerText = parentData.on_hand; // Update on-hand total
     } else {
         console.warn(`Could not find parent row for ${parentData.product_name}`);
     }
 }
-
 
 function updateDatabase(updatedData) {
     console.log("Sending data to backend:", updatedData);
@@ -654,6 +660,8 @@ function updateDatabase(updatedData) {
     });
 }
 
+// Call this function on page load (to persist data after page refresh)
+window.onload = loadStockData;
 
 // Function to delete row
 function deleteRow(row) {
