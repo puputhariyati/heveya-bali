@@ -2,43 +2,24 @@ let stockDataGlobal = []; // Store fetched stock data globally
 
 async function fetchStockData() {
     try {
-        const response = await fetch("/api/get_stock");
+        const response = await fetch(`/api/get_stock?t=${Date.now()}`, { cache: "no-store" }); // Ensure fresh data
         if (!response.ok) throw new Error("Failed to fetch stock data.");
 
-        let stockData = await response.json();
+        let stockData = await response.json(); // Store fresh data temporarily
         console.log("Fetched Stock Data:", stockData); // Debugging log
 
-        if (!Array.isArray(stockData)) {
-            console.error("Stock data is not an array:", stockData);
-            return;
-        }
-
-        // Load previously deleted items from localStorage
-        let deletedProducts = JSON.parse(localStorage.getItem("deletedProducts")) || [];
-
-        // Remove deleted items from fetched stock data
-        stockData = stockData.filter(item => !deletedProducts.includes(item.product_name));
-
-        // Store updated stock data globally
-        stockDataGlobal = stockData;
-
-        // Fetch BOM status for each product
+        // 🔹 Fetch BOM status for each product
         await Promise.all(stockData.map(async (item) => {
             try {
                 const productName = encodeURIComponent(item.product_name.trim());
                 console.log(`Fetching BOM for: "${item.product_name}"`);
 
                 const bomResponse = await fetch(`/api/get_bom?product=${productName}`);
-                if (!bomResponse.ok) {
-                    console.error(`Error fetching BOM for ${item.product_name}:`, bomResponse.statusText);
-                    item.hasBOM = false;
-                    return;
-                }
+                if (!bomResponse.ok) throw new Error(`Error fetching BOM for ${item.product_name}: ${bomResponse.statusText}`);
 
                 const bomData = await bomResponse.json();
                 console.log(`BOM Data for ${item.product_name}:`, bomData);
 
-                // Assign BOM status correctly
                 item.hasBOM = !!(Array.isArray(bomData) && bomData.length);
             } catch (error) {
                 console.error(`Failed to fetch BOM for ${item.product_name}:`, error);
@@ -46,36 +27,16 @@ async function fetchStockData() {
             }
         }));
 
-        // ✅ Save filtered stock data to localStorage
-        localStorage.setItem("stockData", JSON.stringify(stockData));
-
-        filterTable(); // Apply filtering after fetching stock data
+        // ✅ Store updated stock data globally and refresh table
+        stockDataGlobal = stockData;
+        filterTable(stockDataGlobal);
     } catch (error) {
         console.error("Error fetching stock data:", error);
     }
 }
 
+document.addEventListener("DOMContentLoaded", fetchStockData); // Fetch data on page load
 
-document.addEventListener("DOMContentLoaded", function () {
-    const searchButton = document.getElementById("searchButton");
-    const productNameInput = document.getElementById("productName");
-
-    // Trigger search when the button is clicked
-    searchButton.addEventListener("click", filterTable);
-
-    // Trigger search when Enter is pressed in the input field
-    productNameInput.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-            event.preventDefault(); // Prevent form submission
-            filterTable();
-        }
-    });
-
-    // Trigger search when the input value changes (for autocomplete selections)
-    productNameInput.addEventListener("change", function () {
-        filterTable();
-    });
-});
 
 async function fetchBomData(productName) {
     try {
@@ -164,11 +125,15 @@ function saveBOM(button) {
 
 
 // Function to update the stock table based on the search filter
-// Function to update the stock table based on the search filter
 function filterTable() {
     let filter = document.getElementById("productName").value.trim().toLowerCase();
     const stockTableBody = document.getElementById("stockTableBody");
     stockTableBody.innerHTML = ""; // Clear previous content
+
+    if (!Array.isArray(stockDataGlobal) || stockDataGlobal.length === 0) {
+        console.warn("Stock data is empty or not an array.");
+        return;
+    }
 
     stockDataGlobal.reverse().forEach((item, index) => {
         if (!filter || item.product_name.toLowerCase().includes(filter)) {
@@ -282,8 +247,8 @@ document.addEventListener("click", function (event) {
     }
 });
 
-// ✅ Fetch stock data on window load
-window.onload = fetchStockData;
+//// ✅ Fetch stock data on window load
+//window.onload = fetchStockData;
 
 
 //to show BOM pop up
@@ -431,14 +396,15 @@ const freeMattresses = calculateFreeStock(bom, stockInventory);
 
 function convertToBooked(productName) {
     let qty = prompt(`Enter quantity to convert for ${productName}:`);
+
     if (!qty || isNaN(qty) || qty <= 0) {
-        alert("Invalid quantity!");
+        alert("Invalid quantity! Please enter a positive number.");
         return;
     }
 
     qty = parseInt(qty);
 
-    // Find the row
+    // Locate the row by product name
     let row = [...document.querySelectorAll("#stockTableBody tr")]
         .find(tr => tr.cells[1].textContent.trim() === productName);
 
@@ -449,8 +415,8 @@ function convertToBooked(productName) {
 
     // Get table cell references
     let onHandCell = row.cells[2];  // Adjust index based on your table
-    let bookedCell = row.cells[3];  // Adjust index based on your table
-    let freeCell = row.cells[4];    // Adjust index based on your table
+    let bookedCell = row.cells[4];  // Adjust index based on your table
+    let freeCell = row.cells[3];    // Adjust index based on your table
 
     // Convert text content to numbers
     let onHandQty = parseInt(onHandCell.textContent.trim()) || 0;
@@ -462,10 +428,9 @@ function convertToBooked(productName) {
         return;
     }
 
-    // Update values in the table
+    // ✅ Temporarily update UI (Optimistic UI update)
     freeCell.textContent = freeQty - qty;
     bookedCell.textContent = bookedQty + qty;
-    // ✅ Do NOT change onHandQty
 
     // Send update to backend
     fetch("/convert_to_booked", {
@@ -475,21 +440,23 @@ function convertToBooked(productName) {
     })
     .then(response => response.json())
     .then(data => {
+        console.log("Backend Response:", data);  // ✅ Debugging
         if (!data.success) {
             alert("Error: " + data.error);
-            // Revert UI changes if backend fails
-            freeCell.textContent = freeQty;
-            bookedCell.textContent = bookedQty;
+            return;
+        } else {
+            alert(`Updated Free Stock: ${data.new_free_qty}, Booked Stock: ${data.new_booked_qty}`);
+            freeCell.textContent = data.new_free_qty;  // ✅ Update with backend values
+            bookedCell.textContent = data.new_booked_qty;
+
+            fetchStockData();  // ✅ Ensure latest stock is fetched after conversion
         }
     })
     .catch(error => {
-        console.error("Error:", error);
-        // Revert UI changes on error
-        freeCell.textContent = freeQty;
-        bookedCell.textContent = bookedQty;
+        console.error("Fetch error:", error);
+        alert("Failed to update stock. Please try again.");
     });
 }
-
 
 
 function editRow(row) {
@@ -559,9 +526,9 @@ function updateStockData(row) {
         return;
     }
 
-    let bookedQty = parseInt(row.cells[4].innerText) || 0;
-    let freeStock = parseInt(row.cells[3].innerText) || 0;
-    let onHand = bookedQty + freeStock;
+//    let bookedQty = parseInt(row.cells[4].innerText) || 0;
+//    let freeStock = parseInt(row.cells[3].innerText) || 0;
+//    let onHand = bookedQty + freeStock;
 
     let updatedData = {
         product_name: productName,
@@ -576,26 +543,27 @@ function updateStockData(row) {
     };
 
     Object.assign(product, updatedData);
-    localStorage.setItem("stockData", JSON.stringify(stockDataGlobal));
+//    localStorage.setItem("stockData", JSON.stringify(stockDataGlobal));
 
     // ✅ Send update request to backend
     updateDatabase(updatedData).then(response => {
         if (response.success) {
-            row.cells[2].innerText = onHand; // ✅ Update "On Hand" in UI
+            console.log("✅ Database update confirmed.");
 
-            // ✅ Dynamically update parent stock
-            if (response.updated_parents) {
-                response.updated_parents.forEach(parent => {
-                    updateParentStock(parent);
-                });
+            if (response.updated_parents && response.updated_parents.length > 0) {
+                fetchStockData(); // ✅ Refresh everything if parent stocks were affected
+            } else {
+                // ✅ Update only the changed product manually for speed
+                let product = stockDataGlobal.find(p => p.product_name === updatedData.product_name);
+                if (product) {
+                    product.free_qty = response.updatedData.free_qty;
+                    product.booked_qty = response.updatedData.booked_qty;
+                }
+                updateStockTable(stockDataGlobal); // Refresh only affected row
             }
-
-            // ✅ Recalculate Free Stock
-            calculateFreeStock();
-        } else {
-            console.error("Database update failed:", response.error);
         }
     });
+
 }
 
 function updateParentStock(parentData) {
@@ -613,7 +581,11 @@ function updateParentStock(parentData) {
 }
 
 function updateDatabase(updatedData) {
-    console.log("Sending data to backend:", updatedData);
+    if (response.success) {
+        console.log("✅ Successfully updated in the database:", response);
+    } else {
+        console.error("❌ Database update failed:", response.error);
+    }
 
     if (!updatedData.product_name || updatedData.product_name.trim() === "") {
         console.error("Error: Missing product_name in update request.");
@@ -637,9 +609,14 @@ function updateDatabase(updatedData) {
         // ✅ Update free stock for edited product
         const productElement = document.querySelector(`[data-product-name="${updatedData.product_name}"]`);
         if (productElement) {
-            const productStock = productElement.querySelector(".free-stock");
-            if (productStock) {
-                productStock.textContent = data.free_qty;
+            const freeStockElement = productElement.querySelector(".free-stock");
+            const bookedStockElement = productElement.querySelector(".booked-stock");
+
+            if (freeStockElement && bookedStockElement) {
+                freeStockElement.textContent = data.free_qty;   // ✅ Correct Free Stock
+                bookedStockElement.textContent = data.booked_qty; // ✅ Correct Booked Stock
+            } else {
+                console.warn(`Could not find stock elements for ${updatedData.product_name}`);
             }
         } else {
             console.warn(`Could not find element for ${updatedData.product_name}`);
@@ -652,6 +629,9 @@ function updateDatabase(updatedData) {
             });
         }
 
+        // ✅ Refresh entire stock list after database update
+        fetchStockData();
+
         return { success: true, updated_parents: data.updated_parents };
     })
     .catch(error => {
@@ -660,8 +640,8 @@ function updateDatabase(updatedData) {
     });
 }
 
-// Call this function on page load (to persist data after page refresh)
-window.onload = loadStockData;
+//// Call this function on page load (to persist data after page refresh)
+//window.onload = fetchStockData;
 
 // Function to delete row
 function deleteRow(row) {

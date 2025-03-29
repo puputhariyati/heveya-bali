@@ -105,8 +105,8 @@ def get_stock():
     stock = []
     for row in stock_data:
         product_name = row["product_name"]
-        free_qty = row["free_qty"]  # Default from DB
-        on_hand = row["on_hand"]  # Default from DB
+        # free_qty = row["free_qty"]  # Default from DB
+        # on_hand = row["on_hand"]  # Default from DB
         booked_qty = row["booked_qty"]  # Default from DB
         delivered_qty = row["delivered_qty"]  # Default from DB
 
@@ -389,6 +389,8 @@ def convert_to_booked():
         product_name = data.get("product_name")
         qty_to_convert = int(data.get("qty", 0))
 
+        print(f"🔹 Received request: {product_name}, Qty: {qty_to_convert}")  # Debug
+
         if qty_to_convert <= 0:
             return jsonify({"success": False, "error": "Invalid quantity"}), 400
 
@@ -402,6 +404,7 @@ def convert_to_booked():
             return jsonify({"success": False, "error": "Product not found"}), 404
 
         free_qty, booked_qty = row
+        print(f"🔹 Before update - Free: {free_qty}, Booked: {booked_qty}")  # Debug
 
         # ✅ Allow converting all available free stock
         if qty_to_convert > free_qty:
@@ -410,6 +413,8 @@ def convert_to_booked():
         # ✅ Update correct fields
         new_free_qty = free_qty - qty_to_convert  # Reduce free stock
         new_booked_qty = booked_qty + qty_to_convert  # Increase booked stock
+
+        print(f"🔹 After update - Free: {new_free_qty}, Booked: {new_booked_qty}")  # Debug
 
         cursor.execute("""
             UPDATE inventory
@@ -427,6 +432,7 @@ def convert_to_booked():
         })
 
     except Exception as e:
+        print(f"❌ Error: {e}")  # Debug
         return jsonify({"success": False, "error": str(e)}), 500
 
 
