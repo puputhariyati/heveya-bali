@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", fetchStockData); // Fetch data on 
 
 async function fetchBomData(productName) {
     try {
-        const response = await fetch(`/api/get_bom?product=${encodeURIComponent(productName)}`);
+        const response = await fetch(`/api/get_bom?product_name=${encodeURIComponent(productName)}`);
         if (!response.ok) {
             throw new Error("Failed to fetch BOM data.");
         }

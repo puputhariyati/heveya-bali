@@ -34,7 +34,8 @@ def init_db():
             upcoming_qty INTEGER NOT NULL DEFAULT 0,
             unit_sell_price REAL NOT NULL DEFAULT 0,
             unit_buy_price REAL NOT NULL DEFAULT 0,
-            tags TEXT
+            tags TEXT,
+            product_type TEXT NOT NULL DEFAULT 'single'
         )
     ''')
 
@@ -43,7 +44,7 @@ def init_db():
         CREATE TABLE IF NOT EXISTS bom (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             product_name TEXT NOT NULL,
-            material_name TEXT NOT NULL,
+            component_name TEXT NOT NULL,
             quantity_required INTEGER NOT NULL
         )
     ''')
@@ -88,18 +89,18 @@ def get_stock():
     stock_data = cursor.fetchall()
 
     # Fetch BOM components and their required quantity
-    cursor.execute("SELECT product, component, quantity FROM bom")
+    cursor.execute("SELECT product_name, component_name, quantity_required FROM bom")
     bom_data = cursor.fetchall()
 
     # Convert BOM to a dictionary: {product_name: [(component_name, required_qty), ...]}
     bom_dict = {}
-    for product, component, quantity in bom_data:
-        if product not in bom_dict:
-            bom_dict[product] = []
-        bom_dict[product].append((component, quantity))
+    for product_name, component_name, quantity_required in bom_data:
+        if product_name not in bom_dict:
+            bom_dict[product_name] = []
+        bom_dict[product_name].append((component_name, quantity_required))
 
     # Convert inventory to dictionary for quick lookup
-    inventory_dict = {row["product_name"]: dict(row) for row in stock_data}
+    inventory_dict = {row["product_name"]: {k: row[k] for k in row.keys()} for row in stock_data}
 
     # Process stock with BOM dependencies
     stock = []
@@ -113,10 +114,10 @@ def get_stock():
         # If the product has a BOM, calculate its free_qty dynamically
         if product_name in bom_dict:
             min_possible = float('inf')  # Start with a large number
-            for component, required_qty in bom_dict[product_name]:
-                component_stock = inventory_dict.get(component, {}).get("free_qty", 0)
-                if required_qty > 0:
-                    min_possible = min(min_possible, component_stock // required_qty)
+            for component_name, quantity_required in bom_dict[product_name]:
+                component_stock = inventory_dict.get(component_name, {}).get("free_qty", 0)
+                if quantity_required > 0 and component_stock > 0:
+                    min_possible = min(min_possible, component_stock // quantity_required)
 
             free_qty = min_possible if min_possible != float('inf') else 0  # Ensure valid value
         else:
@@ -132,12 +133,13 @@ def get_stock():
             "product_name": product_name,
             "on_hand": on_hand,  # Updated dynamically
             "free_qty": free_qty,  # Updated dynamically
-            "booked_qty": booked_qty,
+            "booked_qty": booked_qty, # Updated dynamically
             "delivered_qty": delivered_qty,
             "upcoming_qty": row["upcoming_qty"],
             "unit_sell_price": row["unit_sell_price"],
             "unit_buy_price": row["unit_buy_price"],
-            "tags": row["tags"]
+            "tags": row["tags"],
+            "product_type": row["product_type"]
         })
 
     conn.close()
@@ -190,21 +192,22 @@ def inventory_page():
                 return redirect('/inventory')
 
             # Convert values to appropriate types
-            free = int(free_qty[i]) if free_qty[i] else 0
-            booked = int(booked_qty[i]) if booked_qty[i] else 0
-            delivered = int(delivered_qty[i]) if delivered_qty[i] else 0
-            upcoming = int(upcoming_qty[i]) if upcoming_qty[i] else 0
-            sell_price = float(unit_sell_price[i]) if unit_sell_price[i] else 0.0
-            buy_price = float(unit_buy_price[i]) if unit_buy_price[i] else 0.0
+            free_qty = int(free_qty[i]) if free_qty[i] else 0
+            booked_qty = int(booked_qty[i]) if booked_qty[i] else 0
+            delivered_qty = int(delivered_qty[i]) if delivered_qty[i] else 0
+            upcoming_qty = int(upcoming_qty[i]) if upcoming_qty[i] else 0
+            unit_sell_price = float(unit_sell_price[i]) if unit_sell_price[i] else 0.0
+            unit_buy_price = float(unit_buy_price[i]) if unit_buy_price[i] else 0.0
 
             # Auto-calculate on_hand
-            on_hand = booked + free
+            on_hand = free_qty + booked_qty
 
             cursor.execute(
                 "INSERT INTO inventory (product_name, on_hand, free_qty, booked_qty, delivered_qty, upcoming_qty, "
-                "unit_sell_price, unit_buy_price, tags) "
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                (product_name[i], on_hand, free, booked, delivered, upcoming, sell_price, buy_price, tags[i])
+                "unit_sell_price, unit_buy_price, tags, product_type) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (product_name[i], on_hand, free_qty, booked_qty, delivered_qty, upcoming_qty, unit_sell_price,
+                 unit_buy_price, tags[i], product_type[i])
             )
 
         conn.commit()
@@ -218,13 +221,15 @@ def inventory_page():
 # Route to add a new product's BOM
 @app.route('/save_bom', methods=['POST'])
 def save_bom():
+    if not request.is_json:
+        return jsonify({"error": "Invalid JSON format"}), 400
     data = request.json
     conn = get_db_connection()
     cursor = conn.cursor()
 
     for entry in data:
-        cursor.execute("INSERT INTO bom (product, component, quantity) VALUES (?, ?, ?)",
-                       (entry['product'], entry['component'], entry['quantity']))
+        cursor.execute("INSERT INTO bom (product_name, component_name, quantity_required) VALUES (?, ?, ?)",
+                       (entry['product_name'], entry['component_name'], entry['quantity_required']))
 
     conn.commit()
     conn.close()
@@ -235,15 +240,17 @@ def save_bom():
 # API to get BOM data for a specific product
 @app.route('/api/get_bom', methods=['GET'])
 def get_bom():
-    product_name = request.args.get('product')
+    product_name = request.args.get('product_name')
 
     if not product_name:
         return jsonify({"error": "Product name is required"}), 400
 
     try:
         conn = get_db_connection()
+        conn.row_factory = sqlite3.Row  # Allow dict-like access
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM bom WHERE product = ?", (product_name,))
+
+        cursor.execute("SELECT * FROM bom WHERE product_name = ?", (product_name,))
         bom_data = cursor.fetchall()
         conn.close()
 
@@ -259,14 +266,14 @@ def delete_product():
         data = request.json
         product_name = data.get("product_name")
 
-        if not product_name:
-            return jsonify({"success": False, "error": "Missing product name"}), 400
+        if not isinstance(product_name, str) or not product_name.strip():
+            return jsonify({"success": False, "error": "Invalid product name"}), 400
 
-        conn = sqlite3.connect("stock.db")
+        conn = get_db_connection()
         cursor = conn.cursor()
 
         # Delete from BOM table first (if applicable)
-        cursor.execute("DELETE FROM bom WHERE product = ?", (product_name,))
+        cursor.execute("DELETE FROM bom WHERE product_name = ?", (product_name,))
 
         # Delete from inventory table
         cursor.execute("DELETE FROM inventory WHERE product_name = ?", (product_name,))
@@ -349,10 +356,10 @@ def recalculate_free_stock(cursor, product_name, on_hand, booked_qty):
             component_names)
         component_stocks = dict(cursor.fetchall())  # Convert to dict {component_name: free_qty}
 
-        for component, required_qty in bom_components:
-            component_free_qty = component_stocks.get(component, 0)
-            if required_qty > 0:
-                min_possible = min(min_possible, component_free_qty // required_qty)
+        for component_name, quantity_required in bom_components:
+            component_free_qty = component_stocks.get(component_name, 0)
+            if quantity_required > 0:
+                min_possible = min(min_possible, component_free_qty // quantity_required)
 
         return min_possible if min_possible != float('inf') else 0
     else:
@@ -361,7 +368,7 @@ def recalculate_free_stock(cursor, product_name, on_hand, booked_qty):
 
 def update_parent_products(cursor, component_name):
     """Update all parent products that use the given component."""
-    cursor.execute("SELECT product FROM bom WHERE component = ?", (component_name,))
+    cursor.execute("SELECT product_name FROM bom WHERE component = ?", (component_name,))
     parent_products = [row[0] for row in cursor.fetchall()]
 
     if not parent_products:
