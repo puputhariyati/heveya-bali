@@ -1,5 +1,6 @@
 import os
 import sqlite3
+import traceback
 from flask import Flask, request, jsonify, render_template, redirect, flash
 from dotenv import load_dotenv
 
@@ -15,6 +16,12 @@ def get_db_connection():
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row  # Enables accessing rows as dictionaries
     return conn
+
+
+def column_exists(cursor, table_name, column_name):
+    cursor.execute(f"PRAGMA table_info({table_name})")
+    columns = [row[1] for row in cursor.fetchall()]
+    return column_name in columns
 
 
 # Ensure the database and table are created
@@ -39,6 +46,10 @@ def init_db():
         )
     ''')
 
+    # 🔄 Add 'product_type' only if it doesn't exist
+    if not column_exists(cursor, "inventory", "product_type"):
+        cursor.execute("ALTER TABLE inventory ADD COLUMN product_type TEXT")
+
     # Create BOM table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS bom (
@@ -48,6 +59,25 @@ def init_db():
             quantity_required INTEGER NOT NULL
         )
     ''')
+
+    # 🔄 Rename old column names if table already exists with legacy names
+    # Check current column names
+    cursor.execute("PRAGMA table_info(bom)")
+    columns = [col[1] for col in cursor.fetchall()]
+
+    rename_map = {
+        "product": "product_name",
+        "component": "component_name",
+        "quantity": "quantity_required"
+    }
+
+    for old_col, new_col in rename_map.items():
+        if old_col in columns and new_col not in columns:
+            try:
+                cursor.execute(f"ALTER TABLE bom RENAME COLUMN {old_col} TO {new_col}")
+                print(f"Renamed column {old_col} to {new_col}")
+            except sqlite3.OperationalError as e:
+                print(f"Error renaming {old_col}: {e}")
 
     conn.commit()
     conn.close()
@@ -81,75 +111,81 @@ def get_product_suggestions():
 
 @app.route("/api/get_stock", methods=["GET"])
 def get_stock():
-    conn = get_db_connection()
-    cursor = conn.cursor()
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
 
-    # Fetch inventory data
-    cursor.execute("SELECT * FROM inventory")
-    stock_data = cursor.fetchall()
+        # Fetch inventory data
+        cursor.execute("SELECT * FROM inventory")
+        stock_data = cursor.fetchall()
 
-    # Fetch BOM components and their required quantity
-    cursor.execute("SELECT product_name, component_name, quantity_required FROM bom")
-    bom_data = cursor.fetchall()
+        # Fetch BOM components and their required quantity
+        cursor.execute("SELECT product_name, component_name, quantity_required FROM bom")
+        bom_data = cursor.fetchall()
 
-    # Convert BOM to a dictionary: {product_name: [(component_name, required_qty), ...]}
-    bom_dict = {}
-    for product_name, component_name, quantity_required in bom_data:
-        if product_name not in bom_dict:
-            bom_dict[product_name] = []
-        bom_dict[product_name].append((component_name, quantity_required))
+        # Convert BOM to a dictionary: {product_name: [(component_name, required_qty), ...]}
+        bom_dict = {}
+        for product_name, component_name, quantity_required in bom_data:
+            if product_name not in bom_dict:
+                bom_dict[product_name] = []
+            bom_dict[product_name].append((component_name, quantity_required))
 
-    # Convert inventory to dictionary for quick lookup
-    inventory_dict = {row["product_name"]: {k: row[k] for k in row.keys()} for row in stock_data}
+        # Convert inventory to dictionary for quick lookup
+        inventory_dict = {row["product_name"]: {k: row[k] for k in row.keys()} for row in stock_data}
 
-    # Process stock with BOM dependencies
-    stock = []
-    for row in stock_data:
-        product_name = row["product_name"]
-        # free_qty = row["free_qty"]  # Default from DB
-        # on_hand = row["on_hand"]  # Default from DB
-        booked_qty = row["booked_qty"]  # Default from DB
-        delivered_qty = row["delivered_qty"]  # Default from DB
+        # Process stock with BOM dependencies
+        stock = []
+        for row in stock_data:
+            product_name = row["product_name"]
+            # free_qty = row["free_qty"]  # Default from DB
+            # on_hand = row["on_hand"]  # Default from DB
+            booked_qty = row["booked_qty"]  # Default from DB
+            delivered_qty = row["delivered_qty"]  # Default from DB
 
-        # If the product has a BOM, calculate its free_qty dynamically
-        if product_name in bom_dict:
-            min_possible = float('inf')  # Start with a large number
-            for component_name, quantity_required in bom_dict[product_name]:
-                component_stock = inventory_dict.get(component_name, {}).get("free_qty", 0)
-                if quantity_required > 0 and component_stock > 0:
-                    min_possible = min(min_possible, component_stock // quantity_required)
+            # If the product has a BOM, calculate its free_qty dynamically
+            if product_name in bom_dict:
+                min_possible = float('inf')  # Start with a large number
+                for component_name, quantity_required in bom_dict[product_name]:
+                    component_stock = inventory_dict.get(component_name, {}).get("free_qty", 0)
+                    if quantity_required > 0 and component_stock > 0:
+                        min_possible = min(min_possible, component_stock // quantity_required)
 
-            free_qty = min_possible if min_possible != float('inf') else 0  # Ensure valid value
-        else:
-            free_qty = row["free_qty"]  # Keep the original DB value for non-BOM items
+                free_qty = min_possible if min_possible != float('inf') else 0  # Ensure valid value
+            else:
+                free_qty = row["free_qty"]  # Keep the original DB value for non-BOM items
 
-        # Ensure on_hand is properly recalculated
-        on_hand = row["on_hand"]  # Default from DB
-        if product_name in bom_dict:
-            on_hand = free_qty + booked_qty  # On-hand should be the calculated free stock
+            # Ensure on_hand is properly recalculated
+            on_hand = row["on_hand"]  # Default from DB
+            if product_name in bom_dict:
+                on_hand = free_qty + booked_qty  # On-hand should be the calculated free stock
 
-        stock.append({
-            "id": row["id"],
-            "product_name": product_name,
-            "on_hand": on_hand,  # Updated dynamically
-            "free_qty": free_qty,  # Updated dynamically
-            "booked_qty": booked_qty, # Updated dynamically
-            "delivered_qty": delivered_qty,
-            "upcoming_qty": row["upcoming_qty"],
-            "unit_sell_price": row["unit_sell_price"],
-            "unit_buy_price": row["unit_buy_price"],
-            "tags": row["tags"],
-            "product_type": row["product_type"]
-        })
+            stock.append({
+                "id": row["id"],
+                "product_name": product_name,
+                "on_hand": on_hand,  # Updated dynamically
+                "free_qty": free_qty,  # Updated dynamically
+                "booked_qty": booked_qty, # Updated dynamically
+                "delivered_qty": delivered_qty,
+                "upcoming_qty": row["upcoming_qty"],
+                "unit_sell_price": row["unit_sell_price"],
+                "unit_buy_price": row["unit_buy_price"],
+                "tags": row["tags"],
+                "product_type": row["product_type"]
+            })
 
-    conn.close()
+        conn.close()
 
-    # Add cache-busting headers
-    response = jsonify(stock)
-    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
-    response.headers["Pragma"] = "no-cache"
+        # Add cache-busting headers
+        response = jsonify(stock)
+        response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+        response.headers["Pragma"] = "no-cache"
 
-    return response
+        return response
+
+    except Exception as e:
+        print("❌ ERROR in /api/get_stock:")
+        traceback.print_exc()  # 🔥 this shows detailed error info
+        return jsonify({"error": str(e)}), 500
 
 
 @app.route('/inventory', methods=['GET', 'POST'])
@@ -428,6 +464,35 @@ def convert_to_booked():
             SET free_qty = ?, booked_qty = ?
             WHERE product_name = ?
         """, (new_free_qty, new_booked_qty, product_name))
+
+        # 🔄 Check if this is a bundle product
+        cursor.execute("SELECT product_type FROM inventory WHERE product_name = ?", (product_name,))
+        product_type = cursor.fetchone()
+        if product_type and product_type[0] == 'bundle':
+            # Get components from BOM
+            cursor.execute("SELECT component_name, quantity_required FROM bom WHERE product_name = ?", (product_name,))
+            components = cursor.fetchall()
+
+            for component_name, quantity_required in components:
+                total_required = qty_to_convert * quantity_required
+
+                # Fetch component stock
+                cursor.execute("SELECT free_qty, booked_qty FROM inventory WHERE product_name = ?", (component_name,))
+                comp_row = cursor.fetchone()
+                if comp_row:
+                    comp_free, comp_booked = comp_row
+                    new_comp_free = max(comp_free - total_required, 0)
+                    new_comp_booked = comp_booked + total_required
+
+                    # Update component stock
+                    cursor.execute("""
+                        UPDATE inventory
+                        SET free_qty = ?, booked_qty = ?
+                        WHERE product_name = ?
+                    """, (new_comp_free, new_comp_booked, component_name))
+
+                    # Update affected parents of this component
+                    update_parent_products(cursor, component_name)
 
         conn.commit()
         conn.close()

@@ -305,14 +305,17 @@ function suggestBomProducts(inputField) {
 
 
 // Prevent form submission if the product is not valid
-document.getElementById("bomForm").addEventListener("submit", function (event) {
-    let productInput = document.getElementById("productName");
+const bomForm = document.getElementById("bomForm");
+if (bomForm) {
+    bomForm.addEventListener("submit", function (event) {
+        let productInput = document.getElementById("productName");
+        if (productInput.getAttribute("data-valid") !== "true") {
+            alert("Product not found in stock! Please select a valid product.");
+            event.preventDefault(); // Stop form submission
+        }
+    });
+}
 
-    if (productInput.getAttribute("data-valid") !== "true") {
-        alert("Product not found in stock! Please select a valid product.");
-        event.preventDefault(); // Stop form submission
-    }
-});
 
 // Fetch product suggestions dynamically for searchbar
 function suggestSearchProducts() {
@@ -388,9 +391,6 @@ function calculateFreeStock(bom, inventory) {
 
     return minStock;
 }
-
-// Calculate Free Stock for Heveya Mattress
-const freeMattresses = calculateFreeStock(bom, stockInventory);
 
 
 
