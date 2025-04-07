@@ -14,7 +14,7 @@ async function fetchStockData() {
                 const productName = encodeURIComponent(item.product_name.trim());
                 console.log(`Fetching BOM for: "${item.product_name}"`);
 
-                const bomResponse = await fetch(`/api/get_bom?product=${productName}`);
+                const bomResponse = await fetch(`/api/get_bom?product_name=${productName}`);
                 if (!bomResponse.ok) throw new Error(`Error fetching BOM for ${item.product_name}: ${bomResponse.statusText}`);
 
                 const bomData = await bomResponse.json();
@@ -46,6 +46,7 @@ async function fetchBomData(productName) {
         }
 
         const bomData = await response.json();
+        console.log("🔍 BOM Data Received:", bomData); // 👈 Check what's really returned
         openBomModal(productName, bomData); // Ensure this function is defined
     } catch (error) {
         console.error("Error fetching BOM data:", error);
@@ -253,11 +254,17 @@ document.addEventListener("click", function (event) {
 
 //to show BOM pop up
 function openBomModal(productName, bomData) {
+    console.log("🧪 BOM Modal Triggered For:", productName);
+    console.log("🧪 BOM Items:", bomData);
+
     const modal = document.getElementById("bomModal");
     const modalContent = document.getElementById("bomModalContent");
 
     modalContent.innerHTML = `<h3>BOM for ${productName}</h3><ul>` +
-        bomData.map(item => `<li>${item.component} - ${item.quantity}</li>`).join("") +
+        bomData.map(item => {
+            console.log("↪️ item keys:", Object.keys(item));  // Check keys inside each item
+            return `<li>${item.component_name} - ${item.quantity_required}</li>`;
+        }).join("") +
         `</ul>`;
 
     modal.style.display = "block";
