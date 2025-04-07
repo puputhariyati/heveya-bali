@@ -101,15 +101,15 @@ function saveBOM(button) {
     const row = button.closest(".productRow");
     if (!row) return;
 
-    const product = row.querySelector(".product-name").value;
+    const product_name = row.querySelector(".product-name").value;
     const bomEntries = row.querySelectorAll(".bom-entry");
     const bomData = [];
 
     bomEntries.forEach(entry => {
-        const component = entry.querySelector("input[type='text']").value;
-        const quantity = entry.querySelector("input[type='number']").value;
-        if (component && quantity) {
-            bomData.push({ product, component, quantity });
+        const component_name = entry.querySelector("input[type='text']").value;
+        const quantity_required = entry.querySelector("input[type='number']").value;
+        if (component_name && quantity_required) {
+            bomData.push({ product_name, component_name, quantity_required });
         }
     });
 
@@ -402,14 +402,6 @@ function calculateFreeStock(bom, inventory) {
 
 
 function convertToBooked(productName) {
-    let qty = prompt(`Enter quantity to convert for ${productName}:`);
-
-    if (!qty || isNaN(qty) || qty <= 0) {
-        alert("Invalid quantity! Please enter a positive number.");
-        return;
-    }
-
-    qty = parseInt(qty);
 
     // Locate the row by product name
     let row = [...document.querySelectorAll("#stockTableBody tr")]
@@ -429,6 +421,16 @@ function convertToBooked(productName) {
     let onHandQty = parseInt(onHandCell.textContent.trim()) || 0;
     let bookedQty = parseInt(bookedCell.textContent.trim()) || 0;
     let freeQty = parseInt(freeCell.textContent.trim()) || 0;
+
+    // ✅ Move prompt AFTER freeQty is defined
+    let qty = prompt(`Enter quantity to convert for ${productName} (max: ${freeQty}):`, freeQty);
+
+    if (!qty || isNaN(qty) || qty <= 0) {
+        alert("Invalid quantity! Please enter a positive number.");
+        return;
+    }
+
+    qty = parseInt(qty);
 
     if (qty > freeQty) {
         alert("Not enough stock available to convert!");
@@ -451,13 +453,26 @@ function convertToBooked(productName) {
         if (!data.success) {
             alert("Error: " + data.error);
             return;
-        } else {
-            alert(`Updated Free Stock: ${data.new_free_qty}, Booked Stock: ${data.new_booked_qty}`);
-            freeCell.textContent = data.new_free_qty;  // ✅ Update with backend values
-            bookedCell.textContent = data.new_booked_qty;
-
-            fetchStockData();  // ✅ Ensure latest stock is fetched after conversion
         }
+
+        // ✅ Update current product
+        if (data.updated_product) {
+            freeCell.textContent = data.updated_product.free_qty;
+            bookedCell.textContent = data.updated_product.booked_qty;
+        }
+
+        // ✅ Update affected parent or component rows
+        if (Array.isArray(data.updated_others)) {
+            data.updated_others.forEach(item => {
+                const otherRow = [...document.querySelectorAll("#stockTableBody tr")]
+                    .find(tr => tr.cells[1].textContent.trim() === item.product_name);
+                if (otherRow) {
+                    otherRow.cells[3].textContent = item.free_qty;
+                    otherRow.cells[4].textContent = item.booked_qty;
+                }
+            });
+        }
+        alert(`✅ Updated Free: ${data.updated_product?.free_qty}, Booked: ${data.updated_product?.booked_qty}`);
     })
     .catch(error => {
         console.error("Fetch error:", error);
