@@ -147,17 +147,25 @@ def get_stock():
                 min_possible = float('inf')  # Start with a large number
                 for component_name, quantity_required in bom_dict[product_name]:
                     component_stock = inventory_dict.get(component_name, {}).get("free_qty", 0)
-                    if quantity_required > 0 and component_stock > 0:
-                        min_possible = min(min_possible, component_stock // quantity_required)
 
-                free_qty = min_possible if min_possible != float('inf') else 0  # Ensure valid value
+                    # ❗ Important: If component is missing or has 0 stock, bundle is unavailable
+                    if quantity_required <= 0 or component_stock <= 0:
+                        min_possible = 0
+                        break
+
+                    max_producible = component_stock // quantity_required
+                    min_possible = min(min_possible, max_producible)
+
+                free_qty = int(min_possible)
+                on_hand = free_qty + booked_qty  # Consistent with updated logic
             else:
-                free_qty = row["free_qty"]  # Keep the original DB value for non-BOM items
+                free_qty = row["free_qty"]
+                on_hand = row["on_hand"]
 
-            # Ensure on_hand is properly recalculated
-            on_hand = row["on_hand"]  # Default from DB
-            if product_name in bom_dict:
-                on_hand = free_qty + booked_qty  # On-hand should be the calculated free stock
+            # # Ensure on_hand is properly recalculated
+            # on_hand = row["on_hand"]  # Default from DB
+            # if product_name in bom_dict:
+            #     on_hand = free_qty + booked_qty  # On-hand should be the calculated free stock
 
             stock.append({
                 "id": row["id"],
@@ -379,7 +387,7 @@ def update_product():
 
 def recalculate_free_stock(cursor, product_name, on_hand, booked_qty):
     """Recalculate free stock based on BOM components."""
-    cursor.execute("SELECT component, quantity FROM bom WHERE product = ?", (product_name,))
+    cursor.execute("SELECT component_name, quantity_required FROM bom WHERE product_name = ?", (product_name,))
     bom_components = cursor.fetchall()
 
     if bom_components:
@@ -404,7 +412,7 @@ def recalculate_free_stock(cursor, product_name, on_hand, booked_qty):
 
 def update_parent_products(cursor, component_name):
     """Update all parent products that use the given component."""
-    cursor.execute("SELECT product_name FROM bom WHERE component = ?", (component_name,))
+    cursor.execute("SELECT product_name FROM bom WHERE component_name = ?", (component_name,))
     parent_products = [row[0] for row in cursor.fetchall()]
 
     if not parent_products:

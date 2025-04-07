@@ -533,9 +533,9 @@ function updateStockData(row) {
         return;
     }
 
-//    let bookedQty = parseInt(row.cells[4].innerText) || 0;
-//    let freeStock = parseInt(row.cells[3].innerText) || 0;
-//    let onHand = bookedQty + freeStock;
+    let bookedQty = parseInt(row.cells[4].innerText) || 0;
+    let freeStock = parseInt(row.cells[3].innerText) || 0;
+    let onHand = bookedQty + freeStock;
 
     let updatedData = {
         product_name: productName,
@@ -588,11 +588,11 @@ function updateParentStock(parentData) {
 }
 
 function updateDatabase(updatedData) {
-    if (response.success) {
-        console.log("✅ Successfully updated in the database:", response);
-    } else {
-        console.error("❌ Database update failed:", response.error);
-    }
+//    if (response.success) {
+//        console.log("✅ Successfully updated in the database:", response);
+//    } else {
+//        console.error("❌ Database update failed:", response.error);
+//    }
 
     if (!updatedData.product_name || updatedData.product_name.trim() === "") {
         console.error("Error: Missing product_name in update request.");
