@@ -204,10 +204,29 @@ th {
     color: white;
 }
 
-
-
-
-
-
+/* Make comments / Noted in the cell */
+.note-cell {
+  position: relative;
+}
+.note-icon {
+  cursor: pointer;
+  font-size: 10px;
+  margin-left: 5px;
+  color: #666;
+  top: 2px;
+  right: 2px;
+  position: absolute;
+}
+.note-popup {
+  position: absolute;
+  z-index: 9999;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 6px;
+  font-size: 14px;
+  border-radius: 4px;
+  width: 200px;
+  display: none;
+}
 
 

@@ -75,10 +75,12 @@
         <h2>Search Product</h2>
         <div class="search-container">
             <input type="text" id="productName" class="searchbar" placeholder="Select Product" oninput="suggestSearchProducts()">
-            <button id="searchButton" class="check-stock-btn">Search</button>
+            <button id="searchButton" class="check-stock-btn">Search</button><br>
         </div>
         <div id="suggestions"></div>
 
+        <h3>Search From Notes</h3>
+        <input type="text" id="noteSearchInput" placeholder="Search notes..." oninput="filterRowsByNote(this.value)">
 
         <div id="stockList">
             <h3>Stock Inventory:</h3>

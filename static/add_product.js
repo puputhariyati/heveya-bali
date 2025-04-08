@@ -146,16 +146,19 @@ function filterTable() {
                         ? `<a href="#" class="bom-link" data-product="${encodeURIComponent(item.product_name)}"
                             style="color: blue; text-decoration: underline;">${item.product_name}</a>`
                         : item.product_name}
-                </td>
-                <td>${item.on_hand}</td>
-                <td>${item.free_qty}</td>
-                <td>${item.booked_qty}</td>
-                <td>${item.delivered_qty}</td>
-                <td>${item.upcoming_qty}</td>
-                <td>${item.unit_sell_price}</td>
-                <td>${item.unit_buy_price}</td>
-                <td>${item.tags || ""}</td>
-                <td>
+</td>
+                    <td>${item.on_hand}</td>
+
+                    ${createNoteCell(item.free_qty, item.cell_notes)}
+                    ${createNoteCell(item.booked_qty, item.cell_notes)}
+                    ${createNoteCell(item.delivered_qty, item.cell_notes)}
+                    ${createNoteCell(item.upcoming_qty, item.cell_notes)}
+
+                    <td>${item.unit_sell_price}</td>
+                    <td>${item.unit_buy_price}</td>
+                    <td>${item.tags || ""}</td>
+                    <td>
+
                     <select onchange="handleAction(this, '${item.product_name}')">
                         <option value="">⬇️ Actions</option>
                         <option value="convert">Convert to Booked</option>
@@ -765,4 +768,106 @@ function deleteRow(row) {
     });
 }
 
+//Make Comments / noted on the cell
 
+function createNoteCell(value, note = "") {
+    return `
+        <td class="note-cell">
+            ${value}
+            <span class="note-icon" data-note="${note}">📝</span>
+        </td>
+    `;
+}
+
+let noteBox;
+
+document.addEventListener("DOMContentLoaded", () => {
+    noteBox = document.createElement("div");
+    noteBox.className = "note-popup";
+    document.body.appendChild(noteBox);
+
+    document.getElementById("stockTableBody").addEventListener("click", (e) => {
+        const icon = e.target.closest(".note-icon");
+        if (icon) {
+            const cell = icon.closest(".note-cell");
+            const currentNote = icon.getAttribute("data-note") || "";
+            noteBox.innerHTML = `
+                <textarea style="width: 100%; height: 60px;">${currentNote}</textarea>
+                <button onclick="saveNote()">Save</button>
+            `;
+            noteBox.style.top = `${e.pageY}px`;
+            noteBox.style.left = `${e.pageX}px`;
+            noteBox.style.display = "block";
+            noteBox.targetIcon = icon;
+            noteBox.targetCell = cell;
+        }
+    });
+
+    document.addEventListener("click", (e) => {
+        if (!noteBox.contains(e.target) && !e.target.classList.contains("note-icon")) {
+            noteBox.style.display = "none";
+        }
+    });
+});
+
+function saveNote() {
+    const textarea = noteBox.querySelector("textarea");
+    const newNote = textarea.value.trim();
+    const icon = noteBox.targetIcon;
+    const cell = noteBox.targetCell;
+
+    // Get product name (from the same row)
+    const row = cell.closest("tr");
+    const productName = row.cells[1].innerText.trim();
+
+    // Update UI
+    icon.setAttribute("data-note", newNote);
+    noteBox.style.display = "none";
+
+    // Send to backend to save
+    fetch("/update_note", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            product_name: productName,
+            note: newNote
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            console.log("✅ Note saved");
+        } else {
+            console.error("❌ Failed to save note:", data.error);
+            alert("Failed to save note");
+        }
+    })
+    .catch(err => {
+        console.error("Fetch error:", err);
+        alert("Error saving note");
+    });
+}
+
+
+
+function filterRowsByNote(keyword) {
+    const rows = document.querySelectorAll("#stockTableBody tr");
+    keyword = keyword.toLowerCase();
+
+    rows.forEach(row => {
+        const noteIcons = row.querySelectorAll(".note-icon");
+        let match = false;
+
+        noteIcons.forEach(icon => {
+            const note = icon.getAttribute("data-note") || "";
+            if (note.toLowerCase().includes(keyword)) match = true;
+        });
+
+        row.style.display = match || keyword === "" ? "" : "none";
+    });
+}
+
+
+//End of Make Comments / noted on the cell

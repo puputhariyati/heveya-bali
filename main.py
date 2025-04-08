@@ -50,6 +50,10 @@ def init_db():
     if not column_exists(cursor, "inventory", "product_type"):
         cursor.execute("ALTER TABLE inventory ADD COLUMN product_type TEXT")
 
+    # Add 'cell_notes' if it doesn't exist
+    if not column_exists(cursor, "inventory", "cell_notes"):
+        cursor.execute("ALTER TABLE inventory ADD COLUMN cell_notes TEXT DEFAULT ''")
+
     # Create BOM table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS bom (
@@ -178,7 +182,8 @@ def get_stock():
                 "unit_sell_price": row["unit_sell_price"],
                 "unit_buy_price": row["unit_buy_price"],
                 "tags": row["tags"],
-                "product_type": row["product_type"]
+                "product_type": row["product_type"],
+                "cell_notes": row["cell_notes"]  # ✅ Add this line
             })
 
         conn.close()
@@ -715,6 +720,28 @@ def return_product():
         import traceback
         traceback.print_exc()
         return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route("/update_note", methods=["POST"])
+def update_note():
+    data = request.get_json()
+    product_name = data.get("product_name")
+    note = data.get("note", "")
+
+    if not product_name:
+        return jsonify({"success": False, "error": "Missing product name"}), 400
+
+    conn = sqlite3.connect("stock.db")
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("UPDATE inventory SET cell_notes = ? WHERE product_name = ?", (note, product_name))
+        conn.commit()
+        return jsonify({"success": True})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+    finally:
+        conn.close()
 
 
 if __name__ == "__main__":
