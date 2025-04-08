@@ -159,7 +159,7 @@ function filterTable() {
                     <select onchange="handleAction(this, '${item.product_name}')">
                         <option value="">⬇️ Actions</option>
                         <option value="convert">Convert to Booked</option>
-                        <option value="sell">Delivered</option>
+                        <option value="deliver">Delivered</option>
                         <option value="edit">Edit/Adjust</option>
                         <option value="delete">Delete</option>
                     </select>
@@ -186,8 +186,8 @@ function handleAction(selectElement, productName) {
         case "convert":
             convertToBooked(productName);
             break;
-        case "sell":
-            sellProduct(productName);
+        case "deliver":
+            deliverProduct(productName);
             break;
         case "edit":
             editRow(row); // ✅ Directly pass the row instead of looking for `.edit-btn`
@@ -538,6 +538,47 @@ function editRow(row) {
     row.style.backgroundColor = "#ffffcc";
 }
 
+//Action: Delivered
+function deliverProduct(productName) {
+    let qty = prompt(`Enter quantity to deliver for ${productName}:`);
+
+    if (!qty || isNaN(qty) || qty <= 0) {
+        alert("Invalid quantity.");
+        return;
+    }
+
+    qty = parseInt(qty);
+
+    fetch("/deliver_product", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ product_name: productName, qty })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (!data.success) {
+            alert("❌ " + data.error);
+            return;
+        }
+
+        alert("✅ Delivery recorded.");
+
+        // ✅ Optimistically update table UI
+        data.updated.forEach(item => {
+            const row = [...document.querySelectorAll("#stockTableBody tr")]
+                .find(tr => tr.cells[1].textContent.trim() === item.product_name);
+            if (row) {
+                row.cells[4].textContent = item.booked_qty;    // Booked column
+                row.cells[5].textContent = item.delivered_qty; // Delivered column
+            }
+        });
+    })
+    .catch(err => {
+        console.error("Delivery failed:", err);
+        alert("Something went wrong while delivering.");
+    });
+}
+
 
 function updateStockData(row) {
     let productName = row.cells[1].innerText.trim();
@@ -603,12 +644,6 @@ function updateParentStock(parentData) {
 }
 
 function updateDatabase(updatedData) {
-//    if (response.success) {
-//        console.log("✅ Successfully updated in the database:", response);
-//    } else {
-//        console.error("❌ Database update failed:", response.error);
-//    }
-
     if (!updatedData.product_name || updatedData.product_name.trim() === "") {
         console.error("Error: Missing product_name in update request.");
         return;

@@ -580,6 +580,73 @@ def update_component_products(cursor, bundle_name):
     return updated_components
 
 
+# Action: Delivered
+@app.route("/deliver_product", methods=["POST"])
+def deliver_product():
+    try:
+        data = request.json
+        product_name = data.get("product_name")
+        qty = int(data.get("qty", 0))
+
+        if not product_name or qty <= 0:
+            return jsonify({"success": False, "error": "Invalid product or quantity."}), 400
+
+        conn = sqlite3.connect("stock.db")
+        cursor = conn.cursor()
+
+        updated = []
+
+        # ✅ Update main product booked → delivered
+        cursor.execute("SELECT booked_qty, delivered_qty FROM inventory WHERE product_name = ?", (product_name,))
+        row = cursor.fetchone()
+        if not row:
+            return jsonify({"success": False, "error": "Product not found"}), 404
+
+        booked, delivered = row
+        if qty > booked:
+            return jsonify({"success": False, "error": "Not enough booked quantity to deliver."}), 400
+
+        booked -= qty
+        delivered += qty
+
+        cursor.execute("UPDATE inventory SET booked_qty = ?, delivered_qty = ? WHERE product_name = ?",
+                       (booked, delivered, product_name))
+
+        updated.append({
+            "product_name": product_name,
+            "booked_qty": booked,
+            "delivered_qty": delivered
+        })
+
+        # ✅ If bundle, update components too
+        cursor.execute("SELECT component_name, quantity_required FROM bom WHERE product_name = ?", (product_name,))
+        components = cursor.fetchall()
+        for comp_name, qty_needed in components:
+            total_qty = qty_needed * qty
+            cursor.execute("SELECT booked_qty, delivered_qty FROM inventory WHERE product_name = ?", (comp_name,))
+            b, d = cursor.fetchone()
+            b -= total_qty
+            d += total_qty
+
+            cursor.execute("UPDATE inventory SET booked_qty = ?, delivered_qty = ? WHERE product_name = ?",
+                           (b, d, comp_name))
+
+            updated.append({
+                "product_name": comp_name,
+                "booked_qty": b,
+                "delivered_qty": d
+            })
+
+        conn.commit()
+        conn.close()
+
+        return jsonify({"success": True, "updated": updated})
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"success": False, "error": str(e)}), 500
+
 
 if __name__ == "__main__":
     init_db()
