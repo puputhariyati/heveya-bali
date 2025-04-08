@@ -330,6 +330,130 @@ def delete_product():
         return jsonify({"success": False, "error": str(e)}), 500
 
 
+@app.route("/convert_to_booked", methods=["POST"])
+def convert_to_booked():
+    try:
+        data = request.json
+        product_name = data.get("product_name")
+        qty = int(data.get("qty", 0))
+
+        conn = sqlite3.connect("stock.db")
+        cursor = conn.cursor()
+
+        # Check if this is a bundle (has BOM components)
+        cursor.execute("SELECT component_name, quantity_required FROM bom WHERE product_name = ?", (product_name,))
+        bom = cursor.fetchall()
+
+        updated_others = []
+
+        if bom:
+            # 🔎 PHASE 1: Validate all components
+            for component_name, quantity_required in bom:
+                total_needed = qty * quantity_required
+                cursor.execute("SELECT free_qty FROM inventory WHERE product_name = ?", (component_name,))
+                result = cursor.fetchone()
+                if not result:
+                    return jsonify({"success": False, "error": f"Component '{component_name}' not found"}), 400
+
+                free_qty = result[0]
+                print(f"[DEBUG CHECK] {component_name.strip()} needs {total_needed}, has {free_qty}")
+
+                if total_needed > free_qty:
+                    print(f"[DEBUG BLOCKED] {component_name} conversion blocked! Needed: {total_needed}, Available: {free_qty}")
+                    return jsonify({
+                        "success": False,
+                        "error": f"Not enough stock for component '{component_name}' (needs {total_needed}, has {free_qty})"
+                    }), 400
+
+            # ✅ PHASE 2: Update all components
+            for component_name, quantity_required in bom:
+                total_needed = qty * quantity_required
+                cursor.execute("""
+                    UPDATE inventory
+                    SET free_qty = free_qty - ?, booked_qty = booked_qty + ?
+                    WHERE product_name = ?
+                """, (total_needed, total_needed, component_name))
+
+                # Recalculate and sync free stock
+                cursor.execute("SELECT on_hand, booked_qty FROM inventory WHERE product_name = ?", (component_name,))
+                comp_on_hand, comp_booked_qty = cursor.fetchone()
+                recalc_free = recalculate_free_stock(cursor, component_name, comp_on_hand, comp_booked_qty)
+
+                cursor.execute("UPDATE inventory SET free_qty = ? WHERE product_name = ?", (recalc_free, component_name))
+
+                updated_others.append({
+                    "product_name": component_name,
+                    "free_qty": recalc_free,
+                    "booked_qty": comp_booked_qty
+                })
+
+            # ✅ Track booked_qty for the bundle itself (virtual stock)
+            cursor.execute("SELECT booked_qty FROM inventory WHERE product_name = ?", (product_name,))
+            row = cursor.fetchone()
+            if row:
+                bundle_booked_qty = row[0] + qty
+                cursor.execute("UPDATE inventory SET booked_qty = ? WHERE product_name = ?", (bundle_booked_qty, product_name))
+            else:
+                bundle_booked_qty = qty
+                cursor.execute(
+                    "INSERT INTO inventory (product_name, on_hand, booked_qty, free_qty) VALUES (?, 0, ?, 0)",
+                    (product_name, bundle_booked_qty)
+                )
+
+            updated_product = {
+                "product_name": product_name,
+                "free_qty": None,
+                "booked_qty": bundle_booked_qty
+            }
+
+        else:
+            # 🔧 SINGLE PRODUCT: fetch current stock
+            cursor.execute("SELECT on_hand, booked_qty FROM inventory WHERE product_name = ?", (product_name,))
+            row = cursor.fetchone()
+            if not row:
+                return jsonify({"success": False, "error": "Product not found"}), 404
+
+            on_hand, booked_qty = row
+            current_free_qty = recalculate_free_stock(cursor, product_name, on_hand, booked_qty)
+
+            if qty > current_free_qty:
+                return jsonify({"success": False, "error": "Not enough free stock available."}), 400
+
+            # Update booked
+            booked_qty += qty
+            new_free_qty = recalculate_free_stock(cursor, product_name, on_hand, booked_qty)
+            new_on_hand = new_free_qty + booked_qty
+
+            cursor.execute("""
+                UPDATE inventory 
+                SET booked_qty = ?, free_qty = ?, on_hand = ?
+                WHERE product_name = ?
+            """, (booked_qty, new_free_qty, new_on_hand, product_name))
+
+            updated_parents = update_parent_products(cursor, product_name)
+            updated_others.extend(updated_parents)
+
+            updated_product = {
+                "product_name": product_name,
+                "free_qty": new_free_qty,
+                "booked_qty": booked_qty
+            }
+
+        conn.commit()
+        conn.close()
+
+        return jsonify({
+            "success": True,
+            "updated_product": updated_product,
+            "updated_others": updated_others
+        })
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
 @app.route("/update_product", methods=["POST"])
 def update_product():
     try:
@@ -455,105 +579,6 @@ def update_component_products(cursor, bundle_name):
 
     return updated_components
 
-
-@app.route("/convert_to_booked", methods=["POST"])
-def convert_to_booked():
-    try:
-        data = request.json
-        product_name = data.get("product_name")
-        qty = int(data.get("qty", 0))
-
-        conn = sqlite3.connect("stock.db")
-        cursor = conn.cursor()
-
-        # Check if this is a bundle (has BOM components)
-        cursor.execute("SELECT component_name, quantity_required FROM bom WHERE product_name = ?", (product_name,))
-        bom = cursor.fetchall()
-
-        updated_others = []
-
-        if bom:
-            # PHASE 1: Validate ALL components first
-            for component_name, quantity_required in bom:
-                total_needed = qty * quantity_required
-                cursor.execute("SELECT free_qty FROM inventory WHERE product_name = ?", (component_name,))
-                result = cursor.fetchone()
-                if not result:
-                    return jsonify({"success": False, "error": f"Component '{component_name}' not found"}), 400
-
-                free_qty = result[0]
-                print(f"[DEBUG CHECK] {component_name.strip()} needs {total_needed}, has {free_qty}")
-
-                if total_needed > free_qty:
-                    print(f"[DEBUG BLOCKED] {component_name} conversion blocked! Needed: {total_needed}, Available: {free_qty}")
-                    return jsonify(
-                        {"success": False, "error": f"Not enough stock for component '{component_name}' (needs {total_needed}, has {free_qty})"}), 400
-
-            # PHASE 2: Update all components
-            for component_name, quantity_required in bom:
-                total_needed = qty * quantity_required
-                cursor.execute("""
-                    UPDATE inventory
-                    SET free_qty = free_qty - ?, booked_qty = booked_qty + ?
-                    WHERE product_name = ?
-                """, (total_needed, total_needed, component_name))
-
-                # Recalculate and sync free stock
-                cursor.execute("SELECT on_hand, booked_qty FROM inventory WHERE product_name = ?", (component_name,))
-                comp_on_hand, comp_booked_qty = cursor.fetchone()
-                recalc_free = recalculate_free_stock(cursor, component_name, comp_on_hand, comp_booked_qty)
-
-                cursor.execute("UPDATE inventory SET free_qty = ? WHERE product_name = ?",
-                               (recalc_free, component_name))
-
-                updated_others.append({
-                    "product_name": component_name,
-                    "free_qty": recalc_free,
-                    "booked_qty": comp_booked_qty
-                })
-
-        # SINGLE or BUNDLE: update booked and recalculate free
-        cursor.execute("SELECT on_hand, booked_qty FROM inventory WHERE product_name = ?", (product_name,))
-        row = cursor.fetchone()
-        if not row:
-            return jsonify({"success": False, "error": "Product not found"}), 404
-
-        on_hand, booked_qty = row
-        current_free_qty = recalculate_free_stock(cursor, product_name, on_hand, booked_qty)
-
-        if qty > current_free_qty:
-            return jsonify({"success": False, "error": "Not enough free stock available."}), 400
-
-        booked_qty += qty
-        new_free_qty = recalculate_free_stock(cursor, product_name, on_hand, booked_qty)
-        new_on_hand = new_free_qty + booked_qty
-
-        cursor.execute("""
-            UPDATE inventory 
-            SET booked_qty = ?, free_qty = ?, on_hand = ?
-            WHERE product_name = ?
-        """, (booked_qty, new_free_qty, new_on_hand, product_name))
-
-        updated_parents = update_parent_products(cursor, product_name)
-        updated_others.extend(updated_parents)
-
-        conn.commit()
-        conn.close()
-
-        return jsonify({
-            "success": True,
-            "updated_product": {
-                "product_name": product_name,
-                "free_qty": new_free_qty,
-                "booked_qty": booked_qty
-            },
-            "updated_others": updated_others
-        })
-
-    except Exception as e:
-        import traceback
-        traceback.print_exc()
-        return jsonify({"success": False, "error": str(e)}), 500
 
 
 if __name__ == "__main__":
