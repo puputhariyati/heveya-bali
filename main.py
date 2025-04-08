@@ -648,6 +648,75 @@ def deliver_product():
         return jsonify({"success": False, "error": str(e)}), 500
 
 
+@app.route("/return_product", methods=["POST"])
+def return_product():
+    try:
+        data = request.json
+        product_name = data.get("product_name")
+        qty = int(data.get("qty", 0))
+
+        if not product_name or qty <= 0:
+            return jsonify({"success": False, "error": "Invalid product or quantity."}), 400
+
+        conn = sqlite3.connect("stock.db")
+        cursor = conn.cursor()
+
+        updated_items = []
+
+        # 1️⃣ Update main product
+        cursor.execute("SELECT delivered_qty, free_qty FROM inventory WHERE product_name = ?", (product_name,))
+        row = cursor.fetchone()
+        if not row:
+            return jsonify({"success": False, "error": "Product not found"}), 404
+
+        delivered, free = row
+        if qty > delivered:
+            return jsonify({"success": False, "error": "Not enough delivered quantity to return."}), 400
+
+        new_delivered = delivered - qty
+        new_free = free + qty
+
+        cursor.execute("UPDATE inventory SET delivered_qty = ?, free_qty = ? WHERE product_name = ?",
+                       (new_delivered, new_free, product_name))
+
+        updated_items.append({
+            "product_name": product_name,
+            "free_qty": new_free,
+            "delivered_qty": new_delivered
+        })
+
+        # 2️⃣ Check BOM (if it's a bundle, update components)
+        cursor.execute("SELECT component_name, quantity_required FROM bom WHERE product_name = ?", (product_name,))
+        components = cursor.fetchall()
+
+        for comp_name, qty_required in components:
+            total_return = qty * qty_required
+
+            cursor.execute("SELECT delivered_qty, free_qty FROM inventory WHERE product_name = ?", (comp_name,))
+            d, f = cursor.fetchone()
+            d -= total_return
+            f += total_return
+
+            cursor.execute("UPDATE inventory SET delivered_qty = ?, free_qty = ? WHERE product_name = ?",
+                           (d, f, comp_name))
+
+            updated_items.append({
+                "product_name": comp_name,
+                "free_qty": f,
+                "delivered_qty": d
+            })
+
+        conn.commit()
+        conn.close()
+
+        return jsonify({"success": True, "updated_items": updated_items})
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
 if __name__ == "__main__":
     init_db()
     app.run(debug=True)

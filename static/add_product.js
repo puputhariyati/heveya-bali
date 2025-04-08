@@ -161,6 +161,7 @@ function filterTable() {
                         <option value="convert">Convert to Booked</option>
                         <option value="deliver">Delivered</option>
                         <option value="edit">Edit/Adjust</option>
+                        <option value="return">Return</option>
                         <option value="delete">Delete</option>
                     </select>
                 </td>
@@ -191,6 +192,9 @@ function handleAction(selectElement, productName) {
             break;
         case "edit":
             editRow(row); // ✅ Directly pass the row instead of looking for `.edit-btn`
+            break;
+        case "return":
+            returnProduct(productName);
             break;
         case "delete":
             deleteRow(row);
@@ -699,6 +703,37 @@ function updateDatabase(updatedData) {
 
 //// Call this function on page load (to persist data after page refresh)
 //window.onload = fetchStockData;
+
+// Function to return product
+function returnProduct(productName) {
+    let qty = prompt(`Enter quantity to return for ${productName}:`);
+    if (!qty || isNaN(qty) || qty <= 0) return alert("Invalid quantity!");
+
+    fetch("/return_product", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ product_name: productName, qty: parseInt(qty) })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (!data.success) return alert("❌ " + data.error);
+
+        data.updated_items.forEach(item => {
+            const row = [...document.querySelectorAll("#stockTableBody tr")]
+                .find(tr => tr.cells[1].textContent.trim() === item.product_name);
+            if (row) {
+                row.cells[3].textContent = item.free_qty;
+                row.cells[5].textContent = item.delivered_qty;
+            }
+        });
+
+        alert(`✅ Returned ${qty} pcs of ${productName}`);
+    })
+    .catch(err => {
+        console.error("Return failed:", err);
+        alert("Error returning product");
+    });
+}
 
 // Function to delete row
 function deleteRow(row) {
