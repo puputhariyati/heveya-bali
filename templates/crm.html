@@ -9,25 +9,19 @@
 </head>
 <body>
   <div class="container">
-    <h1>Lead Tracking Dashboard</h1>
-
-    <section id="summary-cards">
-      <div class="card" id="total-leads">Total Leads: 0</div>
-      <div class="card" id="success-leads">Success: 0</div>
-      <div class="card" id="fail-leads">Fail: 0</div>
-      <div class="card" id="followup-leads">Follow-up: 0</div>
-      <div class="card" id="total-amount">Total Amount: $0</div>
-    </section>
-
     <section>
-      <h2>Leads by Product (Interactive Pie)</h2>
-      <canvas id="productPie" width="400" height="400"></canvas>
-      <div id="productDetails" class="card" style="margin-top: 10px;"></div>
+      <h2>Lead Breakdown (Interactive Pie Charts)</h2>
+      <div class="charts-container">
+        <div class="chart-box">
+          <canvas id="productPie"></canvas>
+          <div id="productDetails" class="details-box"></div>
+        </div>
+        <div class="chart-box">
+          <canvas id="statusPie"></canvas>
+          <div id="statusDetails" class="details-box"></div>
+        </div>
+      </div>
     </section>
-
-<!--    pie chart for status-->
-    <canvas id="statusPie" width="400" height="400"></canvas>
-    <div id="statusDetails" class="details-box"></div>
 
     <section>
       <h2>Add New Lead</h2>

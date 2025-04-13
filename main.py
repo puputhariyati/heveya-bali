@@ -83,6 +83,22 @@ def init_db():
             except sqlite3.OperationalError as e:
                 print(f"Error renaming {old_col}: {e}")
 
+    # Create leads table for CRM dashboard
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS leads (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            customer TEXT NOT NULL,
+            product TEXT NOT NULL,
+            status TEXT NOT NULL,
+            sales_person TEXT NOT NULL,
+            amount REAL NOT NULL DEFAULT 0,
+            date TEXT NOT NULL,
+            source TEXT,
+            mobile TEXT UNIQUE,
+            email TEXT
+        )
+    ''')
+
     conn.commit()
     conn.close()
 
@@ -782,6 +798,25 @@ def crm_data():
     return jsonify([dict(lead) for lead in leads])
 
 
+@app.route('/api/summary')
+def summary():
+    conn = get_db_connection()
+    leads = conn.execute('SELECT status, amount FROM leads').fetchall()
+    conn.close()
+
+    total_leads = len(leads)
+    success = sum(1 for lead in leads if lead['status'].lower() == 'success')
+    fail = sum(1 for lead in leads if lead['status'].lower() == 'fail')
+    follow_up = sum(1 for lead in leads if 'follow' in lead['status'].lower())
+    total_amount = sum(float(lead['amount']) for lead in leads)
+
+    return jsonify({
+        'total_leads': total_leads,
+        'success': success,
+        'fail': fail,
+        'follow_up': follow_up,
+        'total_amount': total_amount
+    })
 
 
 if __name__ == "__main__":

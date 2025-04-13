@@ -116,7 +116,6 @@ document.addEventListener("DOMContentLoaded", () => {
   loadLeads();
   renderProductPie();
   renderStatusPie(); // 👈 Add this
-  ...
 });
 
 

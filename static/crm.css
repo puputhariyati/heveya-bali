@@ -59,3 +59,30 @@ th, td {
   padding: 8px;
   text-align: center;
 }
+
+.charts-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 30px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.chart-box {
+  width: 250px;
+  height: 250px;
+  position: relative;
+  text-align: center;
+}
+
+.chart-box canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.details-box {
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: left;
+}
