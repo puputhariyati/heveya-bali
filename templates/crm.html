@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lead Tracking Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='crm.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Lead Tracking Dashboard</h1>
+
+    <section id="summary-cards">
+      <div class="card" id="total-leads">Total Leads: 0</div>
+      <div class="card" id="success-leads">Success: 0</div>
+      <div class="card" id="fail-leads">Fail: 0</div>
+      <div class="card" id="followup-leads">Follow-up: 0</div>
+      <div class="card" id="total-amount">Total Amount: $0</div>
+    </section>
+
+    <section>
+      <h2>Leads by Product (Interactive Pie)</h2>
+      <canvas id="productPie" width="400" height="400"></canvas>
+      <div id="productDetails" class="card" style="margin-top: 10px;"></div>
+    </section>
+
+<!--    pie chart for status-->
+    <canvas id="statusPie" width="400" height="400"></canvas>
+    <div id="statusDetails" class="details-box"></div>
+
+    <section>
+      <h2>Add New Lead</h2>
+      <form id="lead-form">
+        <input type="text" placeholder="Customer Name" name="customer" required />
+        <input type="text" placeholder="Product" name="product" required />
+        <select name="status" required>
+          <option value="">Status</option>
+          <option value="Success">Success</option>
+          <option value="Need Follow-up">Need Follow-up</option>
+          <option value="Fail">Fail</option>
+        </select>
+        <input type="text" placeholder="Sales Person" name="sales_person" required />
+        <input type="number" placeholder="Amount" name="amount" required />
+        <input type="date" name="date" required />
+        <input type="text" placeholder="Source" name="source" />
+        <input type="text" placeholder="Mobile" name="mobile" required />
+        <input type="email" placeholder="Email" name="email"/>
+        <button type="submit">Add Lead</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>All Leads</h2>
+      <table id="leads-table">
+        <thead>
+          <tr>
+            <th>Customer</th><th>Product</th><th>Status</th><th>Sales</th>
+            <th>Amount</th><th>Date</th><th>Source</th><th>Contact</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </div>
+  <script src="{{ url_for('static', filename='crm.js') }}"></script>
+</body>
+</html>

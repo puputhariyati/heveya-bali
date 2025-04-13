@@ -207,8 +207,8 @@ function filterTable() {
                         : item.product_name}
                 </td>
                 <td>${item.on_hand}</td>
-                <td>${item.sold_qty}</td>
                 <td>${item.free_qty}</td>
+                <td>${item.booked_qty}</td>
                 <td>${item.upcoming_qty}</td>
                 <td>${item.unit_sell_price}</td>
                 <td>${item.unit_buy_price}</td>

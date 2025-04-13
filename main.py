@@ -744,6 +744,46 @@ def update_note():
         conn.close()
 
 
+@app.route('/crm')
+def crm():
+    return render_template('crm.html')
+
+
+@app.route('/api/crm', methods=['GET', 'POST'])
+def crm_data():
+    if request.method == 'POST':
+        data = request.get_json()
+        try:
+            conn = get_db_connection()
+            conn.execute('''
+                INSERT INTO leads (customer, product, status, sales_person, amount, date, source, mobile, email)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ''', (
+                data['customer'],
+                data['product'],
+                data['status'],
+                data['sales_person'],
+                float(data['amount']),
+                data['date'],
+                data['source'],
+                data['mobile'],
+                data['email'] if data['email'] else None
+            ))
+            conn.commit()
+            conn.close()
+            return jsonify({"success": True}), 201
+        except Exception as e:
+            return jsonify({"error": str(e)}), 400
+
+    # For GET
+    conn = get_db_connection()
+    leads = conn.execute('SELECT * FROM leads').fetchall()
+    conn.close()
+    return jsonify([dict(lead) for lead in leads])
+
+
+
+
 if __name__ == "__main__":
     init_db()
     app.run(debug=True)
