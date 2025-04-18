@@ -1,8 +1,10 @@
 import os
 import sqlite3
 import traceback
+
 from flask import Flask, request, jsonify, render_template, redirect, flash
 from dotenv import load_dotenv
+
 
 load_dotenv("key.env")  # Load environment variables from .env file
 
@@ -10,6 +12,8 @@ app = Flask(__name__)
 
 app.secret_key = os.getenv("SECRET_KEY")  # Retrieve secret key from .env
 DATABASE = "stock.db"  # Path to your database file
+
+
 
 
 def get_db_connection():
@@ -110,6 +114,8 @@ init_db()
 @app.route('/')
 def home():
     return render_template('index.html')
+
+
 
 
 @app.route("/get_product_suggestions", methods=["GET"])
@@ -817,6 +823,7 @@ def summary():
         'follow_up': follow_up,
         'total_amount': total_amount
     })
+
 
 
 if __name__ == "__main__":
