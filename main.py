@@ -5,6 +5,7 @@ import traceback
 from flask import Flask, request, jsonify, render_template, redirect, flash
 from dotenv import load_dotenv
 
+from jurnal_api import get_sales_orders
 
 load_dotenv("key.env")  # Load environment variables from .env file
 
@@ -824,6 +825,22 @@ def summary():
         'total_amount': total_amount
     })
 
+@app.route("/sync_sales", methods=["GET"])
+def sync_sales():
+    data = get_sales_orders()
+    if not data or "sales_orders" not in data:
+        return jsonify([])
+
+    items = []
+    for order in data["sales_orders"]:
+        for line in order.get("transaction_lines_attributes", []):
+            product = line.get("product")
+            if product:
+                items.append({
+                    "name": product.get("name"),
+                    "quantity": line.get("quantity")
+                })
+    return jsonify(items)
 
 
 if __name__ == "__main__":

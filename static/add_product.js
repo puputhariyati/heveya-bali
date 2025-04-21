@@ -53,6 +53,24 @@ async function fetchBomData(productName) {
     }
 }
 
+
+function autoSyncSalesOrders() {
+    fetch("/sync_sales")
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(item => {
+                convertToBooked(item.name, item.quantity);
+            });
+        })
+        .catch(err => {
+            console.error("Sync failed:", err);
+        });
+}
+
+// Call this once the table is loaded
+autoSyncSalesOrders();
+
+
 function toggleBOMSection(selectElement) {
     const row = selectElement.closest(".productRow"); // Find the parent row
     if (!row) return; // Prevent errors if row is not found
@@ -407,48 +425,120 @@ function calculateFreeStock(bom, inventory) {
 }
 
 
+//function convertToBooked(productName) {
+//
+//    // Locate the row by product name
+//    let row = [...document.querySelectorAll("#stockTableBody tr")]
+//        .find(tr => tr.cells[1].textContent.trim() === productName);
+//
+//    if (!row) {
+//        alert("Product not found in table!");
+//        return;
+//    }
+//
+//    // Get table cell references
+//    let onHandCell = row.cells[2];  // Adjust index based on your table
+//    let bookedCell = row.cells[4];  // Adjust index based on your table
+//    let freeCell = row.cells[3];    // Adjust index based on your table
+//
+//    // Convert text content to numbers
+//    let onHandQty = parseInt(onHandCell.textContent.trim()) || 0;
+//    let bookedQty = parseInt(bookedCell.textContent.trim()) || 0;
+//    let freeQty = parseInt(freeCell.textContent.trim()) || 0;
+//
+//    // ✅ Move prompt AFTER freeQty is defined
+//    let qty = prompt(`Enter quantity to convert for ${productName} (max: ${freeQty}):`, freeQty);
+//
+//    if (!qty || isNaN(qty) || qty <= 0) {
+//        alert("Invalid quantity! Please enter a positive number.");
+//        return;
+//    }
+//
+//    qty = parseInt(qty);
+//
+//    if (qty > freeQty) {
+//        alert("Not enough stock available to convert!");
+//        return;
+//    }
+//
+//    // ✅ Temporarily update UI (Optimistic UI update)
+//    freeCell.textContent = freeQty - qty;
+//    bookedCell.textContent = bookedQty + qty;
+//
+//    // Send update to backend
+//    fetch("/convert_to_booked", {
+//        method: "POST",
+//        headers: { "Content-Type": "application/json" },
+//        body: JSON.stringify({ product_name: productName, qty: qty })
+//    })
+//    .then(response => response.json())
+//    .then(data => {
+//        console.log("Backend Response:", data);  // ✅ Debugging
+//        if (!data.success) {
+//            alert("Error: " + data.error);
+//            return;
+//        }
+//
+//        // ✅ Update current product
+//        if (data.updated_product) {
+//            freeCell.textContent = data.updated_product.free_qty;
+//            bookedCell.textContent = data.updated_product.booked_qty;
+//        }
+//
+//        // ✅ Update affected parent or component rows
+//        if (Array.isArray(data.updated_others)) {
+//            data.updated_others.forEach(item => {
+//                const otherRow = [...document.querySelectorAll("#stockTableBody tr")]
+//                    .find(tr => tr.cells[1].textContent.trim() === item.product_name);
+//                if (otherRow) {
+//                    otherRow.cells[3].textContent = item.free_qty;
+//                    otherRow.cells[4].textContent = item.booked_qty;
+//                }
+//            });
+//        }
+//        alert(`✅ Updated Free: ${data.updated_product?.free_qty}, Booked: ${data.updated_product?.booked_qty}`);
+//    })
+//    .catch(error => {
+//        console.error("Fetch error:", error);
+//        alert("Failed to update stock. Please try again.");
+//    });
+//}
 
-function convertToBooked(productName) {
-
-    // Locate the row by product name
+function convertToBooked(productName, qtyFromAPI = null) {
     let row = [...document.querySelectorAll("#stockTableBody tr")]
         .find(tr => tr.cells[1].textContent.trim() === productName);
 
     if (!row) {
-        alert("Product not found in table!");
+        console.warn(`❌ Product not found in table: ${productName}`);
         return;
     }
 
-    // Get table cell references
-    let onHandCell = row.cells[2];  // Adjust index based on your table
-    let bookedCell = row.cells[4];  // Adjust index based on your table
-    let freeCell = row.cells[3];    // Adjust index based on your table
+    let onHandCell = row.cells[2];
+    let bookedCell = row.cells[4];
+    let freeCell = row.cells[3];
 
-    // Convert text content to numbers
     let onHandQty = parseInt(onHandCell.textContent.trim()) || 0;
     let bookedQty = parseInt(bookedCell.textContent.trim()) || 0;
     let freeQty = parseInt(freeCell.textContent.trim()) || 0;
 
-    // ✅ Move prompt AFTER freeQty is defined
-    let qty = prompt(`Enter quantity to convert for ${productName} (max: ${freeQty}):`, freeQty);
+    let qty = qtyFromAPI ?? prompt(`Enter quantity to convert for ${productName} (max: ${freeQty}):`, freeQty);
 
     if (!qty || isNaN(qty) || qty <= 0) {
-        alert("Invalid quantity! Please enter a positive number.");
+        console.warn("⚠️ Invalid quantity.");
         return;
     }
 
     qty = parseInt(qty);
 
     if (qty > freeQty) {
-        alert("Not enough stock available to convert!");
+        console.warn("⚠️ Not enough free stock.");
         return;
     }
 
-    // ✅ Temporarily update UI (Optimistic UI update)
+    // UI update
     freeCell.textContent = freeQty - qty;
     bookedCell.textContent = bookedQty + qty;
 
-    // Send update to backend
     fetch("/convert_to_booked", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -456,19 +546,16 @@ function convertToBooked(productName) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log("Backend Response:", data);  // ✅ Debugging
         if (!data.success) {
-            alert("Error: " + data.error);
+            console.warn("❌ Server error:", data.error);
             return;
         }
 
-        // ✅ Update current product
         if (data.updated_product) {
             freeCell.textContent = data.updated_product.free_qty;
             bookedCell.textContent = data.updated_product.booked_qty;
         }
 
-        // ✅ Update affected parent or component rows
         if (Array.isArray(data.updated_others)) {
             data.updated_others.forEach(item => {
                 const otherRow = [...document.querySelectorAll("#stockTableBody tr")]
@@ -479,11 +566,11 @@ function convertToBooked(productName) {
                 }
             });
         }
-        alert(`✅ Updated Free: ${data.updated_product?.free_qty}, Booked: ${data.updated_product?.booked_qty}`);
+
+        console.log(`✅ Synced ${productName} - Booked: ${qty}`);
     })
     .catch(error => {
         console.error("Fetch error:", error);
-        alert("Failed to update stock. Please try again.");
     });
 }
 
@@ -769,7 +856,6 @@ function deleteRow(row) {
 }
 
 //Make Comments / noted on the cell
-
 function createNoteCell(value, note = "") {
     return `
         <td class="note-cell">
@@ -851,7 +937,6 @@ function saveNote() {
 }
 
 
-
 function filterRowsByNote(keyword) {
     const rows = document.querySelectorAll("#stockTableBody tr");
     keyword = keyword.toLowerCase();
@@ -868,6 +953,5 @@ function filterRowsByNote(keyword) {
         row.style.display = match || keyword === "" ? "" : "none";
     });
 }
-
-
 //End of Make Comments / noted on the cell
+
