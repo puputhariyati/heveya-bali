@@ -842,6 +842,10 @@ def sync_sales():
                 })
     return jsonify(items)
 
+@app.route('/bedsheets')
+def bedsheets():
+    return render_template('bedsheets.html')
+
 
 if __name__ == "__main__":
     init_db()
