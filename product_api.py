@@ -5,6 +5,7 @@ import hmac
 import json
 from email.utils import formatdate
 from datetime import datetime
+import time
 
 # Mekari credentials
 CLIENT_ID = 'afaku9tq7KET9tMm'
@@ -41,7 +42,13 @@ def get_products():
     }
 
     skus = ["SSW2SK200X200FI", "SSS2SK200X200FI", "SSG2SK200X200FI", "SSDG2SK200X200FI", "SSSG2SK200X200FI",
-            "SSMG2SK200X200FI", "SSBM2SK200X200FI", "SSBO2SK200X200FI", "SSL2SK200X200FI"]  # List of SKUs to query
+            "SSMG2SK200X200FI", "SSBM2SK200X200FI", "SSBO2SK200X200FI", "SSL2SK200X200FI",
+            "SSW2K200X180FI", "SSS2K200X180FI", "SSG2K200X180FI", "SSDG2K200X180FI", "SSSG2K180X200FI",
+            "SSMG2K180X200FI", "SSBM2K180X200FI", "SSBO2K180X200FI", "SSL2K200X180FI",
+            "SSW2Q200X160FI", "SSS2Q200X160FI", "SSG2Q200X160FI", "SSDG2Q200X160FI", "SSSG2Q200X160FI",
+            "SSMG2Q200X160FI", "SSBM2Q160X200FI", "SSBO2Q160X200FI",
+            "SSW1S200X90FI", "SSS1S200X90FI", "SSG1S200X90FI", "SSDG1S200X90FI", "SSSG1S200X90FI", "SSMG1S200X90FI",
+            "SSMG1S200X90FI", "SSBM1S200X90FI"]  # List of SKUs to query
     all_products = []  # List to store products from all SKUs
 
     for sku in skus:
@@ -62,6 +69,7 @@ def get_products():
                 all_products.extend(data['products'])  # Add products to the all_products list
         else:
             print(f"❌ Error {response.status_code} for SKU {sku}:", response.text)
+        time.sleep(1)
 
     # 🛠️ Important: Return the same structure as Mekari API
     return {

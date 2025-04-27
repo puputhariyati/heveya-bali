@@ -108,7 +108,7 @@ if data and "sales_orders" in data and data["sales_orders"]:
                 })
 
         print("✅ Simplified Sales Order:")
-        print(json.dumps(simplified_order, indent=2))
+        # print(json.dumps(simplified_order, indent=2))
 
     except Exception as e:
         print(f"⚠️ Error parsing or simplifying data: {e}")
