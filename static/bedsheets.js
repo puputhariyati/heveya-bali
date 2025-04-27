@@ -1,4 +1,4 @@
-const colors = ["White", "Sand", "Grey", "Dark Grey", "Sage", "Moss Green", "Blush Mauve", "Burnt Orange", "Lilac"];
+const colors = ["White", "Sand", "Grey", "Dark Grey", "Sage", "Moss Green", "Blush Mauve", "Burnt Orange", "Lilac"].sort((a, b) => b.length - a.length);
 const tbody = document.getElementById('table-body');
 
 // STEP 1: Build the empty table

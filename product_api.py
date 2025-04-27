@@ -40,22 +40,38 @@ def get_products():
         'Authorization': auth_header
     }
 
-    params = {
-        "keyword": ["SSSB2SK200X200FI", "SSSG2SK200X200FI"],   # You can fill this if you want to filter
-        "page": 1,
-        "type": "product"
+    skus = ["SSW2SK200X200FI", "SSS2SK200X200FI", "SSG2SK200X200FI", "SSDG2SK200X200FI", "SSSG2SK200X200FI",
+            "SSMG2SK200X200FI", "SSBM2SK200X200FI", "SSBO2SK200X200FI", "SSL2SK200X200FI"]  # List of SKUs to query
+    all_products = []  # List to store products from all SKUs
+
+    for sku in skus:
+        params = {
+            "keyword": sku,
+            "page": 1,
+            "type": "product"
+        }
+
+        print(f"📤 Sending GET request for SKU: {sku} to:", url)
+        print("🧾 Headers:", headers)
+
+        response = requests.get(url, headers=headers, params=params)
+
+        if response.status_code == 200:
+            data = response.json()
+            if 'products' in data:
+                all_products.extend(data['products'])  # Add products to the all_products list
+        else:
+            print(f"❌ Error {response.status_code} for SKU {sku}:", response.text)
+
+    # 🛠️ Important: Return the same structure as Mekari API
+    return {
+        "products": all_products,
+        "total_count": len(all_products),
+        "before_filter_count": len(all_products),
+        "current_page": 1,
+        "total_pages": 1
     }
 
-    print("📤 Sending GET to:", url)
-    print("🧾 Headers:", headers)
-
-    response = requests.get(url, headers=headers, params=params)
-
-    if response.status_code == 200:
-        return response.json()  # Return the parsed JSON, not print it yet
-    else:
-        print(f"❌ Error {response.status_code}:", response.text)
-        return None
 
 # Fetch the data
 data = get_products()
@@ -63,7 +79,7 @@ data = get_products()
 # ✅ Pretty print the JSON only if data is returned
 if data:
     print("✅ Formatted Response:")
-    print(json.dumps(data, indent=2))
+    # print(json.dumps(data, indent=2))
 
 # # ✅ Get the newest (latest) sales order by transaction_date
 # if data and "sales_orders" in data and data["sales_orders"]:
