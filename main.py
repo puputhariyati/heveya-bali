@@ -6,6 +6,7 @@ from flask import Flask, request, jsonify, render_template, redirect, flash
 from dotenv import load_dotenv
 
 from jurnal_api import get_sales_orders
+from product_api import get_products
 
 load_dotenv("key.env")  # Load environment variables from .env file
 
@@ -115,8 +116,6 @@ init_db()
 @app.route('/')
 def home():
     return render_template('index.html')
-
-
 
 
 @app.route("/get_product_suggestions", methods=["GET"])
@@ -845,6 +844,25 @@ def sync_sales():
 @app.route('/bedsheets')
 def bedsheets():
     return render_template('bedsheets.html')
+
+@app.route("/sync_bedsheets", methods=["GET"])
+def sync_bedsheets():
+    data = get_products()
+    if not data or "products" not in data:
+        return jsonify({"data": []})
+
+    items = []
+    for product in data["products"]:
+        warehouses = product.get("warehouses", {})
+        warehouse_183271 = warehouses.get("183271")
+        if warehouse_183271:
+            items.append({
+                "name": product.get("name"),
+                "quantity": warehouse_183271.get("quantity", 0)
+            })
+
+    return jsonify({"data": items})
+
 
 
 if __name__ == "__main__":

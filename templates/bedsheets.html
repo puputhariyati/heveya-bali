@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bedsheets</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='bedsheets.css') }}">
+</head>
+<body>
+
+    <h2>Bamboo Lyocell - Heveya Showroom</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th rowspan="2">Bamboo<br>Lyocell</th>
+          <th colspan="4">Fitted</th>
+          <th colspan="4">Duvet</th>
+          <th colspan="4">Flat</th>
+          <th rowspan="2">PC</th>
+          <th rowspan="2">BC</th>
+        </tr>
+        <tr>
+          <th>SK</th>
+          <th>K</th>
+          <th>Q</th>
+          <th>S</th>
+          <th>SK</th>
+          <th>K</th>
+          <th>Q</th>
+          <th>S</th>
+          <th>SK</th>
+          <th>K</th>
+          <th>Q</th>
+          <th>S</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+        <!-- Rows will be inserted here by JavaScript -->
+      </tbody>
+    </table>
+  <script src="{{ url_for('static', filename='bedsheets.js') }}"></script>
+</body>
+</html>

@@ -41,7 +41,7 @@ def get_products():
     }
 
     params = {
-        "keyword": "SSSB2SK200X200FI",    # You can fill this if you want to filter
+        "keyword": ["SSSB2SK200X200FI", "SSSG2SK200X200FI"],   # You can fill this if you want to filter
         "page": 1,
         "type": "product"
     }
