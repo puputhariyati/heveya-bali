@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 
 from jurnal_api import get_sales_orders
 from product_api import get_products
+from sales_reports import get_sales_by_products_dynamic
 
 load_dotenv("key.env")  # Load environment variables from .env file
 
@@ -14,8 +15,6 @@ app = Flask(__name__)
 
 app.secret_key = os.getenv("SECRET_KEY")  # Retrieve secret key from .env
 DATABASE = "stock.db"  # Path to your database file
-
-
 
 
 def get_db_connection():
@@ -863,6 +862,16 @@ def sync_bedsheets():
 
     return jsonify({"data": items})
 
+@app.route('/sales_reports')
+def sales_reports():
+    return render_template('sales_reports.html')
+
+@app.route('/api/sales_by_products', methods=["GET"])
+def sales_by_products():
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
+    data = get_sales_by_products_dynamic(start_date, end_date)
+    return jsonify(data)
 
 
 if __name__ == "__main__":

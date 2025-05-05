@@ -40,8 +40,8 @@ def get_sales_by_products():
         'Authorization': auth_header
     }
 
-    print("📤 Sending GET to:", url)
-    print("🧾 Headers:", headers)
+    # print("📤 Sending GET to:", url)
+    # print("🧾 Headers:", headers)
 
     response = requests.get(url, headers=headers)
 
@@ -52,10 +52,32 @@ def get_sales_by_products():
         return None
 
 
+def get_sales_by_products_dynamic(start, end):
+    method = 'GET'
+    query = f'?start_date={start}&end_date={end}'
+    full_path = ENDPOINT + query
+    url = BASE_URL + full_path
+
+    date_header = get_rfc7231_date()
+    auth_header = generate_hmac_header(method, full_path, date_header)
+
+    headers = {
+        'Content-Type': 'application/json',
+        'Date': date_header,
+        'Authorization': auth_header
+    }
+
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return {"error": response.text}
+
+
 # Fetch the data
 data = get_sales_by_products()
 
-# ✅ Pretty print the JSON only if data is returned
-if data:
-    print("✅ Formatted Response:")
-    print(json.dumps(data, indent=2))
+# # ✅ Pretty print the JSON only if data is returned
+# if data:
+#     print("✅ Formatted Response:")
+#     print(json.dumps(data, indent=2))

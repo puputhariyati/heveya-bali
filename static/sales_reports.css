@@ -1,0 +1,47 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f8f8f8;
+    padding: 20px;
+}
+
+.container {
+    max-width: 100%;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+.filters {
+    margin-bottom: 20px;
+}
+
+.filters input,
+.filters button {
+    margin-right: 10px;
+    padding: 6px;
+}
+
+.chart-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 2rem;
+    flex-wrap: nowrap;  /* ensure side-by-side */
+    overflow-x: auto;
+    padding-bottom: 20px;
+}
+
+#salesChart {
+    width: 400px !important;     /* or use any smaller value */
+    height: 400px !important;
+    background: #f0f8ff;
+    max-width: 100%;
+}
+
+
+#legendContainer {
+    width: 400px;
+    flex-shrink: 0;
+}

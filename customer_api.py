@@ -66,6 +66,6 @@ def find_customer_in_pages(target_name, start_page=11, end_page=11):
 target_name = "Ann Marie"
 customer_data = find_customer_in_pages(target_name)
 
-if customer_data:
-    print("✅ Customer Data:")
-    print(json.dumps(customer_data, indent=2))
+# if customer_data:
+#     print("✅ Customer Data:")
+#     print(json.dumps(customer_data, indent=2))
