@@ -73,15 +73,26 @@ function fetchReport() {
 
 function getCategory(name) {
     name = name.toLowerCase();
-    if (name.includes("mattress")) return "mattress";
-    if (name.includes("pillow")) return "pillow";
+    if (name.includes("mattress") && !name.includes("protector")) return "mattress";
+    if (name.includes("bamboo")) return "others"; // ⛔ Exclude bamboo items from pillow category
+    const isValidPillow = [
+        "latex pillow", "latex medium pillow",
+        "latex bolster",
+        "toddler pillow",
+        "toddler flat pillow",
+        "toddler contour pillow",
+        "travel pillow - half heveya 2",
+        "latex spa pillow",
+        "latex travel mini bolster",
+        "heveya pregnancy pillow"
+    ].some(keyword => name.includes(keyword));
+    if (isValidPillow) return "pillow";
     if (name.includes("sheet")) return "sheet";
     if (name.includes("duvet")) return "organic duvet";
     if (name.includes("towel")) return "towel";
     if (name.includes("frame")) return "frame";
     return "others";
 }
-
 
 function groupByCategory(products) {
     const grouped = {};
@@ -137,6 +148,14 @@ function renderChart(data, filterCategory = 'all') {
     });
 }
 
+function getMattressSubCategory(name) {
+    name = name.toLowerCase();
+    if (name.includes("latex mattress")) return "Latex Mattress";
+    if (name.includes("cot mattress")) return "Cot Mattress";
+    if (name.includes("hospitality mattress")) return "Hospitality Mattress";
+    return null; // ignore all other mattress types
+}
+
 function showCategoryDetails(category) {
     if (!Array.isArray(processedData)) {
         console.error("processedData is not ready or not an array", processedData);
@@ -145,16 +164,40 @@ function showCategoryDetails(category) {
 
     const lowerCategory = category.toLowerCase();
 
-    const items = processedData.filter(p => getCategory(p.product.product_name) === lowerCategory);
+    let labels = [];
+    let data = [];
+    let items = [];
 
-    if (items.length === 0) {
-        alert(`No products found for category: ${category}`);
-        return;
+    if (lowerCategory === "mattress") {
+        // Show breakdown for only specific mattress types
+        const mattressItems = processedData.filter(p => getMattressSubCategory(p.product.product_name) !== null);
+
+
+        const subCategoryTotals = {};
+        const subCategoryItems = {};
+
+        mattressItems.forEach(p => {
+            const sub = getMattressSubCategory(p.product.product_name);
+            if (sub) {
+                const qty = parseFloat(p.product.quantity) || 0;
+                subCategoryTotals[sub] = (subCategoryTotals[sub] || 0) + qty;
+
+                if (!subCategoryItems[sub]) subCategoryItems[sub] = [];
+                subCategoryItems[sub].push(p);
+            }
+        });
+
+        labels = Object.keys(subCategoryTotals);
+        data = Object.values(subCategoryTotals);
+        items = subCategoryItems;
+    } else {
+        // Default behavior
+        const categoryItems = processedData.filter(p => getCategory(p.product.product_name) === lowerCategory);
+        labels = categoryItems.map(p => p.product.product_name);
+        data = categoryItems.map(p => parseFloat(p.product.quantity) || 0);
+        items = categoryItems;
     }
 
-    // Extract labels and quantities for chart
-    const labels = items.map(p => p.product.product_name);
-    const data = items.map(p => parseFloat(p.product.quantity) || 0);
     const colors = labels.map(() => `hsl(${Math.random() * 360}, 70%, 70%)`);
 
     if (chart) chart.destroy();
@@ -182,17 +225,30 @@ function showCategoryDetails(category) {
         }
     });
 
-    // Also update details list
+    // Render product list in info panel
     const total = data.reduce((sum, q) => sum + q, 0);
     const infoDiv = document.getElementById('categoryInfo');
     let html = `<h3>Total ${category}: ${total}</h3><ul>`;
-    items.forEach(p => {
-        html += `<li>${p.product.product_name}: ${p.product.quantity}</li>`;
-    });
+
+    if (lowerCategory === "mattress") {
+        // Show grouped sub-category items
+        for (const sub of labels) {
+            html += `<li><strong>${sub}</strong><ul>`;
+            items[sub].forEach(p => {
+                html += `<li>${p.product.product_name}: ${p.product.quantity}</li>`;
+            });
+            html += `</ul></li>`;
+        }
+    } else {
+        // Default list
+        items.forEach(p => {
+            html += `<li>${p.product.product_name}: ${p.product.quantity}</li>`;
+        });
+    }
+
     html += "</ul>";
     infoDiv.innerHTML = html;
 }
-
 
 
 
@@ -240,11 +296,35 @@ window.onload = function () {
         if (selectedCategory !== 'all') {
             const items = grouped[selectedCategory] || [];
             const total = items.reduce((sum, item) => sum + item.qty, 0);
-            let listHTML = `<h3>Total ${selectedCategory}: ${total}</h3><ul>`;
-            items.forEach(item => {
-                listHTML += `<li>${item.name} : ${item.qty}</li>`;
-            });
-            listHTML += `</ul>`;
+            let listHTML = `<h3>Total ${selectedCategory}: ${total}</h3>`;
+
+            if (selectedCategory === 'mattress') {
+                // Show only subcategory summary for mattress
+                const subTotals = {
+                    'Latex Mattress': 0,
+                    'Cot Mattress': 0,
+                    'Hospitality Mattress': 0
+                };
+
+                items.forEach(item => {
+                    const sub = getMattressSubCategory(item.name);
+                    if (sub) subTotals[sub] += item.qty;
+                });
+
+                listHTML += `<ul>`;
+                for (const [sub, qty] of Object.entries(subTotals)) {
+                    listHTML += `<li>${sub}: ${qty}</li>`;
+                }
+                listHTML += `</ul>`;
+            } else {
+                // Default: show full list
+                listHTML += `<ul>`;
+                items.forEach(item => {
+                    listHTML += `<li>${item.name} : ${item.qty}</li>`;
+                });
+                listHTML += `</ul>`;
+            }
+
             infoDiv.innerHTML = listHTML;
         } else {
             infoDiv.innerHTML = '';
