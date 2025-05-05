@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sales by Products Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='sales_reports.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Sales by Products (Qty %)</h1>
+
+        <div class="filters">
+            <label for="start_date">Start Date:</label>
+            <input type="date" id="start_date" name="start_date">
+            <label for="end_date">End Date:</label>
+            <input type="date" id="end_date" name="end_date">
+            <button onclick="fetchReport()">Generate Report</button>
+        </div>
+
+        <canvas id="salesChart"></canvas>
+
+        <a id="downloadExcel" href="#">📥 Export to Excel</a>
+    </div>
+
+    <script src="{{ url_for('static', filename='sales_reports.js') }}"></script>
+</body>
+</html>
