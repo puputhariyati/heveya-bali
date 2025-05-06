@@ -23,25 +23,25 @@ body {
     padding: 6px;
 }
 
-.chart-wrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 2rem;
-    flex-wrap: nowrap;  /* ensure side-by-side */
-    overflow-x: auto;
-    padding-bottom: 20px;
-}
-
 #salesChart {
-    width: 400px !important;     /* or use any smaller value */
-    height: 400px !important;
+    width: 500px !important;       /* Increased size */
+    height: 500px !important;
     background: #f0f8ff;
     max-width: 100%;
 }
 
+.chart-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;       /* Center content */
+    gap: 3rem;                     /* More space between chart and totals */
+    flex-wrap: wrap;              /* Allow wrapping on smaller screens */
+    padding-bottom: 20px;
+}
 
 #legendContainer {
-    width: 400px;
+    width: auto;                  /* Let it size to content */
+    min-width: 250px;
     flex-shrink: 0;
 }

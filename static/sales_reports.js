@@ -302,8 +302,8 @@ function showCategoryDetails(category) {
     let html = `<h3>Total ${category}: ${total}</h3><ul>`;
     labels.forEach((label, i) => {
         const percent = ((data[i] / total) * 100).toFixed(1);
-        html += `<li style="display: grid; grid-template-columns: gap: 12px;">
-            ${label}: ${data[i]} ${percent}%</li>`;
+        html += `<li style="display: grid; grid-template-columns: gap: 20px;">
+            ${label}: ${data[i]} (${percent}%)</li>`;
     });
     html += `</ul>`;
     infoDiv.innerHTML = html;
