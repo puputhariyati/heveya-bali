@@ -331,14 +331,22 @@ function renderLegend(data) {
 
 window.onload = function () {
     const today = new Date();
-    const lastYear = new Date();
-    lastYear.setFullYear(today.getFullYear() - 1);
 
-    const format = (date) => date.toISOString().split('T')[0];
-    document.getElementById('start_date').value = format(lastYear);
+    // Force start date to 1 January 2025
+    const startOfYear = new Date(2025, 0, 1); // Month is 0-indexed: 0 = Jan
+
+    // Format YYYY-MM-DD without timezone issues
+    const format = (date) => {
+        const yyyy = date.getFullYear();
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const dd = String(date.getDate()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}`;
+    };
+
+    document.getElementById('start_date').value = format(startOfYear);
     document.getElementById('end_date').value = format(today);
 
-    // Bind event listener
+    // ... the rest of your code unchanged ...
     document.getElementById('categoryFilter').addEventListener('change', () => {
         const selectedCategory = document.getElementById('categoryFilter').value;
 
@@ -352,28 +360,20 @@ window.onload = function () {
 
         const infoDiv = document.getElementById('categoryInfo');
         if (selectedCategory !== 'all') {
-            const lowerCategory = selectedCategory.toLowerCase(); // ✅ Add this line
-
+            const lowerCategory = selectedCategory.toLowerCase();
             const items = grouped[lowerCategory] || [];
             const total = items.reduce((sum, item) => sum + item.qty, 0);
             let listHTML = `<h3>Total ${selectedCategory}: ${total}</h3>`;
-
-            // Now this works correctly
             const categoryItems = processedData.filter(p => {
                 return getCategory(p.product.product_name)?.toLowerCase() === lowerCategory;
             });
-            const labels = categoryItems.map(p => p.product.product_name);
-            const data = categoryItems.map(p => parseFloat(p.product.quantity) || 0);
-
-            // Optional: append product list if needed
             listHTML += `<ul>${categoryItems.map(p => `<li>${p.product.product_name} - ${p.product.quantity}</li>`).join('')}</ul>`;
-
             infoDiv.innerHTML = listHTML;
         } else {
             infoDiv.innerHTML = '';
         }
     });
 
-    // ✅ Fetch data immediately instead of clicking a button
     fetchReport();
 };
+

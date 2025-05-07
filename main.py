@@ -1,6 +1,7 @@
 import os
 import sqlite3
 import traceback
+import sys
 
 from flask import Flask, request, jsonify, render_template, redirect, flash
 from dotenv import load_dotenv
@@ -872,6 +873,13 @@ def sales_by_products():
     end_date = request.args.get('end_date')
     data = get_sales_by_products_dynamic(start_date, end_date)
     return jsonify(data)
+
+
+
+# Add your project folder
+path = '/home/puputheveya/heveya-bali'
+if path not in sys.path:
+    sys.path.insert(0, path)
 
 
 if __name__ == "__main__":
