@@ -45,3 +45,11 @@ body {
     min-width: 250px;
     flex-shrink: 0;
 }
+
+/* Style for total category breakdown container */
+.total-breakdown-item {
+    display: grid;
+    grid-template-columns: 2fr 1fr 0.7fr;
+    gap: 12px;
+    padding: 4px 0;
+}

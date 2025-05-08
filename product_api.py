@@ -58,8 +58,8 @@ def get_products():
             "type": "product"
         }
 
-        print(f"📤 Sending GET request for SKU: {sku} to:", url)
-        print("🧾 Headers:", headers)
+        # print(f"📤 Sending GET request for SKU: {sku} to:", url)
+        # print("🧾 Headers:", headers)
 
         response = requests.get(url, headers=headers, params=params)
 
