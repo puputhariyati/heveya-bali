@@ -82,12 +82,12 @@ def get_products():
 
 
 # Fetch the data
-data = get_products()
+# data = get_products()
 
 # ✅ Pretty print the JSON only if data is returned
-if data:
-    print("✅ Formatted Response:")
-    # print(json.dumps(data, indent=2))
+# if data:
+#     print("✅ Formatted Response:")
+#     # print(json.dumps(data, indent=2))
 
 # # ✅ Get the newest (latest) sales order by transaction_date
 # if data and "sales_orders" in data and data["sales_orders"]:
