@@ -80,6 +80,7 @@ def get_products():
         "total_pages": 1
     }
 
+<<<<<<< HEAD
 
 # Fetch the data
 # data = get_products()
@@ -88,6 +89,16 @@ def get_products():
 # if data:
 #     print("✅ Formatted Response:")
 #     # print(json.dumps(data, indent=2))
+=======
+#
+# # Fetch the data
+# data = get_products()
+#
+# # ✅ Pretty print the JSON only if data is returned
+# if data:
+#     print("✅ Formatted Response:")
+#     print(json.dumps(data, indent=2))
+>>>>>>> temp-fix
 
 # # ✅ Get the newest (latest) sales order by transaction_date
 # if data and "sales_orders" in data and data["sales_orders"]:

@@ -867,20 +867,38 @@ def sync_bedsheets():
 def sales_reports():
     return render_template('sales_reports.html')
 
+# this is when using Mekari API
+# @app.route('/api/sales_by_products', methods=["GET"])
+# def sales_by_products():
+#     start_date = request.args.get('start_date')
+#     end_date = request.args.get('end_date')
+#     data = get_sales_by_products_dynamic(start_date, end_date)
+#     return jsonify(data)
+
 @app.route('/api/sales_by_products', methods=["GET"])
 def sales_by_products():
-    start_date = request.args.get('start_date')
-    end_date = request.args.get('end_date')
-    data = get_sales_by_products_dynamic(start_date, end_date)
+    # Always use dummy data for now
+    data = {
+        "sales_by_products": {
+            "reports": {
+                "products": [
+                    {"product": {"product_name": "Pillow", "quantity": 20}},
+                    {"product": {"product_name": "Mattress", "quantity": 15}},
+                    {"product": {"product_name": "Topper", "quantity": 10}},
+                ]
+            }
+        }
+    }
     return jsonify(data)
-
-
 
 # Add your project folder
 path = '/home/puputheveya/heveya-bali'
 if path not in sys.path:
     sys.path.insert(0, path)
 
+@app.route('/sales_kpi')
+def sales_kpi():
+    return render_template('sales_kpi.html')
 
 if __name__ == "__main__":
     init_db()
