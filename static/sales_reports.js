@@ -12,21 +12,23 @@ function fetchReport() {
             return res.json();
         })
         .then(data => {
-            const products = data.sales_by_products.reports.products;
+            console.log("Full API response:", data); // ✅ Add this to inspect structure
+
+            const products = data?.sales_by_products?.reports?.products;
 
             if (!products || products.length === 0) {
-                alert("No data found for the selected date range.");
+                alert("No product data found for the selected date range.");
                 return;
             }
 
-            processedData = products; // save globally
+            processedData = products; // Save globally
+            categoryTotals = {};      // ✅ Reset to avoid accumulation
 
             const colorMap = {};
             products.forEach(p => {
                 const name = p.product.product_name;
                 const qty = parseFloat(p.product.quantity) || 0;
                 const category = getCategory(name);
-
                 categoryTotals[category] = (categoryTotals[category] || 0) + qty;
 
                 if (!colorMap[category]) {
@@ -55,9 +57,7 @@ function fetchReport() {
                     plugins: {
                         datalabels: {
                             color: '#fff',
-                            font: {
-                                weight: 'bold'
-                            },
+                            font: { weight: 'bold' },
                             formatter: (value, context) => {
                                 const total = context.chart.data.datasets[0].data.reduce((sum, val) => sum + val, 0);
                                 const percent = (value / total * 100).toFixed(1);
@@ -80,7 +80,7 @@ function fetchReport() {
                 plugins: [ChartDataLabels]
             });
 
-            // Show total breakdown with percentages for the main chart
+            // Show total breakdown with percentages
             const totalQty = qty.reduce((sum, val) => sum + val, 0);
             let html = `<h3>Total by Category</h3><ul>`;
             labels.forEach((category, index) => {
@@ -94,6 +94,8 @@ function fetchReport() {
             });
             html += `</ul>`;
             document.getElementById('categoryInfo').innerHTML = html;
+
+            // Update Excel export link
             document.getElementById("downloadExcel").href = `/api/sales_by_products_excel?start_date=${start}&end_date=${end}`;
         })
         .catch(error => {
@@ -101,6 +103,7 @@ function fetchReport() {
             alert("Failed to fetch data. Check console for details.");
         });
 }
+
 
 function getCategory(name) {
     name = name.toLowerCase();
