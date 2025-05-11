@@ -891,13 +891,14 @@ def sales_by_products():
     }
     return jsonify(data)
 
-
-
 # Add your project folder
 path = '/home/puputheveya/heveya-bali'
 if path not in sys.path:
     sys.path.insert(0, path)
 
+@app.route('/sales_kpi')
+def sales_kpi():
+    return render_template('sales_kpi.html')
 
 if __name__ == "__main__":
     init_db()
