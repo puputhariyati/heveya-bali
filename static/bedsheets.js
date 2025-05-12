@@ -130,11 +130,15 @@ function generateTable(material, source) {
 function renderTables(filter) {
   tableContainer.innerHTML = '';
 
+  const selectedMaterial = materialSelect.value;
   let sourcesToShow = [];
+
   if (filter === 'all') sourcesToShow = ['heveya', 'warehouse', 'total', 'request'];
   else sourcesToShow = [filter];
 
   materials.forEach(material => {
+    if (selectedMaterial !== 'all' && material !== selectedMaterial) return;
+
     sourcesToShow.forEach(source => {
       const [caption, table] = generateTable(material, source);
       tableContainer.appendChild(caption);
@@ -142,6 +146,7 @@ function renderTables(filter) {
     });
   });
 }
+
 
 // Fetch and process data
 async function fetchAndPrepare() {
@@ -209,5 +214,10 @@ async function fetchAndPrepare() {
 filterSelect.addEventListener("change", () => {
   renderTables(filterSelect.value);
 });
+
+materialSelect.addEventListener("change", () => {
+  renderTables(filterSelect.value);
+});
+
 
 fetchAndPrepare();
