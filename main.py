@@ -6,7 +6,7 @@ import sys
 from flask import Flask, request, jsonify, render_template, redirect, flash
 from dotenv import load_dotenv
 
-from jurnal_api import get_sales_orders
+# from jurnal_api import get_sales_orders
 from product_api import get_products
 from sales_reports import get_sales_by_products_dynamic
 
@@ -841,27 +841,27 @@ def sync_sales():
                 })
     return jsonify(items)
 
-@app.route('/bedsheets')
-def bedsheets():
-    return render_template('bedsheets.html')
+# @app.route('/bedsheets')
+# def bedsheets():
+#     return render_template('bedsheets.html')
 
-@app.route("/sync_bedsheets", methods=["GET"])
-def sync_bedsheets():
-    data = get_products()
-    if not data or "products" not in data:
-        return jsonify({"data": []})
-
-    items = []
-    for product in data["products"]:
-        warehouses = product.get("warehouses", {})
-        warehouse_183271 = warehouses.get("183271")
-        if warehouse_183271:
-            items.append({
-                "name": product.get("name"),
-                "quantity": warehouse_183271.get("quantity", 0)
-            })
-
-    return jsonify({"data": items})
+# @app.route("/sync_bedsheets", methods=["GET"])
+# def sync_bedsheets():
+#     data = get_products()
+#     if not data or "products" not in data:
+#         return jsonify({"data": []})
+#
+#     items = []
+#     for product in data["products"]:
+#         warehouses = product.get("warehouses", {})
+#         warehouse_183271 = warehouses.get("183271")
+#         if warehouse_183271:
+#             items.append({
+#                 "name": product.get("name"),
+#                 "quantity": warehouse_183271.get("quantity", 0)
+#             })
+#
+#     return jsonify({"data": items})
 
 @app.route('/sales_reports')
 def sales_reports():
@@ -875,30 +875,34 @@ def sales_reports():
 #     data = get_sales_by_products_dynamic(start_date, end_date)
 #     return jsonify(data)
 
-@app.route('/api/sales_by_products', methods=["GET"])
-def sales_by_products():
-    # Always use dummy data for now
-    data = {
-        "sales_by_products": {
-            "reports": {
-                "products": [
-                    {"product": {"product_name": "Pillow", "quantity": 20}},
-                    {"product": {"product_name": "Mattress", "quantity": 15}},
-                    {"product": {"product_name": "Topper", "quantity": 10}},
-                ]
-            }
-        }
-    }
-    return jsonify(data)
-
-# Add your project folder
-path = '/home/puputheveya/heveya-bali'
-if path not in sys.path:
-    sys.path.insert(0, path)
+# @app.route('/api/sales_by_products', methods=["GET"])
+# def sales_by_products():
+#     # Always use dummy data for now
+#     data = {
+#         "sales_by_products": {
+#             "reports": {
+#                 "products": [
+#                     {"product": {"product_name": "Pillow", "quantity": 20}},
+#                     {"product": {"product_name": "Mattress", "quantity": 15}},
+#                     {"product": {"product_name": "Topper", "quantity": 10}},
+#                 ]
+#             }
+#         }
+#     }
+#     return jsonify(data)
+#
+# # Add your project folder
+# path = '/home/puputheveya/heveya-bali'
+# if path not in sys.path:
+#     sys.path.insert(0, path)
 
 @app.route('/sales_kpi')
 def sales_kpi():
     return render_template('sales_kpi.html')
+
+@app.route('/sales_invoice')
+def sales_invoice():
+    return render_template('sales_invoice.html')
 
 if __name__ == "__main__":
     init_db()

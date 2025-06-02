@@ -38,6 +38,8 @@ async function loadSummary() {
   document.getElementById("total-amount").textContent = `Total Amount: $${data.total_amount}`;
 }
 
+const customerContacts = {};
+
 async function loadLeads() {
   const res = await fetch("/api/crm");
   const leads = await res.json();
@@ -45,7 +47,16 @@ async function loadLeads() {
   const tbody = document.querySelector("#leads-table tbody");
   tbody.innerHTML = "";
 
+  // Clear and rebuild contact dictionary
+  Object.keys(customerContacts).forEach(key => delete customerContacts[key]);
+
   leads.forEach(lead => {
+    // ✅ Store contact info
+    customerContacts[lead.customer] = {
+      mobile: lead.mobile,
+      email: lead.email
+    };
+
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${lead.customer}</td>
@@ -59,6 +70,9 @@ async function loadLeads() {
     `;
     tbody.appendChild(tr);
   });
+
+  // ✅ Re-bind auto-fill listener AFTER loading contacts
+  setupAutoFill();
 }
 
 let productPieChart;
@@ -112,10 +126,10 @@ async function renderProductPie() {
 
 // Call this when the page loads
 document.addEventListener("DOMContentLoaded", () => {
-  loadSummary();
-  loadLeads();
   renderProductPie();
   renderStatusPie(); // 👈 Add this
+  setTodayAsDefaultDate(); // ✅ Set today's date by default
+  setupAutoFill();
 });
 
 
@@ -166,4 +180,53 @@ async function renderStatusPie() {
       }
     }
   });
+}
+
+// ✅ Autofill listener (called from loadLeads)
+function setupAutoFill() {
+  const nameInput = document.querySelector('input[placeholder="Customer Name"]');
+  const mobileInput = document.querySelector('input[placeholder="Mobile"]');
+  const emailInput = document.querySelector('input[placeholder="Email"]');
+
+  if (!nameInput || !mobileInput || !emailInput) return;
+
+  nameInput.removeEventListener("input", autoFillHandler); // Avoid multiple bindings
+  nameInput.addEventListener("input", autoFillHandler);
+
+  function autoFillHandler() {
+    const name = nameInput.value.trim();
+    const contact = customerContacts[name];
+    if (contact) {
+      mobileInput.value = contact.mobile;
+      emailInput.value = contact.email;
+    } else {
+      mobileInput.value = "";
+      emailInput.value = "";
+    }
+  }
+}
+
+// ✅ Set today's date as default
+function setTodayAsDefaultDate() {
+  const dateInput = document.querySelector('input[type="date"]');
+  if (dateInput) {
+    const today = new Date().toISOString().split("T")[0];
+    dateInput.value = today;
+  }
+}
+
+// Filter table rows by customer name
+function filterTable() {
+  const input = document.getElementById("searchInput");
+  const filter = input.value.toLowerCase();
+  const table = document.querySelector("table");
+  const rows = table.getElementsByTagName("tr");
+
+  for (let i = 1; i < rows.length; i++) { // skip header
+    const customerCell = rows[i].getElementsByTagName("td")[0];
+    if (customerCell) {
+      const txtValue = customerCell.textContent || customerCell.innerText;
+      rows[i].style.display = txtValue.toLowerCase().includes(filter) ? "" : "none";
+    }
+  }
 }
