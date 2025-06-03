@@ -10,9 +10,21 @@ function downloadPDF() {
 }
 
 function toggleInternal() {
+  const toggleButton = document.getElementById('toggle-view-btn');
+
   document.querySelectorAll('.internal-only').forEach(el => {
     el.style.display = (el.style.display === 'table-cell' || el.style.display === 'table-row') ? 'none' : (el.tagName === 'TR' ? 'table-row' : 'table-cell');
   });
+
+  // Check if any internal-only elements are visible after toggling
+  const isInternalViewActive = document.querySelector('.internal-only').style.display === 'table-cell' || document.querySelector('.internal-only').style.display === 'table-row';
+
+  // Update button text based on the current view
+  if (isInternalViewActive) {
+    toggleButton.textContent = 'Client View';
+  } else {
+    toggleButton.textContent = 'Internal View';
+  }
 }
 
 window.onload = function () {
@@ -25,6 +37,9 @@ window.onload = function () {
 
   document.getElementById("quote-date").value = toDateInputValue(today);
   document.getElementById("quote-expiry").value = toDateInputValue(oneMonthLater);
+
+  // Initialize the button text to "Internal View" since internal-only elements are hidden by default
+  document.getElementById("toggle-view-btn").textContent = "Internal View";
 };
 
 // Mock database of products
@@ -89,8 +104,77 @@ function updateAmount(input) {
   const qty = Number(row.querySelector(".qty-input").value || 0);
   const discount = Number(row.querySelector(".disc-input").value || 0);
   const unitPrice = Number(row.dataset.unitPrice || 0);
+  const unitCost = Number(row.dataset.unitCost || 0);
+
+  // Calculate amount (IDR)
   const discountedPrice = unitPrice - (unitPrice * discount / 100);
   const amount = Math.round(discountedPrice * qty);
   row.querySelector(".amount-text").textContent = amount.toLocaleString("id-ID");
+
+  // Calculate internal-only values
+  if (row.querySelector(".full-amount")) {
+    // Full amount: unit price * qty
+    const fullAmount = unitPrice * qty;
+    row.querySelector(".full-amount").textContent = fullAmount.toLocaleString("id-ID");
+
+    // Selling price - PPN: amount (IDR) / 1.11
+    const sellingPriceNoPPN = Math.round(amount / 1.11);
+    row.querySelector(".sell-no-ppn").textContent = sellingPriceNoPPN.toLocaleString("id-ID");
+
+    // Total cost: unit cost * qty
+    const totalCost = unitCost * qty;
+    row.querySelector(".total-cost").textContent = totalCost.toLocaleString("id-ID");
+
+    // Abs. margin: (selling price - ppn) - total cost
+    const absMargin = sellingPriceNoPPN - totalCost;
+    row.querySelector(".abs-margin").textContent = absMargin.toLocaleString("id-ID");
+
+    // Margin percentage: (abs. margin / (selling price - ppn)) * 100
+    let marginPercent = 0;
+    if (sellingPriceNoPPN > 0) {
+      marginPercent = (absMargin / sellingPriceNoPPN) * 100;
+    }
+    row.querySelector(".margin-percent").textContent = marginPercent.toFixed(1) + "%";
+
+    // Update totals
+    updateTotals();
+  }
 }
 
+// Update totals for the internal-only table
+function updateTotals() {
+  let totalFullAmount = 0;
+  let totalSellingPriceNoPPN = 0;
+  let totalCost = 0;
+  let totalAbsMargin = 0;
+
+  document.querySelectorAll("#quote-items tr").forEach(row => {
+    if (row.querySelector(".full-amount")) {
+      totalFullAmount += parseCurrency(row.querySelector(".full-amount").textContent);
+      totalSellingPriceNoPPN += parseCurrency(row.querySelector(".sell-no-ppn").textContent);
+      totalCost += parseCurrency(row.querySelector(".total-cost").textContent);
+      totalAbsMargin += parseCurrency(row.querySelector(".abs-margin").textContent);
+    }
+  });
+
+  // Update total cells
+  if (document.querySelector(".full-amount-total")) {
+    document.querySelector(".full-amount-total").textContent = totalFullAmount.toLocaleString("id-ID");
+    document.querySelector(".sell-no-ppn-total").textContent = totalSellingPriceNoPPN.toLocaleString("id-ID");
+    document.querySelector(".total-cost-total").textContent = totalCost.toLocaleString("id-ID");
+    document.querySelector(".abs-margin-total").textContent = totalAbsMargin.toLocaleString("id-ID");
+
+    // Calculate total margin percentage
+    let totalMarginPercent = 0;
+    if (totalSellingPriceNoPPN > 0) {
+      totalMarginPercent = (totalAbsMargin / totalSellingPriceNoPPN) * 100;
+    }
+    document.querySelector(".margin-percent-total").textContent = totalMarginPercent.toFixed(1) + "%";
+  }
+}
+
+// Helper function to parse currency strings
+function parseCurrency(currencyStr) {
+  if (!currencyStr) return 0;
+  return parseFloat(currencyStr.replace(/\./g, '').replace(/,/g, '.').replace(/[^\d.-]/g, '')) || 0;
+}

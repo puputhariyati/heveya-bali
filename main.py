@@ -904,6 +904,38 @@ def sales_kpi():
 def sales_invoice():
     return render_template('sales_invoice.html')
 
+@app.route('/get_product_details', methods=['GET'])
+def get_product_details():
+    """Get product details by name including unit cost"""
+    product_name = request.args.get('product_name', '').strip()
+
+    if not product_name:
+        return jsonify({"error": "Product name is required"}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # Get product details from inventory
+    cursor.execute("""
+        SELECT product_name, unit_sell_price, unit_buy_price
+        FROM inventory
+        WHERE product_name = ?
+    """, (product_name,))
+
+    product = cursor.fetchone()
+    conn.close()
+
+    if not product:
+        return jsonify({"error": "Product not found"}), 404
+
+    # Return product details
+    return jsonify({
+        "product_name": product['product_name'],
+        "unit_price": product['unit_sell_price'],
+        "unit_cost": product['unit_buy_price'],
+        "unit": "Pcs"  # Default unit, can be modified if unit is stored in the database
+    })
+
 if __name__ == "__main__":
     init_db()
     app.run(debug=True)

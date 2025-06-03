@@ -9,21 +9,21 @@
 <body>
   <div id="invoice">
     <!-- Header -->
-    <table style="width: 100%; border-collapse: collapse;">
+    <table class="header-table">
       <tr>
-        <td style="width: 40%; vertical-align: top;">
+        <td>
           <strong>PT HEVEYA KARUNIA ALAM</strong><br>
           Jalan Pantai Berawa No. 17, BADUNG, BALI, 80361<br>
           Phone: 082147638966<br>
           Email: 434893871906000
         </td>
-        <td style="width: 30%;">
+        <td>
           <strong>QUOTE #: </strong> {{ quote_no }}<br>
-          <label>DATE: <input type="date" id="quote-date" /></label><br /><br />
-          <label>EXPIRED DATE: <input type="date" id="quote-expiry" /></label><br /><br />
+          <label>DATE: <input type="date" id="quote-date" /></label><br><br>
+          <label>EXPIRED DATE: <input type="date" id="quote-expiry" /></label><br><br>
         </td>
-        <td style="width: 30%; text-align: center;">
-          <img src="{{ url_for('static', filename='heveya-logo.png') }}" alt="Heveya Logo" style="width: 100px;"><br>
+        <td>
+          <img src="{{ url_for('static', filename='heveya-logo.png') }}" alt="heveya logo">
         </td>
       </tr>
     </table>
@@ -31,17 +31,18 @@
     <hr>
 
     <!-- Customer Info -->
-    <table style="width: 100%; margin-top: 10px;">
+    <table class="customer-table">
       <tr>
-        <td style="width: 50%; vertical-align: top;">
+        <td>
           <strong>CUSTOMER</strong><br>
-          <label>NAME: <input type="text" id="client-name" placeholder="Client Name" /></label><br /><br/>
-          <label>ADDRESS: <input type="text" id="client-address" placeholder="Client Address" /></label><br /><br/>
+          <label>NAME: <input type="text" id="client-name" placeholder="Client Name" /></label><br><br>
+          <label>ADDRESS: <input type="text" id="client-address" placeholder="Client Address" /></label><br><br>
           <label>PHONE: <input type="text" id="client-phone" placeholder="Client Phone" /></label>
         </td>
       </tr>
     </table>
 
+    <!-- Items Table -->
     <table class="items-table">
       <thead>
         <tr>
@@ -51,68 +52,84 @@
           <th>Qty</th>
           <th>Unit</th>
           <th>Unit Price (IDR)</th>
-          <th>Discount</th>
+          <th>Discount (%)</th>
           <th>Amount (IDR)</th>
           <th>Notes</th>
+          <th>Action</th>
           <th class="internal-only">Full Amount</th>
-          <th class="internal-only">Selling Price-PPN</th>
+          <th class="internal-only">Selling Price - PPN</th>
+          <th class="internal-only">Unit Cost</th>
           <th class="internal-only">Total Cost</th>
-          <th class="internal-only">Total Cost x Qty</th>
           <th class="internal-only">Abs. Margin</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="quote-items">
+        <!-- Example Row -->
         <tr>
           <td>1</td>
           <td><img src="https://via.placeholder.com/60" alt="Mattress"></td>
-          <td>Heveya Mattress III - 273x243x31cm</td>
-          <td>1</td>
-          <td>Pcs</td>
-          <td>89.500.000</td>
-          <td>10%</td>
-          <td>10.000.000</td>
-          <td>80.550.000</td>
-          <td class="internal-only">60.000.000</td>
-          <td class="internal-only">20.550.000</td>
+          <td><input type="text" class="description" placeholder="Enter product description" value="Heveya Mattress III - 273x243x31cm"></td>
+          <td><input type="number" class="qty" value="1" min="1"></td>
+          <td class="unit">Pcs</td>
+          <td class="unit-price" data-price="89500000">89,500,000</td>
+          <td><input type="number" class="discount" value="10" min="0" max="100" style="width: 50px;"> %</td>
+          <td class="amount">80,550,000</td>
+          <td><input type="text" class="notes" placeholder="Optional"></td>
+          <td><button class="remove-row" onclick="removeRow(this)" title="Remove item">🗑️</button></td>
+          <td class="internal-only full-amount">89,500,000</td>
+          <td class="internal-only sell-no-ppn">72,522,523</td>
+          <td class="internal-only unit-cost" data-cost="60000000">60,000,000</td>
+          <td class="internal-only total-cost">60,000,000</td>
+          <td class="internal-only abs-margin">12,522,523</td>
+        </tr>
+        <!-- Totals Row -->
+      <tfoot>
+        <tr>
+          <td colspan="7" style="text-align: right;"><strong>Grand Total (Incl. PPN 11%):</strong></td>
+          <td class="right" id="grand-total">106,756,757</td>
+          <td colspan="2"></td>
+          <td class="full-amount-total internal-only"><strong>89,500,000</strong></td>
+          <td class="sell-no-ppn-total internal-only"><strong>72,522,523</strong></td>
+          <td class="internal-only"></td> <!-- Unit Cost -->
+          <td class="total-cost-total internal-only"><strong>60,000,000</strong></td>
+          <td class="abs-margin-total internal-only"><strong>12,522,523</strong></td>
         </tr>
         <tr>
-          <td>2</td>
-          <td><img src="https://via.placeholder.com/60" alt="Pillow"></td>
-          <td>Heveya Pillow - 70x40x14.5cm</td>
-          <td>1</td>
-          <td>Pcs</td>
-          <td>1.800.000</td>
-          <td>10%</td>
-          <td>200.000</td>
-          <td>1.620.000</td>
-          <td class="internal-only">1.000.000</td>
-          <td class="internal-only">620.000</td>
+          <td colspan="7" style="text-align: right;"><strong>Total Discount:</strong></td>
+          <td class="right" id="total-discount">16,513,514</td>
+          <td colspan="6" class="internal-only" style="text-align: right;">
+            <strong>Margin %</strong>
+          </td>
+          <td class="margin-percent-total internal-only">
+            <strong>17%</strong>
+          </td>
         </tr>
-        
-        <!-- Totals Row for Internal View -->
-        <tr class="internal-only">
-          <td colspan="9" style="text-align: right;"><strong>Totals:</strong></td>
-          <td><strong>82.170.000</strong></td> <!-- Full Amount Total -->
-          <td><strong>61.000.000</strong></td> <!-- Selling Price-PPN Total -->
-          <td><strong>21.170.000</strong></td> <!-- Total Cost -->
-          <td><strong>21.170.000</strong></td> <!-- Total Cost x Qty -->
-          <td><strong>21.170.000</strong></td> <!-- Abs Margin -->
+        <tr>
+          <td colspan="7" style="text-align: right;">
+            <strong>Deposit:</strong>
+            <input type="number" id="deposit-percentage" value="50" min="0" max="100" style="width: 50px;"> %
+          </td>
+          <td class="right">
+            <span id="deposit-amount">10,200,000</span>
+          </td>
         </tr>
+      </tfoot>
       </tbody>
     </table>
 
-    <table class="summary">
-      <tr><td class="right"><strong>Grand Total (Incl. PPN 11%):</strong></td><td class="right">106.756.757</td></tr>
-      <tr><td class="right"><strong>Total Discount:</strong></td><td class="right">16.513.514</td></tr>
-      <tr><td class="right"><strong>Deposit 50%:</strong></td><td class="right">10.200.000</td></tr>
-    </table>
+    <!-- Add Row Button -->
+    <div class="add-row-container">
+      <button onclick="addRow()">Add Item</button>
+    </div>
   </div>
 
+  <!-- Buttons -->
   <div class="button-container">
     <button onclick="downloadPDF()">Download as PDF</button>
-    <button onclick="toggleInternal()">Toggle Internal View</button>
+    <button id="toggle-view-btn" onclick="toggleInternal()">Internal View</button>
   </div>
 
+  <!-- JavaScript -->
   <script src="{{ url_for('static', filename='sales_invoice.js') }}"></script>
 </body>
 </html>
