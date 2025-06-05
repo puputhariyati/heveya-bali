@@ -52,7 +52,7 @@ def get_sales_orders():
         return None
 
 # Fetch the data
-data = get_sales_orders()
+#data = get_sales_orders()
 
 # # ✅ Pretty print the JSON only if data is returned
 # if data:
@@ -80,37 +80,37 @@ data = get_sales_orders()
 #     print("⚠️ No sales orders found.")
 
 # ✅ Get the newest (latest) sales order by transaction_date
-if data and "sales_orders" in data and data["sales_orders"]:
-    try:
-        # Convert to list of tuples (parsed_date, order)
-        orders_with_dates = [
-            (datetime.strptime(order["transaction_date"], "%d/%m/%Y"), order)
-            for order in data["sales_orders"]
-        ]
-
-        # Sort by date descending, get the latest
-        latest_order = sorted(orders_with_dates, key=lambda x: x[0], reverse=True)[0][1]
-
-        # ✅ Simplify the sales order to include only transaction info and products
-        simplified_order = {
-            "transaction_no": latest_order["transaction_no"],
-            "transaction_date": latest_order["transaction_date"],
-            "products": []
-        }
-
-        for line in latest_order.get("transaction_lines_attributes", []):
-            product = line.get("product")
-            if product:
-                simplified_order["products"].append({
-                    "name": product.get("name"),
-                    # "quantity": product.get("quantity") #product stock qty
-                    "quantity": line.get("quantity")
-                })
-
-        print("✅ Simplified Sales Order:")
-        # print(json.dumps(simplified_order, indent=2))
-
-    except Exception as e:
-        print(f"⚠️ Error parsing or simplifying data: {e}")
-else:
-    print("⚠️ No sales orders found.")
+# if data and "sales_orders" in data and data["sales_orders"]:
+#     try:
+#         # Convert to list of tuples (parsed_date, order)
+#         orders_with_dates = [
+#             (datetime.strptime(order["transaction_date"], "%d/%m/%Y"), order)
+#             for order in data["sales_orders"]
+#         ]
+#
+#         # Sort by date descending, get the latest
+#         latest_order = sorted(orders_with_dates, key=lambda x: x[0], reverse=True)[0][1]
+#
+#         # ✅ Simplify the sales order to include only transaction info and products
+#         simplified_order = {
+#             "transaction_no": latest_order["transaction_no"],
+#             "transaction_date": latest_order["transaction_date"],
+#             "products": []
+#         }
+#
+#         for line in latest_order.get("transaction_lines_attributes", []):
+#             product = line.get("product")
+#             if product:
+#                 simplified_order["products"].append({
+#                     "name": product.get("name"),
+#                     # "quantity": product.get("quantity") #product stock qty
+#                     "quantity": line.get("quantity")
+#                 })
+#
+#         print("✅ Simplified Sales Order:")
+#         print(json.dumps(simplified_order, indent=2))
+#
+#     except Exception as e:
+#         print(f"⚠️ Error parsing or simplifying data: {e}")
+# else:
+#     print("⚠️ No sales orders found.")

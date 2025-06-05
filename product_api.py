@@ -5,7 +5,6 @@ import hmac
 import json
 from email.utils import formatdate
 from datetime import datetime
-import time
 
 # Mekari credentials
 CLIENT_ID = 'afaku9tq7KET9tMm'
@@ -69,7 +68,6 @@ def get_products():
                 all_products.extend(data['products'])  # Add products to the all_products list
         else:
             print(f"❌ Error {response.status_code} for SKU {sku}:", response.text)
-        time.sleep(1)
 
     # 🛠️ Important: Return the same structure as Mekari API
     return {
@@ -79,26 +77,15 @@ def get_products():
         "current_page": 1,
         "total_pages": 1
     }
-#
-# <<<<<<< HEAD
-#
-# # Fetch the data
-# # data = get_products()
-#
-# # ✅ Pretty print the JSON only if data is returned
-# # if data:
-# #     print("✅ Formatted Response:")
-# #     # print(json.dumps(data, indent=2))
-# =======
-# #
-# # # Fetch the data
-# # data = get_products()
-# #
-# # # ✅ Pretty print the JSON only if data is returned
-# # if data:
-# #     print("✅ Formatted Response:")
-# #     print(json.dumps(data, indent=2))
-# >>>>>>> temp-fix
+
+print("HERE")
+# Fetch the data
+#data = get_products()
+
+# ✅ Pretty print the JSON only if data is returned
+#if data:
+#    print("✅ Formatted Response:")
+    # print(json.dumps(data, indent=2))
 
 # # ✅ Get the newest (latest) sales order by transaction_date
 # if data and "sales_orders" in data and data["sales_orders"]:
@@ -129,8 +116,6 @@ def get_products():
 #             for order in data["sales_orders"]
 #         ]
 #
-
-
 #         # Sort by date descending, get the latest
 #         latest_order = sorted(orders_with_dates, key=lambda x: x[0], reverse=True)[0][1]
 #
@@ -145,10 +130,6 @@ def get_products():
 #             product = line.get("product")
 #             if product:
 #                 simplified_order["products"].append({
-
-
-
-
 #                     "name": product.get("name"),
 #                     # "quantity": product.get("quantity") #product stock qty
 #                     "quantity": line.get("quantity")
