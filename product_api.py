@@ -129,6 +129,8 @@ def get_products():
 #             for order in data["sales_orders"]
 #         ]
 #
+
+
 #         # Sort by date descending, get the latest
 #         latest_order = sorted(orders_with_dates, key=lambda x: x[0], reverse=True)[0][1]
 #
@@ -143,6 +145,10 @@ def get_products():
 #             product = line.get("product")
 #             if product:
 #                 simplified_order["products"].append({
+
+
+
+
 #                     "name": product.get("name"),
 #                     # "quantity": product.get("quantity") #product stock qty
 #                     "quantity": line.get("quantity")
