@@ -841,27 +841,56 @@ def sync_sales():
                 })
     return jsonify(items)
 
-# @app.route('/bedsheets')
-# def bedsheets():
-#     return render_template('bedsheets.html')
+@app.route('/bedsheets')
+def bedsheets():
+    return render_template('bedsheets.html')
 
-# @app.route("/sync_bedsheets", methods=["GET"])
-# def sync_bedsheets():
-#     data = get_products()
-#     if not data or "products" not in data:
-#         return jsonify({"data": []})
-#
-#     items = []
-#     for product in data["products"]:
-#         warehouses = product.get("warehouses", {})
-#         warehouse_183271 = warehouses.get("183271")
-#         if warehouse_183271:
-#             items.append({
-#                 "name": product.get("name"),
-#                 "quantity": warehouse_183271.get("quantity", 0)
-#             })
-#
-#     return jsonify({"data": items})
+@app.route("/sync_bedsheets", methods=["GET"])
+def sync_bedsheets():
+    filter_value = request.args.get('filter', 'all')
+    data = get_products()
+    if not data or "products" not in data:
+        return jsonify({"data": []})
+
+    items = []
+    for product in data["products"]:
+        warehouses = product.get("warehouses", {})
+        warehouse_183271 = warehouses.get("183271")
+        if warehouse_183271:
+            # Only include items based on filter
+            if filter_value == 'all':
+                items.append({
+                    "name": product.get("name"),
+                    "quantity": warehouse_183271.get("quantity", 0),
+                    "location": "Warehouse" if warehouse_183271.get("quantity", 0) > 0 else "Heveya"
+                })
+            elif filter_value == 'warehouse' and warehouse_183271.get("quantity", 0) > 0:
+                items.append({
+                    "name": product.get("name"),
+                    "quantity": warehouse_183271.get("quantity", 0),
+                    "location": "Warehouse"
+                })
+            elif filter_value == 'heveya' and warehouse_183271.get("quantity", 0) == 0:
+                items.append({
+                    "name": product.get("name"),
+                    "quantity": 0,
+                    "location": "Heveya"
+                })
+            elif filter_value == 'total':
+                items.append({
+                    "name": product.get("name"),
+                    "quantity": warehouse_183271.get("quantity", 0),
+                    "location": "Warehouse" if warehouse_183271.get("quantity", 0) > 0 else "Heveya"
+                })
+            elif filter_value == 'request':
+                # For request, we'll calculate based on ideal stock levels
+                items.append({
+                    "name": product.get("name"),
+                    "quantity": warehouse_183271.get("quantity", 0),
+                    "location": "Warehouse" if warehouse_183271.get("quantity", 0) > 0 else "Heveya"
+                })
+
+    return jsonify({"data": items})
 
 @app.route('/sales_reports')
 def sales_reports():
@@ -938,4 +967,4 @@ def get_product_details():
 
 if __name__ == "__main__":
     init_db()
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False)

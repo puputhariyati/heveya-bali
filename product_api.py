@@ -130,15 +130,3 @@ print("HERE")
 #             product = line.get("product")
 #             if product:
 #                 simplified_order["products"].append({
-#                     "name": product.get("name"),
-#                     # "quantity": product.get("quantity") #product stock qty
-#                     "quantity": line.get("quantity")
-#                 })
-#
-#         print("✅ Simplified Sales Order:")
-#         print(json.dumps(simplified_order, indent=2))
-#
-#     except Exception as e:
-#         print(f"⚠️ Error parsing or simplifying data: {e}")
-# else:
-#     print("⚠️ No sales orders found.")
