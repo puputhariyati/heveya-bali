@@ -74,8 +74,8 @@ def get_sales_by_products_dynamic(start, end):
         return {"error": response.text}
 
 
-# Fetch the data
-data = get_sales_by_products()
+# # Fetch the data
+# data = get_sales_by_products()
 
 # # ✅ Pretty print the JSON only if data is returned
 # if data:
