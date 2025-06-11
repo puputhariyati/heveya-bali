@@ -1,0 +1,1086 @@
+{
+  "products": [
+    {
+      "id": 49593045,
+      "name": "20521853 JARVFJALLET office chr w armr Grann white AP Article Number: 20521853",
+      "product_code": "",
+      "source": "v3/revamp",
+      "description": "",
+      "init_date": null,
+      "init_quantity": "0.0",
+      "active": true,
+      "is_bought": true,
+      "is_sold": false,
+      "created_at": "2024-06-28T04:49:55.000Z",
+      "updated_at": "2024-06-28T04:49:55.000Z",
+      "deleted_at": null,
+      "is_system": false,
+      "custom_id": null,
+      "archive": false,
+      "barcode": null,
+      "use_serial_number": false,
+      "product_master": {
+        "id": null
+      },
+      "track_inventory": false,
+      "is_import": false,
+      "last_created_inventory": "",
+      "last_created_inventory_format_date": "",
+      "last_updated_inventory": "",
+      "last_updated_inventory_format_date": "",
+      "buffer_quantity": "0",
+      "company": {
+        "id": 436783,
+        "name": "PT Heveya Karunia Alam"
+      },
+      "taxable_buy": false,
+      "taxable_sell": false,
+      "deletable": false,
+      "editable": true,
+      "unit": {
+        "id": 1187595,
+        "name": "Pcs"
+      },
+      "units": [],
+      "image": {
+        "name": null,
+        "url": null,
+        "mini_url": null
+      },
+      "has_purchase": true,
+      "has_sales": false,
+      "has_transaction_before_last_close_the_book": false,
+      "product_categories": null,
+      "product_categories_string": "",
+      "is_bundle": false,
+      "quantity": null,
+      "quantity_available": null,
+      "buy_price_per_unit": "0.0",
+      "buy_price_per_unit_currency_format": "Rp.  0",
+      "last_buy_price": 0.0,
+      "last_buy_price_currency_format": "Rp.  0",
+      "buy_tax_id": null,
+      "buy_account": {
+        "id": 56494614,
+        "name": "Aktiva Kelompok I (Fixed Assets - Office Equipment)",
+        "number": "1-10700"
+      },
+      "buy_return_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "sell_price_per_unit": "0.0",
+      "sell_price_per_unit_currency_format": "Rp.  0",
+      "sell_tax_id": null,
+      "sell_account": {
+        "id": 56494690,
+        "name": "Sales - Mattress",
+        "number": "4-40000"
+      },
+      "sell_return_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "average_price": 0.0,
+      "average_price_currency_format": "Rp.  0",
+      "init_price": "0.0",
+      "init_price_currency_format": "Rp.  0",
+      "inventory_asset_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "total_quantity_in_transaction": {
+        "total_quantity_in_sales": 0.0,
+        "total_quantity_in_purchases": 0.0
+      },
+      "company_currency": {
+        "code": "IDR",
+        "symbol": "Rp."
+      }
+    },
+    {
+      "id": 44254609,
+      "name": "Accessories - Top Centre Complete 8066 - Double swing door",
+      "product_code": "",
+      "source": null,
+      "description": null,
+      "init_date": null,
+      "init_quantity": "0.0",
+      "active": true,
+      "is_bought": true,
+      "is_sold": false,
+      "created_at": "2023-10-02T15:41:44.000Z",
+      "updated_at": "2023-10-02T15:41:44.000Z",
+      "deleted_at": null,
+      "is_system": false,
+      "custom_id": null,
+      "archive": false,
+      "barcode": null,
+      "use_serial_number": false,
+      "product_master": {
+        "id": null
+      },
+      "track_inventory": false,
+      "is_import": false,
+      "last_created_inventory": "",
+      "last_created_inventory_format_date": "",
+      "last_updated_inventory": "",
+      "last_updated_inventory_format_date": "",
+      "buffer_quantity": "0",
+      "company": {
+        "id": 436783,
+        "name": "PT Heveya Karunia Alam"
+      },
+      "taxable_buy": false,
+      "taxable_sell": false,
+      "deletable": false,
+      "editable": true,
+      "unit": {
+        "id": 1187595,
+        "name": "Pcs"
+      },
+      "units": [],
+      "image": {
+        "name": null,
+        "url": null,
+        "mini_url": null
+      },
+      "has_purchase": true,
+      "has_sales": false,
+      "has_transaction_before_last_close_the_book": false,
+      "product_categories": null,
+      "product_categories_string": "",
+      "is_bundle": false,
+      "quantity": null,
+      "quantity_available": null,
+      "buy_price_per_unit": "0.0",
+      "buy_price_per_unit_currency_format": "Rp.  0",
+      "last_buy_price": 0.0,
+      "last_buy_price_currency_format": "Rp.  0",
+      "buy_tax_id": null,
+      "buy_account": {
+        "id": 56494631,
+        "name": "Bangunan (Fixed Asset - Building)",
+        "number": "1-10702"
+      },
+      "buy_return_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "sell_price_per_unit": "0.0",
+      "sell_price_per_unit_currency_format": "Rp.  0",
+      "sell_tax_id": null,
+      "sell_account": {
+        "id": 56494690,
+        "name": "Sales - Mattress",
+        "number": "4-40000"
+      },
+      "sell_return_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "average_price": 0.0,
+      "average_price_currency_format": "Rp.  0",
+      "init_price": "0.0",
+      "init_price_currency_format": "Rp.  0",
+      "inventory_asset_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "total_quantity_in_transaction": {
+        "total_quantity_in_sales": 0.0,
+        "total_quantity_in_purchases": 0.0
+      },
+      "company_currency": {
+        "code": "IDR",
+        "symbol": "Rp."
+      }
+    },
+    {
+      "id": 48312606,
+      "name": "Additional cost for 1L bottle for diffuser",
+      "product_code": "WRRDLQ1L",
+      "source": "v3/revamp",
+      "description": "",
+      "init_date": "2021-12-31",
+      "init_quantity": "0.0",
+      "active": true,
+      "is_bought": true,
+      "is_sold": true,
+      "created_at": "2024-04-22T08:38:28.000Z",
+      "updated_at": "2025-05-13T03:49:30.000Z",
+      "deleted_at": null,
+      "is_system": false,
+      "custom_id": null,
+      "archive": false,
+      "barcode": null,
+      "use_serial_number": false,
+      "product_master": {
+        "id": null
+      },
+      "track_inventory": true,
+      "is_import": false,
+      "last_created_inventory": "2024-12-27T15:10:15.000+07:00",
+      "last_created_inventory_format_date": "27/12/2024, 15:10:15",
+      "last_updated_inventory": "2024-12-27T15:10:15.000+07:00",
+      "last_updated_inventory_format_date": "27/12/2024, 15:10:15",
+      "buffer_quantity": 0.0,
+      "company": {
+        "id": 436783,
+        "name": "PT Heveya Karunia Alam"
+      },
+      "taxable_buy": true,
+      "taxable_sell": true,
+      "deletable": false,
+      "editable": true,
+      "warehouses": {
+        "183271": {
+          "name": "Heveya Bali Office ",
+          "quantity": 0.0
+        }
+      },
+      "unit": {
+        "id": 1187595,
+        "name": "Pcs"
+      },
+      "units": [],
+      "image": {
+        "name": null,
+        "url": null,
+        "mini_url": null
+      },
+      "has_purchase": true,
+      "has_sales": true,
+      "has_transaction_before_last_close_the_book": false,
+      "product_categories": [
+        {
+          "id": 9138151,
+          "name": "Wellness"
+        },
+        {
+          "id": 11527919,
+          "name": "Material"
+        }
+      ],
+      "product_categories_string": "Wellness, Material",
+      "is_bundle": false,
+      "quantity": 0.0,
+      "quantity_available": 0.0,
+      "buy_price_per_unit": "0.0",
+      "buy_price_per_unit_currency_format": "Rp.  0",
+      "last_buy_price": 10000.0,
+      "last_buy_price_currency_format": "Rp.  10.000",
+      "buy_tax_id": 701709,
+      "buy_tax": {
+        "id": 701709,
+        "name": "PPN 11%",
+        "rate": "11.0",
+        "is_compound": false,
+        "is_witholding": false
+      },
+      "buy_account": {
+        "id": 76218125,
+        "name": "COGS - Bed Accessories",
+        "number": "5-50004"
+      },
+      "buy_return_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "sell_price_per_unit": "0.0",
+      "sell_price_per_unit_currency_format": "Rp.  0",
+      "sell_tax_id": 701709,
+      "sell_tax": {
+        "id": 701709,
+        "name": "PPN 11%",
+        "rate": "11.0",
+        "is_compound": false,
+        "is_witholding": false
+      },
+      "sell_account": {
+        "id": 58207345,
+        "name": "Sales - Bed Accessories",
+        "number": "4-40006"
+      },
+      "sell_return_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "average_price": 10000.0,
+      "average_price_currency_format": "Rp.  10.000",
+      "init_price": "0.0",
+      "init_price_currency_format": "Rp.  0",
+      "inventory_asset_account": {
+        "id": 76191478,
+        "name": "Inventory - Bed Accessories",
+        "number": "1-10205"
+      },
+      "total_quantity_in_transaction": {
+        "total_quantity_in_sales": 3.0,
+        "total_quantity_in_purchases": 3.0
+      },
+      "company_currency": {
+        "code": "IDR",
+        "symbol": "Rp."
+      }
+    },
+    {
+      "id": 50667751,
+      "name": "Additional Discount",
+      "product_code": "",
+      "source": "v3/revamp",
+      "description": "",
+      "init_date": null,
+      "init_quantity": "0.0",
+      "active": true,
+      "is_bought": false,
+      "is_sold": true,
+      "created_at": "2024-08-28T04:06:47.000Z",
+      "updated_at": "2024-08-28T04:06:47.000Z",
+      "deleted_at": null,
+      "is_system": false,
+      "custom_id": null,
+      "archive": false,
+      "barcode": null,
+      "use_serial_number": false,
+      "product_master": {
+        "id": null
+      },
+      "track_inventory": false,
+      "is_import": false,
+      "last_created_inventory": "",
+      "last_created_inventory_format_date": "",
+      "last_updated_inventory": "",
+      "last_updated_inventory_format_date": "",
+      "buffer_quantity": "0",
+      "company": {
+        "id": 436783,
+        "name": "PT Heveya Karunia Alam"
+      },
+      "taxable_buy": false,
+      "taxable_sell": true,
+      "deletable": false,
+      "editable": true,
+      "unit": {
+        "id": 1187595,
+        "name": "Pcs"
+      },
+      "units": [],
+      "image": {
+        "name": null,
+        "url": null,
+        "mini_url": null
+      },
+      "has_purchase": false,
+      "has_sales": true,
+      "has_transaction_before_last_close_the_book": false,
+      "product_categories": null,
+      "product_categories_string": "",
+      "is_bundle": false,
+      "quantity": null,
+      "quantity_available": null,
+      "buy_price_per_unit": "0.0",
+      "buy_price_per_unit_currency_format": "Rp.  0",
+      "last_buy_price": 0.0,
+      "last_buy_price_currency_format": "Rp.  0",
+      "buy_tax_id": null,
+      "buy_account": {
+        "id": 56494691,
+        "name": "COGS - Mattress",
+        "number": "5-50000"
+      },
+      "buy_return_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "sell_price_per_unit": "0.0",
+      "sell_price_per_unit_currency_format": "Rp.  0",
+      "sell_tax_id": 701709,
+      "sell_tax": {
+        "id": 701709,
+        "name": "PPN 11%",
+        "rate": "11.0",
+        "is_compound": false,
+        "is_witholding": false
+      },
+      "sell_account": {
+        "id": 56494619,
+        "name": "Discounts given",
+        "number": "4-40100"
+      },
+      "sell_return_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "average_price": 0.0,
+      "average_price_currency_format": "Rp.  0",
+      "init_price": "0.0",
+      "init_price_currency_format": "Rp.  0",
+      "inventory_asset_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "total_quantity_in_transaction": {
+        "total_quantity_in_sales": 0.0,
+        "total_quantity_in_purchases": 0.0
+      },
+      "company_currency": {
+        "code": "IDR",
+        "symbol": "Rp."
+      }
+    },
+    {
+      "id": 45503882,
+      "name": "Alami Candle",
+      "product_code": "",
+      "source": "v3/revamp",
+      "description": "",
+      "init_date": null,
+      "init_quantity": "0.0",
+      "active": true,
+      "is_bought": false,
+      "is_sold": true,
+      "created_at": "2023-11-29T07:25:11.000Z",
+      "updated_at": "2023-12-10T14:54:39.000Z",
+      "deleted_at": null,
+      "is_system": false,
+      "custom_id": null,
+      "archive": false,
+      "barcode": null,
+      "use_serial_number": false,
+      "product_master": {
+        "id": null
+      },
+      "track_inventory": false,
+      "is_import": false,
+      "last_created_inventory": "",
+      "last_created_inventory_format_date": "",
+      "last_updated_inventory": "",
+      "last_updated_inventory_format_date": "",
+      "buffer_quantity": "0",
+      "company": {
+        "id": 436783,
+        "name": "PT Heveya Karunia Alam"
+      },
+      "taxable_buy": false,
+      "taxable_sell": true,
+      "deletable": false,
+      "editable": true,
+      "unit": {
+        "id": 1187595,
+        "name": "Pcs"
+      },
+      "units": [],
+      "image": {
+        "name": null,
+        "url": null,
+        "mini_url": null
+      },
+      "has_purchase": false,
+      "has_sales": true,
+      "has_transaction_before_last_close_the_book": false,
+      "product_categories": [
+        {
+          "id": 9137271,
+          "name": "pop-up"
+        }
+      ],
+      "product_categories_string": "pop-up",
+      "is_bundle": false,
+      "quantity": null,
+      "quantity_available": null,
+      "buy_price_per_unit": "0.0",
+      "buy_price_per_unit_currency_format": "Rp.  0",
+      "last_buy_price": 0.0,
+      "last_buy_price_currency_format": "Rp.  0",
+      "buy_tax_id": null,
+      "buy_account": {
+        "id": 56494691,
+        "name": "COGS - Mattress",
+        "number": "5-50000"
+      },
+      "buy_return_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "sell_price_per_unit": "0.0",
+      "sell_price_per_unit_currency_format": "Rp.  0",
+      "sell_tax_id": 701709,
+      "sell_tax": {
+        "id": 701709,
+        "name": "PPN 11%",
+        "rate": "11.0",
+        "is_compound": false,
+        "is_witholding": false
+      },
+      "sell_account": {
+        "id": 78050974,
+        "name": "Sales - Consignment",
+        "number": "4-40010"
+      },
+      "sell_return_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "average_price": 0.0,
+      "average_price_currency_format": "Rp.  0",
+      "init_price": "0.0",
+      "init_price_currency_format": "Rp.  0",
+      "inventory_asset_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "total_quantity_in_transaction": {
+        "total_quantity_in_sales": 0.0,
+        "total_quantity_in_purchases": 0.0
+      },
+      "company_currency": {
+        "code": "IDR",
+        "symbol": "Rp."
+      }
+    },
+    {
+      "id": 51329797,
+      "name": "Apple iPhone 15 128GB, Black",
+      "product_code": "",
+      "source": "apikey",
+      "description": null,
+      "init_date": null,
+      "init_quantity": "0.0",
+      "active": true,
+      "is_bought": true,
+      "is_sold": false,
+      "created_at": "2024-09-30T09:18:48.000Z",
+      "updated_at": "2024-09-30T09:18:48.000Z",
+      "deleted_at": null,
+      "is_system": false,
+      "custom_id": null,
+      "archive": false,
+      "barcode": null,
+      "use_serial_number": false,
+      "product_master": {
+        "id": null
+      },
+      "track_inventory": false,
+      "is_import": false,
+      "last_created_inventory": "",
+      "last_created_inventory_format_date": "",
+      "last_updated_inventory": "",
+      "last_updated_inventory_format_date": "",
+      "buffer_quantity": "0",
+      "company": {
+        "id": 436783,
+        "name": "PT Heveya Karunia Alam"
+      },
+      "taxable_buy": false,
+      "taxable_sell": false,
+      "deletable": false,
+      "editable": true,
+      "unit": {
+        "id": 1187595,
+        "name": "Pcs"
+      },
+      "units": [],
+      "image": {
+        "name": null,
+        "url": null,
+        "mini_url": null
+      },
+      "has_purchase": true,
+      "has_sales": false,
+      "has_transaction_before_last_close_the_book": false,
+      "product_categories": [
+        {
+          "id": 11145129,
+          "name": "Showroom Equipment"
+        }
+      ],
+      "product_categories_string": "Showroom Equipment",
+      "is_bundle": false,
+      "quantity": null,
+      "quantity_available": null,
+      "buy_price_per_unit": "0.0",
+      "buy_price_per_unit_currency_format": "Rp.  0",
+      "last_buy_price": 0.0,
+      "last_buy_price_currency_format": "Rp.  0",
+      "buy_tax_id": null,
+      "buy_account": {
+        "id": 56494614,
+        "name": "Aktiva Kelompok I (Fixed Assets - Office Equipment)",
+        "number": "1-10700"
+      },
+      "buy_return_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "sell_price_per_unit": "0.0",
+      "sell_price_per_unit_currency_format": "Rp.  0",
+      "sell_tax_id": null,
+      "sell_account": {
+        "id": 56494690,
+        "name": "Sales - Mattress",
+        "number": "4-40000"
+      },
+      "sell_return_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "average_price": 0.0,
+      "average_price_currency_format": "Rp.  0",
+      "init_price": "0.0",
+      "init_price_currency_format": "Rp.  0",
+      "inventory_asset_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "total_quantity_in_transaction": {
+        "total_quantity_in_sales": 0.0,
+        "total_quantity_in_purchases": 0.0
+      },
+      "company_currency": {
+        "code": "IDR",
+        "symbol": "Rp."
+      }
+    },
+    {
+      "id": 51371181,
+      "name": "Bali Sama Sama",
+      "product_code": "",
+      "source": "v3/revamp",
+      "description": "",
+      "init_date": null,
+      "init_quantity": "0.0",
+      "active": true,
+      "is_bought": false,
+      "is_sold": true,
+      "created_at": "2024-10-01T06:46:52.000Z",
+      "updated_at": "2025-01-02T09:23:43.000Z",
+      "deleted_at": null,
+      "is_system": false,
+      "custom_id": null,
+      "archive": false,
+      "barcode": null,
+      "use_serial_number": false,
+      "product_master": {
+        "id": null
+      },
+      "track_inventory": false,
+      "is_import": false,
+      "last_created_inventory": "",
+      "last_created_inventory_format_date": "",
+      "last_updated_inventory": "",
+      "last_updated_inventory_format_date": "",
+      "buffer_quantity": "0",
+      "company": {
+        "id": 436783,
+        "name": "PT Heveya Karunia Alam"
+      },
+      "taxable_buy": false,
+      "taxable_sell": true,
+      "deletable": false,
+      "editable": true,
+      "unit": {
+        "id": 1187595,
+        "name": "Pcs"
+      },
+      "units": [],
+      "image": {
+        "name": null,
+        "url": null,
+        "mini_url": null
+      },
+      "has_purchase": false,
+      "has_sales": true,
+      "has_transaction_before_last_close_the_book": false,
+      "product_categories": [
+        {
+          "id": 11730552,
+          "name": "Consignment"
+        }
+      ],
+      "product_categories_string": "Consignment",
+      "is_bundle": false,
+      "quantity": null,
+      "quantity_available": null,
+      "buy_price_per_unit": "0.0",
+      "buy_price_per_unit_currency_format": "Rp.  0",
+      "last_buy_price": 0.0,
+      "last_buy_price_currency_format": "Rp.  0",
+      "buy_tax_id": null,
+      "buy_account": {
+        "id": 56494691,
+        "name": "COGS - Mattress",
+        "number": "5-50000"
+      },
+      "buy_return_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "sell_price_per_unit": "0.0",
+      "sell_price_per_unit_currency_format": "Rp.  0",
+      "sell_tax_id": 701709,
+      "sell_tax": {
+        "id": 701709,
+        "name": "PPN 11%",
+        "rate": "11.0",
+        "is_compound": false,
+        "is_witholding": false
+      },
+      "sell_account": {
+        "id": 78050974,
+        "name": "Sales - Consignment",
+        "number": "4-40010"
+      },
+      "sell_return_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "average_price": 0.0,
+      "average_price_currency_format": "Rp.  0",
+      "init_price": "0.0",
+      "init_price_currency_format": "Rp.  0",
+      "inventory_asset_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "total_quantity_in_transaction": {
+        "total_quantity_in_sales": 0.0,
+        "total_quantity_in_purchases": 0.0
+      },
+      "company_currency": {
+        "code": "IDR",
+        "symbol": "Rp."
+      }
+    },
+    {
+      "id": 44269695,
+      "name": "Bali Showroom 1st Floor",
+      "product_code": "",
+      "source": null,
+      "description": null,
+      "init_date": null,
+      "init_quantity": "0.0",
+      "active": true,
+      "is_bought": true,
+      "is_sold": false,
+      "created_at": "2023-10-03T05:36:56.000Z",
+      "updated_at": "2023-10-03T05:36:56.000Z",
+      "deleted_at": null,
+      "is_system": false,
+      "custom_id": null,
+      "archive": false,
+      "barcode": null,
+      "use_serial_number": false,
+      "product_master": {
+        "id": null
+      },
+      "track_inventory": false,
+      "is_import": false,
+      "last_created_inventory": "",
+      "last_created_inventory_format_date": "",
+      "last_updated_inventory": "",
+      "last_updated_inventory_format_date": "",
+      "buffer_quantity": "0",
+      "company": {
+        "id": 436783,
+        "name": "PT Heveya Karunia Alam"
+      },
+      "taxable_buy": false,
+      "taxable_sell": false,
+      "deletable": false,
+      "editable": true,
+      "unit": {
+        "id": 1187595,
+        "name": "Pcs"
+      },
+      "units": [],
+      "image": {
+        "name": null,
+        "url": null,
+        "mini_url": null
+      },
+      "has_purchase": true,
+      "has_sales": false,
+      "has_transaction_before_last_close_the_book": false,
+      "product_categories": null,
+      "product_categories_string": "",
+      "is_bundle": false,
+      "quantity": null,
+      "quantity_available": null,
+      "buy_price_per_unit": "0.0",
+      "buy_price_per_unit_currency_format": "Rp.  0",
+      "last_buy_price": 0.0,
+      "last_buy_price_currency_format": "Rp.  0",
+      "buy_tax_id": null,
+      "buy_account": {
+        "id": 56494631,
+        "name": "Bangunan (Fixed Asset - Building)",
+        "number": "1-10702"
+      },
+      "buy_return_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "sell_price_per_unit": "0.0",
+      "sell_price_per_unit_currency_format": "Rp.  0",
+      "sell_tax_id": null,
+      "sell_account": {
+        "id": 56494690,
+        "name": "Sales - Mattress",
+        "number": "4-40000"
+      },
+      "sell_return_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "average_price": 0.0,
+      "average_price_currency_format": "Rp.  0",
+      "init_price": "0.0",
+      "init_price_currency_format": "Rp.  0",
+      "inventory_asset_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "total_quantity_in_transaction": {
+        "total_quantity_in_sales": 0.0,
+        "total_quantity_in_purchases": 0.0
+      },
+      "company_currency": {
+        "code": "IDR",
+        "symbol": "Rp."
+      }
+    },
+    {
+      "id": 44269712,
+      "name": "Bali Showroom 2nd Floor",
+      "product_code": "",
+      "source": null,
+      "description": null,
+      "init_date": null,
+      "init_quantity": "0.0",
+      "active": true,
+      "is_bought": true,
+      "is_sold": false,
+      "created_at": "2023-10-03T05:38:35.000Z",
+      "updated_at": "2023-10-03T05:38:35.000Z",
+      "deleted_at": null,
+      "is_system": false,
+      "custom_id": null,
+      "archive": false,
+      "barcode": null,
+      "use_serial_number": false,
+      "product_master": {
+        "id": null
+      },
+      "track_inventory": false,
+      "is_import": false,
+      "last_created_inventory": "",
+      "last_created_inventory_format_date": "",
+      "last_updated_inventory": "",
+      "last_updated_inventory_format_date": "",
+      "buffer_quantity": "0",
+      "company": {
+        "id": 436783,
+        "name": "PT Heveya Karunia Alam"
+      },
+      "taxable_buy": false,
+      "taxable_sell": false,
+      "deletable": false,
+      "editable": true,
+      "unit": {
+        "id": 1187595,
+        "name": "Pcs"
+      },
+      "units": [],
+      "image": {
+        "name": null,
+        "url": null,
+        "mini_url": null
+      },
+      "has_purchase": true,
+      "has_sales": false,
+      "has_transaction_before_last_close_the_book": false,
+      "product_categories": null,
+      "product_categories_string": "",
+      "is_bundle": false,
+      "quantity": null,
+      "quantity_available": null,
+      "buy_price_per_unit": "0.0",
+      "buy_price_per_unit_currency_format": "Rp.  0",
+      "last_buy_price": 0.0,
+      "last_buy_price_currency_format": "Rp.  0",
+      "buy_tax_id": null,
+      "buy_account": {
+        "id": 56494631,
+        "name": "Bangunan (Fixed Asset - Building)",
+        "number": "1-10702"
+      },
+      "buy_return_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "sell_price_per_unit": "0.0",
+      "sell_price_per_unit_currency_format": "Rp.  0",
+      "sell_tax_id": null,
+      "sell_account": {
+        "id": 56494690,
+        "name": "Sales - Mattress",
+        "number": "4-40000"
+      },
+      "sell_return_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "average_price": 0.0,
+      "average_price_currency_format": "Rp.  0",
+      "init_price": "0.0",
+      "init_price_currency_format": "Rp.  0",
+      "inventory_asset_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "total_quantity_in_transaction": {
+        "total_quantity_in_sales": 0.0,
+        "total_quantity_in_purchases": 0.0
+      },
+      "company_currency": {
+        "code": "IDR",
+        "symbol": "Rp."
+      }
+    },
+    {
+      "id": 44269660,
+      "name": "Bali Showroom Additional Items",
+      "product_code": "",
+      "source": null,
+      "description": null,
+      "init_date": null,
+      "init_quantity": "0.0",
+      "active": true,
+      "is_bought": true,
+      "is_sold": false,
+      "created_at": "2023-10-03T05:32:29.000Z",
+      "updated_at": "2023-10-03T05:32:29.000Z",
+      "deleted_at": null,
+      "is_system": false,
+      "custom_id": null,
+      "archive": false,
+      "barcode": null,
+      "use_serial_number": false,
+      "product_master": {
+        "id": null
+      },
+      "track_inventory": false,
+      "is_import": false,
+      "last_created_inventory": "",
+      "last_created_inventory_format_date": "",
+      "last_updated_inventory": "",
+      "last_updated_inventory_format_date": "",
+      "buffer_quantity": "0",
+      "company": {
+        "id": 436783,
+        "name": "PT Heveya Karunia Alam"
+      },
+      "taxable_buy": false,
+      "taxable_sell": false,
+      "deletable": false,
+      "editable": true,
+      "unit": {
+        "id": 1187595,
+        "name": "Pcs"
+      },
+      "units": [],
+      "image": {
+        "name": null,
+        "url": null,
+        "mini_url": null
+      },
+      "has_purchase": true,
+      "has_sales": false,
+      "has_transaction_before_last_close_the_book": false,
+      "product_categories": null,
+      "product_categories_string": "",
+      "is_bundle": false,
+      "quantity": null,
+      "quantity_available": null,
+      "buy_price_per_unit": "0.0",
+      "buy_price_per_unit_currency_format": "Rp.  0",
+      "last_buy_price": 0.0,
+      "last_buy_price_currency_format": "Rp.  0",
+      "buy_tax_id": null,
+      "buy_account": {
+        "id": 56494631,
+        "name": "Bangunan (Fixed Asset - Building)",
+        "number": "1-10702"
+      },
+      "buy_return_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "sell_price_per_unit": "0.0",
+      "sell_price_per_unit_currency_format": "Rp.  0",
+      "sell_tax_id": null,
+      "sell_account": {
+        "id": 56494690,
+        "name": "Sales - Mattress",
+        "number": "4-40000"
+      },
+      "sell_return_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "average_price": 0.0,
+      "average_price_currency_format": "Rp.  0",
+      "init_price": "0.0",
+      "init_price_currency_format": "Rp.  0",
+      "inventory_asset_account": {
+        "id": null,
+        "name": null,
+        "number": null
+      },
+      "total_quantity_in_transaction": {
+        "total_quantity_in_sales": 0.0,
+        "total_quantity_in_purchases": 0.0
+      },
+      "company_currency": {
+        "code": "IDR",
+        "symbol": "Rp."
+      }
+    }
+  ],
+  "total_count": 1836,
+  "before_filter_count": 1869,
+  "current_page": 1,
+  "total_pages": 184,
+  "links": {
+    "next_link": "https://api.jurnal.id/public/jurnal/api/v1/products?page=2"
+  }
+}

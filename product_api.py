@@ -4,7 +4,6 @@ import base64
 import hmac
 import json
 from email.utils import formatdate
-from datetime import datetime
 
 # Mekari credentials
 CLIENT_ID = 'afaku9tq7KET9tMm'
@@ -25,108 +24,59 @@ def generate_hmac_header(method, full_path, date_header):
     signature = base64.b64encode(digest).decode()
     return f'hmac username="{CLIENT_ID}", algorithm="hmac-sha256", headers="date request-line", signature="{signature}"'
 
-def get_products():
-    method = 'GET'
-    query = ''
-    full_path = ENDPOINT + query
-    url = BASE_URL + full_path
+def fetch_all_products(start_page=1):
+    all_products = []
+    page = start_page
+    more_pages = True
 
-    date_header = get_rfc7231_date()
-    auth_header = generate_hmac_header(method, full_path, date_header)
+    while more_pages:
+        method = 'GET'
+        query = f'?archive=false&page={page}'
+        full_path = ENDPOINT + query
+        url = BASE_URL + full_path
 
-    headers = {
-        'Content-Type': 'application/json',
-        'Date': date_header,
-        'Authorization': auth_header
-    }
+        date_header = get_rfc7231_date()
+        auth_header = generate_hmac_header(method, full_path, date_header)
 
-    skus = ["SSW2SK200X200FI", "SSS2SK200X200FI", "SSG2SK200X200FI", "SSDG2SK200X200FI", "SSSG2SK200X200FI",
-            "SSMG2SK200X200FI", "SSBM2SK200X200FI", "SSBO2SK200X200FI", "SSL2SK200X200FI",
-            "SSW2K200X180FI", "SSS2K200X180FI", "SSG2K200X180FI", "SSDG2K200X180FI", "SSSG2K180X200FI",
-            "SSMG2K180X200FI", "SSBM2K180X200FI", "SSBO2K180X200FI", "SSL2K200X180FI",
-            "SSW2Q200X160FI", "SSS2Q200X160FI", "SSG2Q200X160FI", "SSDG2Q200X160FI", "SSSG2Q200X160FI",
-            "SSMG2Q200X160FI", "SSBM2Q160X200FI", "SSBO2Q160X200FI",
-            "SSW1S200X90FI", "SSS1S200X90FI", "SSG1S200X90FI", "SSDG1S200X90FI", "SSSG1S200X90FI", "SSMG1S200X90FI",
-            "SSMG1S200X90FI", "SSBM1S200X90FI"]  # List of SKUs to query
-    all_products = []  # List to store products from all SKUs
-
-    for sku in skus:
-        params = {
-            "keyword": sku,
-            "page": 1,
-            "type": "product"
+        headers = {
+            'Date': date_header,
+            'Authorization': auth_header,
+            'Accept': 'application/json'
         }
 
-        # print(f"📤 Sending GET request for SKU: {sku} to:", url)
-        # print("🧾 Headers:", headers)
-
-        response = requests.get(url, headers=headers, params=params)
+        response = requests.get(url, headers=headers)
 
         if response.status_code == 200:
             data = response.json()
-            if 'products' in data:
-                all_products.extend(data['products'])  # Add products to the all_products list
+            products = data.get('products', [])
+            all_products.extend(products)
+
+            links = data.get('links', {})
+            if 'next_link' in links and links['next_link']:
+                page += 1
+            else:
+                more_pages = False
+        elif response.status_code == 429:
+            print(f"🚫 Rate limit hit at page {page}. Try again after a minute.")
+            break
         else:
-            print(f"❌ Error {response.status_code} for SKU {sku}:", response.text)
+            print(f"❌ Failed on page {page}: {response.status_code} - {response.text}")
+            break
 
-    # 🛠️ Important: Return the same structure as Mekari API
-    return {
-        "products": all_products,
-        "total_count": len(all_products),
-        "before_filter_count": len(all_products),
-        "current_page": 1,
-        "total_pages": 1
-    }
+    return all_products
 
-print("HERE")
-# Fetch the data
-#data = get_products()
 
-# ✅ Pretty print the JSON only if data is returned
-#if data:
-#    print("✅ Formatted Response:")
-    # print(json.dumps(data, indent=2))
+# Resume from page 41
+resumed_products = fetch_all_products(start_page=161)
 
-# # ✅ Get the newest (latest) sales order by transaction_date
-# if data and "sales_orders" in data and data["sales_orders"]:
-#     try:
-#         # Convert to list of tuples (parsed_date, order)
-#         orders_with_dates = [
-#             (datetime.strptime(order["transaction_date"], "%d/%m/%Y"), order)
-#             for order in data["sales_orders"]
-#         ]
-#
-#         # Sort by date descending, get the latest
-#         latest_order = sorted(orders_with_dates, key=lambda x: x[0], reverse=True)[0][1]
-#
-#         print("✅ Latest Sales Order:")
-#         print(json.dumps(latest_order, indent=2))
-#
-#     except Exception as e:
-#         print(f"⚠️ Error parsing dates: {e}")
-# else:
-#     print("⚠️ No sales orders found.")
+# Load previously saved products
+with open('product_non_archived.json') as f:
+    existing_products = json.load(f)
 
-# # ✅ Get the newest (latest) sales order by transaction_date
-# if data and "product" in data and data["product"]:
-#     try:
-#         # Convert to list of tuples (parsed_date, order)
-#         orders_with_dates = [
-#             (datetime.strptime(order["transaction_date"], "%d/%m/%Y"), order)
-#             for order in data["sales_orders"]
-#         ]
-#
-#         # Sort by date descending, get the latest
-#         latest_order = sorted(orders_with_dates, key=lambda x: x[0], reverse=True)[0][1]
-#
-#         # ✅ Simplify the sales order to include only transaction info and products
-#         simplified_order = {
-#             "transaction_no": latest_order["transaction_no"],
-#             "transaction_date": latest_order["transaction_date"],
-#             "products": []
-#         }
-#
-#         for line in latest_order.get("transaction_lines_attributes", []):
-#             product = line.get("product")
-#             if product:
-#                 simplified_order["products"].append({
+# Combine and save again
+combined = existing_products + resumed_products
+
+with open('product_non_archived.json', 'w') as f:
+    json.dump(combined, f, indent=2)
+
+print(f"✅ Total saved products: {len(combined)}")
