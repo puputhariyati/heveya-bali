@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Sales Quote</title>
-  <link rel="stylesheet" href="{{url_for('static', filename='sales_invoice.css')}}">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Sales - Heveya App{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='sales_invoice.css')}}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+{% endblock %}
+
+{% block content %}
   <div id="invoice">
     <!-- Header -->
     <table class="header-table">
@@ -129,7 +130,6 @@
     <button id="toggle-view-btn" onclick="toggleInternal()">Internal View</button>
   </div>
 
-  <!-- JavaScript -->
-  <script src="{{ url_for('static', filename='sales_invoice.js') }}"></script>
-</body>
-</html>
+<!-- Optional: Include your JS file specific to this page -->
+<script src="{{ url_for('static', filename='sales_invoice.js') }}"></script>
+{% endblock %}

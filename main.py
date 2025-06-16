@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 # from jurnal_api import get_sales_orders
 # from product_api import get_products
-from sales_reports import get_sales_by_products_dynamic
+from dashboard import get_sales_by_products_dynamic
 
 load_dotenv("key.env")  # Load environment variables from .env file
 
@@ -891,10 +891,6 @@ def sync_bedsheets():
                 })
 
     return jsonify({"data": items})
-
-@app.route('/sales_reports')
-def sales_reports():
-    return render_template('sales_reports.html')
 
 # this is when using Mekari API
 # @app.route('/api/sales_by_products', methods=["GET"])

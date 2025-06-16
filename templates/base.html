@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Heveya App{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">Heveya</div>
+        <button onclick="location.href='/'">Dashboard</button>
+        <button onclick="location.href='/sales_invoice'">Sales</button>
+        <button onclick="location.href='/inventory'">Purchases</button>
+        <button onclick="location.href='/bedsheets'">Products</button>
+        <button onclick="location.href='/crm'">Customers</button>
+        <button onclick="location.href='/sales_kpi'">Sales KPI</button>
+    </div>
+    <div class="main-content">
+        {% block content %}
+        <!-- Child page content goes here -->
+        {% endblock %}
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
