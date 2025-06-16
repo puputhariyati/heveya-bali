@@ -7,7 +7,7 @@ from flask import Flask, request, jsonify, render_template, redirect, flash
 from dotenv import load_dotenv
 
 # from jurnal_api import get_sales_orders
-from product_api import get_products
+# from product_api import get_products
 from sales_reports import get_sales_by_products_dynamic
 
 load_dotenv("key.env")  # Load environment variables from .env file

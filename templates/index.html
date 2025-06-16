@@ -7,12 +7,14 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <button onclick="location.href='/inventory'" class="add-product-btn">Add Product</button>
-    <button onclick="location.href='/crm'" class="crm-btn">CRM</button>
-    <button onclick="location.href='/bedsheets'" class="bedsheets-btn">Bedsheets</button>
-    <button onclick="location.href='/sales_reports'" class="bedsheets-btn">Sales Reports</button>
-    <button onclick="location.href='/sales_kpi'" class="bedsheets-btn">Sales KPI</button>
-    <button onclick="location.href='/sales_invoice'" class="bedsheets-btn">Sales Invoice</button>
+    <div class="sidebar">
+        <button onclick="location.href='/inventory'">Inventory</button>
+        <button onclick="location.href='/crm'">CRM</button>
+        <button onclick="location.href='/bedsheets'">Bedsheets</button>
+        <button onclick="location.href='/sales_reports'">Sales Reports</button>
+        <button onclick="location.href='/sales_kpi'">Sales KPI</button>
+        <button onclick="location.href='/sales_invoice'">Sales Invoice</button>
+    </div>
 
     <h1>Check Stock</h1>
     <div class="input-container">
