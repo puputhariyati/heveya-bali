@@ -48,3 +48,54 @@
     gap: 12px;
     padding: 4px 0;
 }
+
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background: #f9f9f9;
+}
+
+h2 {
+    margin-top: 40px;
+}
+
+.dashboard-charts {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.chart-container {
+    flex: 1;
+    min-width: 300px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    margin-top: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+}
+
+th,
+td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: right;
+}
+
+th {
+    background-color: #f0f0f0;
+    text-align: center;
+}
+
+.highlight {
+    background-color: #fffa9e;
+    font-weight: bold;
+}

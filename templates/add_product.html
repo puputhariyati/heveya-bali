@@ -1,12 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Product</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='add_product.css') }}">
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Add Product{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='add_product.css') }}">
+{% endblock %}
+
+{% block content %}
     <button onclick="location.href='/'" class="checkStock-btn">Check Stock</button>
 
     <h1>Add / Edit Product</h1>
@@ -114,5 +114,5 @@
         </div>
     </div>
     <script src="{{ url_for('static', filename='add_product.js') }}"></script>
-</body>
-</html>
+{% endblock %}
+

@@ -1,13 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Lead Tracking Dashboard</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='crm.css') }}">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Heveya App{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='crm.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
   <div class="container">
     <section>
       <h2>Lead Breakdown (Interactive Pie Charts)</h2>
@@ -61,5 +61,4 @@
     </section>
   </div>
   <script src="{{ url_for('static', filename='crm.js') }}"></script>
-</body>
-</html>
+{% endblock %}

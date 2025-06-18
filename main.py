@@ -929,6 +929,10 @@ def sales_kpi():
 def sales_invoice():
     return render_template('sales_invoice.html')
 
+@app.route('/delivery')
+def delivery():
+    return render_template('delivery.html')
+
 @app.route('/get_product_details', methods=['GET'])
 def get_product_details():
     """Get product details by name including unit cost"""

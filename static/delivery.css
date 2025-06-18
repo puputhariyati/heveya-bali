@@ -1,0 +1,4 @@
+table, th, td { border: 1px solid #ccc; border-collapse: collapse; padding: 8px; }
+input[type="text"], input[type="number"], input[type="date"] {
+    width: 100%;
+}

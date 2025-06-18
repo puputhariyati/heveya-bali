@@ -1,14 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bedsheets</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='bedsheets.css') }}">
-</head>
-<body>
-  <h1>Bedsheet Inventory</h1>
+{% extends 'base.html' %}
 
+{% block title %}Products{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='bedsheets.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="topbar">
+      <button onclick="location.href='/inventory'">Add Product +</button>
+  </div>
+  <h1>Bedsheet Inventory</h1>
   <select id="filter">
     <option value="all">Show All</option>
     <option value="heveya">Heveya Showroom</option>
@@ -29,5 +31,5 @@
   </div>
 
   <script src="{{ url_for('static', filename='bedsheets.js') }}"></script>
-</body>
-</html>
+{% endblock %}
+

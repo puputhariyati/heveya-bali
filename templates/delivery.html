@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Delivery{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='delivery.css') }}">
+{% endblock %}
+
+{% block content %}
+<h2>Delivery Tracking Table</h2>
+
+<form method="post" action="/save_delivery_data">
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Transaction No</th>
+                <th>Date</th>
+                <th>Customer</th>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Purchase No</th>
+                <th>Delivered</th>
+                <th>Delivery Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>SO-1001</td>
+                <td>2025-06-10</td>
+                <td>PT Sejuk Hati</td>
+                <td>Heveya Mattress King</td>
+                <td>2</td>
+                <td><input type="text" name="purchase_no"></td>
+                <td><input type="number" name="delivered" min="0"></td>
+                <td><input type="date" name="delivery_date"></td>
+            </tr>
+            <tr>
+                <td>SO-1002</td>
+                <td>2025-06-12</td>
+                <td>CV Green Living</td>
+                <td>Organic Latex Pillow</td>
+                <td>4</td>
+                <td><input type="text" name="purchase_no"></td>
+                <td><input type="number" name="delivered" min="0"></td>
+                <td><input type="date" name="delivery_date"></td>
+            </tr>
+            <!-- Add more rows as needed -->
+        </tbody>
+    </table>
+
+    <br>
+    <button type="submit">Save</button>
+</form>
+{% endblock %}
