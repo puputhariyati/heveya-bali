@@ -22,6 +22,7 @@ th {
 img {
   max-width: 60px;
   height: auto;
+  text-align: center;
 }
 .right {
   text-align: right;
@@ -47,3 +48,61 @@ button {
   display: none;
 }
 
+.items-table td:nth-child(3),  /* Description column */
+.items-table th:nth-child(3) {
+  width: 300px; /* remove if using colgroup */
+  word-wrap: break-word;
+}
+
+.items-table td:nth-child(4),  /* Qty column */
+.items-table th:nth-child(4) {
+  width: 50px;
+}
+
+.qty {
+  width: 40px;
+  text-align: center;
+}
+
+.suggestions {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 999;
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.suggestion-item {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.suggestion-item:hover {
+  background-color: #e0f0ff;
+}
+
+.description {
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.discount-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.discount-wrapper input {
+  padding-right: 20px;
+  width: 30px;
+}
+.percent-sign {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #555;
+  pointer-events: none;
+}

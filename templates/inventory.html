@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Product Inventory Matrix</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+
+    .section-title {
+      font-weight: bold;
+      margin: 20px 0 5px;
+      color: #333;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 30px;
+      background: white;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      text-align: center;
+      padding: 6px;
+      font-size: 14px;
+    }
+
+    th {
+      background-color: #ddeeff;
+      font-weight: bold;
+    }
+
+    .section-header {
+      background-color: #cceeff;
+      text-align: left;
+      padding: 8px;
+      font-weight: bold;
+    }
+
+    .warehouse {
+      background-color: #d4f5d4;
+    }
+
+    .pending {
+      background-color: #fff0b3;
+    }
+
+    .upcoming {
+      background-color: #d4e6f5;
+    }
+
+    .request {
+      background-color: #f5f5f5;
+    }
+  </style>
+</head>
+<body>
+
+<div class="section-title">Heveya I</div>
+<table>
+  <thead>
+    <tr>
+      <th rowspan="2">Product</th>
+      <th colspan="4" class="warehouse">Warehouse Bali</th>
+      <th colspan="5" class="pending">WH Pending ETD</th>
+      <th colspan="4" class="upcoming">Upcoming</th>
+      <th colspan="3" class="request">Request PO</th>
+    </tr>
+    <tr>
+      <th>S</th><th>M</th><th>F</th><th>S/M</th>
+      <th>S</th><th>M</th><th>F</th><th>S/M</th><th>Topper</th>
+      <th>S</th><th>M</th><th>F</th><th>Topper</th>
+      <th>S</th><th>M</th><th>F</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Super King 200x200</td>
+      <td></td><td></td><td></td><td></td>
+      <td></td><td></td><td></td><td></td><td></td>
+      <td></td><td></td><td></td><td></td>
+      <td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>King 180x200</td>
+      <td>2</td><td>1</td><td></td><td></td>
+      <td>1</td><td></td><td></td><td></td><td></td>
+      <td></td><td></td><td></td><td></td>
+      <td></td><td></td><td></td>
+    </tr>
+    <!-- More rows... -->
+  </tbody>
+</table>
+
+<div class="section-title">Heveya II & Topper</div>
+<table>
+  <thead>
+    <tr>
+      <th rowspan="2">Product</th>
+      <th colspan="4" class="warehouse">Warehouse Bali</th>
+      <th colspan="5" class="pending">WH Pending ETD</th>
+      <th colspan="4" class="upcoming">Upcoming</th>
+      <th colspan="3" class="request">Request PO</th>
+    </tr>
+    <tr>
+      <th>S</th><th>M</th><th>F</th><th>Topper</th>
+      <th>S</th><th>M</th><th>F</th><th>S/M</th><th>Topper</th>
+      <th>S</th><th>M</th><th>F</th><th>Topper</th>
+      <th>S</th><th>M</th><th>F</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Super King 200x200</td>
+      <td>5</td><td>3</td><td>1</td><td>9</td>
+      <td>3</td><td>1</td><td></td><td></td><td></td>
+      <td></td><td></td><td></td><td></td>
+      <td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <td>King 180x200</td>
+      <td>5</td><td>1</td><td>6</td><td>2</td>
+      <td>2</td><td></td><td></td><td></td><td>5</td>
+      <td></td><td></td><td></td><td></td>
+      <td></td><td></td><td></td>
+    </tr>
+    <!-- More rows... -->
+  </tbody>
+</table>
+
+</body>
+</html>

@@ -19,12 +19,12 @@
           Email: 434893871906000
         </td>
         <td>
-          <strong>QUOTE #: </strong> {{ quote_no }}<br>
+          <label>QUOTE: # <input type="text"placeholder="quote no" /></label><br>
           <label>DATE: <input type="date" id="quote-date" /></label><br><br>
           <label>EXPIRED DATE: <input type="date" id="quote-expiry" /></label><br><br>
         </td>
-        <td>
-          <img src="{{ url_for('static', filename='heveya-logo.png') }}" alt="heveya logo">
+        <td style="text-align: center;">
+          <img src="{{ url_for('static', filename='images/heveya-logo.png') }}" alt="heveya logo">
         </td>
       </tr>
     </table>
@@ -49,11 +49,12 @@
         <tr>
           <th>No.</th>
           <th>Image</th>
-          <th>Description</th>
+          <th>Item</th>
           <th>Qty</th>
           <th>Unit</th>
-          <th>Unit Price (IDR)</th>
-          <th>Discount (%)</th>
+          <th>Normal Price (IDR)</th>
+          <th>Discount</th>
+          <th>Disc. Price (IDR)</th>
           <th>Amount (IDR)</th>
           <th>Notes</th>
           <th>Action</th>
@@ -65,57 +66,66 @@
         </tr>
       </thead>
       <tbody id="quote-items">
-        <!-- Example Row -->
+        {% for i in range(1, 4) %}
         <tr>
-          <td>1</td>
-          <td><img src="https://via.placeholder.com/60" alt="Mattress"></td>
-          <td><input type="text" class="description" placeholder="Enter product description" value="Heveya Mattress III - 273x243x31cm"></td>
-          <td><input type="number" class="qty" value="1" min="1"></td>
-          <td class="unit">Pcs</td>
-          <td class="unit-price" data-price="89500000">89,500,000</td>
-          <td><input type="number" class="discount" value="10" min="0" max="100" style="width: 50px;"> %</td>
-          <td class="amount">80,550,000</td>
-          <td><input type="text" class="notes" placeholder="Optional"></td>
-          <td><button class="remove-row" onclick="removeRow(this)" title="Remove item">🗑️</button></td>
-          <td class="internal-only full-amount">89,500,000</td>
-          <td class="internal-only sell-no-ppn">72,522,523</td>
-          <td class="internal-only unit-cost" data-cost="60000000">60,000,000</td>
-          <td class="internal-only total-cost">60,000,000</td>
-          <td class="internal-only abs-margin">12,522,523</td>
+          <td>{{ i }}</td>
+          <td><img src="https://via.placeholder.com/60" class="product-image" width="60"></td>
+          <td>
+            <textarea class="description" placeholder="Type product..." oninput="showSuggestions(this)"></textarea>
+            <div class="suggestions"></div>
+          </td>
+          <td><input type="number" class="qty" value="1" min="1" onchange="recalculate(this)"></td>
+          <td class="unit">-</td>
+          <td class="unit-price">-</td>
+          <td class="discount-cell">
+            <div class="discount-wrapper">
+              <input type="number" class="discount" value="0" min="0" max="100" onchange="recalculate(this)">
+              <span class="percent-sign">%</span>
+            </div>
+          </td>
+          <td class="discounted-price">-</td>
+          <td class="amount">-</td>
+          <td><textarea type="text" class="notes" placeholder="Optional"></textarea></td>
+          <td><button onclick="this.closest('tr').remove()">🗑️</button></td>
+          <td class="internal-only full-amount">-</td>
+          <td class="internal-only sell-no-ppn">-</td>
+          <td class="internal-only unit-cost" data-cost="0">-</td>
+          <td class="internal-only total-cost">-</td>
+          <td class="internal-only abs-margin">-</td>
         </tr>
-        <!-- Totals Row -->
+        {% endfor %}
+      </tbody>
       <tfoot>
         <tr>
-          <td colspan="7" style="text-align: right;"><strong>Grand Total (Incl. PPN 11%):</strong></td>
-          <td class="right" id="grand-total">106,756,757</td>
+          <td colspan="8" style="text-align: right;"><strong>Grand Total (Incl. PPN 11%):</strong></td>
+          <td class="right" id="grand-total"></td>
           <td colspan="2"></td>
-          <td class="full-amount-total internal-only"><strong>89,500,000</strong></td>
-          <td class="sell-no-ppn-total internal-only"><strong>72,522,523</strong></td>
+          <td class="full-amount-total internal-only"><strong></strong></td>
+          <td class="sell-no-ppn-total internal-only"><strong></strong></td>
           <td class="internal-only"></td> <!-- Unit Cost -->
-          <td class="total-cost-total internal-only"><strong>60,000,000</strong></td>
-          <td class="abs-margin-total internal-only"><strong>12,522,523</strong></td>
+          <td class="total-cost-total internal-only"><strong></strong></td>
+          <td class="abs-margin-total internal-only"><strong></strong></td>
         </tr>
         <tr>
-          <td colspan="7" style="text-align: right;"><strong>Total Discount:</strong></td>
-          <td class="right" id="total-discount">16,513,514</td>
+          <td colspan="8" style="text-align: right;"><strong>Total Discount:</strong></td>
+          <td class="right" id="total-discount"></td>
           <td colspan="6" class="internal-only" style="text-align: right;">
             <strong>Margin %</strong>
           </td>
           <td class="margin-percent-total internal-only">
-            <strong>17%</strong>
+            <strong></strong>
           </td>
         </tr>
         <tr>
-          <td colspan="7" style="text-align: right;">
+          <td colspan="8" style="text-align: right;">
             <strong>Deposit:</strong>
-            <input type="number" id="deposit-percentage" value="50" min="0" max="100" style="width: 50px;"> %
+            <input type="number" id="deposit-percentage" value="50" min="0" max="100" style="width: 50px;" onchange="updateTotals()">%
           </td>
           <td class="right">
-            <span id="deposit-amount">10,200,000</span>
+            <span id="deposit-amount"></span>
           </td>
         </tr>
       </tfoot>
-      </tbody>
     </table>
 
     <!-- Add Row Button -->
@@ -129,6 +139,19 @@
     <button onclick="downloadPDF()">Download as PDF</button>
     <button id="toggle-view-btn" onclick="toggleInternal()">Internal View</button>
   </div>
+
+  <!-- Datalist for Product Suggestions -->
+  <datalist id="product-suggestions">
+    {% for p in product_list %}
+      <option value="{{ p.name }}">
+    {% endfor %}
+  </datalist>
+
+<!-- Load Product DB into JS -->
+<script>
+  const productDB = {{ product_list | tojson | safe }};
+  console.log(productDB);
+</script>
 
 <!-- Optional: Include your JS file specific to this page -->
 <script src="{{ url_for('static', filename='sales_invoice.js') }}"></script>

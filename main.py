@@ -1,7 +1,10 @@
+import csv
 import os
 import sqlite3
 import traceback
 import sys
+import pandas as pd
+
 
 from flask import Flask, request, jsonify, render_template, redirect, flash
 from dotenv import load_dotenv
@@ -925,9 +928,12 @@ if path not in sys.path:
 def sales_kpi():
     return render_template('sales_kpi.html')
 
-@app.route('/sales_invoice')
+@app.route("/sales_invoice")
 def sales_invoice():
-    return render_template('sales_invoice.html')
+    df = pd.read_csv("products_std.csv")
+    df['image_url'] = df['subcategory'].apply(lambda x: f"static/images/{x.lower().replace(' ', '_')}/default.jpg")
+    product_list = df.to_dict(orient='records')
+    return render_template("sales_invoice.html", product_list=product_list)
 
 @app.route('/delivery')
 def delivery():
