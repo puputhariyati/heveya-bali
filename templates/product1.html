@@ -119,44 +119,56 @@
           <th class="request">Req.WH</th>
         </tr>
       </thead>
+<!--      <tbody>-->
+<!--        <tr>-->
+<!--          <td>Pillow Latex No.1 (70cm x 40cm x 10cm)</td>-->
+<!--          {% for i in range(4) %}-->
+<!--            <td></td>-->
+<!--          {% endfor %}-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--          <td>Pillow Latex No.2 (70cm x 40cm x 14.5cm)</td>-->
+<!--          {% for i in range(4) %}-->
+<!--            <td></td>-->
+<!--          {% endfor %}-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--          <td>Pillow Latex No.3 (70cm x 40cm x 9/11.5cm)</td>-->
+<!--          {% for i in range(4) %}-->
+<!--            <td></td>-->
+<!--          {% endfor %}-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--          <td>Pillow Latex No.4 (70cm x 40cm x 12.5cm)</td>-->
+<!--          {% for i in range(4) %}-->
+<!--            <td></td>-->
+<!--          {% endfor %}-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--          <td>Pillow Latex No.5 (70cm x 40cm x 12.5cm)</td>-->
+<!--          {% for i in range(4) %}-->
+<!--            <td></td>-->
+<!--          {% endfor %}-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--          <td>Pillow Latex No.6 (70cm x 40cm x 14.5cm)</td>-->
+<!--          {% for i in range(4) %}-->
+<!--            <td></td>-->
+<!--          {% endfor %}-->
+<!--        </tr>-->
+<!--      </tbody>-->
       <tbody>
-        <tr>
-          <td>Pillow Latex No.1 (70cm x 40cm x 10cm)</td>
-          {% for i in range(4) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Pillow Latex No.2 (70cm x 40cm x 14.5cm)</td>
-          {% for i in range(4) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Pillow Latex No.3 (70cm x 40cm x 9/11.5cm)</td>
-          {% for i in range(4) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Pillow Latex No.4 (70cm x 40cm x 12.5cm)</td>
-          {% for i in range(4) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Pillow Latex No.5 (70cm x 40cm x 12.5cm)</td>
-          {% for i in range(4) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Pillow Latex No.6 (70cm x 40cm x 14.5cm)</td>
-          {% for i in range(4) %}
-            <td></td>
-          {% endfor %}
-        </tr>
+        {% for item in pillows %}
+          <tr>
+            <td style="text-align: left">{{ item.name }}</td>
+            <td>{{ item.showroom_qty }}</td>
+            <td>{{ item.warehouse_qty }}</td>
+            <td>{{ item.req_sh }}</td>
+            <td>{{ item.req_wh }}</td>
+          </tr>
+        {% endfor %}
       </tbody>
+
     </table>
   </div>
 
