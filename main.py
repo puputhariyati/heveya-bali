@@ -845,9 +845,31 @@ def sync_sales():
                 })
     return jsonify(items)
 
-@app.route('/bedsheets')
+import pandas as pd
+
+@app.route("/bedsheets")
 def bedsheets():
-    return render_template('product1.html')
+    df = pd.read_csv("static/data/products_std.csv")
+    # Filter only pillow products
+    pillow_df = df[df['Category'].str.contains("pillow", case=False, na=False)].copy()
+    # Rename quantity columns for easier handling
+    pillow_df.rename(columns={
+        'Showroom_Qty': 'showroom_qty',
+        'Warehouse_Qty': 'warehouse_qty'
+    }, inplace=True)
+    # Compute required to showroom (req_sh)
+    pillow_df['req_sh'] = pillow_df.apply(
+        lambda row: 6 - row['showroom_qty'] if row['showroom_qty'] < 6 else 0,
+        axis=1
+    )
+    # Compute required to warehouse (req_wh)
+    pillow_df['req_wh'] = pillow_df.apply(
+        lambda row: 20 - row['warehouse_qty'] if row['warehouse_qty'] < 20 else 0,
+        axis=1
+    )
+    # Convert to list of dicts for template rendering
+    pillow_products = pillow_df.to_dict(orient='records')
+    return render_template("product1.html", pillows=pillow_products)
 
 @app.route("/sync_bedsheets", methods=["GET"])
 def sync_bedsheets():
