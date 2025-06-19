@@ -16,20 +16,23 @@ function toggleInternal() {
   }
 }
 
-window.onload = function () {
+document.addEventListener("DOMContentLoaded", function () {
   const today = new Date();
-  const oneMonthLater = new Date();
-  oneMonthLater.setMonth(today.getMonth() + 1);
-
+  // Format: YYYY-MM-DD for input[type="date"]
   const toDateInputValue = date =>
-    date.toISOString().split("T")[0]; // yyyy-mm-dd
+    date.toISOString().split("T")[0];
 
   document.getElementById("quote-date").value = toDateInputValue(today);
-  document.getElementById("quote-expiry").value = toDateInputValue(oneMonthLater);
 
-  // Initialize the button text to "Internal View" since internal-only elements are hidden by default
+  const expiry = new Date(today);
+  expiry.setMonth(today.getMonth() + 1);
+  while (expiry.getMonth() !== (today.getMonth() + 1) % 12) {
+    expiry.setDate(expiry.getDate() - 1);
+  }
+  document.getElementById("quote-expiry").value = toDateInputValue(expiry);
   document.getElementById("toggle-view-btn").textContent = "Internal View";
-};
+});
+
 
 let rowCount = 1;
 
@@ -86,18 +89,28 @@ function selectProduct(input, product) {
   const unitPrice = row.querySelector('.unit-price');
   const cost = row.querySelector('.unit-cost');
 
-  // Update fields
   input.value = product.name;
   image.src = `/static/images/${product.image_url}`;
   unit.textContent = product.Unit;
-  unitPrice.textContent = parseInt(product["Normal Price IDR"].replace(/,/g, '')).toLocaleString("id-ID");
-  unitPrice.dataset.price = parseInt(product["Normal Price IDR"].replace(/,/g, ''));
-  cost.textContent = parseInt(product["unit cost"].replace(/,/g, '')).toLocaleString("id-ID");
-  cost.dataset.cost = parseInt(product["unit cost"].replace(/,/g, ''));
 
-  input.nextElementSibling.style.display = 'none';
+  const price = parseInt(product["Normal Price IDR"].replace(/,/g, '')) || 0;
+  const costValue = parseInt(product["unit cost"].replace(/,/g, '')) || 0;
+
+  unitPrice.textContent = price.toLocaleString("id-ID");
+  unitPrice.dataset.price = price;
+  cost.textContent = costValue.toLocaleString("id-ID");
+  cost.dataset.cost = costValue;
+
+  // ✅ Clear the suggestion box completely
+  const suggestionsBox = input.nextElementSibling;
+  suggestionsBox.innerHTML = '';
+  suggestionsBox.style.display = 'none';
+  suggestionsBox.style.border = 'none';
+  suggestionsBox.style.boxShadow = 'none';
+
   recalculate(row.querySelector('.qty'));
 }
+
 
 function recalculate(input) {
   const row = input.closest('tr');
@@ -200,12 +213,16 @@ function formatCurrency(num) {
 }
 
 function downloadPDF() {
-  const invoice = document.getElementById("invoice");
-  html2pdf().from(invoice).set({
-    margin: 10,
-    filename: 'sales-quote.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2 },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-  }).save();
+  // Optionally hide empty rows before printing
+  document.querySelectorAll('#quote-items tr').forEach(row => {
+    const desc = row.querySelector('.description');
+    if (desc && !desc.value.trim()) {
+      row.style.display = 'none';
+    }
+  });
+
+  // Trigger browser's native print preview
+  window.print();
 }
+
+
