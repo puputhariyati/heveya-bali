@@ -1,3 +1,14 @@
+document.addEventListener("DOMContentLoaded", function () {
+const path = window.location.pathname;
+const buttons = document.querySelectorAll(".sidebar button");
+
+buttons.forEach(btn => {
+  if (btn.getAttribute("onclick")?.includes(`'${path}'`)) {
+    btn.classList.add("active");
+  }
+});
+});
+
 let stockDataGlobal = []; // Store fetched stock data globally
 
 async function fetchStockData() {

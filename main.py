@@ -846,7 +846,7 @@ def sync_sales():
 
 @app.route('/bedsheets')
 def bedsheets():
-    return render_template('bedsheets.html')
+    return render_template('product1.html')
 
 @app.route("/sync_bedsheets", methods=["GET"])
 def sync_bedsheets():
@@ -931,7 +931,7 @@ def sales_kpi():
 @app.route("/sales_invoice")
 def sales_invoice():
     df = pd.read_csv("products_std.csv")
-    df['image_url'] = df['subcategory'].apply(lambda x: f"static/images/{x.lower().replace(' ', '_')}/default.jpg")
+    df['image_url'] = "images/default.jpg"
     product_list = df.to_dict(orient='records')
     return render_template("sales_invoice.html", product_list=product_list)
 

@@ -1,137 +1,116 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Product Inventory Matrix</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      padding: 20px;
-    }
+{% extends 'base.html' %}
 
-    .section-title {
-      font-weight: bold;
-      margin: 20px 0 5px;
-      color: #333;
-    }
+{% block title %}Add Product{% endblock %}
 
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin-bottom: 30px;
-      background: white;
-    }
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='add_product.css') }}">
+{% endblock %}
 
-    th, td {
-      border: 1px solid #ccc;
-      text-align: center;
-      padding: 6px;
-      font-size: 14px;
-    }
+{% block content %}
+    <h1>Add / Edit Product</h1>
 
-    th {
-      background-color: #ddeeff;
-      font-weight: bold;
-    }
+    <div class="container">
+        <!-- Flash Messages Section -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
 
-    .section-header {
-      background-color: #cceeff;
-      text-align: left;
-      padding: 8px;
-      font-weight: bold;
-    }
+        <form id="inventoryForm" method="POST" action="/inventory">
+            <div id="productList">
+                <div class="productRow">
+                    <!-- Product Name -->
+                    <label>Product Name</label>
+                    <input type="text" name="product_name" placeholder="Enter product name" class="product-name" required>
 
-    .warehouse {
-      background-color: #d4f5d4;
-    }
+                    <label>Free Stock</label>
+                    <input type="number" name="free_qty" placeholder="0" class="free-qty" required>
 
-    .pending {
-      background-color: #fff0b3;
-    }
+                    <label>Unit Buy Price</label>
+                    <input type="number" step="0.01" name="unit_buy_price" placeholder="Enter price" class="unit-buy-price" required>
 
-    .upcoming {
-      background-color: #d4e6f5;
-    }
+                    <label>Unit Sell Price</label>
+                    <input type="number" step="0.01" name="unit_sell_price" placeholder="Enter price" class="unit-sell-price" required>
 
-    .request {
-      background-color: #f5f5f5;
-    }
-  </style>
-</head>
-<body>
+                    <label>Tags</label>
+                    <input type="text" name="tags" placeholder="E.g., Mattress, King" class="tags" required>
 
-<div class="section-title">Heveya I</div>
-<table>
-  <thead>
-    <tr>
-      <th rowspan="2">Product</th>
-      <th colspan="4" class="warehouse">Warehouse Bali</th>
-      <th colspan="5" class="pending">WH Pending ETD</th>
-      <th colspan="4" class="upcoming">Upcoming</th>
-      <th colspan="3" class="request">Request PO</th>
-    </tr>
-    <tr>
-      <th>S</th><th>M</th><th>F</th><th>S/M</th>
-      <th>S</th><th>M</th><th>F</th><th>S/M</th><th>Topper</th>
-      <th>S</th><th>M</th><th>F</th><th>Topper</th>
-      <th>S</th><th>M</th><th>F</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Super King 200x200</td>
-      <td></td><td></td><td></td><td></td>
-      <td></td><td></td><td></td><td></td><td></td>
-      <td></td><td></td><td></td><td></td>
-      <td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>King 180x200</td>
-      <td>2</td><td>1</td><td></td><td></td>
-      <td>1</td><td></td><td></td><td></td><td></td>
-      <td></td><td></td><td></td><td></td>
-      <td></td><td></td><td></td>
-    </tr>
-    <!-- More rows... -->
-  </tbody>
-</table>
+                    <label>Product Type</label>
+                    <select id="productType" name="product_type" onchange="toggleBOMSection(this)">
+                        <option value="single">Single Item</option>
+                        <option value="bundle">Bundle</option>
+                    </select>
 
-<div class="section-title">Heveya II & Topper</div>
-<table>
-  <thead>
-    <tr>
-      <th rowspan="2">Product</th>
-      <th colspan="4" class="warehouse">Warehouse Bali</th>
-      <th colspan="5" class="pending">WH Pending ETD</th>
-      <th colspan="4" class="upcoming">Upcoming</th>
-      <th colspan="3" class="request">Request PO</th>
-    </tr>
-    <tr>
-      <th>S</th><th>M</th><th>F</th><th>Topper</th>
-      <th>S</th><th>M</th><th>F</th><th>S/M</th><th>Topper</th>
-      <th>S</th><th>M</th><th>F</th><th>Topper</th>
-      <th>S</th><th>M</th><th>F</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Super King 200x200</td>
-      <td>5</td><td>3</td><td>1</td><td>9</td>
-      <td>3</td><td>1</td><td></td><td></td><td></td>
-      <td></td><td></td><td></td><td></td>
-      <td></td><td></td><td></td>
-    </tr>
-    <tr>
-      <td>King 180x200</td>
-      <td>5</td><td>1</td><td>6</td><td>2</td>
-      <td>2</td><td></td><td></td><td></td><td>5</td>
-      <td></td><td></td><td></td><td></td>
-      <td></td><td></td><td></td>
-    </tr>
-    <!-- More rows... -->
-  </tbody>
-</table>
+                    <!-- BOM Section (Hidden by Default) -->
+                    <div class="bomSection" style="display: none;">
+                        <h3>Unit Bill Of Materials</h3>
+                        <div class="bomContainer">
+                            <div class="bom-entry">
+                                <div class="input-container">
+                                    <input type="text" name="bom_product" placeholder="Select Product" oninput="suggestBomProducts(this)">
+                                    <div class="suggestions"></div>
+                                </div>
+                                <input type="number" name="bom_qty" placeholder="Qty">
+                                <button type="button" class="remove-btn" onclick="removeBOMEntry(this)">X</button>
+                            </div>
+                        </div>
+                        <button type="button" class="add-btn" onclick="addBOMEntry(this)">+ Add More Component</button>
+                        <button type="button" class="save-btn" onclick="saveBOM(this)">Save BOM</button>
+                    </div>
 
-</body>
-</html>
+                    <!-- Remove & Save Buttons -->
+                    <div class="button-group">
+                        <button type="submit" class="saveProduct-btn">Save Product</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+        <h2>Search Product</h2>
+        <div class="search-container">
+            <input type="text" id="productName" class="searchbar" placeholder="Select Product" oninput="suggestSearchProducts()">
+            <button id="searchButton" class="check-stock-btn">Search</button><br>
+        </div>
+        <div id="suggestions"></div>
+
+        <h3>Search From Notes</h3>
+        <input type="text" id="noteSearchInput" placeholder="Search notes..." oninput="filterRowsByNote(this.value)">
+
+        <div id="stockList">
+            <h3>Stock Inventory:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Product Name</th>
+                        <th>On Hand</th>
+                        <th>Free</th>
+                        <th>Booked</th>
+                        <th>Delivered</th>
+                        <th>Upcoming</th>
+                        <th>Unit Sell Price</th>
+                        <th>Unit Buy Price</th>
+                        <th>tags</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="stockTableBody">
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Modal for BOM -->
+        <div id="bomModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="document.getElementById('bomModal').style.display='none'">&times;</span>
+                <div id="bomModalContent"></div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='add_product.js') }}"></script>
+{% endblock %}
+
