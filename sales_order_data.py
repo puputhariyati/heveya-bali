@@ -66,5 +66,5 @@ print(f"✅ Total sales orders fetched: {len(sales_orders)}")
 sales_orders.sort(key=lambda x: x.get("transaction_date", ""))
 
 # 💾 Save to JSON
-with open('sales_orders_May2025.json', 'w', encoding='utf-8') as f:
+with open('static/data/sales_orders_May2025.json', 'w', encoding='utf-8') as f:
     json.dump(sales_orders, f, indent=2, ensure_ascii=False)

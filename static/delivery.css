@@ -1,4 +1,135 @@
-table, th, td { border: 1px solid #ccc; border-collapse: collapse; padding: 8px; }
-input[type="text"], input[type="number"], input[type="date"] {
+/* Basic Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+thead {
+  background-color: #f5f5f5;
+}
+
+/* Form Inputs */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+  width: 100%;
+  padding: 4px 6px;
+  box-sizing: border-box;
+  font-size: 13px;
+}
+
+/* Sticky Top Bar */
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background-color: white;
+  padding: 10px;
+  border-bottom: 2px solid #ccc;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.top-bar label {
+  font-weight: bold;
+}
+
+.top-bar input,
+.top-bar select {
+  min-width: 160px;
+}
+
+.top-bar .primary {
+  background-color: #5a9c4a;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Tabs */
+.tabs {
+  margin: 20px 0 10px;
+}
+
+.tabs button {
+  margin-right: 10px;
+  padding: 6px 14px;
+  font-size: 14px;
+  border: 1px solid #5a9c4a;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.tabs button.active {
+  background-color: #5a9c4a;
+  color: white;
+}
+
+/* Calendar View Placeholder */
+#delivery-calendar {
+  display: none; /* toggled via JS */
+  height: 500px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 30px;
+  background-color: #fff;
+}
+
+/* Status Chips */
+.status-chip {
+  display: inline-block;
+  padding: 3px 8px;
+  font-size: 12px;
+  border-radius: 12px;
+  color: white;
+  text-align: center;
+  min-width: 80px;
+}
+
+.status-prepared {
+  background-color: #f0ad4e; /* orange */
+}
+.status-partial {
+  background-color: #5bc0de; /* blue */
+}
+.status-delivered {
+  background-color: #5cb85c; /* green */
+}
+
+/* Checkbox column */
+td:first-child {
+  text-align: center;
+  width: 30px;
+}
+
+/* Responsive table if needed later */
+@media (max-width: 768px) {
+  table, th, td {
+    font-size: 12px;
+  }
+
+  .top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .top-bar input,
+  .top-bar select {
     width: 100%;
+  }
 }

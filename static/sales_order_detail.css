@@ -1,0 +1,67 @@
+/* Sidebar width */
+:root {
+  --sidebar-width: 110px;
+}
+
+.main-content {
+  margin-left: var(--sidebar-width);
+  padding: 20px;
+  max-width: calc(100vw - var(--sidebar-width));
+  box-sizing: border-box;
+  /*overflow-x: auto;*/
+}
+
+/* Basic Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+thead {
+  background-color: #f5f5f5;
+}
+
+/* Make the item column the widest */
+td:nth-child(3),
+th:nth-child(3) {
+  min-width: 300px;
+  width: 35%;
+  word-break: break-word;
+}
+
+/* Narrow columns by index (adjust indices if column order changes) */
+th:nth-child(5), td:nth-child(5), /* Qty */
+th:nth-child(6), td:nth-child(6), /* Units */
+th:nth-child(7), td:nth-child(7), /* Delivered */
+th:nth-child(8), td:nth-child(8), /* Remain Qty */
+th:nth-child(9), td:nth-child(9)  /* PO No */
+{
+  width: 70px;
+  max-width: 70px;
+  text-align: center;
+}
+/* Optional: tweak input inside these cells */
+td input[type="number"],
+td input[type="text"] {
+  width: 100%;
+  font-size: 13px;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+input[readonly] {
+  border: none;
+  background-color: transparent;
+  pointer-events: none;
+  font-weight: 500;
+  color: #333;
+}

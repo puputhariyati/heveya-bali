@@ -4,9 +4,10 @@ import sqlite3
 import traceback
 import sys
 import pandas as pd
+import json
 
 
-from flask import Flask, request, jsonify, render_template, redirect, flash
+from flask import Flask, request, jsonify, render_template, redirect, flash, json
 from dotenv import load_dotenv
 
 # from jurnal_api import get_sales_orders
@@ -937,7 +938,12 @@ def sales_invoice():
 
 @app.route('/delivery')
 def delivery():
-    return render_template('delivery.html')
+    return render_template('sales_order.html')
+
+@app.route('/sales_order/<transaction_no>')
+def sales_order_detail(transaction_no):
+    return render_template("sales_order_detail.html", transaction_no=transaction_no)
+
 
 @app.route('/get_product_details', methods=['GET'])
 def get_product_details():

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Sales Order {{ order.transaction_no }}{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='sales_order_detail.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="main-content">
+        <p><strong>Date:</strong> {{ order.transaction_date }}</p>
+        <p><strong>Customer:</strong> {{ order.person.display_name }}</p>
+        <p><strong>Total:</strong> {{ order.original_amount_currency_format }}</p>
+        <p><strong>Balance Due:</strong> {{ order.balance_due_currency_format }}</p>
+
+        <label>Filter by Warehouse:</label>
+            <select>
+                <option>All</option>
+                <option>Showroom</option>
+                <option>Warehouse</option>
+            </select>
+        <!-- Sales Order Detail Table -->
+        <div id="sales-order-detail-table">
+          <h2>Sales Order: {{ order.transaction_no }}</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th><input type="checkbox" onclick="toggleAll(this)"></th>
+                  <th>No.</th>
+                  <th>Item</th>
+                  <th>Description</th>
+                  <th>Qty</th>
+                  <th>Unit</th>
+                  <th>Delivered</th>
+                  <th>Remain Qty</th>
+                  <th>PO No</th>
+                  <th>Warehouse</th>
+                  <th>Delivery Date</th>
+                </tr>
+              </thead>
+              <tbody id="sales-order-detail-body">
+                <!--autofill json-->
+              </tbody>
+            </table>
+            <br>
+            <button type="submit">Save</button>
+          </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='sales_order_detail.js') }}"></script>
+{% endblock %}

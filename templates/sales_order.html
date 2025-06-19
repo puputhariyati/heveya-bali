@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Delivery{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='sales_order.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="main-content">
+        <div class="top-bar">
+          <select id="status">
+              <option value="prepared">Prepared</option>
+              <option value="partially sent">Partially Sent</option>
+              <option value="done">Done</option>
+          </select>
+          <input type="text" placeholder="Search Customer / Order No" />
+          <!-- View Switch Tabs -->
+          <div class="tabs">
+            <button onclick="showTableView()">Table View</button>
+            <button onclick="showCalendarView()">Calendar View</button>
+          </div>
+          <!-- Calendar Container -->
+          <div id="delivery-calendar" style="display:none;"></div>
+        </div>
+
+        <!-- Sales Order Table -->
+        <div id="delivery-table">
+          <h2>Sales Orders</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th><input type="checkbox" onclick="toggleAll(this)"></th>
+                  <th>Date</th>
+                  <th>Order No</th>
+                  <th>Customer</th>
+                  <th>Balance Due</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>ETD</th>
+                </tr>
+              </thead>
+              <tbody id="sales-order-body">
+                <!--autofill json-->
+              </tbody>
+            </table>
+            <br>
+            <button type="submit">Save</button>
+          </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='sales_order.js') }}"></script>
+
+{% endblock %}

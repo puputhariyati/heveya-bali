@@ -1,0 +1,94 @@
+/* Sidebar width */
+:root {
+  --sidebar-width: 110px;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+.main-content {
+  margin-left: var(--sidebar-width);
+  padding: 20px;
+  max-width: calc(100vw - var(--sidebar-width));
+  box-sizing: border-box;
+  /*overflow-x: auto;*/
+}
+
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: white;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  margin-left: var(--sidebar-width);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  box-sizing: border-box;
+  max-width: calc(100vw - var(--sidebar-width));
+  width: fit-content;
+}
+
+
+.top-bar select,
+.top-bar input[type="text"],
+.top-bar button {
+  padding: 6px 10px;
+  font-size: 14px;
+  max-width: 200px;
+}
+
+.top-bar input[type="text"] {
+  min-width: 200px;
+}
+
+.top-bar button {
+  background-color: #5a9c4a;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.top-bar button:hover {
+  background-color: #4b883f;
+}
+
+
+/* Table Styling */
+table {
+  width: 90%;
+  border-collapse: collapse;
+  margin-top: 20px;
+
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 6px;
+  text-align: left;
+  vertical-align: middle;
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+thead {
+  background-color: #f5f5f5;
+}
+
+/* Make some columns flexible */
+td:nth-child(4), /* Customer */
+td:nth-child(5), /* Item */
+td:nth-child(9) { /* Purchase No */
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+

@@ -2,7 +2,7 @@ import json
 import csv
 
 # Load JSON data
-with open('sales_orders_May2025.json', 'r', encoding='utf-8') as f:
+with open('static/data/sales_orders_May2025.json', 'r', encoding='utf-8') as f:
     sales_orders = json.load(f)
 
 # Function to clean and convert total to numeric
