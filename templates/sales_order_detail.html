@@ -19,31 +19,43 @@
                 <option>Showroom</option>
                 <option>Warehouse</option>
             </select>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="flash-messages">
+              {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
         <!-- Sales Order Detail Table -->
         <div id="sales-order-detail-table">
           <h2>Sales Order: {{ order.transaction_no }}</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th><input type="checkbox" onclick="toggleAll(this)"></th>
-                  <th>No.</th>
-                  <th>Item</th>
-                  <th>Description</th>
-                  <th>Qty</th>
-                  <th>Unit</th>
-                  <th>Delivered</th>
-                  <th>Remain Qty</th>
-                  <th>PO No</th>
-                  <th>Warehouse</th>
-                  <th>Delivery Date</th>
-                </tr>
-              </thead>
-              <tbody id="sales-order-detail-body">
-                <!--autofill json-->
-              </tbody>
-            </table>
-            <br>
-            <button type="submit">Save</button>
+            <form method="POST" action="/sales_order/save_detail/{{ order.transaction_no }}">
+                <table>
+                  <thead>
+                    <tr>
+                      <th><input type="checkbox" onclick="toggleAll(this)"></th>
+                      <th>No.</th>
+                      <th>Item</th>
+                      <th>Description</th>
+                      <th>Qty</th>
+                      <th>Unit</th>
+                      <th>Delivered</th>
+                      <th>Remain Qty</th>
+                      <th>PO No</th>
+                      <th>Warehouse</th>
+                      <th>Delivery Date</th>
+                    </tr>
+                  </thead>
+                  <tbody id="sales-order-detail-body">
+                    <!--autofill json-->
+                  </tbody>
+                </table>
+                <br>
+                <button type="submit">Save</button>
           </form>
         </div>
     </div>

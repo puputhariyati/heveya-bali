@@ -3,7 +3,7 @@
 {% block title %}Sales - Heveya App{% endblock %}
 
 {% block head %}
-<link rel="stylesheet" href="{{url_for('static', filename='sales_invoice.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='sales_quote.css')}}">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 {% endblock %}
 
@@ -154,5 +154,5 @@
 </script>
 
 <!-- Optional: Include your JS file specific to this page -->
-<script src="{{ url_for('static', filename='sales_invoice.js') }}"></script>
+<script src="{{ url_for('static', filename='sales_quote.js') }}"></script>
 {% endblock %}

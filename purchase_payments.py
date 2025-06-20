@@ -82,7 +82,7 @@ def sales_invoices():
     sorted_customers = sorted(customer_totals.items(), key=lambda x: customer_names.get(x[0], ''))
 
     # Export to CSV
-    with open('customer_total_payments.csv', mode='w', newline='', encoding='utf-8') as file:
+    with open('static/data/customer_total_payments.csv', mode='w', newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
         writer.writerow(['No', 'Customer Name', 'Customer ID', 'Total Payment (formatted)', 'Total Payment (raw)'])
 

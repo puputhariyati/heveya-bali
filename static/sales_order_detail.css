@@ -65,3 +65,26 @@ input[readonly] {
   font-weight: 500;
   color: #333;
 }
+
+.flash-messages {
+  margin-bottom: 15px;
+}
+
+.flash {
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.flash.success {
+  background-color: #e6f9ec;
+  color: #2e7d32;
+  border: 1px solid #a5d6a7;
+}
+
+.flash.error {
+  background-color: #fdecea;
+  color: #c62828;
+  border: 1px solid #f5c6cb;
+}

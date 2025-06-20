@@ -23,21 +23,21 @@ document.addEventListener("DOMContentLoaded", function () {
         const row = document.createElement("tr");
         row.innerHTML = `
           <td><input type="checkbox" class="row-check"></td>
-          <td>${i + 1}</td>
-          <td>${item}</td>
+          <td class="line-no">${i + 1}</td>
+          <td class="item-name">${item}</td>
           <td><input type="text" class="desc" placeholder=""></td>
           <td><input type="number" class="qty" value="${qty}" readonly></td>
           <td>${unit}</td>
           <td><input type="number" class="delivered" name="delivered" min="0" value="0" oninput="updateRemain(this)"></td>
           <td><input type="number" class="remain_qty" name="remain_qty" value="${qty}" readonly></td>
-          <td><input type="text" class="PO_no" placeholder=""></td>
+          <td><input type="text" class="po_no" placeholder=""></td>
           <td>
-              <select name="warehouse_option">
+              <select name="warehouse_option" class="warehouse-option">
                   <option value="showroom">Showroom</option>
                   <option value="warehouse">Warehouse</option>
               </select>
           </td>
-          <td><input type="date" name="delivery_date"></td>
+          <td><input type="date" name="delivery_date" class="delivery-date"></td>
         `;
         tbody.appendChild(row);
       });
