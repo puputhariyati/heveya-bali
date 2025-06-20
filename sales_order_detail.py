@@ -84,7 +84,7 @@ def save_sales_order_detail(transaction_no):
                     INSERT INTO sales_order_detail
                     (transaction_no, line, item, qty, unit, delivered, remain_qty,
                     po_no, warehouse_option, delivery_date, status, description)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, (
                     transaction_no, i + 1, item_name, qty, unit_list[i],
                     delivered, remain, po_no_list[i],
