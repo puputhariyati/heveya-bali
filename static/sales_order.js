@@ -8,7 +8,7 @@ fetch("/static/data/sales_orders_open.json")
       const date = order.transaction_date || '';
       const orderNo = order.transaction_no || '';
       const customer = order.person?.display_name || '';
-      const balanceDue = order.outstanding_amount_currency_format || '-';
+      const balanceDue = order.remaining_currency_format || '-';
       const total = order.original_amount_currency_format || '-';
 
       const row = document.createElement("tr");

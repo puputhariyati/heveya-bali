@@ -92,27 +92,26 @@ def save_sales_order_detail(transaction_no):
                 ))
 
             # Update stock quantity if delivered quantity has changed
-            if delivered_diff > 0:
-                # Find the product in the CSV by name
+            if delivered_diff != 0:
                 product_idx = products_df[products_df['name'] == item_name].index
 
                 if len(product_idx) > 0:
                     idx = product_idx[0]
 
-                    # Update showroom or warehouse quantity based on warehouse option
                     if warehouse_option == 'showroom':
                         current_qty = products_df.at[idx, 'showroom_qty']
                         if pd.notna(current_qty) and current_qty != '':
                             current_qty = float(current_qty)
-                            new_qty = max(current_qty - delivered_diff, 0)
-                            products_df.at[idx, 'showroom_qty'] = new_qty
+                            new_qty = current_qty - delivered_diff  # subtract or add based on diff
+                            products_df.at[idx, 'showroom_qty'] = max(new_qty, 0) if delivered_diff > 0 else new_qty
                             stock_updated = True
+
                     elif warehouse_option == 'warehouse':
                         current_qty = products_df.at[idx, 'warehouse_qty']
                         if pd.notna(current_qty) and current_qty != '':
                             current_qty = float(current_qty)
-                            new_qty = max(current_qty - delivered_diff, 0)
-                            products_df.at[idx, 'warehouse_qty'] = new_qty
+                            new_qty = current_qty - delivered_diff  # subtract or add based on diff
+                            products_df.at[idx, 'warehouse_qty'] = max(new_qty, 0) if delivered_diff > 0 else new_qty
                             stock_updated = True
 
         # Save updated stock quantities to CSV if any changes were made
