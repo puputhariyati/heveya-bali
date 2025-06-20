@@ -8,7 +8,7 @@ from flask import render_template, redirect, request, flash
 
 def render_sales_order_detail(transaction_no):
     # 1. Load original order from JSON (still useful for full lines)
-    with open("static/data/sales_orders_May2025.json", "r", encoding="utf-8") as f:
+    with open("static/data/sales_orders_open.json", "r", encoding="utf-8") as f:
         data = json.load(f)
     order = next((o for o in data if o["transaction_no"] == transaction_no), None)
     if not order:

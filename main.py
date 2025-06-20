@@ -210,8 +210,8 @@ def sales_quote():
     product_list = df.to_dict(orient='records')
     return render_template("sales_quote.html", product_list=product_list)
 
-@app.route('/delivery')
-def delivery():
+@app.route('/sales_order')
+def sales_order():
     return render_template('sales_order.html')
 
 @app.route("/sales_order/<transaction_no>")

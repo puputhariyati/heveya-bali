@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-fetch("/static/data/sales_orders_May2025.json")
+fetch("/static/data/sales_orders_open.json")
   .then(response => response.json())
   .then(data => {
     const tbody = document.getElementById("sales-order-body");
