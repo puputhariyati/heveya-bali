@@ -10,9 +10,9 @@
     <div class="main-content">
         <div class="top-bar">
           <select id="status">
-              <option value="prepared">Prepared</option>
+              <option value="open">Open</option>
               <option value="partially sent">Partially Sent</option>
-              <option value="done">Done</option>
+              <option value="closed">Closed</option>
           </select>
           <input type="text" placeholder="Search Customer / Order No" />
           <!-- View Switch Tabs -->
@@ -40,9 +40,21 @@
                   <th>ETD</th>
                 </tr>
               </thead>
-              <tbody id="sales-order-body">
-                <!--autofill json-->
+              <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td><input type="checkbox" class="row-check"></td>
+                    <td>{{ order.transaction_date }}</td>
+                    <td><a href="/sales_order/{{ order.transaction_no }}">{{ order.transaction_no }}</a></td>
+                    <td>{{ order.person_name or '-' }}</td>
+                    <td>{{ order.remaining_currency_format or '-' }}</td>
+                    <td>{{ order.original_amount_currency_format or '-' }}</td>
+                    <td>{{ order.status.capitalize() }}</td>
+                    <td><input type="date" name="ETD" value="{{ order.ETD }}"></td>
+                </tr>
+                {% endfor %}
               </tbody>
+
             </table>
             <br>
             <button type="submit">Save</button>

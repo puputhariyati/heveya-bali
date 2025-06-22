@@ -8,6 +8,7 @@ import json
 from flask import Flask, request, jsonify, render_template, redirect, flash, json
 from dotenv import load_dotenv
 
+from sales_order import render_sales_order
 from sales_order_detail import render_sales_order_detail, save_sales_order_detail
 
 load_dotenv("key.env")  # Load environment variables from .env file
@@ -48,6 +49,7 @@ def init_db():
 
     conn.commit()
     conn.close()
+
 
 
 #Dashboard page
@@ -216,7 +218,7 @@ def sales_quote():
 
 @app.route('/sales_order')
 def sales_order():
-    return render_template('sales_order.html')
+    return render_sales_order()
 
 @app.route("/sales_order/<transaction_no>")
 def sales_order_detail_route(transaction_no):  # ✅ Rename to avoid name conflict
