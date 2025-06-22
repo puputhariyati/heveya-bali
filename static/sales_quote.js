@@ -66,7 +66,9 @@ function showSuggestions(input) {
   suggestionsBox.innerHTML = '';
 
   const keywords = query.split(/\s+/);
+
   const matched = productDB.filter(p => {
+    if (!p.name) return false;  // 🔐 Safe guard
     const name = p.name.toLowerCase();
     return keywords.every(kw => name.includes(kw));
   });
@@ -81,6 +83,7 @@ function showSuggestions(input) {
 
   suggestionsBox.style.display = matched.length ? 'block' : 'none';
 }
+
 
 function selectProduct(input, product) {
   const row = input.closest('tr');
