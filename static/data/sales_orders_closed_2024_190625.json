@@ -1,0 +1,2939 @@
+[
+  {
+    "kind": "Sales Order",
+    "id": 1102239226,
+    "transaction_no": "12076",
+    "token": "mtQOb04daDr71oRp-ZlenA",
+    "email": "",
+    "source": "v3/revamp",
+    "address": "MH THAMRIN GD. GRAND INDONESIA MALL EAST MALL LT.LG, 182., 01, MENTENG, MENTENG, KOTA ADM. JAKARTA PUSAT, DKI JAKARTA, 10310",
+    "message": "",
+    "memo": "Special offer:\r\n4 Free pillows\r\n\r\n5% Volume order 50mil\r\n\r\nDelivery address:\r\nHeika 0812-5996-2007\r\n\r\nSetiabudi Sky Garden\r\nTower SKY 4607\r\nJl. Setia Budi Sel. Raya No.2 18, RT.18/RW.2, Kuningan, Karet Kuningan, Kecamatan Setiabudi, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12920",
+    "shipping_address": null,
+    "is_shipped": false,
+    "selected_po_id": null,
+    "ship_via": "",
+    "reference_no": "",
+    "tracking_no": "",
+    "status": "approved",
+    "custom_id": null,
+    "created_at": "2024-11-21T10:37:54.000Z",
+    "deleted_at": null,
+    "deletable": false,
+    "editable": false,
+    "audited_by": null,
+    "transaction_date": "01/12/2024",
+    "shipping_date": null,
+    "due_date": "01-12-2024",
+    "original_amount": "45615900.001071",
+    "remaining": "45615900.001071",
+    "discount_unit": "12273963.963",
+    "discount_price": "12273963.963",
+    "shipping_price": "0.0",
+    "amount_receive": "0.0",
+    "tax_after_discount": true,
+    "tax_amount": "4520494.594701",
+    "subtotal": "58774774.774774",
+    "deposit": "0.0",
+    "payment_received_amount": "0.0",
+    "payment_received_amount_currency_format": "Rp.  0",
+    "remaining_currency_format": "Rp.  45.615.900",
+    "original_amount_currency_format": "Rp.  45.615.900",
+    "shipping_price_currency_format": "Rp.  0",
+    "tax_amount_currency_format": "Rp.  4.520.495",
+    "discount_price_currency_format": "Rp.  12.273.964",
+    "amount_receive_currency_format": "Rp.  0",
+    "subtotal_currency_format": "Rp.  58.774.775",
+    "deposit_currency_format": "Rp.  0",
+    "discount_per_lines": "5405405.405404",
+    "discount_per_lines_currency_format": "Rp.  5.405.405",
+    "tax": {
+      "id": null,
+      "name": null,
+      "rate": null
+    },
+    "tax_details": [
+      {
+        "name": "PPN 11% 11.0%",
+        "tax_amount": 4520494.5947007,
+        "tax_amount_currency_format": "Rp.  4.520.495"
+      }
+    ],
+    "use_tax_inclusive": true,
+    "deposit_to": {
+      "id": null,
+      "name": null,
+      "number": null,
+      "category": {
+        "id": null,
+        "name": null
+      }
+    },
+    "transaction_status": {
+      "id": 2,
+      "name": "Closed",
+      "name_bahasa": "Selesai"
+    },
+    "transaction_lines_attributes": [
+      {
+        "id": 1340169192,
+        "custom_id": null,
+        "description": "",
+        "amount": "44144144.144144",
+        "discount": "0.0",
+        "rate": "44144144.144144",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  44.144.144",
+        "rate_currency_format": "Rp.  44.144.144",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "product": {
+          "id": 36794232,
+          "name": "Heveya Natural Organic Latex Mattress III - Super King (W200cm x L200cm) -  Firm",
+          "product_code": "MEU3SK200X200F.",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "54000000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "MEU3SK200X200F.",
+          "product_custom_id": null,
+          "quantity": -3.0,
+          "quantity_string": "-3.0",
+          "link": "https://my.jurnal.id/products/detail/36794232",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1340169194,
+        "custom_id": null,
+        "description": "",
+        "amount": "3108108.108108",
+        "discount": "0.0",
+        "rate": "3108108.108108",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  3.108.108",
+        "rate_currency_format": "Rp.  3.108.108",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "product": {
+          "id": 33000528,
+          "name": "Linen Fitted Sheet Set + 2 Pillow Cases - Super King (200cm x 200cm) - White",
+          "product_code": "LSPW2SK200X200FI",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "3550000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "LSPW2SK200X200FI",
+          "product_custom_id": null,
+          "quantity": 65.0,
+          "quantity_string": "65.0",
+          "link": "https://my.jurnal.id/products/detail/33000528",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1352894,
+          "name": "Set"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1340169197,
+        "custom_id": null,
+        "description": "",
+        "amount": "1126126.126126",
+        "discount": "0.0",
+        "rate": "1126126.126126",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  1.126.126",
+        "rate_currency_format": "Rp.  1.126.126",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "product": {
+          "id": 33000615,
+          "name": "Linen Pillow Cases Set (2 Pillow Cases) -  50 cm x 75 cm  - White",
+          "product_code": "PCPW2OS75X50",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "1250000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "PCPW2OS75X50",
+          "product_custom_id": null,
+          "quantity": 78.5,
+          "quantity_string": "78.5",
+          "link": "https://my.jurnal.id/products/detail/33000615",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1340169198,
+        "custom_id": null,
+        "description": "Taken at Central GI",
+        "amount": "891891.891892",
+        "discount": "0.0",
+        "rate": "891891.891892",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  891.892",
+        "rate_currency_format": "Rp.  891.892",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "product": {
+          "id": 35752071,
+          "name": "Heveya Vegan Cotton Bath Towel - 140 x 80cm - White",
+          "product_code": "VCSBTW140X80",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "990000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "VCSBTW140X80",
+          "product_custom_id": null,
+          "quantity": 168.0,
+          "quantity_string": "168.0",
+          "link": "https://my.jurnal.id/products/detail/35752071",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1343894703,
+        "custom_id": null,
+        "description": "Taken at Central GI",
+        "amount": "585585.585586",
+        "discount": "0.0",
+        "rate": "585585.585586",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  585.586",
+        "rate_currency_format": "Rp.  585.586",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "product": {
+          "id": 35752885,
+          "name": "Heveya Vegan Cotton Bath Mat - 80 x 50cm - White",
+          "product_code": "VCSBMW80X50",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "650000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "VCSBMW80X50",
+          "product_custom_id": null,
+          "quantity": 14.0,
+          "quantity_string": "14.0",
+          "link": "https://api.jurnal.id/products/detail/35752885",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1343894704,
+        "custom_id": null,
+        "description": "",
+        "amount": "0.0",
+        "discount": "100.0",
+        "rate": "1351351.351351",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  0",
+        "rate_currency_format": "Rp.  1.351.351",
+        "has_return_line": false,
+        "quantity": 3.0,
+        "product": {
+          "id": 32996997,
+          "name": "Heveya Natural Organic Latex Pillow - (70cm x 40cm x 14.5cm) - Heveya 2",
+          "product_code": "PS1A70X40S",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "1800000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "PS1A70X40S",
+          "product_custom_id": null,
+          "quantity": -5.0,
+          "quantity_string": "-5.0",
+          "link": "https://api.jurnal.id/products/detail/32996997",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1344254214,
+        "custom_id": null,
+        "description": "",
+        "amount": "3513513.513514",
+        "discount": "0.0",
+        "rate": "3513513.513514",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  3.513.514",
+        "rate_currency_format": "Rp.  3.513.514",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "product": {
+          "id": 33002848,
+          "name": "Heveya Mattress Protector - Super King (200cm x 200cm)",
+          "product_code": "MPEU1SK200X200P",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "3900000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "MPEU1SK200X200P",
+          "product_custom_id": null,
+          "quantity": 0.0,
+          "quantity_string": "0.0",
+          "link": "https://api.jurnal.id/products/detail/33002848",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1344259513,
+        "custom_id": null,
+        "description": "",
+        "amount": "0.0",
+        "discount": "100.0",
+        "rate": "1351351.351351",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  0",
+        "rate_currency_format": "Rp.  1.351.351",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "sell_acc_id": 58206950,
+        "buy_acc_id": 76204448,
+        "product": {
+          "id": 38914137,
+          "name": "Heveya Natural Organic Latex Pillow - (70cm x 40cm x 12.5cm) - Heveya 4",
+          "product_code": "PS1A70X40LM",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "1800000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "PS1A70X40LM",
+          "product_custom_id": null,
+          "quantity": 50.0,
+          "quantity_string": "50.0",
+          "link": "https://api.jurnal.id/products/detail/38914137",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      }
+    ],
+    "person": {
+      "id": 81976381,
+      "title": "",
+      "first_name": "",
+      "middle_name": "",
+      "last_name": "",
+      "display_name": "CENTRAL RETAIL INDONESIA",
+      "email": "",
+      "address": "MH THAMRIN GD. GRAND INDONESIA MALL EAST MALL LT.LG, 182., 01, MENTENG, MENTENG, KOTA ADM. JAKARTA PUSAT, DKI JAKARTA, 10310",
+      "billing_address": "MH THAMRIN GD. GRAND INDONESIA MALL EAST MALL LT.LG, 182., 01, MENTENG, MENTENG, KOTA ADM. JAKARTA PUSAT, DKI JAKARTA, 10310",
+      "phone": "",
+      "fax": "",
+      "mobile": "",
+      "tax_no": "31.498.605.0-063.000"
+    },
+    "discount_type": {
+      "id": 2,
+      "name": "Value",
+      "name_bahasa": "Nilai"
+    },
+    "warehouse": {
+      "id": 234698,
+      "name": "Central GI Jakarta ",
+      "code": "",
+      "status": "active"
+    },
+    "sales_quote": {
+      "id": null,
+      "transaction_no": null
+    },
+    "tags": [
+      {
+        "id": 9398898,
+        "name": "Partner"
+      },
+      {
+        "id": 10906766,
+        "name": "Lidya"
+      }
+    ],
+    "tags_string": "Partner, Lidya",
+    "term": {
+      "id": 2671974,
+      "name": "Full Payment",
+      "longetivity": 0
+    },
+    "is_reconciled": false,
+    "attachments": [],
+    "payments": [],
+    "deliveries": [],
+    "payment_transactions": [],
+    "invoices": [
+      {
+        "id": 1294689876,
+        "transaction_no": "13936",
+        "transaction_date": "01/12/2024"
+      }
+    ],
+    "updated_at": "2025-04-24T02:02:51.000Z",
+    "currency_code": "IDR",
+    "currency_list_id": 50953,
+    "currency_from_id": 1,
+    "currency_to_id": 1,
+    "multi_currency_id": 75261353,
+    "currency_rate": 1.0,
+    "company_currency": {
+      "code": "IDR",
+      "symbol": "Rp."
+    },
+    "disable_link": false
+  },
+  {
+    "kind": "Sales Order",
+    "id": 1112383774,
+    "transaction_no": "12182",
+    "token": "J36UKOfmLuyVpEvakjPr3A",
+    "email": "",
+    "source": "v3/revamp",
+    "address": "-",
+    "message": "",
+    "memo": "10% End Year Sale\r\n10% Pillow Bundle\r\n2x Free Pillows\r\n*Won't need the mattress until end of February",
+    "shipping_address": null,
+    "is_shipped": false,
+    "selected_po_id": null,
+    "ship_via": "",
+    "reference_no": "",
+    "tracking_no": "",
+    "status": "approved",
+    "custom_id": null,
+    "created_at": "2024-12-06T10:02:09.000Z",
+    "deleted_at": null,
+    "deletable": false,
+    "editable": false,
+    "audited_by": null,
+    "transaction_date": "06/12/2024",
+    "shipping_date": null,
+    "due_date": "06-12-2024",
+    "original_amount": "44700000.0",
+    "remaining": "0.0",
+    "discount_unit": "0.0",
+    "discount_price": "0.0",
+    "shipping_price": "0.0",
+    "amount_receive": "44700000.0",
+    "tax_after_discount": true,
+    "tax_amount": "4429729.72973",
+    "subtotal": "47297297.297296",
+    "deposit": "0.0",
+    "payment_received_amount": "44700000.0",
+    "payment_received_amount_currency_format": "Rp.  44.700.000",
+    "remaining_currency_format": "Rp.  0",
+    "original_amount_currency_format": "Rp.  44.700.000",
+    "shipping_price_currency_format": "Rp.  0",
+    "tax_amount_currency_format": "Rp.  4.429.730",
+    "discount_price_currency_format": "Rp.  0",
+    "amount_receive_currency_format": "Rp.  44.700.000",
+    "subtotal_currency_format": "Rp.  47.297.297",
+    "deposit_currency_format": "Rp.  0",
+    "discount_per_lines": "7027027.0270263",
+    "discount_per_lines_currency_format": "Rp.  7.027.027",
+    "tax": {
+      "id": null,
+      "name": null,
+      "rate": null
+    },
+    "tax_details": [
+      {
+        "name": "PPN 11% 11.0%",
+        "tax_amount": 4429729.729729667,
+        "tax_amount_currency_format": "Rp.  4.429.730"
+      }
+    ],
+    "use_tax_inclusive": true,
+    "deposit_to": {
+      "id": null,
+      "name": null,
+      "number": null,
+      "category": {
+        "id": null,
+        "name": null
+      }
+    },
+    "transaction_status": {
+      "id": 2,
+      "name": "Closed",
+      "name_bahasa": "Selesai"
+    },
+    "transaction_lines_attributes": [
+      {
+        "id": 1352874679,
+        "custom_id": null,
+        "description": "",
+        "amount": "36486486.486487",
+        "discount": "10.0",
+        "rate": "40540540.540541",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  36.486.486",
+        "rate_currency_format": "Rp.  40.540.541",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "product": {
+          "id": 45598780,
+          "name": "Heveya Natural Organic Latex Mattress III - King (W180cm x L200cm) - Firm.",
+          "product_code": "MEU3K200X180F-2 BASE BLOCKS",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "49000000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "MEU3K200X180F-2 BASE BLOCKS",
+          "product_custom_id": null,
+          "quantity": -2.0,
+          "quantity_string": "-2.0",
+          "link": "https://my-k8s.jurnal.id/products/detail/45598780",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1352874680,
+        "custom_id": null,
+        "description": "",
+        "amount": "0.0",
+        "discount": "100.0",
+        "rate": "1351351.351351",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  0",
+        "rate_currency_format": "Rp.  1.351.351",
+        "has_return_line": false,
+        "quantity": 2.0,
+        "product": {
+          "id": 32996997,
+          "name": "Heveya Natural Organic Latex Pillow - (70cm x 40cm x 14.5cm) - Heveya 2",
+          "product_code": "PS1A70X40S",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "1800000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "PS1A70X40S",
+          "product_custom_id": null,
+          "quantity": -5.0,
+          "quantity_string": "-5.0",
+          "link": "https://my-k8s.jurnal.id/products/detail/32996997",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1352874681,
+        "custom_id": null,
+        "description": "",
+        "amount": "2432432.432432",
+        "discount": "10.0",
+        "rate": "1351351.351351",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  2.432.432",
+        "rate_currency_format": "Rp.  1.351.351",
+        "has_return_line": false,
+        "quantity": 2.0,
+        "product": {
+          "id": 38914137,
+          "name": "Heveya Natural Organic Latex Pillow - (70cm x 40cm x 12.5cm) - Heveya 4",
+          "product_code": "PS1A70X40LM",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "1800000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "PS1A70X40LM",
+          "product_custom_id": null,
+          "quantity": 50.0,
+          "quantity_string": "50.0",
+          "link": "https://my-k8s.jurnal.id/products/detail/38914137",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1490902000,
+        "custom_id": null,
+        "description": "",
+        "amount": "1351351.351351",
+        "discount": "0.0",
+        "rate": "1351351.351351",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  1.351.351",
+        "rate_currency_format": "Rp.  1.351.351",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "product": {
+          "id": 47317354,
+          "name": "Heveya Pregnancy Pillow  U-Shaped",
+          "product_code": "PREGNANCY ",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "1800000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "PREGNANCY ",
+          "product_custom_id": null,
+          "quantity": 6.0,
+          "quantity_string": "6.0",
+          "link": "https://my-k8s.jurnal.id/products/detail/47317354",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      }
+    ],
+    "person": {
+      "id": 82661585,
+      "title": null,
+      "first_name": "",
+      "middle_name": "",
+      "last_name": "",
+      "display_name": "Liv Schoenbaechler",
+      "email": "",
+      "address": "",
+      "billing_address": "",
+      "phone": "+41 79 534 08 69",
+      "fax": "",
+      "mobile": "",
+      "tax_no": ""
+    },
+    "discount_type": {
+      "id": 1,
+      "name": "Percent",
+      "name_bahasa": "Persen"
+    },
+    "warehouse": {
+      "id": 183275,
+      "name": "Warehouse Heveya Bali",
+      "code": "",
+      "status": "active"
+    },
+    "sales_quote": {
+      "id": 1108629767,
+      "transaction_no": "11550"
+    },
+    "tags": [
+      {
+        "id": 9450664,
+        "name": "Whatsapp"
+      },
+      {
+        "id": 10977092,
+        "name": "puput"
+      }
+    ],
+    "tags_string": "Whatsapp, puput",
+    "term": {
+      "id": 2671974,
+      "name": "Full Payment",
+      "longetivity": 0
+    },
+    "is_reconciled": false,
+    "attachments": [],
+    "payments": [
+      {
+        "id": 1113333306,
+        "transaction_no": "11850",
+        "transaction_date": "09/12/2024",
+        "amount": 44700000,
+        "payment_method_name": "Bank Transfer"
+      }
+    ],
+    "deliveries": [],
+    "payment_transactions": [
+      {
+        "id": 409813247,
+        "payment_id": 1113333306,
+        "transaction_id": 1112383774,
+        "amount": "44700000.0",
+        "created_at": "2024-12-09T01:34:32.000Z",
+        "updated_at": "2024-12-09T01:34:32.000Z",
+        "amount_as_currency": null,
+        "mc_rate": null,
+        "deleted_at": null,
+        "realised_gain_id": null
+      }
+    ],
+    "invoices": [
+      {
+        "id": 1294703100,
+        "transaction_no": "13940",
+        "transaction_date": "06/12/2024"
+      }
+    ],
+    "updated_at": "2025-04-24T02:11:45.000Z",
+    "currency_code": "IDR",
+    "currency_list_id": 50953,
+    "currency_from_id": 1,
+    "currency_to_id": 1,
+    "multi_currency_id": 75188141,
+    "currency_rate": 1.0,
+    "company_currency": {
+      "code": "IDR",
+      "symbol": "Rp."
+    },
+    "disable_link": false
+  },
+  {
+    "kind": "Sales Order",
+    "id": 1363801052,
+    "transaction_no": "13367",
+    "token": "izMH7IWiESmliNEHAtEleA",
+    "email": "",
+    "source": "v3/revamp",
+    "address": "-",
+    "message": "",
+    "memo": "\r\n10% End Year Sale\r\n2x Free Pillows\r\n10% Bamboo Bundle\r\n\r\nEXTRA DISCOUNT:\r\n2x Extra free pillows\r\n1x Free Bamboo Sheet\r\n5% Volume Orders",
+    "shipping_address": null,
+    "is_shipped": false,
+    "selected_po_id": null,
+    "ship_via": "",
+    "reference_no": "",
+    "tracking_no": "",
+    "status": "approved",
+    "custom_id": null,
+    "created_at": "2025-06-14T06:39:31.000Z",
+    "deleted_at": null,
+    "deletable": false,
+    "editable": false,
+    "audited_by": null,
+    "transaction_date": "14/06/2025",
+    "shipping_date": null,
+    "due_date": "14-06-2025",
+    "original_amount": "49794250.0",
+    "remaining": "49794250.0",
+    "discount_unit": "5.0",
+    "discount_price": "2361036.036036",
+    "shipping_price": "0.0",
+    "amount_receive": "0.0",
+    "tax_after_discount": true,
+    "tax_amount": "4934565.315315",
+    "subtotal": "59009009.009008",
+    "deposit": "0.0",
+    "payment_received_amount": "0.0",
+    "payment_received_amount_currency_format": "Rp.  0",
+    "remaining_currency_format": "Rp.  49.794.250",
+    "original_amount_currency_format": "Rp.  49.794.250",
+    "shipping_price_currency_format": "Rp.  0",
+    "tax_amount_currency_format": "Rp.  4.934.565",
+    "discount_price_currency_format": "Rp.  2.361.036",
+    "amount_receive_currency_format": "Rp.  0",
+    "subtotal_currency_format": "Rp.  59.009.009",
+    "deposit_currency_format": "Rp.  0",
+    "discount_per_lines": "11788288.2882872",
+    "discount_per_lines_currency_format": "Rp.  11.788.288",
+    "tax": {
+      "id": null,
+      "name": null,
+      "rate": null
+    },
+    "tax_details": [
+      {
+        "name": "PPN 11% 11.0%",
+        "tax_amount": 4934565.315315328,
+        "tax_amount_currency_format": "Rp.  4.934.565"
+      }
+    ],
+    "use_tax_inclusive": true,
+    "deposit_to": {
+      "id": null,
+      "name": null,
+      "number": null,
+      "category": {
+        "id": null,
+        "name": null
+      }
+    },
+    "transaction_status": {
+      "id": 2,
+      "name": "Closed",
+      "name_bahasa": "Selesai"
+    },
+    "transaction_lines_attributes": [
+      {
+        "id": 1743166404,
+        "custom_id": null,
+        "description": "",
+        "amount": "36486486.486487",
+        "discount": "10.0",
+        "rate": "40540540.540541",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  36.486.486",
+        "rate_currency_format": "Rp.  40.540.541",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "sell_acc_id": 56494690,
+        "buy_acc_id": 56494691,
+        "product": {
+          "id": 45598780,
+          "name": "Heveya Natural Organic Latex Mattress III - King (W180cm x L200cm) - Firm.",
+          "product_code": "MEU3K200X180F-2 BASE BLOCKS",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "49000000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "MEU3K200X180F-2 BASE BLOCKS",
+          "product_custom_id": null,
+          "quantity": -2.0,
+          "quantity_string": "-2.0",
+          "link": "https://my.jurnal.id/products/detail/45598780",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1743166408,
+        "custom_id": null,
+        "description": "",
+        "amount": "0.0",
+        "discount": "100.0",
+        "rate": "1351351.351351",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  0",
+        "rate_currency_format": "Rp.  1.351.351",
+        "has_return_line": false,
+        "quantity": 2.0,
+        "sell_acc_id": 58206950,
+        "buy_acc_id": 76204448,
+        "product": {
+          "id": 32996997,
+          "name": "Heveya Natural Organic Latex Pillow - (70cm x 40cm x 14.5cm) - Heveya 2",
+          "product_code": "PS1A70X40S",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "1800000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "PS1A70X40S",
+          "product_custom_id": null,
+          "quantity": -5.0,
+          "quantity_string": "-5.0",
+          "link": "https://my.jurnal.id/products/detail/32996997",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1743166418,
+        "custom_id": null,
+        "description": "",
+        "amount": "0.0",
+        "discount": "100.0",
+        "rate": "1351351.351351",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  0",
+        "rate_currency_format": "Rp.  1.351.351",
+        "has_return_line": false,
+        "quantity": 2.0,
+        "sell_acc_id": 58206950,
+        "buy_acc_id": 76204448,
+        "product": {
+          "id": 32997003,
+          "name": "Heveya Natural Organic Latex Pillow - (70cm x 40cm x 9/11.5cm) - Heveya 3",
+          "product_code": "PC1A70X40S",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "1800000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "PC1A70X40S",
+          "product_custom_id": null,
+          "quantity": 52.0,
+          "quantity_string": "52.0",
+          "link": "https://my.jurnal.id/products/detail/32997003",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1743206952,
+        "custom_id": null,
+        "description": "",
+        "amount": "2229729.729729",
+        "discount": "10.0",
+        "rate": "2477477.477477",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  2.229.730",
+        "rate_currency_format": "Rp.  2.477.477",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "sell_acc_id": 58207055,
+        "buy_acc_id": 76168633,
+        "product": {
+          "id": 37676130,
+          "name": "Bamboo - Duvet Sheet Set + 2 Pillow Cases - King (240cm x 220cm) - Burnt Orange",
+          "product_code": "SSBO2K240X220DU\t",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "2850000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "SSBO2K240X220DU\t",
+          "product_custom_id": null,
+          "quantity": 28.0,
+          "quantity_string": "28.0",
+          "link": "https://my.jurnal.id/products/detail/37676130",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1352894,
+          "name": "Set"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1743206954,
+        "custom_id": null,
+        "description": "",
+        "amount": "2229729.729729",
+        "discount": "10.0",
+        "rate": "2477477.477477",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  2.229.730",
+        "rate_currency_format": "Rp.  2.477.477",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "sell_acc_id": 58207055,
+        "buy_acc_id": 76168633,
+        "product": {
+          "id": 33780064,
+          "name": "Bamboo Duvet Sheet Set + 2 Pillow Cases  - King (240cm x 220cm) - Dark Grey",
+          "product_code": "SSDG2K240X220DU",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "2850000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "SSDG2K240X220DU",
+          "product_custom_id": null,
+          "quantity": 20.0,
+          "quantity_string": "20.0",
+          "link": "https://my.jurnal.id/products/detail/33780064",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1352894,
+          "name": "Set"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1743206956,
+        "custom_id": null,
+        "description": "",
+        "amount": "0.0",
+        "discount": "100.0",
+        "rate": "1666666.666667",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  0",
+        "rate_currency_format": "Rp.  1.666.667",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "sell_acc_id": 58207055,
+        "buy_acc_id": 76168633,
+        "product": {
+          "id": 33783745,
+          "name": "Bamboo Fitted Sheet Set + 2 Pillow Cases - King (180cm x 200cm) - Sand",
+          "product_code": "SSS2K200X180FI",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "2250000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "SSS2K200X180FI",
+          "product_custom_id": null,
+          "quantity": 60.0,
+          "quantity_string": "60.0",
+          "link": "https://my.jurnal.id/products/detail/33783745",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1352894,
+          "name": "Set"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1743206958,
+        "custom_id": null,
+        "description": "",
+        "amount": "1500000.0",
+        "discount": "10.0",
+        "rate": "1666666.666667",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  1.500.000",
+        "rate_currency_format": "Rp.  1.666.667",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "sell_acc_id": 58207055,
+        "buy_acc_id": 76168633,
+        "product": {
+          "id": 32997025,
+          "name": "Bamboo Fitted Sheet Set + 2 Pillow Cases - King (180cm x 200cm) - Grey",
+          "product_code": "SSG2K200X180FI",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "2250000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "SSG2K200X180FI",
+          "product_custom_id": null,
+          "quantity": 48.0,
+          "quantity_string": "48.0",
+          "link": "https://my.jurnal.id/products/detail/32997025",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1352894,
+          "name": "Set"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1743206960,
+        "custom_id": null,
+        "description": "",
+        "amount": "4774774.774775",
+        "discount": "0.0",
+        "rate": "4774774.774775",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  4.774.775",
+        "rate_currency_format": "Rp.  4.774.775",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "sell_acc_id": 58207332,
+        "buy_acc_id": 76204450,
+        "product": {
+          "id": 33001735,
+          "name": "Heveya Organic Inner Duvet - King (240cm x 220cm)",
+          "product_code": "DEU1K240X220DU",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "5300000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "DEU1K240X220DU",
+          "product_custom_id": null,
+          "quantity": 6.0,
+          "quantity_string": "6.0",
+          "link": "https://my.jurnal.id/products/detail/33001735",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1743216802,
+        "custom_id": null,
+        "description": "",
+        "amount": "0.0",
+        "discount": "0.0",
+        "rate": "0.0",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  0",
+        "rate_currency_format": "Rp.  0",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "sell_acc_id": 58207624,
+        "buy_acc_id": 76252196,
+        "product": {
+          "id": 33802448,
+          "name": "Heveya Pillow Bags",
+          "product_code": "PB",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "350000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "PB",
+          "product_custom_id": null,
+          "quantity": 530.0,
+          "quantity_string": "530.0",
+          "link": "https://my.jurnal.id/products/detail/33802448",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      }
+    ],
+    "person": {
+      "id": 83137738,
+      "title": "",
+      "first_name": "",
+      "middle_name": "",
+      "last_name": "",
+      "display_name": "Zarif & Benita",
+      "email": "",
+      "address": "",
+      "billing_address": "",
+      "phone": "+60 12-927 0089",
+      "fax": "",
+      "mobile": "",
+      "tax_no": ""
+    },
+    "discount_type": {
+      "id": 1,
+      "name": "Percent",
+      "name_bahasa": "Persen"
+    },
+    "warehouse": {
+      "id": 183275,
+      "name": "Warehouse Heveya Bali",
+      "code": "",
+      "status": "active"
+    },
+    "sales_quote": {
+      "id": null,
+      "transaction_no": null
+    },
+    "tags": [
+      {
+        "id": 9450664,
+        "name": "Whatsapp"
+      },
+      {
+        "id": 9503766,
+        "name": "Feni"
+      }
+    ],
+    "tags_string": "Whatsapp, Feni",
+    "term": {
+      "id": 2671974,
+      "name": "Full Payment",
+      "longetivity": 0
+    },
+    "is_reconciled": false,
+    "attachments": [],
+    "payments": [],
+    "deliveries": [],
+    "payment_transactions": [],
+    "invoices": [
+      {
+        "id": 1371735136,
+        "transaction_no": "14322",
+        "transaction_date": "14/06/2025"
+      }
+    ],
+    "updated_at": "2025-06-20T01:22:58.000Z",
+    "currency_code": "IDR",
+    "currency_list_id": 50953,
+    "currency_from_id": 1,
+    "currency_to_id": 1,
+    "multi_currency_id": 107720340,
+    "currency_rate": 1.0,
+    "company_currency": {
+      "code": "IDR",
+      "symbol": "Rp."
+    },
+    "disable_link": false
+  },
+  {
+    "kind": "Sales Order",
+    "id": 1083801526,
+    "transaction_no": "11887",
+    "token": "A-wrYqtbihZOSfwSy2wvRg",
+    "email": "",
+    "source": "v3/revamp",
+    "address": "Suki Villa - Pererenan",
+    "message": "",
+    "memo": "10% + Extra Discount from Stefan 31,760,000 \r\nB2B Discount \r\nMain Villa",
+    "shipping_address": null,
+    "is_shipped": false,
+    "selected_po_id": null,
+    "ship_via": "",
+    "reference_no": "",
+    "tracking_no": "",
+    "status": "approved",
+    "custom_id": null,
+    "created_at": "2024-10-25T08:07:18.000Z",
+    "deleted_at": null,
+    "deletable": false,
+    "editable": false,
+    "audited_by": null,
+    "transaction_date": "25/10/2024",
+    "shipping_date": null,
+    "due_date": "25-10-2024",
+    "original_amount": "247240000.000583",
+    "remaining": "247240000.000583",
+    "discount_unit": "56540540.54",
+    "discount_price": "56540540.54",
+    "shipping_price": "0.0",
+    "amount_receive": "0.0",
+    "tax_after_discount": true,
+    "tax_amount": "24501261.261319",
+    "subtotal": "279279279.279264",
+    "deposit": "0.0",
+    "payment_received_amount": "0.0",
+    "payment_received_amount_currency_format": "Rp.  0",
+    "remaining_currency_format": "Rp.  247.240.000",
+    "original_amount_currency_format": "Rp.  247.240.000",
+    "shipping_price_currency_format": "Rp.  0",
+    "tax_amount_currency_format": "Rp.  24.501.261",
+    "discount_price_currency_format": "Rp.  56.540.541",
+    "amount_receive_currency_format": "Rp.  0",
+    "subtotal_currency_format": "Rp.  279.279.279",
+    "deposit_currency_format": "Rp.  0",
+    "discount_per_lines": "0.0",
+    "discount_per_lines_currency_format": "Rp.  0",
+    "tax": {
+      "id": null,
+      "name": null,
+      "rate": null
+    },
+    "tax_details": [
+      {
+        "name": "PPN 11% 11.0%",
+        "tax_amount": 24501261.26131904,
+        "tax_amount_currency_format": "Rp.  24.501.261"
+      }
+    ],
+    "use_tax_inclusive": true,
+    "deposit_to": {
+      "id": null,
+      "name": null,
+      "number": null,
+      "category": {
+        "id": null,
+        "name": null
+      }
+    },
+    "transaction_status": {
+      "id": 2,
+      "name": "Closed",
+      "name_bahasa": "Selesai"
+    },
+    "transaction_lines_attributes": [
+      {
+        "id": 1316019089,
+        "custom_id": null,
+        "description": "",
+        "amount": "44144144.144144",
+        "discount": "0.0",
+        "rate": "44144144.144144",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  44.144.144",
+        "rate_currency_format": "Rp.  44.144.144",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "product": {
+          "id": 46561041,
+          "name": "Heveya Natural Organic Latex Mattress III -  Super King (W200cm x L200cm) - Medium",
+          "product_code": "MEU3SK200X200M..",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "54000000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "MEU3SK200X200M..",
+          "product_custom_id": null,
+          "quantity": -3.0,
+          "quantity_string": "-3.0",
+          "link": "https://my.jurnal.id/products/detail/46561041",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1316019095,
+        "custom_id": null,
+        "description": "",
+        "amount": "40540540.540541",
+        "discount": "0.0",
+        "rate": "40540540.540541",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  40.540.541",
+        "rate_currency_format": "Rp.  40.540.541",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "product": {
+          "id": 49725105,
+          "name": "Heveya Natural Organic Latex Mattress III - King (W180cm x L200cm) - Medium.",
+          "product_code": "MEU3K200X180M-2 BASE BLOCK",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "49000000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "MEU3K200X180M-2 BASE BLOCK",
+          "product_custom_id": null,
+          "quantity": -1.0,
+          "quantity_string": "-1.0",
+          "link": "https://my.jurnal.id/products/detail/49725105",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1316019098,
+        "custom_id": null,
+        "description": "SHOWCASE",
+        "amount": "36936936.936937",
+        "discount": "0.0",
+        "rate": "36936936.936937",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  36.936.937",
+        "rate_currency_format": "Rp.  36.936.937",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "product": {
+          "id": 46629553,
+          "name": "Heveya Natural Organic  Latex Mattress II -  Super King (W200cm x L200cm) - Medium",
+          "product_code": "MEU2SK200X200M..",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "46500000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "MEU2SK200X200M..",
+          "product_custom_id": null,
+          "quantity": 0.0,
+          "quantity_string": "0.0",
+          "link": "https://my.jurnal.id/products/detail/46629553",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1316019101,
+        "custom_id": null,
+        "description": "",
+        "amount": "37837837.837838",
+        "discount": "0.0",
+        "rate": "18918918.918919",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  37.837.838",
+        "rate_currency_format": "Rp.  18.918.919",
+        "has_return_line": false,
+        "quantity": 2.0,
+        "product": {
+          "id": 47555496,
+          "name": "Heveya Hospitality Mattress - Super King (W200cm x L200cm)",
+          "product_code": "",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "23400000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "",
+          "product_custom_id": null,
+          "quantity": -21.0,
+          "quantity_string": "-21.0",
+          "link": "https://my.jurnal.id/products/detail/47555496",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1316019104,
+        "custom_id": null,
+        "description": "",
+        "amount": "19819819.81982",
+        "discount": "0.0",
+        "rate": "9909909.90991",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  19.819.820",
+        "rate_currency_format": "Rp.  9.909.910",
+        "has_return_line": false,
+        "quantity": 2.0,
+        "product": {
+          "id": 32464060,
+          "name": "Heveya Natural Organic Latex Topper   -  Super King (W200cm x L200cm) - Soft",
+          "product_code": "TEU1SK200X200S",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "13500000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "TEU1SK200X200S",
+          "product_custom_id": null,
+          "quantity": -28.0,
+          "quantity_string": "-28.0",
+          "link": "https://my.jurnal.id/products/detail/32464060",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1316019107,
+        "custom_id": null,
+        "description": "",
+        "amount": "13513513.51351",
+        "discount": "0.0",
+        "rate": "1351351.351351",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  13.513.514",
+        "rate_currency_format": "Rp.  1.351.351",
+        "has_return_line": false,
+        "quantity": 10.0,
+        "product": {
+          "id": 32996997,
+          "name": "Heveya Natural Organic Latex Pillow - (70cm x 40cm x 14.5cm) - Heveya 2",
+          "product_code": "PS1A70X40S",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "1800000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "PS1A70X40S",
+          "product_custom_id": null,
+          "quantity": -5.0,
+          "quantity_string": "-5.0",
+          "link": "https://my.jurnal.id/products/detail/32996997",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1316019111,
+        "custom_id": null,
+        "description": "",
+        "amount": "13513513.51351",
+        "discount": "0.0",
+        "rate": "1351351.351351",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  13.513.514",
+        "rate_currency_format": "Rp.  1.351.351",
+        "has_return_line": false,
+        "quantity": 10.0,
+        "product": {
+          "id": 38914137,
+          "name": "Heveya Natural Organic Latex Pillow - (70cm x 40cm x 12.5cm) - Heveya 4",
+          "product_code": "PS1A70X40LM",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "1800000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "PS1A70X40LM",
+          "product_custom_id": null,
+          "quantity": 50.0,
+          "quantity_string": "50.0",
+          "link": "https://my.jurnal.id/products/detail/38914137",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1316019113,
+        "custom_id": null,
+        "description": "",
+        "amount": "7027027.027028",
+        "discount": "0.0",
+        "rate": "1756756.756757",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  7.027.027",
+        "rate_currency_format": "Rp.  1.756.757",
+        "has_return_line": false,
+        "quantity": 4.0,
+        "product": {
+          "id": 33787394,
+          "name": "Bamboo Fitted Sheet Set + 2 Pillow Cases - Super King (200cm x 200cm) - Moss Green",
+          "product_code": "SSMG2SK200X200FI",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "2350000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "SSMG2SK200X200FI",
+          "product_custom_id": null,
+          "quantity": 30.0,
+          "quantity_string": "30.0",
+          "link": "https://my.jurnal.id/products/detail/33787394",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1352894,
+          "name": "Set"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1316019116,
+        "custom_id": null,
+        "description": "",
+        "amount": "1666666.666667",
+        "discount": "0.0",
+        "rate": "1666666.666667",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  1.666.667",
+        "rate_currency_format": "Rp.  1.666.667",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "product": {
+          "id": 33787391,
+          "name": "Bamboo Fitted Sheet Set + 2 Pillow Cases  - King (180cm x 200cm) - Moss Green",
+          "product_code": "SSMG2K180X200FI",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "2250000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "SSMG2K180X200FI",
+          "product_custom_id": null,
+          "quantity": 37.0,
+          "quantity_string": "37.0",
+          "link": "https://my.jurnal.id/products/detail/33787391",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1352894,
+          "name": "Set"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1316019120,
+        "custom_id": null,
+        "description": "",
+        "amount": "16036036.036036",
+        "discount": "0.0",
+        "rate": "4009009.009009",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  16.036.036",
+        "rate_currency_format": "Rp.  4.009.009",
+        "has_return_line": false,
+        "quantity": 4.0,
+        "product": {
+          "id": 33000419,
+          "name": "Linen Duvet Sheet Set + 2 Pillow Cases - Super King (260cm x 230cm)  - White",
+          "product_code": "LSPW2SK260X230DU",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "4650000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "LSPW2SK260X230DU",
+          "product_custom_id": null,
+          "quantity": 66.0,
+          "quantity_string": "66.0",
+          "link": "https://my.jurnal.id/products/detail/33000419",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1352894,
+          "name": "Set"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1316019122,
+        "custom_id": null,
+        "description": "",
+        "amount": "2927927.927928",
+        "discount": "0.0",
+        "rate": "2927927.927928",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  2.927.928",
+        "rate_currency_format": "Rp.  2.927.928",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "product": {
+          "id": 33000493,
+          "name": "Linen Fitted Sheet Set + 2 Pillow Cases - King (180cm x 200cm)  - White",
+          "product_code": "LSPW2K200X180FI",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "3350000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "LSPW2K200X180FI",
+          "product_custom_id": null,
+          "quantity": 44.0,
+          "quantity_string": "44.0",
+          "link": "https://my.jurnal.id/products/detail/33000493",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1352894,
+          "name": "Set"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1316019123,
+        "custom_id": null,
+        "description": "",
+        "amount": "6216216.216215",
+        "discount": "0.0",
+        "rate": "1243243.243243",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  6.216.216",
+        "rate_currency_format": "Rp.  1.243.243",
+        "has_return_line": false,
+        "quantity": 5.0,
+        "product": {
+          "id": 33802625,
+          "name": "Heveya Ombre Cotton - 224cm x 122cm - Throw Chocolate",
+          "product_code": "CSTOCC1OS224X122",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "1380000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "CSTOCC1OS224X122",
+          "product_custom_id": null,
+          "quantity": 8.0,
+          "quantity_string": "8.0",
+          "link": "https://my.jurnal.id/products/detail/33802625",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1316019126,
+        "custom_id": null,
+        "description": "",
+        "amount": "2702702.7027",
+        "discount": "0.0",
+        "rate": "270270.27027",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  2.702.703",
+        "rate_currency_format": "Rp.  270.270",
+        "has_return_line": false,
+        "quantity": 10.0,
+        "product": {
+          "id": 35751922,
+          "name": "Heveya Vegan Cotton Face Towel - 30x30cm - Stone",
+          "product_code": "VCSFTST30X30",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "300000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "VCSFTST30X30",
+          "product_custom_id": null,
+          "quantity": 42.0,
+          "quantity_string": "42.0",
+          "link": "https://my.jurnal.id/products/detail/35751922",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1316019127,
+        "custom_id": null,
+        "description": "",
+        "amount": "4054054.05405",
+        "discount": "0.0",
+        "rate": "405405.405405",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  4.054.054",
+        "rate_currency_format": "Rp.  405.405",
+        "has_return_line": false,
+        "quantity": 10.0,
+        "product": {
+          "id": 35752018,
+          "name": "Heveya Vegan Cotton Hand Towel - 70 x 40 - Stone",
+          "product_code": "VCSHTST40X70",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "450000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "VCSHTST40X70",
+          "product_custom_id": null,
+          "quantity": 30.0,
+          "quantity_string": "30.0",
+          "link": "https://my.jurnal.id/products/detail/35752018",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1316019129,
+        "custom_id": null,
+        "description": "",
+        "amount": "8918918.91892",
+        "discount": "0.0",
+        "rate": "891891.891892",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  8.918.919",
+        "rate_currency_format": "Rp.  891.892",
+        "has_return_line": false,
+        "quantity": 10.0,
+        "product": {
+          "id": 35752077,
+          "name": "Heveya Vegan Cotton Bath Towel - 140 x 80cm - Stone",
+          "product_code": "VCSBTST140X80",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "990000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "VCSBTST140X80",
+          "product_custom_id": null,
+          "quantity": 13.0,
+          "quantity_string": "13.0",
+          "link": "https://my.jurnal.id/products/detail/35752077",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1329528226,
+        "custom_id": null,
+        "description": "",
+        "amount": "23423423.42342",
+        "discount": "0.0",
+        "rate": "2342342.342342",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  23.423.423",
+        "rate_currency_format": "Rp.  2.342.342",
+        "has_return_line": false,
+        "quantity": 10.0,
+        "product": {
+          "id": 35752922,
+          "name": "Heveya Vegan Cotton Bath Robe Small - Natural",
+          "product_code": "VCSBRNS",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "2600000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "VCSBRNS",
+          "product_custom_id": null,
+          "quantity": 6.0,
+          "quantity_string": "6.0",
+          "link": "https://my.jurnal.id/products/detail/35752922",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      }
+    ],
+    "person": {
+      "id": 80893639,
+      "title": "",
+      "first_name": "",
+      "middle_name": "",
+      "last_name": "",
+      "display_name": "Rickey Sharma",
+      "email": "",
+      "address": "Suki Villa - Pererenan",
+      "billing_address": "Suki Villa - Pererenan",
+      "phone": "+44 7841 675450",
+      "fax": "",
+      "mobile": "",
+      "tax_no": ""
+    },
+    "discount_type": {
+      "id": 2,
+      "name": "Value",
+      "name_bahasa": "Nilai"
+    },
+    "warehouse": {
+      "id": 183275,
+      "name": "Warehouse Heveya Bali",
+      "code": "",
+      "status": "active"
+    },
+    "sales_quote": {
+      "id": 1077118701,
+      "transaction_no": "11352"
+    },
+    "tags": [
+      {
+        "id": 9404377,
+        "name": "Hotel/Villa"
+      },
+      {
+        "id": 9540069,
+        "name": "Stefan"
+      }
+    ],
+    "tags_string": "Hotel/Villa, Stefan",
+    "term": {
+      "id": 2671974,
+      "name": "Full Payment",
+      "longetivity": 0
+    },
+    "is_reconciled": false,
+    "attachments": [],
+    "payments": [],
+    "deliveries": [],
+    "payment_transactions": [],
+    "invoices": [
+      {
+        "id": 1294697318,
+        "transaction_no": "13938",
+        "transaction_date": "25/10/2024"
+      }
+    ],
+    "updated_at": "2025-04-24T02:08:06.000Z",
+    "currency_code": "IDR",
+    "currency_list_id": 50953,
+    "currency_from_id": 1,
+    "currency_to_id": 1,
+    "multi_currency_id": 72756796,
+    "currency_rate": 1.0,
+    "company_currency": {
+      "code": "IDR",
+      "symbol": "Rp."
+    },
+    "disable_link": false
+  },
+  {
+    "kind": "Sales Order",
+    "id": 1134984176,
+    "transaction_no": "12322",
+    "token": "6PPpJP9hn-JDoH-1vZg_dw",
+    "email": "",
+    "source": "v3/revamp",
+    "address": "",
+    "message": "20% Flat Discount \r\nDeveloper \r\nDelivery 2nd half of Jan. ",
+    "memo": "20% Flat Discount \r\nDeveloper \r\nDelivery 2nd half of Jan. ",
+    "shipping_address": null,
+    "is_shipped": false,
+    "selected_po_id": null,
+    "ship_via": "",
+    "reference_no": "",
+    "tracking_no": "",
+    "status": "approved",
+    "custom_id": null,
+    "created_at": "2024-12-28T03:48:17.000Z",
+    "deleted_at": null,
+    "deletable": false,
+    "editable": false,
+    "audited_by": null,
+    "transaction_date": "28/12/2024",
+    "shipping_date": null,
+    "due_date": "28-12-2024",
+    "original_amount": "87600000.0",
+    "remaining": "0.0",
+    "discount_unit": "20.0",
+    "discount_price": "19729729.72973",
+    "shipping_price": "0.0",
+    "amount_receive": "87600000.0",
+    "tax_after_discount": true,
+    "tax_amount": "8681081.081081",
+    "subtotal": "98648648.648649",
+    "deposit": "0.0",
+    "payment_received_amount": "87600000.0",
+    "payment_received_amount_currency_format": "Rp.  87.600.000",
+    "remaining_currency_format": "Rp.  0",
+    "original_amount_currency_format": "Rp.  87.600.000",
+    "shipping_price_currency_format": "Rp.  0",
+    "tax_amount_currency_format": "Rp.  8.681.081",
+    "discount_price_currency_format": "Rp.  19.729.730",
+    "amount_receive_currency_format": "Rp.  87.600.000",
+    "subtotal_currency_format": "Rp.  98.648.649",
+    "deposit_currency_format": "Rp.  0",
+    "discount_per_lines": "0.0",
+    "discount_per_lines_currency_format": "Rp.  0",
+    "tax": {
+      "id": null,
+      "name": null,
+      "rate": null
+    },
+    "tax_details": [
+      {
+        "name": "PPN 11% 11.0%",
+        "tax_amount": 8681081.08108109,
+        "tax_amount_currency_format": "Rp.  8.681.081"
+      }
+    ],
+    "use_tax_inclusive": true,
+    "deposit_to": {
+      "id": null,
+      "name": null,
+      "number": null,
+      "category": {
+        "id": null,
+        "name": null
+      }
+    },
+    "transaction_status": {
+      "id": 2,
+      "name": "Closed",
+      "name_bahasa": "Selesai"
+    },
+    "transaction_lines_attributes": [
+      {
+        "id": 1381696186,
+        "custom_id": null,
+        "description": "",
+        "amount": "37837837.837838",
+        "discount": "0.0",
+        "rate": "18918918.918919",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  37.837.838",
+        "rate_currency_format": "Rp.  18.918.919",
+        "has_return_line": false,
+        "quantity": 2.0,
+        "sell_acc_id": 56494690,
+        "buy_acc_id": 56494691,
+        "product": {
+          "id": 47555496,
+          "name": "Heveya Hospitality Mattress - Super King (W200cm x L200cm)",
+          "product_code": "",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "23400000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "",
+          "product_custom_id": null,
+          "quantity": -21.0,
+          "quantity_string": "-21.0",
+          "link": "https://my.jurnal.id/products/detail/47555496",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1381696188,
+        "custom_id": null,
+        "description": "",
+        "amount": "16666666.666667",
+        "discount": "0.0",
+        "rate": "16666666.666667",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  16.666.667",
+        "rate_currency_format": "Rp.  16.666.667",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "sell_acc_id": 56494690,
+        "buy_acc_id": 56494691,
+        "product": {
+          "id": 44445184,
+          "name": "Heveya Hospitality Mattress - King (W180cm x L200cm)",
+          "product_code": "",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "21200000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "",
+          "product_custom_id": null,
+          "quantity": 1.0,
+          "quantity_string": "1.0",
+          "link": "https://my.jurnal.id/products/detail/44445184",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1381696190,
+        "custom_id": null,
+        "description": "",
+        "amount": "44144144.144144",
+        "discount": "0.0",
+        "rate": "44144144.144144",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  44.144.144",
+        "rate_currency_format": "Rp.  44.144.144",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "sell_acc_id": 56494690,
+        "buy_acc_id": 56494691,
+        "product": {
+          "id": 46561041,
+          "name": "Heveya Natural Organic Latex Mattress III -  Super King (W200cm x L200cm) - Medium",
+          "product_code": "MEU3SK200X200M..",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "54000000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "MEU3SK200X200M..",
+          "product_custom_id": null,
+          "quantity": -3.0,
+          "quantity_string": "-3.0",
+          "link": "https://my.jurnal.id/products/detail/46561041",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      }
+    ],
+    "person": {
+      "id": 83962140,
+      "title": null,
+      "first_name": "",
+      "middle_name": "",
+      "last_name": "",
+      "display_name": "PT Akomodasi Bali Indah - Dominique",
+      "email": "",
+      "address": "",
+      "billing_address": "",
+      "phone": "",
+      "fax": "",
+      "mobile": "",
+      "tax_no": ""
+    },
+    "discount_type": {
+      "id": 1,
+      "name": "Percent",
+      "name_bahasa": "Persen"
+    },
+    "warehouse": {
+      "id": null,
+      "name": null,
+      "code": null,
+      "status": null
+    },
+    "sales_quote": {
+      "id": null,
+      "transaction_no": null
+    },
+    "tags": [
+      {
+        "id": 9398867,
+        "name": "Showroom"
+      },
+      {
+        "id": 9503768,
+        "name": "Elise"
+      }
+    ],
+    "tags_string": "Showroom, Elise",
+    "term": {
+      "id": 2671974,
+      "name": "Full Payment",
+      "longetivity": 0
+    },
+    "is_reconciled": false,
+    "attachments": [],
+    "payments": [
+      {
+        "id": 1135223410,
+        "transaction_no": "11976",
+        "transaction_date": "28/12/2024",
+        "amount": 50000000,
+        "payment_method_name": "Bank Transfer"
+      },
+      {
+        "id": 1135224372,
+        "transaction_no": "11977",
+        "transaction_date": "28/12/2024",
+        "amount": 37600000,
+        "payment_method_name": "Bank Transfer"
+      }
+    ],
+    "deliveries": [],
+    "payment_transactions": [
+      {
+        "id": 418193878,
+        "payment_id": 1135223410,
+        "transaction_id": 1134984176,
+        "amount": "50000000.0",
+        "created_at": "2024-12-28T06:38:30.000Z",
+        "updated_at": "2024-12-28T06:38:30.000Z",
+        "amount_as_currency": null,
+        "mc_rate": null,
+        "deleted_at": null,
+        "realised_gain_id": null
+      },
+      {
+        "id": 418194118,
+        "payment_id": 1135224372,
+        "transaction_id": 1134984176,
+        "amount": "37600000.0",
+        "created_at": "2024-12-28T06:38:56.000Z",
+        "updated_at": "2024-12-28T06:38:56.000Z",
+        "amount_as_currency": null,
+        "mc_rate": null,
+        "deleted_at": null,
+        "realised_gain_id": null
+      }
+    ],
+    "invoices": [
+      {
+        "id": 1294686500,
+        "transaction_no": "13935",
+        "transaction_date": "28/12/2024"
+      }
+    ],
+    "updated_at": "2025-05-27T04:31:12.000Z",
+    "currency_code": "IDR",
+    "currency_list_id": 50953,
+    "currency_from_id": 1,
+    "currency_to_id": 1,
+    "multi_currency_id": 76930334,
+    "currency_rate": 1.0,
+    "company_currency": {
+      "code": "IDR",
+      "symbol": "Rp."
+    },
+    "disable_link": false
+  },
+  {
+    "kind": "Sales Order",
+    "id": 1066335446,
+    "transaction_no": "11719",
+    "token": "cuYcTwyW5YRFWRTSpp0wVg",
+    "email": "",
+    "source": "apikey",
+    "address": "-",
+    "message": "",
+    "memo": "Google review with some pictures (anything is ok), 2 free pillows and a free bedsheet set (total value of 6,600,000 IDR), also in appreciation of the introduction to Brigitta. (pls keep confidential) \r\n\r\nadditional 10% disc on mattress given by pak stefan on 30 sept",
+    "shipping_address": null,
+    "is_shipped": false,
+    "selected_po_id": null,
+    "ship_via": "",
+    "reference_no": "",
+    "tracking_no": "",
+    "status": "approved",
+    "custom_id": null,
+    "created_at": "2024-09-30T07:42:02.000Z",
+    "deleted_at": null,
+    "deletable": false,
+    "editable": false,
+    "audited_by": null,
+    "transaction_date": "30/09/2024",
+    "shipping_date": null,
+    "due_date": "30-09-2024",
+    "original_amount": "33300000.0",
+    "remaining": "30300000.0",
+    "discount_unit": "0.0",
+    "discount_price": "0.0",
+    "shipping_price": "0.0",
+    "amount_receive": "3000000.0",
+    "tax_after_discount": true,
+    "tax_amount": "3300000.0",
+    "subtotal": "41621621.621621",
+    "deposit": "0.0",
+    "payment_received_amount": "3000000.0",
+    "payment_received_amount_currency_format": "Rp.  3.000.000",
+    "remaining_currency_format": "Rp.  30.300.000",
+    "original_amount_currency_format": "Rp.  33.300.000",
+    "shipping_price_currency_format": "Rp.  0",
+    "tax_amount_currency_format": "Rp.  3.300.000",
+    "discount_price_currency_format": "Rp.  0",
+    "amount_receive_currency_format": "Rp.  3.000.000",
+    "subtotal_currency_format": "Rp.  41.621.622",
+    "deposit_currency_format": "Rp.  0",
+    "discount_per_lines": "11621621.6216213",
+    "discount_per_lines_currency_format": "Rp.  11.621.622",
+    "tax": {
+      "id": null,
+      "name": null,
+      "rate": null
+    },
+    "tax_details": [
+      {
+        "name": "PPN 11% 11.0%",
+        "tax_amount": 3299999.999999967,
+        "tax_amount_currency_format": "Rp.  3.300.000"
+      }
+    ],
+    "use_tax_inclusive": true,
+    "deposit_to": {
+      "id": null,
+      "name": null,
+      "number": null,
+      "category": {
+        "id": null,
+        "name": null
+      }
+    },
+    "transaction_status": {
+      "id": 2,
+      "name": "Closed",
+      "name_bahasa": "Selesai"
+    },
+    "transaction_lines_attributes": [
+      {
+        "id": 1293536092,
+        "custom_id": null,
+        "description": "",
+        "amount": "30000000.0",
+        "discount": "10.0",
+        "rate": "33333333.333333",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  30.000.000",
+        "rate_currency_format": "Rp.  33.333.333",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "product": {
+          "id": 32455892,
+          "name": "Heveya Natural Organic Latex  Mattress  II  -  King (W180cm x L200cm) - Medium",
+          "product_code": "MEU2K200X180M",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "42000000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "MEU2K200X180M",
+          "product_custom_id": null,
+          "quantity": 0.0,
+          "quantity_string": "0.0",
+          "link": "https://my.jurnal.id/products/detail/32455892",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1293536096,
+        "custom_id": null,
+        "description": "",
+        "amount": "0.0",
+        "discount": "100.0",
+        "rate": "1351351.351351",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  0",
+        "rate_currency_format": "Rp.  1.351.351",
+        "has_return_line": false,
+        "quantity": 2.0,
+        "product": {
+          "id": 33778144,
+          "name": "Heveya Natural Organic Latex Pillow - (70cm x 40cm x 10cm) - Heveya 1",
+          "product_code": "PSLIA68X38S",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "1800000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "PSLIA68X38S",
+          "product_custom_id": null,
+          "quantity": 34.0,
+          "quantity_string": "34.0",
+          "link": "https://my.jurnal.id/products/detail/33778144",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1526671428,
+        "custom_id": null,
+        "description": "",
+        "amount": "0.0",
+        "discount": "100.0",
+        "rate": "2567567.567568",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  0",
+        "rate_currency_format": "Rp.  2.567.568",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "product": {
+          "id": 46058205,
+          "name": "Bamboo Duvet Sheet Set + 2 Pillow Cases - King (240cm x 220cm) - Blush Mauve",
+          "product_code": "SSBM2K240X220DU",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "2850000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "SSBM2K240X220DU",
+          "product_custom_id": null,
+          "quantity": 32.0,
+          "quantity_string": "32.0",
+          "link": "https://my.jurnal.id/products/detail/46058205",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1352894,
+          "name": "Set"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1652742542,
+        "custom_id": null,
+        "description": "",
+        "amount": "0.0",
+        "discount": "100.0",
+        "rate": "3018018.018018",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  0",
+        "rate_currency_format": "Rp.  3.018.018",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "sell_acc_id": 58207173,
+        "buy_acc_id": 76168633,
+        "product": {
+          "id": 33802168,
+          "name": "Linen Fitted Sheet Set + 2 Pillow Cases  - King (180cm x 200cm) - Charcoal Grey",
+          "product_code": "LSCG2K200X180FI",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "3350000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "LSCG2K200X180FI",
+          "product_custom_id": null,
+          "quantity": 39.0,
+          "quantity_string": "39.0",
+          "link": "https://my.jurnal.id/products/detail/33802168",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1352894,
+          "name": "Set"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      },
+      {
+        "id": 1652742544,
+        "custom_id": null,
+        "description": "",
+        "amount": "0.0",
+        "discount": "0.0",
+        "rate": "0.0",
+        "tax": null,
+        "line_tax": {
+          "id": 701709,
+          "name": "PPN 11%",
+          "rate": "11.0",
+          "children": []
+        },
+        "amount_currency_format": "Rp.  0",
+        "rate_currency_format": "Rp.  0",
+        "has_return_line": false,
+        "quantity": 1.0,
+        "product": {
+          "id": 33802448,
+          "name": "Heveya Pillow Bags",
+          "product_code": "PB",
+          "archive": false,
+          "track_inventory": true,
+          "sell_price_per_unit": "350000.0",
+          "buy_price_per_unit": "0.0",
+          "code": "PB",
+          "product_custom_id": null,
+          "quantity": 530.0,
+          "quantity_string": "530.0",
+          "link": "https://my.jurnal.id/products/detail/33802448",
+          "use_serial_number": false,
+          "has_batch": false,
+          "bundle_non_track": false
+        },
+        "unit": {
+          "id": 1187595,
+          "name": "Pcs"
+        },
+        "units": [],
+        "pricing_rule": null,
+        "remaining_quantity": 0.0
+      }
+    ],
+    "person": {
+      "id": 75640877,
+      "title": null,
+      "first_name": "",
+      "middle_name": "",
+      "last_name": "",
+      "display_name": "Victoria Paras",
+      "email": "",
+      "address": "",
+      "billing_address": "",
+      "phone": "0818349633",
+      "fax": "",
+      "mobile": "",
+      "tax_no": ""
+    },
+    "discount_type": {
+      "id": 1,
+      "name": "Percent",
+      "name_bahasa": "Persen"
+    },
+    "warehouse": {
+      "id": 183275,
+      "name": "Warehouse Heveya Bali",
+      "code": "",
+      "status": "active"
+    },
+    "sales_quote": {
+      "id": 1026961591,
+      "transaction_no": "11055"
+    },
+    "tags": [
+      {
+        "id": 9508160,
+        "name": "Interior Design"
+      },
+      {
+        "id": 9508167,
+        "name": "Repeat Customer"
+      },
+      {
+        "id": 9540069,
+        "name": "Stefan"
+      }
+    ],
+    "tags_string": "Interior Design, Repeat Customer, Stefan",
+    "term": {
+      "id": 2671974,
+      "name": "Full Payment",
+      "longetivity": 0
+    },
+    "is_reconciled": false,
+    "attachments": [],
+    "payments": [
+      {
+        "id": 1066337869,
+        "transaction_no": "11377",
+        "transaction_date": "30/09/2024",
+        "amount": 3000000,
+        "payment_method_name": "BCA EDC Machine"
+      }
+    ],
+    "deliveries": [],
+    "payment_transactions": [
+      {
+        "id": 392194025,
+        "payment_id": 1066337869,
+        "transaction_id": 1066335446,
+        "amount": "3000000.0",
+        "created_at": "2024-09-30T07:43:49.000Z",
+        "updated_at": "2024-09-30T07:43:49.000Z",
+        "amount_as_currency": null,
+        "mc_rate": null,
+        "deleted_at": null,
+        "realised_gain_id": null
+      }
+    ],
+    "invoices": [
+      {
+        "id": 1306443046,
+        "transaction_no": "13932",
+        "transaction_date": "30/09/2024"
+      }
+    ],
+    "updated_at": "2025-05-02T03:22:23.000Z",
+    "currency_code": "IDR",
+    "currency_list_id": 50953,
+    "currency_from_id": 1,
+    "currency_to_id": 1,
+    "multi_currency_id": 71300362,
+    "currency_rate": 1.0,
+    "company_currency": {
+      "code": "IDR",
+      "symbol": "Rp."
+    },
+    "disable_link": false
+  }
+]
