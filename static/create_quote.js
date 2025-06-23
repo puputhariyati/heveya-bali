@@ -84,7 +84,6 @@ function showSuggestions(input) {
   suggestionsBox.style.display = matched.length ? 'block' : 'none';
 }
 
-
 function selectProduct(input, product) {
   const row = input.closest('tr');
   const image = row.querySelector('.product-image');
@@ -113,6 +112,23 @@ function selectProduct(input, product) {
 
   recalculate(row.querySelector('.qty'));
 }
+
+// Hide suggestions on click outside
+document.addEventListener('click', function (event) {
+  document.querySelectorAll('.suggestions').forEach(suggestionsBox => {
+    const wrapper = suggestionsBox.closest('.input-wrapper');
+    if (!wrapper) return;
+
+    const input = wrapper.querySelector('textarea'); // or 'input, textarea' if both types
+
+    if (
+      !suggestionsBox.contains(event.target) &&
+      !input.contains(event.target)
+    ) {
+      suggestionsBox.style.display = 'none';
+    }
+  });
+});
 
 
 function recalculate(input) {

@@ -71,8 +71,10 @@
           <td>{{ i }}</td>
           <td><img src="https://via.placeholder.com/60" class="product-image" width="60"></td>
           <td>
-            <textarea class="description" placeholder="Type product..." oninput="showSuggestions(this)"></textarea>
-            <div class="suggestions"></div>
+            <div class="input-wrapper">
+              <textarea class="description" placeholder="Type product..." oninput="showSuggestions(this)"></textarea>
+              <div class="suggestions"></div>
+            </div>
           </td>
           <td><input type="number" class="qty" value="1" min="1" onchange="recalculate(this)"></td>
           <td class="unit">-</td>
@@ -140,12 +142,12 @@
     <button id="toggle-view-btn" onclick="toggleInternal()">Internal View</button>
   </div>
 
-  <!-- Datalist for Product Suggestions -->
-  <datalist id="product-suggestions">
-    {% for p in product_list %}
-      <option value="{{ p.name }}">
-    {% endfor %}
-  </datalist>
+<!--  &lt;!&ndash; Datalist for Product Suggestions &ndash;&gt;-->
+<!--  <datalist id="product-suggestions">-->
+<!--    {% for p in product_list %}-->
+<!--      <option value="{{ p.name }}">-->
+<!--    {% endfor %}-->
+<!--  </datalist>-->
 
 <!-- Load Product DB into JS -->
 <script>
