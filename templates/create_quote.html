@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+
+{% block title %}Sales - Heveya App{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='create_quote.css')}}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+{% endblock %}
+
+{% block content %}
+  <div id="invoice">
+    <!-- Header -->
+    <table class="header-table">
+      <tr>
+        <td>
+          <strong>PT HEVEYA KARUNIA ALAM</strong><br>
+          Jalan Pantai Berawa No. 17, BADUNG, BALI, 80361<br>
+          Phone: 082147638966<br>
+          Email: 434893871906000
+        </td>
+        <td>
+          <label>QUOTE: # <input type="text"placeholder="quote no" /></label><br>
+          <label>DATE: <input type="date" id="quote-date" /></label><br><br>
+          <label>EXPIRED DATE: <input type="date" id="quote-expiry" /></label><br><br>
+        </td>
+        <td style="text-align: center;">
+          <img src="{{ url_for('static', filename='images/heveya-logo.png') }}" alt="heveya logo">
+        </td>
+      </tr>
+    </table>
+
+    <hr>
+
+    <!-- Customer Info -->
+    <table class="customer-table">
+      <tr>
+        <td>
+          <strong>CUSTOMER</strong><br>
+          <label>NAME: <input type="text" id="client-name" placeholder="Client Name" /></label><br><br>
+          <label>ADDRESS: <input type="text" id="client-address" placeholder="Client Address" /></label><br><br>
+          <label>PHONE: <input type="text" id="client-phone" placeholder="Client Phone" /></label>
+        </td>
+      </tr>
+    </table>
+
+    <!-- Items Table -->
+    <table class="items-table">
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>Image</th>
+          <th>Item</th>
+          <th>Qty</th>
+          <th>Unit</th>
+          <th>Normal Price (IDR)</th>
+          <th>Discount</th>
+          <th>Disc. Price (IDR)</th>
+          <th>Amount (IDR)</th>
+          <th>Notes</th>
+          <th>Action</th>
+          <th class="internal-only">Full Amount</th>
+          <th class="internal-only">Selling Price - PPN</th>
+          <th class="internal-only">Unit Cost</th>
+          <th class="internal-only">Total Cost</th>
+          <th class="internal-only">Abs. Margin</th>
+        </tr>
+      </thead>
+      <tbody id="quote-items">
+        {% for i in range(1, 4) %}
+        <tr>
+          <td>{{ i }}</td>
+          <td><img src="https://via.placeholder.com/60" class="product-image" width="60"></td>
+          <td>
+            <textarea class="description" placeholder="Type product..." oninput="showSuggestions(this)"></textarea>
+            <div class="suggestions"></div>
+          </td>
+          <td><input type="number" class="qty" value="1" min="1" onchange="recalculate(this)"></td>
+          <td class="unit">-</td>
+          <td class="unit-price">-</td>
+          <td class="discount-cell">
+            <div class="discount-wrapper">
+              <input type="number" class="discount" value="0" min="0" max="100" onchange="recalculate(this)">
+              <span class="percent-sign">%</span>
+            </div>
+          </td>
+          <td class="discounted-price">-</td>
+          <td class="amount">-</td>
+          <td><textarea type="text" class="notes" placeholder="Optional"></textarea></td>
+          <td><button onclick="this.closest('tr').remove()">🗑️</button></td>
+          <td class="internal-only full-amount">-</td>
+          <td class="internal-only sell-no-ppn">-</td>
+          <td class="internal-only unit-cost" data-cost="0">-</td>
+          <td class="internal-only total-cost">-</td>
+          <td class="internal-only abs-margin">-</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="8" style="text-align: right;"><strong>Grand Total (Incl. PPN 11%):</strong></td>
+          <td class="right" id="grand-total"></td>
+          <td colspan="2"></td>
+          <td class="full-amount-total internal-only"><strong></strong></td>
+          <td class="sell-no-ppn-total internal-only"><strong></strong></td>
+          <td class="internal-only"></td> <!-- Unit Cost -->
+          <td class="total-cost-total internal-only"><strong></strong></td>
+          <td class="abs-margin-total internal-only"><strong></strong></td>
+        </tr>
+        <tr>
+          <td colspan="8" style="text-align: right;"><strong>Total Discount:</strong></td>
+          <td class="right" id="total-discount"></td>
+          <td colspan="6" class="internal-only" style="text-align: right;">
+            <strong>Margin %</strong>
+          </td>
+          <td class="margin-percent-total internal-only">
+            <strong></strong>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="8" style="text-align: right;">
+            <strong>Deposit:</strong>
+            <input type="number" id="deposit-percentage" value="50" min="0" max="100" style="width: 50px;" onchange="updateTotals()">%
+          </td>
+          <td class="right">
+            <span id="deposit-amount"></span>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <!-- Add Row Button -->
+    <div class="add-row-container">
+      <button onclick="addRow()">Add Item</button>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="button-container">
+    <button onclick="downloadPDF()">Download as PDF</button>
+    <button id="toggle-view-btn" onclick="toggleInternal()">Internal View</button>
+  </div>
+
+  <!-- Datalist for Product Suggestions -->
+  <datalist id="product-suggestions">
+    {% for p in product_list %}
+      <option value="{{ p.name }}">
+    {% endfor %}
+  </datalist>
+
+<!-- Load Product DB into JS -->
+<script>
+  const productDB = {{ product_list | tojson | safe }};
+  console.log(productDB);
+</script>
+
+<!-- Optional: Include your JS file specific to this page -->
+<script src="{{ url_for('static', filename='create_quote.js') }}"></script>
+{% endblock %}

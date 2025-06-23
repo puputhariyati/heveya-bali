@@ -207,13 +207,17 @@ def sales_kpi():
 
 @app.route("/sales_quote")
 def sales_quote():
+    return render_template('sales_quote.html')
+
+@app.route("/create_quote")
+def create_quote():
     df = pd.read_csv("static/data/products_std.csv")
 
     # Make sure image_url has no extra spaces
     df['image_url'] = df['image_url'].astype(str).str.strip()
 
     product_list = df.to_dict(orient='records')
-    return render_template("sales_quote.html", product_list=product_list)
+    return render_template("create_quote.html", product_list=product_list)
 
 
 @app.route('/sales_order')
