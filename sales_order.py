@@ -27,7 +27,7 @@ def render_sales_order():
     cursor.execute("SELECT * FROM sales_order")
     orders = cursor.fetchall()
 
-    updated_orders = []
+    results = []
 
     for order in orders:
         tx_no = order["transaction_no"]
@@ -35,27 +35,26 @@ def render_sales_order():
         cursor.execute("SELECT delivered, remain_qty FROM sales_order_detail WHERE transaction_no = ?", (tx_no,))
         details = cursor.fetchall()
 
+        # Default status logic
         if not details:
-            new_status = "open"
+            status = "closed"
         else:
-            all_remain_zero = all(row["remain_qty"] == 0 for row in details)
-            any_delivered_gt_zero = any(row["delivered"] > 0 for row in details)
+            all_remain_zero = all(d["remain_qty"] == 0 for d in details)
+            any_delivered_gt_zero = any(d["delivered"] > 0 for d in details)
 
             if all_remain_zero:
-                new_status = "open"
+                status = "closed"
             elif any_delivered_gt_zero:
-                new_status = "partially sent"
+                status = "partially sent"
             else:
-                new_status = "prepared"
+                status = "open"
 
-        # Update DB if status changed
-        if order["status"] != new_status:
-            cursor.execute("UPDATE sales_order SET status = ? WHERE transaction_no = ?", (new_status, tx_no))
-
-        updated_orders.append({**dict(order), "status": new_status})
+        # Merge status into order
+        order_dict = dict(order)
+        order_dict["status"] = status
+        results.append(order_dict)
 
     conn.commit()
     conn.close()
-
-    return render_template("sales_order.html", orders=updated_orders)
+    return render_template("sales_order.html", orders=results)
 

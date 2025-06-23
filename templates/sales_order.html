@@ -46,9 +46,9 @@
                     <td><input type="checkbox" class="row-check"></td>
                     <td>{{ order.transaction_date }}</td>
                     <td><a href="/sales_order/{{ order.transaction_no }}">{{ order.transaction_no }}</a></td>
-                    <td>{{ order.person_name or '-' }}</td>
-                    <td>{{ order.remaining_currency_format or '-' }}</td>
-                    <td>{{ order.original_amount_currency_format or '-' }}</td>
+                    <td>{{ order.customer or '-' }}</td>
+                    <td>{{ order.balance_due or '-' }}</td>
+                    <td>{{ order.total or '-' }}</td>
                     <td>{{ order.status.capitalize() }}</td>
                     <td><input type="date" name="ETD" value="{{ order.ETD }}"></td>
                 </tr>

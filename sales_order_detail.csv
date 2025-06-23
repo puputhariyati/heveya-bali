@@ -1,8 +1,8 @@
 id,transaction_no,line,item,qty,unit,delivered,remain_qty,po_no,warehouse_option,delivery_date,status,description
-85,13314,1,Heveya Natural Organic Latex Mattress I -  Super King  (W200cm x L200cm) - Medium,1,Pcs,0,1,,,,prepared,
-86,13314,2,Heveya Natural Organic Latex Pillow - (70cm x 40cm x 14.5cm) - Heveya 2,1,Pcs,0,1,,,,prepared,TBC
-87,13335,1,Heveya Natural Organic Latex Mattress III - Custom Size (W193cm x L203cm) - Firm,1,Pcs,0,1,,,,prepared,193 x 203
-88,13335,2,Heveya Natural Organic Latex Pillow - (70cm x 40cm x 12.5cm) - Heveya 4,2,Pcs,0,2,,,,prepared,
+85,13314,1,Heveya Natural Organic Latex Mattress I -  Super King  (W200cm x L200cm) - Medium,1,Pcs,1,0,,showroom,,prepared,
+86,13314,2,Heveya Natural Organic Latex Pillow - (70cm x 40cm x 14.5cm) - Heveya 2,1,Pcs,1,0,,showroom,,prepared,TBC
+87,13335,1,Heveya Natural Organic Latex Mattress III - Custom Size (W193cm x L203cm) - Firm,1,Pcs,1,0,,showroom,,prepared,193 x 203
+88,13335,2,Heveya Natural Organic Latex Pillow - (70cm x 40cm x 12.5cm) - Heveya 4,2,Pcs,1,1,,showroom,,prepared,
 89,13350,1,Heveya Natural Organic Latex Mattress III - Super King (W200cm x L200cm) - Soft.,1,Pcs,0,1,,,,prepared,
 90,13356,1,Heveya Hospitality Mattress - King (W180cm x L200cm),12,Pcs,0,12,,,,prepared,
 91,13356,2,Heveya Natural Organic Latex  Topper - King (W180cm x L200cm) - Soft,12,Pcs,0,12,,,,prepared,
