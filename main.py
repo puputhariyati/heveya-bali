@@ -11,7 +11,9 @@ from dotenv import load_dotenv
 from sales_order import render_sales_order
 from sales_order_detail import render_sales_order_detail, save_sales_order_detail
 
-load_dotenv("key.env")  # Load environment variables from .env file
+from pathlib import Path
+load_dotenv(Path(__file__).parent / "key.env")
+
 
 app = Flask(__name__)
 

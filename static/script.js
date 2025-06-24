@@ -11,74 +11,6 @@ buttons.forEach(btn => {
 
 let stockDataGlobal = []; // Store fetched stock data globally
 
-async function fetchStockData() {
-    try {
-        const response = await fetch("/api/get_stock");
-        if (!response.ok) throw new Error("Failed to fetch stock data.");
-
-        let stockData = await response.json();
-        console.log("Fetched Stock Data:", stockData); // Debugging log
-
-        if (!Array.isArray(stockData)) {
-            console.error("Stock data is not an array:", stockData);
-            return;
-        }
-
-        // Store data globally for filtering
-        stockDataGlobal = stockData;
-
-        // Fetch BOM status for each product
-        await Promise.all(stockData.map(async (item) => {
-            try {
-                const productName = encodeURIComponent(item.product_name.trim());
-                console.log(`Fetching BOM for: "${item.product_name}"`);
-
-                const bomResponse = await fetch(`/api/get_bom?product_name=${productName}`);
-                if (!bomResponse.ok) {
-                    console.error(`Error fetching BOM for ${item.product_name}:`, bomResponse.statusText);
-                    item.hasBOM = false;
-                    return;
-                }
-
-                const bomData = await bomResponse.json();
-                console.log(`BOM Data for ${item.product_name}:`, bomData);
-
-                // Assign BOM status correctly
-                item.hasBOM = !!(Array.isArray(bomData) && bomData.length);
-            } catch (error) {
-                console.error(`Failed to fetch BOM for ${item.product_name}:`, error);
-                item.hasBOM = false;
-            }
-        }));
-
-//        checkStock(stockData);
-        filterTable(); // Apply filtering after fetching stock data
-    } catch (error) {
-        console.error("Error fetching stock data:", error);
-    }
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-    const searchButton = document.getElementById("searchButton");
-    const productNameInput = document.getElementById("productName");
-
-    // Trigger search when the button is clicked
-    searchButton.addEventListener("click", filterTable);
-
-    // Trigger search when Enter is pressed in the input field
-    productNameInput.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-            event.preventDefault(); // Prevent form submission
-            filterTable();
-        }
-    });
-
-    // Trigger search when the input value changes (for autocomplete selections)
-    productNameInput.addEventListener("change", function () {
-        filterTable();
-    });
-});
-
 
 async function fetchBomData(productName) {
     try {
@@ -145,14 +77,6 @@ function suggestProducts() {
         .catch(error => console.error("Error fetching suggestions:", error));
 }
 
-// Hide suggestions when clicking outside
-document.addEventListener("click", function (event) {
-    let suggestionsDiv = document.getElementById("suggestions");
-    if (!document.getElementById("productName").contains(event.target)) {
-        suggestionsDiv.style.display = "none";
-    }
-});
-
 
 // ✅ Attach event listener ONCE, outside the function
 document.addEventListener("click", function (event) {
@@ -163,7 +87,6 @@ document.addEventListener("click", function (event) {
     }
 });
 
-window.onload = fetchStockData; // Load real stock on page load
 
 //to show BOM pop up
 function openBomModal(productName, bomData) {
@@ -193,14 +116,6 @@ function calculateFreeStock(bom, inventory) {
     return minStock;
 }
 
-// Calculate Free Stock for Heveya Mattress
-const freeMattresses = calculateFreeStock(bom, stockInventory);
-
-document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("productName").addEventListener("input", filterTable);
-    fetchStockData();
-});
-
 // Function to update the stock table based on the search filter
 function filterTable() {
     let filter = document.getElementById("productName").value.trim().toLowerCase();
@@ -229,68 +144,3 @@ function filterTable() {
         }
     });
 }
-
-// Sales_KPI
-
-const yearlyCtx = document.getElementById('yearlyChart').getContext('2d');
-const quarterlyCtx = document.getElementById('quarterlyChart').getContext('2d');
-const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
-
-const yearlyChart = new Chart(yearlyCtx, {
-    type: 'bar',
-    data: {
-        labels: ['Target', 'Actual'],
-        datasets: [{
-            label: 'Yearly Sales (Rp)',
-            data: [28000000000, 6564744731],
-            backgroundColor: ['#4caf50', '#2196f3']
-        }]
-    },
-    options: { responsive: true, plugins: { legend: { display: false } } }
-});
-
-const quarterlyChart = new Chart(quarterlyCtx, {
-    type: 'bar',
-    data: {
-        labels: ['Q1', 'Q2', 'Q3', 'Q4'],
-        datasets: [
-            {
-                label: 'Target',
-                data: [5880000000, 6160000000, 7280000000, 8680000000],
-                backgroundColor: '#ccc'
-            },
-            {
-                label: 'Actual',
-                data: [4432484593, 2132260138, 0, 0],
-                backgroundColor: '#03a9f4'
-            }
-        ]
-    },
-    options: { responsive: true }
-});
-
-const monthlyChart = new Chart(monthlyCtx, {
-    type: 'bar',
-    data: {
-        labels: ['April', 'May', 'June'],
-        datasets: [
-            {
-                label: 'Target',
-                data: [1745333333, 2258666667, 2156000000],
-                backgroundColor: '#bbb'
-            },
-            {
-                label: 'Actual',
-                data: [1825524138, 306736000, 0],
-                backgroundColor: '#ff9800'
-            }
-        ]
-    },
-    options: { responsive: true }
-});
-
-document.getElementById('yearSelect').addEventListener('change', function() {
-    const selectedYear = this.value;
-    alert('Filter by year: ' + selectedYear);
-    // TODO: Update data dynamically from server or dataset based on selectedYear
-});
