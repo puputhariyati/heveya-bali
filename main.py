@@ -207,9 +207,18 @@ if path not in sys.path:
 def sales_kpi():
     return render_template('sales_kpi.html')
 
-@app.route("/sales_quote")
+@app.route('/sales_quote')
 def sales_quote():
-    return render_template('sales_quote.html')
+    conn = sqlite3.connect("main.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM sales_quotes ORDER BY id DESC")
+    quotes = cursor.fetchall()
+
+    conn.close()
+    return render_template("sales_quote.html", quotes=quotes)
+
 
 @app.route("/create_quote")
 def create_quote():
@@ -219,7 +228,84 @@ def create_quote():
     df['image_url'] = df['image_url'].astype(str).str.strip()
 
     product_list = df.to_dict(orient='records')
-    return render_template("create_quote.html", product_list=product_list)
+    return render_template("create_quote.html", product_list=product_list, quote=None)
+
+@app.route('/save_quote', methods=['POST'])
+def save_quote():
+    data = request.get_json()
+    conn = sqlite3.connect('main.db')
+    cursor = conn.cursor()
+
+    if data.get('id'):
+        # UPDATE mode
+        cursor.execute('''
+            UPDATE sales_quotes
+            SET date=?, customer=?, phone=?, full_amount=?, discount=?, avg_disc=?, grand_total=?, margin=?, status=?, ETD=?
+            WHERE id=?
+        ''', (
+            data['date'],
+            data['customer'],
+            data['phone'],
+            data['full_amount'],
+            data['discount'],
+            0,
+            data['grand_total'],
+            data['margin'],
+            data['status'],
+            data['ETD'],
+            data['id']
+        ))
+    else:
+        # INSERT mode
+        cursor.execute('''
+            INSERT INTO sales_quotes (date, customer, phone, full_amount, discount, avg_disc, grand_total, margin, status, ETD)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (
+            data['date'],
+            data['customer'],
+            data['phone'],
+            data['full_amount'],
+            data['discount'],
+            0,
+            data['grand_total'],
+            data['margin'],
+            data['status'],
+            data['ETD']
+        ))
+
+    conn.commit()
+    conn.close()
+    return jsonify({"status": "success"})
+
+
+@app.route('/edit_quote/<int:quote_id>')
+def edit_quote(quote_id):
+    conn = sqlite3.connect('main.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM sales_quotes WHERE id = ?", (quote_id,))
+    row = cursor.fetchone()
+    conn.close()
+
+    if row is None:
+        return "Quote not found", 404
+
+    quote = dict(row)  # ✅ convert to dict for template safety
+
+    # ✅ Fill in any missing keys expected by the template
+    expected_keys = ['id', 'date', 'customer', 'address', 'phone', 'full_amount', 'discount',
+                     'grand_total', 'margin', 'status', 'ETD']
+    for key in expected_keys:
+        quote.setdefault(key, '')
+
+    df = pd.read_csv("static/data/products_std.csv")
+    df['image_url'] = df['image_url'].astype(str).str.strip()
+    product_list = df.to_dict(orient='records')
+
+    return render_template("create_quote.html", quote=quote, product_list=product_list, edit_mode=True)
+
+
 
 
 @app.route('/sales_order')

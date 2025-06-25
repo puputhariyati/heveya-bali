@@ -9,6 +9,7 @@
 
 {% block content %}
   <div id="invoice">
+    <input type="hidden" id="quote-id" value="{{ quote.id if quote else '' }}">
     <!-- Header -->
     <table class="header-table">
       <tr>
@@ -20,7 +21,7 @@
         </td>
         <td>
           <label>QUOTE: # <input type="text"placeholder="quote no" /></label><br>
-          <label>DATE: <input type="date" id="quote-date" /></label><br><br>
+          <label>DATE: <input type="date" id="quote-date" value="{{ quote.date if quote else '' }}"></label><br><br>
           <label>EXPIRED DATE: <input type="date" id="quote-expiry" /></label><br><br>
         </td>
         <td style="text-align: center;">
@@ -36,9 +37,9 @@
       <tr>
         <td>
           <strong>CUSTOMER</strong><br>
-          <label>NAME: <input type="text" id="client-name" placeholder="Client Name" /></label><br><br>
-          <label>ADDRESS: <input type="text" id="client-address" placeholder="Client Address" /></label><br><br>
-          <label>PHONE: <input type="text" id="client-phone" placeholder="Client Phone" /></label>
+            <label>NAME: <input type="text" id="client-name" placeholder="Client Name" value="{{ quote.customer if quote else '' }}" /></label><br><br>
+            <label>ADDRESS: <input type="text" id="client-address" placeholder="Client Address" value="{{ quote.address if quote and quote.address else '' }}" /></label><br><br>
+            <label>PHONE: <input type="text" id="client-phone" placeholder="Client Phone" value="{{ quote.phone if quote else '' }}" /></label>
         </td>
       </tr>
     </table>

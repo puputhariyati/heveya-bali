@@ -244,4 +244,86 @@ function downloadPDF() {
   window.print();
 }
 
+// Save Create_Quote page button
+function getText(id) {
+  const el = document.getElementById(id);
+  return el ? el.textContent.trim() : '0';
+}
+
+function parseNumber(text) {
+  const cleaned = text.replace(/[^\d.-]/g, '');
+  return parseFloat(cleaned) || 0;
+}
+
+function saveQuote() {
+  console.log("💾 saveQuote triggered");
+  const quoteId = document.getElementById('quote-id')?.value || null;
+
+
+  // 🛠️ Make sure totals are up-to-date
+  if (typeof updateTotals === "function") updateTotals();
+
+  const quoteData = {
+    id: quoteId,  // ✅ Include quote ID for editing
+    date: document.getElementById('quote-date').value,
+    customer: document.getElementById('client-name').value,
+    phone: document.getElementById('client-phone').value,
+    full_amount: parseNumber(getText('full-amount-total')),
+    discount: parseNumber(getText('total-discount')),
+    grand_total: parseNumber(getText('grand-total')),
+    margin: parseNumber(document.querySelector('.abs-margin-total strong')?.textContent || '0'),
+    status: 'Draft',
+    ETD: null,
+    items: []
+  };
+
+  document.querySelectorAll('#quote-items tr').forEach(row => {
+    const item = {
+      description: row.querySelector('.description')?.value || '',
+      qty: parseFloat(row.querySelector('.qty')?.value) || 0,
+      unit: row.querySelector('.unit')?.textContent.trim() || '',
+      unit_price: parseNumber(row.querySelector('.unit-price')?.textContent),
+      discount: parseFloat(row.querySelector('.discount')?.value),
+      discounted_price: parseNumber(row.querySelector('.discounted-price')?.textContent),
+      amount: parseNumber(row.querySelector('.amount')?.textContent),
+      notes: row.querySelector('.notes')?.value || '',
+      full_amount: parseNumber(row.querySelector('.full-amount')?.textContent),
+      unit_cost: parseFloat(row.querySelector('.unit-cost')?.dataset.cost || 0),
+      total_cost: parseNumber(row.querySelector('.total-cost')?.textContent),
+      margin: parseNumber(row.querySelector('.abs-margin')?.textContent)
+    };
+    if (item.description.trim()) {
+      quoteData.items.push(item);
+    }
+  });
+
+  if (!quoteData.customer.trim()) {
+    alert("❌ Customer name is required.");
+    return;
+  }
+
+  if (quoteData.items.length === 0) {
+    alert("❌ Add at least one product with description.");
+    return;
+  }
+
+  fetch('/save_quote', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(quoteData)
+  })
+  .then(response => {
+    if (response.ok) {
+      alert("✅ Quote saved successfully!");
+      window.location.href = '/sales_quote';
+    } else {
+      alert("❌ Failed to save quote");
+    }
+  })
+  .catch(err => {
+    console.error("❌ Fetch error:", err);
+    alert("❌ Save failed");
+  });
+}
+
 

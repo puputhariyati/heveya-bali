@@ -68,40 +68,64 @@ def get_db_connection():
 # print("✅ sales_order table created.")
 
 
+conn = sqlite3.connect('main.db')
+cursor = conn.cursor()
 
-def insert_orders_from_json(json_path):
-    with open(json_path, "r", encoding="utf-8") as f:
-        data = json.load(f)
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS sales_quotes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    date TEXT,
+    customer TEXT,
+    phone TEXT,
+    full_amount REAL,
+    discount REAL,
+    avg_disc REAL,
+    grand_total REAL,
+    margin REAL,
+    status TEXT,
+    ETD TEXT
+)
+''')
 
-    conn = sqlite3.connect("main.db")
-    cursor = conn.cursor()
-    count = 0
+conn.commit()
+conn.close()
+print("✅ Table 'sales_quotes' created.")
 
-    for order in data:
-        cursor.execute("""
-            INSERT OR IGNORE INTO sales_order (
-                transaction_no, transaction_date, customer,
-                balance_due, total, status, etd
-            ) VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (
-            order.get("transaction_no"),
-            order.get("transaction_date"),
-            order.get("person", {}).get("display_name", ""),
-            order.get("remaining_currency_format", "-"),
-            order.get("original_amount_currency_format", "-"),
-            "open",  # default status
-            None
-        ))
-        if cursor.rowcount > 0:
-            count += 1
 
-    conn.commit()
-    conn.close()
-    print(f"✅ Imported {count} new records from {json_path} into sales_order table.")
 
-# 🔁 Add more files here
-insert_orders_from_json("static/data/sales_orders_open.json")
-insert_orders_from_json("static/data/sales_orders_closed_2024_190625.json")
+# def insert_orders_from_json(json_path):
+#     with open(json_path, "r", encoding="utf-8") as f:
+#         data = json.load(f)
+#
+#     conn = sqlite3.connect("main.db")
+#     cursor = conn.cursor()
+#     count = 0
+#
+#     for order in data:
+#         cursor.execute("""
+#             INSERT OR IGNORE INTO sales_order (
+#                 transaction_no, transaction_date, customer,
+#                 balance_due, total, status, etd
+#             ) VALUES (?, ?, ?, ?, ?, ?, ?)
+#         """, (
+#             order.get("transaction_no"),
+#             order.get("transaction_date"),
+#             order.get("person", {}).get("display_name", ""),
+#             order.get("remaining_currency_format", "-"),
+#             order.get("original_amount_currency_format", "-"),
+#             "open",  # default status
+#             None
+#         ))
+#         if cursor.rowcount > 0:
+#             count += 1
+#
+#     conn.commit()
+#     conn.close()
+#     print(f"✅ Imported {count} new records from {json_path} into sales_order table.")
+#
+# # 🔁 Add more files here
+# insert_orders_from_json("static/data/sales_orders_open.json")
+# insert_orders_from_json("static/data/sales_orders_closed_2024_190625.json")
 
 
 
