@@ -9,19 +9,29 @@
 {% block content %}
     <div class="main-content">
         <div class="top-bar">
-          <select id="status">
-              <option value="open">Open</option>
-              <option value="partially sent">Partially Sent</option>
-              <option value="closed">Closed</option>
-          </select>
-          <input type="text" placeholder="Search Customer / Order No" />
+            <select id="status" onchange="filterOrders()">
+                <option value="">All</option>
+                <option value="open">Open</option>
+                <option value="partially sent">Partially Sent</option>
+                <option value="closed">Closed</option>
+            </select>
+            <input type="text" id="searchBox" placeholder="Search Customer / Order No" oninput="filterOrders()" />
           <!-- View Switch Tabs -->
           <div class="tabs">
             <button onclick="showTableView()">Table View</button>
             <button onclick="showCalendarView()">Calendar View</button>
+
+
           </div>
           <!-- Calendar Container -->
           <div id="delivery-calendar" style="display:none;"></div>
+        </div>
+
+        <div style="text-align: center">
+            <button onclick="bulkUpdateStatus('open')">Mark Open</button>
+            <button onclick="bulkUpdateStatus('closed')">Mark Closed</button>
+            <input type="date" id="bulk-etd" />
+            <button onclick="bulkUpdateETD()">Set ETD</button>
         </div>
 
         <!-- Sales Order Table -->
@@ -57,7 +67,6 @@
 
             </table>
             <br>
-            <button type="submit">Save</button>
           </form>
         </div>
     </div>

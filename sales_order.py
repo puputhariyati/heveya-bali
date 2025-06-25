@@ -3,6 +3,7 @@ import sqlite3
 
 from flask import Flask, render_template, redirect, flash, json
 from dotenv import load_dotenv
+from datetime import datetime
 
 
 load_dotenv("key.env")  # Load environment variables from .env file
@@ -24,7 +25,7 @@ def render_sales_order():
     cursor = conn.cursor()
 
     # Fetch all sales orders
-    cursor.execute("SELECT * FROM sales_order")
+    cursor.execute("SELECT * FROM sales_order ORDER BY transaction_date DESC")
     orders = cursor.fetchall()
 
     results = []
@@ -53,6 +54,12 @@ def render_sales_order():
         order_dict = dict(order)
         order_dict["status"] = status
         results.append(order_dict)
+
+    # ✅ Sort by newest date using datetime.strptime
+    results.sort(
+        key=lambda x: datetime.strptime(x["transaction_date"], "%d/%m/%Y"),
+        reverse=True
+    )
 
     conn.commit()
     conn.close()

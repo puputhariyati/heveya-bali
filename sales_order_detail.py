@@ -27,8 +27,6 @@ def render_sales_order_detail(transaction_no):
 
     return render_template("sales_order_detail.html", order=order, lines=lines)
 
-
-
 def save_sales_order_detail(transaction_no):
     conn = sqlite3.connect("main.db")
     c = conn.cursor()
