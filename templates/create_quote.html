@@ -140,16 +140,9 @@
   <div class="button-container">
     <button onclick="downloadPDF()">Download as PDF</button>
     <button id="toggle-view-btn" onclick="toggleInternal()">Internal View</button>
+    <button onclick="saveQuote()">💾 Save Quote</button>
   </div>
 
-<!--  &lt;!&ndash; Datalist for Product Suggestions &ndash;&gt;-->
-<!--  <datalist id="product-suggestions">-->
-<!--    {% for p in product_list %}-->
-<!--      <option value="{{ p.name }}">-->
-<!--    {% endfor %}-->
-<!--  </datalist>-->
-
-<!-- Load Product DB into JS -->
 <script>
   const productDB = {{ product_list | tojson | safe }};
   console.log(productDB);
