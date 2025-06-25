@@ -111,11 +111,11 @@ def generate_hmac_header(method, full_path, date_header):
 #
 # # Optional: sort again
 # sales_orders.sort(key=lambda x: x.get("transaction_date", ""))
-#
+# #
 # # 💾 Save to JSON
 # with open('static/data/sales_orders_open.json', 'w', encoding='utf-8') as f:
 #     json.dump(sales_orders, f, indent=2, ensure_ascii=False)
-
+#
 # def load_sales_orders():
 #     # Load open and closed orders
 #     with open("static/data/sales_orders_open.json", "r", encoding="utf-8") as f:
@@ -219,77 +219,137 @@ def generate_hmac_header(method, full_path, date_header):
 # else:
 #     existing_orders = []
 #
-# # ✅ Combine + deduplicate by transaction_no
-# combined_orders = existing_orders + filtered_closed_orders
-# seen_tx = set()
-# deduplicated = []
-# for order in combined_orders:
-#     tx_no = order.get("transaction_no")
-#     if tx_no not in seen_tx:
-#         deduplicated.append(order)
-#         seen_tx.add(tx_no)
-#
-# # ✅ Sort by transaction_date
-# deduplicated.sort(key=lambda x: x.get("transaction_date", ""))
-#
-# # ✅ Save to file
-# with open(output_path, 'w', encoding='utf-8') as f:
-#     json.dump(deduplicated, f, indent=2, ensure_ascii=False)
-#
-# print(f"✅ File updated → {output_path} | Total orders: {len(deduplicated)}")
+# ✅ Combine + deduplicate by transaction_no
+combined_orders = existing_orders + filtered_closed_orders
+seen_tx = set()
+deduplicated = []
+for order in combined_orders:
+    tx_no = order.get("transaction_no")
+    if tx_no not in seen_tx:
+        deduplicated.append(order)
+        seen_tx.add(tx_no)
 
-def fetch_sales_orders_from_date(start_date_str="2025-06-19", end_page=100):
-    all_sales_orders = []
-    start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
+# ✅ Sort by transaction_date
+deduplicated.sort(key=lambda x: x.get("transaction_date", ""))
 
-    for page in range(1, end_page + 1):
-        method = 'GET'
-        date_header = get_rfc7231_date()
-        query = f'?page={page}&sort_by=transaction_date&sort_order=asc'
-        full_path = ENDPOINT + query
-        url = BASE_URL + full_path
-        auth_header = generate_hmac_header(method, full_path, date_header)
-
-        headers = {
-            'Content-Type': 'application/json',
-            'Date': date_header,
-            'Authorization': auth_header
-        }
-
-        print(f"🔄 Fetching page {page}...")
-        response = requests.get(url, headers=headers)
-
-        if response.status_code == 200:
-            data = response.json()
-            sales_orders = data.get('sales_orders', [])
-            if not sales_orders:
-                print("✅ No more data.")
-                break
-
-            for order in sales_orders:
-                tx_date_str = order.get("transaction_date")
-                try:
-                    tx_date = datetime.strptime(tx_date_str, "%Y-%m-%d")
-                except:
-                    tx_date = None
-
-                if tx_date and tx_date >= start_date:
-                    all_sales_orders.append(order)
-
-        else:
-            print(f"❌ Error on page {page}: {response.status_code} - {response.text}")
-            break
-
-        time.sleep(1)
-
-    return all_sales_orders
-
-filtered_orders = fetch_sales_orders_from_date("2025-06-19", end_page=100)
-print(f"✅ Fetched {len(filtered_orders)} sales orders from 2025-06-19 to today")
-
-# Save to file
-output_path = 'static/data/sales_orders_from_2025_06_19.json'
+# ✅ Save to file
 with open(output_path, 'w', encoding='utf-8') as f:
-    json.dump(filtered_orders, f, indent=2, ensure_ascii=False)
+    json.dump(deduplicated, f, indent=2, ensure_ascii=False)
 
-print(f"✅ Saved to {output_path}")
+print(f"✅ File updated → {output_path} | Total orders: {len(deduplicated)}")
+
+# def fetch_sales_orders_from_date(start_date_str="2025-06-19", end_page=100):
+#     all_sales_orders = []
+#     start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
+#
+#     for page in range(1, end_page + 1):
+#         method = 'GET'
+#         date_header = get_rfc7231_date()
+#         query = f'?page={page}&sort_by=transaction_date&sort_order=asc'
+#         full_path = ENDPOINT + query
+#         url = BASE_URL + full_path
+#         auth_header = generate_hmac_header(method, full_path, date_header)
+#
+#         headers = {
+#             'Content-Type': 'application/json',
+#             'Date': date_header,
+#             'Authorization': auth_header
+#         }
+#
+#         print(f"🔄 Fetching page {page}...")
+#         response = requests.get(url, headers=headers)
+#
+#         if response.status_code == 200:
+#             data = response.json()
+#             sales_orders = data.get('sales_orders', [])
+#             if not sales_orders:
+#                 print("✅ No more data.")
+#                 break
+#
+#             for order in sales_orders:
+#                 tx_date_str = order.get("transaction_date")
+#                 try:
+#                     tx_date = datetime.strptime(tx_date_str, "%Y-%m-%d")
+#                 except:
+#                     tx_date = None
+#
+#                 if tx_date and tx_date >= start_date:
+#                     all_sales_orders.append(order)
+#
+#         else:
+#             print(f"❌ Error on page {page}: {response.status_code} - {response.text}")
+#             break
+#
+#         time.sleep(1)
+#
+#     return all_sales_orders
+#
+# filtered_orders = fetch_sales_orders_from_date("2025-06-19", end_page=100)
+# print(f"✅ Fetched {len(filtered_orders)} sales orders from 2025-06-19 to today")
+#
+# # Save to file
+# output_path = 'static/data/sales_orders_from_2025_06_19.json'
+# with open(output_path, 'w', encoding='utf-8') as f:
+#     json.dump(filtered_orders, f, indent=2, ensure_ascii=False)
+#
+# print(f"✅ Saved to {output_path}")
+
+
+# # pull sales_order data from 19 june to 25 july
+# def fetch_sales_orders_between(start_date_str="2025-06-19", end_date_str=None, end_page=100):
+#     all_sales_orders = []
+#     start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
+#     end_date = datetime.strptime(end_date_str, "%Y-%m-%d") if end_date_str else datetime.today()
+#
+#     for page in range(1, end_page + 1):
+#         method = 'GET'
+#         date_header = get_rfc7231_date()
+#
+#         query = (
+#             f'?page={page}'
+#             f'&sort_by=transaction_date'
+#             f'&sort_order=asc'
+#             f'&start_date={start_date_str}'
+#             f'&end_date={end_date_str or end_date.strftime("%Y-%m-%d")}'
+#         )
+#         full_path = ENDPOINT + query
+#         url = BASE_URL + full_path
+#         auth_header = generate_hmac_header(method, full_path, date_header)
+#
+#         headers = {
+#             'Content-Type': 'application/json',
+#             'Date': date_header,
+#             'Authorization': auth_header
+#         }
+#
+#         print(f"🔄 Fetching page {page}...")
+#         response = requests.get(url, headers=headers)
+#
+#         if response.status_code == 200:
+#             data = response.json()
+#             sales_orders = data.get('sales_orders', [])
+#             if not sales_orders:
+#                 print("✅ No more data.")
+#                 break
+#
+#             for order in sales_orders:
+#                 tx_date_str = order.get("transaction_date")
+#                 print("📅", tx_date_str)
+#                 all_sales_orders.append(order)
+#
+#         else:
+#             print(f"❌ Error on page {page}: {response.status_code} - {response.text}")
+#             break
+#
+#         time.sleep(1)
+#
+#     return all_sales_orders
+#
+#
+# # usage
+# orders = fetch_sales_orders_between("2025-06-19", "2025-06-25")
+# with open('static/data/sales_orders_2025_06_19_to_25.json', 'w', encoding='utf-8') as f:
+#     json.dump(orders, f, indent=2, ensure_ascii=False)
+# print(f"✅ Saved {len(orders)} orders.")
+#
+

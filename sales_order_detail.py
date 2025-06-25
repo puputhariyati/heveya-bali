@@ -7,28 +7,26 @@ from flask import render_template, redirect, request, flash
 
 
 def render_sales_order_detail(transaction_no):
-    # 1. Load original order from JSON (still useful for full lines)
-    with open("static/data/sales_orders_open.json", "r", encoding="utf-8") as f:
-        data = json.load(f)
-    order = next((o for o in data if o["transaction_no"] == transaction_no), None)
-    if not order:
-        return f"Sales order {transaction_no} not found", 404
-
-    # 2. Fetch stored edits from the DB
     conn = sqlite3.connect("main.db")
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
+
+    # Fetch header
+    cursor.execute("SELECT * FROM sales_order WHERE transaction_no = ?", (transaction_no,))
+    order_row = cursor.fetchone()
+    if not order_row:
+        return f"Sales order {transaction_no} not found", 404
+    order = dict(order_row)
+
+    # Fetch details
     cursor.execute("SELECT * FROM sales_order_detail WHERE transaction_no = ?", (transaction_no,))
-    rows = cursor.fetchall()
+    detail_rows = cursor.fetchall()
+    lines = [dict(row) for row in detail_rows]
+
     conn.close()
 
-    # 3. Merge the data: apply DB edits (if any) to the lines
-    line_updates = {row["line"]: dict(row) for row in rows}
-    for i, line in enumerate(order.get("transaction_lines_attributes", []), start=1):
-        if i in line_updates:
-            line["db_update"] = line_updates[i]  # Inject updates into line
+    return render_template("sales_order_detail.html", order=order, lines=lines)
 
-    return render_template("sales_order_detail.html", order=order)
 
 
 def save_sales_order_detail(transaction_no):

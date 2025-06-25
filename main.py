@@ -306,8 +306,6 @@ def edit_quote(quote_id):
     return render_template("create_quote.html", quote=quote, product_list=product_list, edit_mode=True)
 
 
-
-
 @app.route('/sales_order')
 def sales_order():
     return render_sales_order()

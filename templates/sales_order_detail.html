@@ -9,9 +9,9 @@
 {% block content %}
     <div class="main-content">
         <p><strong>Date:</strong> {{ order.transaction_date }}</p>
-        <p><strong>Customer:</strong> {{ order.person.display_name }}</p>
-        <p><strong>Total:</strong> {{ order.original_amount_currency_format }}</p>
-        <p><strong>Balance Due:</strong> {{ order.balance_due_currency_format }}</p>
+        <p><strong>Customer:</strong> {{ order.customer }}</p>
+        <p><strong>Total:</strong> {{ order.total or '-' }}</p>
+        <p><strong>Balance Due:</strong> {{ order.balance_due or '-' }}</p>
 
         <label>Filter by Warehouse:</label>
             <select>
@@ -51,45 +51,36 @@
                     </tr>
                   </thead>
                   <tbody id="sales-order-detail-body">
-                      {% for line in order.transaction_lines_attributes %}
-                          {% set i = loop.index %}
-                          {% set db = line.db_update if line.db_update else {} %}
-                          <tr>
-                            <td><input type="checkbox" class="row-check"></td>
-                            <td class="line-no">{{ i }}</td>
-                            <td class="item-name">
-                              {{ line.product.name }}
-                              <input type="hidden" name="item" value="{{ line.product.name }}">
-                            </td>
-                            <td><input type="text" class="desc" name="description" value="{{ db.description or '' }}"></td>
-                            <td>
-                              <input type="number" class="qty" name="qty" value="{{ db.qty if db.qty is defined else line.quantity|int }}" readonly>
-                            </td>
-                            <td>
-                              {{ line.unit.name }}
-                              <input type="hidden" name="unit" value="{{ line.unit.name }}">
-                            </td>
-                            <td>
-                              <input type="number" class="delivered" name="delivered" min="0" value="{{ db.delivered or 0 }}" oninput="updateRemain(this)">
-                            </td>
-                            <td>
-                              <input type="number" class="remain_qty" name="remain_qty" value="{{ db.remain_qty if db.remain_qty is defined else line.quantity|int }}" readonly>
-                            </td>
-                            <td>
-                              <input type="text" class="po_no" name="PO_no" value="{{ db.po_no or '' }}">
-                            </td>
-                            <td>
-                              <select name="warehouse_option" class="warehouse-option">
-                                <option value="showroom" {% if db.warehouse_option == 'showroom' %}selected{% endif %}>Showroom</option>
-                                <option value="warehouse" {% if db.warehouse_option == 'warehouse' %}selected{% endif %}>Warehouse</option>
-                              </select>
-                            </td>
-                            <td>
-                              <input type="date" name="delivery_date" class="delivery-date" value="{{ db.delivery_date or '' }}">
-                              <input type="hidden" name="status" value="{{ db.status or 'pending' }}">
-                            </td>
-                          </tr>
-                        {% endfor %}
+                    {% for line in lines %}
+                      {% set i = loop.index %}
+                      <tr>
+                        <td><input type="checkbox" class="row-check"></td>
+                        <td class="line-no">{{ i }}</td>
+                        <td class="item-name">
+                          {{ line.item }}
+                          <input type="hidden" name="item" value="{{ line.item }}">
+                        </td>
+                        <td><input type="text" class="desc" name="description" value="{{ line.description or '' }}"></td>
+                        <td><input type="number" class="qty" name="qty" value="{{ line.qty or 0 }}" readonly></td>
+                        <td>
+                          {{ line.unit }}
+                          <input type="hidden" name="unit" value="{{ line.unit }}">
+                        </td>
+                        <td><input type="number" class="delivered" name="delivered" min="0" value="{{ line.delivered or 0 }}" oninput="updateRemain(this)"></td>
+                        <td><input type="number" class="remain_qty" name="remain_qty" value="{{ line.remain_qty or 0 }}" readonly></td>
+                        <td><input type="text" class="po_no" name="PO_no" value="{{ line.po_no or '' }}"></td>
+                        <td>
+                          <select name="warehouse_option" class="warehouse-option">
+                            <option value="showroom" {% if line.warehouse_option == 'showroom' %}selected{% endif %}>Showroom</option>
+                            <option value="warehouse" {% if line.warehouse_option == 'warehouse' %}selected{% endif %}>Warehouse</option>
+                          </select>
+                        </td>
+                        <td>
+                          <input type="date" name="delivery_date" class="delivery-date" value="{{ line.delivery_date or '' }}">
+                          <input type="hidden" name="status" value="{{ line.status or 'pending' }}">
+                        </td>
+                      </tr>
+                    {% endfor %}
                   </tbody>
                 </table>
                 <br>
