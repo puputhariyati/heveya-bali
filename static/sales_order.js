@@ -12,3 +12,73 @@ function filterOrders() {
         row.style.display = (matchStatus && matchSearch) ? "" : "none";
     });
 }
+
+function getSelectedTransactionNos() {
+    return Array.from(document.querySelectorAll('.row-check:checked')).map(row => {
+        return row.closest('tr').querySelector('a').textContent.trim(); // get transaction_no
+    });
+}
+
+function bulkUpdateStatus(status) {
+    const transactionNos = getSelectedTransactionNos();
+    if (!transactionNos.length) {
+        alert("Please select at least one order.");
+        return;
+    }
+
+    fetch("/sales_order/bulk_update_status", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            transaction_nos: transactionNos,
+            status: status
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert("Status updated successfully!");
+            location.reload();
+        } else {
+            alert("Update failed: " + data.message);
+        }
+    })
+    .catch(err => alert("Error: " + err));
+}
+
+function bulkUpdateETD() {
+    const etd = document.getElementById("bulk-etd").value;
+    const transactionNos = getSelectedTransactionNos();
+
+    if (!etd) {
+        alert("Please choose a date.");
+        return;
+    }
+    if (!transactionNos.length) {
+        alert("Please select at least one order.");
+        return;
+    }
+
+    fetch("/sales_order/bulk_update_etd", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            transaction_nos: transactionNos,
+            etd: etd
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert("ETD updated successfully!");
+            location.reload();
+        } else {
+            alert("Update failed: " + data.message);
+        }
+    })
+    .catch(err => alert("Error: " + err));
+}

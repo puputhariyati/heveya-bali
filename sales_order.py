@@ -1,7 +1,7 @@
 import os
 import sqlite3
 
-from flask import Flask, render_template, redirect, flash, json
+from flask import Flask, render_template, redirect, flash, json, request, jsonify
 from dotenv import load_dotenv
 from datetime import datetime
 
@@ -65,3 +65,50 @@ def render_sales_order():
     conn.close()
     return render_template("sales_order.html", orders=results)
 
+
+@app.route("/sales_order/bulk_update_status", methods=["POST"])
+def bulk_update_status():
+    data = request.get_json()
+    transaction_nos = data.get("transaction_nos", [])
+    status = data.get("status")
+
+    if not transaction_nos or status not in ["closed"]:
+        return jsonify({"success": False, "message": "Invalid data"})
+
+    conn = sqlite3.connect("main.db")
+    cursor = conn.cursor()
+
+    for tx_no in transaction_nos:
+        if status == "closed":
+            # Mark as fully delivered → remain_qty = 0
+            cursor.execute("""
+                UPDATE sales_order_detail
+                SET remain_qty = 0,
+                    delivered = qty
+                WHERE transaction_no = ?
+            """, (tx_no,))
+    conn.commit()
+    conn.close()
+
+    return jsonify({"success": True})
+
+
+
+def bulk_update_etd():
+    data = request.get_json()
+    transaction_nos = data.get("transaction_nos", [])
+    etd = data.get("etd")
+
+    if not transaction_nos or not etd:
+        return jsonify({"success": False, "message": "Missing data"})
+
+    conn = sqlite3.connect("main.db")
+    cursor = conn.cursor()
+
+    for tx_no in transaction_nos:
+        cursor.execute("UPDATE sales_order SET ETD = ? WHERE transaction_no = ?", (etd, tx_no))
+
+    conn.commit()
+    conn.close()
+
+    return jsonify({"success": True})
