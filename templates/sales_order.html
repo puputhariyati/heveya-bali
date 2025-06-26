@@ -16,10 +16,14 @@
                 <option value="closed">Closed</option>
             </select>
             <input type="text" id="searchBox" placeholder="Search Customer / Order No" oninput="filterOrders()" />
-          <div class="tabs">
-            <button onclick="showCalendarView()">Calendar View</button>
-          </div>
-          <div id="delivery-calendar" style="display:none;"></div>
+            <div class="tabs">
+                <button onclick="showCalendarView()">ETD Calendar</button>
+            </div>
+            <div id="delivery-calendar" style="display:none;"></div>
+            <div class="date-filter">
+              <label>From: <input type="date" id="startDate" onchange="filterByDateRange()" /></label>
+              <label>To: <input type="date" id="endDate" onchange="filterByDateRange()" /></label>
+            </div>
         </div>
 
         <div style="text-align: center">

@@ -222,4 +222,28 @@ function closeCalendar() {
   document.getElementById("calendarModal").style.display = "none";
 }
 
+function filterByDateRange() {
+  const start = document.getElementById("startDate").value;
+  const end = document.getElementById("endDate").value;
+  const rows = document.querySelectorAll("#delivery-table tbody tr");
 
+  rows.forEach(row => {
+    const txDateText = row.children[1].textContent.trim(); // e.g., "04/06/2025"
+    const [dd, mm, yyyy] = txDateText.split("/");
+    const txDate = new Date(`${yyyy}-${mm}-${dd}`);
+
+    let show = true;
+
+    if (start) {
+      const startDate = new Date(start);
+      if (txDate < startDate) show = false;
+    }
+
+    if (end) {
+      const endDate = new Date(end);
+      if (txDate > endDate) show = false;
+    }
+
+    row.style.display = show ? "" : "none";
+  });
+}
