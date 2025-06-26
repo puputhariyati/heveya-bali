@@ -107,37 +107,63 @@ function bulkUpdateETD() {
     .catch(err => alert("Error: " + err));
 }
 
+// for Calendar View
+let currentYear = new Date().getFullYear();
+let currentMonth = new Date().getMonth();
+
 function showCalendarView() {
   const modal = document.getElementById("calendarModal");
-  const grid = document.getElementById("calendarGrid");
-  const title = document.getElementById("calendarTitle");
+  modal.style.display = "block";
 
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth(); // 0-indexed
+  populateMonthYearSelectors();
+  buildCalendar(); // now a separate function
+}
+
+function populateMonthYearSelectors() {
+  const monthSelect = document.getElementById("calendarMonth");
+  const yearSelect = document.getElementById("calendarYear");
+
+  const monthNames = [...Array(12).keys()].map(i =>
+    new Date(0, i).toLocaleString('default', { month: 'long' })
+  );
+
+  monthSelect.innerHTML = monthNames.map((m, i) =>
+    `<option value="${i}" ${i === currentMonth ? 'selected' : ''}>${m}</option>`
+  ).join('');
+
+  const thisYear = new Date().getFullYear();
+  yearSelect.innerHTML = "";
+  for (let y = thisYear - 2; y <= thisYear + 2; y++) {
+    yearSelect.innerHTML += `<option value="${y}" ${y === currentYear ? 'selected' : ''}>${y}</option>`;
+  }
+}
+
+function buildCalendar() {
+  const month = parseInt(document.getElementById("calendarMonth").value);
+  const year = parseInt(document.getElementById("calendarYear").value);
+  currentMonth = month;
+  currentYear = year;
+
+  const grid = document.getElementById("calendarGrid");
+  grid.innerHTML = "";
+
   const monthStart = new Date(year, month, 1);
   const monthEnd = new Date(year, month + 1, 0);
   const daysInMonth = monthEnd.getDate();
+  const firstDayOfWeek = monthStart.getDay(); // Sunday = 0
 
-  title.textContent = `${monthStart.toLocaleString("default", { month: "long" })} ${year}`;
-  grid.innerHTML = "";
-
-  // Build order count by date
   const orderCountByDate = {};
   salesOrders.forEach(order => {
     if (order.etd) {
-      const date = order.etd.slice(0, 10); // "2025-06-25"
+      const date = order.etd.slice(0, 10); // yyyy-MM-dd
       orderCountByDate[date] = (orderCountByDate[date] || 0) + 1;
     }
   });
 
-  // Add empty slots for days before 1st of month
-  const firstDayOfWeek = monthStart.getDay(); // 0 = Sunday
   for (let i = 0; i < firstDayOfWeek; i++) {
     grid.innerHTML += `<div></div>`;
   }
 
-  // Render each day
   for (let day = 1; day <= daysInMonth; day++) {
     const date = new Date(year, month, day);
     const iso = date.toISOString().slice(0, 10);
@@ -145,23 +171,38 @@ function showCalendarView() {
 
     const cell = document.createElement("div");
     cell.className = "calendar-day";
-    if (count > 0) {
-      cell.classList.add("has-orders");
-    }
+    if (count > 0) cell.classList.add("has-orders");
     cell.innerHTML = `<strong>${day}</strong><br><small>${count}</small>`;
     cell.onclick = () => {
       filterOrdersByETD(iso);
       closeCalendar();
     };
-
     grid.appendChild(cell);
   }
-
-  modal.style.display = "block";
 }
 
-function closeCalendar() {
-  document.getElementById("calendarModal").style.display = "none";
+function prevMonth() {
+  if (currentMonth === 0) {
+    currentMonth = 11;
+    currentYear--;
+  } else {
+    currentMonth--;
+  }
+  document.getElementById("calendarMonth").value = currentMonth;
+  document.getElementById("calendarYear").value = currentYear;
+  buildCalendar();
+}
+
+function nextMonth() {
+  if (currentMonth === 11) {
+    currentMonth = 0;
+    currentYear++;
+  } else {
+    currentMonth++;
+  }
+  document.getElementById("calendarMonth").value = currentMonth;
+  document.getElementById("calendarYear").value = currentYear;
+  buildCalendar();
 }
 
 // Filter sales orders in table by ETD date
@@ -176,4 +217,9 @@ function filterOrdersByETD(etdDate) {
     }
   });
 }
+
+function closeCalendar() {
+  document.getElementById("calendarModal").style.display = "none";
+}
+
 
