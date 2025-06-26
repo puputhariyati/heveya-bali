@@ -107,3 +107,73 @@ function bulkUpdateETD() {
     .catch(err => alert("Error: " + err));
 }
 
+function showCalendarView() {
+  const modal = document.getElementById("calendarModal");
+  const grid = document.getElementById("calendarGrid");
+  const title = document.getElementById("calendarTitle");
+
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth(); // 0-indexed
+  const monthStart = new Date(year, month, 1);
+  const monthEnd = new Date(year, month + 1, 0);
+  const daysInMonth = monthEnd.getDate();
+
+  title.textContent = `${monthStart.toLocaleString("default", { month: "long" })} ${year}`;
+  grid.innerHTML = "";
+
+  // Build order count by date
+  const orderCountByDate = {};
+  salesOrders.forEach(order => {
+    if (order.etd) {
+      const date = order.etd.slice(0, 10); // "2025-06-25"
+      orderCountByDate[date] = (orderCountByDate[date] || 0) + 1;
+    }
+  });
+
+  // Add empty slots for days before 1st of month
+  const firstDayOfWeek = monthStart.getDay(); // 0 = Sunday
+  for (let i = 0; i < firstDayOfWeek; i++) {
+    grid.innerHTML += `<div></div>`;
+  }
+
+  // Render each day
+  for (let day = 1; day <= daysInMonth; day++) {
+    const date = new Date(year, month, day);
+    const iso = date.toISOString().slice(0, 10);
+    const count = orderCountByDate[iso] || 0;
+
+    const cell = document.createElement("div");
+    cell.className = "calendar-day";
+    if (count > 0) {
+      cell.classList.add("has-orders");
+    }
+    cell.innerHTML = `<strong>${day}</strong><br><small>${count}</small>`;
+    cell.onclick = () => {
+      filterOrdersByETD(iso);
+      closeCalendar();
+    };
+
+    grid.appendChild(cell);
+  }
+
+  modal.style.display = "block";
+}
+
+function closeCalendar() {
+  document.getElementById("calendarModal").style.display = "none";
+}
+
+// Filter sales orders in table by ETD date
+function filterOrdersByETD(etdDate) {
+  const rows = document.querySelectorAll("#delivery-table tbody tr");
+  rows.forEach(row => {
+    const etdInput = row.querySelector("input[type='date']");
+    if (etdInput && etdInput.value === etdDate) {
+      row.style.display = "";
+    } else {
+      row.style.display = "none";
+    }
+  });
+}
+

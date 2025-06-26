@@ -20,10 +20,7 @@
           <div class="tabs">
             <button onclick="showTableView()">Table View</button>
             <button onclick="showCalendarView()">Calendar View</button>
-
-
           </div>
-          <!-- Calendar Container -->
           <div id="delivery-calendar" style="display:none;"></div>
         </div>
 
@@ -33,6 +30,16 @@
             <input type="date" id="bulk-etd" />
             <button onclick="bulkUpdateETD()">Set ETD</button>
         </div>
+
+        <!-- Calendar Modal -->
+        <div id="calendarModal" class="calendar-modal">
+          <div class="calendar-content">
+            <span class="close-btn" onclick="closeCalendar()">&times;</span>
+            <h3 id="calendarTitle"></h3>
+            <div id="calendarGrid" class="calendar-grid"></div>
+          </div>
+        </div>
+
 
         <!-- Sales Order Table -->
         <div id="delivery-table">
@@ -74,6 +81,10 @@
         </div>
     </div>
 
+    <script>
+      const salesOrders = {{ orders | tojson }};
+    </script>
     <script src="{{ url_for('static', filename='sales_order.js') }}"></script>
+
 
 {% endblock %}

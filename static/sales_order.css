@@ -91,4 +91,51 @@ td:nth-child(9) { /* Purchase No */
   word-wrap: break-word;
 }
 
+.calendar-modal {
+  display: none;
+  position: fixed;
+  z-index: 20;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
 
+.calendar-content {
+  background: white;
+  margin: 5% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 600px;
+}
+
+.close-btn {
+  float: right;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.calendar-day {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.calendar-day:hover {
+  background-color: #f0f0f0;
+}
+
+.calendar-day.has-orders {
+  background-color: #e0f0ff; /* light blue */
+  border: 2px solid #2196f3;
+  font-weight: bold;
+}
