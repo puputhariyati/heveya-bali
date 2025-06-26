@@ -24,108 +24,92 @@ def render_create_quote():
     product_list = df.to_dict(orient='records')
     return render_template("create_quote.html", product_list=product_list, quote=None)
 
-# def render_save_quote():
-#     data = request.get_json()
-#     conn = sqlite3.connect('main.db')
-#     cursor = conn.cursor()
-#
-#     if data.get('id'):
-#         # UPDATE mode
-#         cursor.execute('''
-#             UPDATE sales_quotes
-#             SET date=?, customer=?, phone=?, full_amount=?, discount=?, avg_disc=?, grand_total=?, margin=?, status=?, ETD=?
-#             WHERE id=?
-#         ''', (
-#             data['date'],
-#             data['customer'],
-#             data['phone'],
-#             data['full_amount'],
-#             data['discount'],
-#             0,
-#             data['grand_total'],
-#             data['margin'],
-#             data['status'],
-#             data['ETD'],
-#             data['id']
-#         ))
-#     else:
-#         # INSERT mode
-#         cursor.execute('''
-#             INSERT INTO sales_quotes (date, customer, phone, full_amount, discount, avg_disc, grand_total, margin, status, ETD)
-#             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-#         ''', (
-#             data['date'],
-#             data['customer'],
-#             data['phone'],
-#             data['full_amount'],
-#             data['discount'],
-#             0,
-#             data['grand_total'],
-#             data['margin'],
-#             data['status'],
-#             data['ETD']
-#         ))
-#
-#     conn.commit()
-#     conn.close()
-#     return jsonify({"status": "success"})
 
 def render_save_quote(data):
-    conn = sqlite3.connect('main.db')
-    cursor = conn.cursor()
+    try:
+        conn = sqlite3.connect('main.db')
+        cursor = conn.cursor()
 
-    # Extract values from incoming data
-    discount = data['discount']
-    full_amount = data['full_amount']
-    avg_disc = (discount / full_amount) * 100 if full_amount else 0
+        discount = float(data.get('discount', 0))
+        full_amount = float(data.get('full_amount', 0))
+        avg_disc = (discount / full_amount * 100) if full_amount else 0
 
-    # Insert sales quote header
-    cursor.execute('''
-        INSERT INTO sales_quotes (
-            date, customer, phone, full_amount, discount, avg_disc,
-            grand_total, margin, status, ETD
-        )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ''', (
-        data['date'],
-        data['customer'],
-        data['phone'],
-        full_amount,
-        discount,
-        avg_disc,
-        data['grand_total'],
-        data['margin'],
-        data['status'],
-        data['ETD']
-    ))
-    quote_id = cursor.lastrowid  # ✅ Move this inside the function
-
-    # Insert each item
-    for item in data['items']:
         cursor.execute('''
-            INSERT INTO sales_quote_items (
-                quote_id, description, qty, unit, unit_price, discount,
-                discounted_price, amount, notes, full_amount, unit_cost,
-                total_cost, margin
-            )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO sales_quotes (
+                date, customer, phone, full_amount, discount, avg_disc,
+                grand_total, margin, status, ETD, quote_no
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', (
-            quote_id,
-            item['description'],
-            item['qty'],
-            item['unit'],
-            item['unit_price'],
-            item['discount'],
-            item['discounted_price'],
-            item['amount'],
-            item['notes'],
-            item['full_amount'],
-            item['unit_cost'],
-            item['total_cost'],
-            item['margin']
+            data.get('date'),
+            data.get('customer'),
+            data.get('phone'),
+            full_amount,
+            discount,
+            avg_disc,
+            data.get('grand_total'),
+            data.get('margin'),
+            data.get('status'),
+            data.get('ETD'),
+            data.get('quote_no'),
         ))
 
-    conn.commit()
-    conn.close()
-    return {'status': 'success'}
+        quote_id = cursor.lastrowid
 
+        for item in data['items']:
+            cursor.execute('''
+                INSERT INTO sales_quote_items (
+                    quote_id, description, qty, unit, unit_price, discount,
+                    discounted_price, amount, notes, full_amount, unit_cost,
+                    total_cost, margin
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ''', (
+                quote_id,
+                item.get('description'),
+                item.get('qty'),
+                item.get('unit'),
+                item.get('unit_price'),
+                item.get('discount'),
+                item.get('discounted_price'),
+                item.get('amount'),
+                item.get('notes'),
+                item.get('full_amount'),
+                item.get('unit_cost'),
+                item.get('total_cost'),
+                item.get('margin')
+            ))
+
+        conn.commit()
+        conn.close()
+        return jsonify({'status': 'success', 'quote_id': quote_id})
+
+    except Exception as e:
+        print("❌ Error in render_save_quote:", e)
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+
+def render_edit_quote(quote_id):
+    conn = sqlite3.connect('main.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM sales_quotes WHERE id = ?", (quote_id,))
+    row = cursor.fetchone()
+    conn.close()
+
+    if row is None:
+        return "Quote not found", 404
+
+    quote = dict(row)  # ✅ convert to dict for template safety
+
+    # ✅ Fill in any missing keys expected by the template
+    expected_keys = ['id', 'date', 'customer', 'address', 'phone', 'full_amount', 'discount',
+                     'grand_total', 'margin', 'status', 'ETD']
+    for key in expected_keys:
+        quote.setdefault(key, '')
+
+    df = pd.read_csv("static/data/products_std.csv")
+    df['image_url'] = df['image_url'].astype(str).str.strip()
+    product_list = df.to_dict(orient='records')
+
+    return render_template("create_quote.html", quote=quote, product_list=product_list, edit_mode=True)

@@ -20,7 +20,7 @@
           Email: 434893871906000
         </td>
         <td>
-          <label>QUOTE: # <input type="text"placeholder="quote no" /></label><br>
+          <label>QUOTE: # <input type="text" name="quote_no" placeholder="quote no" /></label><br>
           <label>DATE: <input type="date" id="quote-date" value="{{ quote.date if quote else '' }}"></label><br><br>
           <label>EXPIRED DATE: <input type="date" id="quote-expiry" /></label><br><br>
         </td>
@@ -38,8 +38,13 @@
         <td>
           <strong>CUSTOMER</strong><br>
             <label>NAME: <input type="text" id="client-name" placeholder="Client Name" value="{{ quote.customer if quote else '' }}" /></label><br><br>
-            <label>ADDRESS: <input type="text" id="client-address" placeholder="Client Address" value="{{ quote.address if quote and quote.address else '' }}" /></label><br><br>
+            <label>ADDRESS: <textarea type="text" id="client-address" placeholder="Client Address" value="{{ quote.address if quote and quote.address else '' }}"></textarea></label><br>
             <label>PHONE: <input type="text" id="client-phone" placeholder="Client Phone" value="{{ quote.phone if quote else '' }}" /></label>
+        </td>
+        <td>
+          <strong>PROJECT</strong><br>
+          <label>PROJECT NAME: <input type="text" id="project-name" placeholder="Project Name" value="{{ quote.customer if quote else '' }}" /></label><br><br>
+          <label>Estimated Time of Delivery <input type="date" id="etd-date"></label><br><br>
         </td>
       </tr>
     </table>

@@ -7,6 +7,7 @@ import json
 
 from flask import Flask, request, jsonify, render_template, redirect, flash, json
 from dotenv import load_dotenv
+from sqlalchemy import column
 
 from sales_order_detail import render_sales_order_detail, save_sales_order_detail
 
@@ -91,6 +92,44 @@ def get_db_connection():
 # conn.close()
 # print("✅ Table 'sales_quotes' created.")
 
+# # Update DB in sales_quotes table to add a quote_no column
+# import sqlite3
+#
+# conn = sqlite3.connect('main.db')
+# cursor = conn.cursor()
+#
+# cursor.execute('''
+#     ALTER TABLE sales_quotes ADD COLUMN quote_no TEXT
+# ''')
+#
+# conn.commit()
+# conn.close()
+# print("✅ Added quote_no column to sales_quotes table")
+
+conn = sqlite3.connect('main.db')
+cursor = conn.cursor()
+
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS sales_quote_items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    quote_id INTEGER,
+    description TEXT,
+    qty REAL,
+    unit TEXT,
+    unit_price REAL,
+    discount REAL,
+    discounted_price REAL,
+    amount REAL,
+    notes TEXT,
+    full_amount REAL,
+    unit_cost REAL,
+    total_cost REAL,
+    margin REAL
+)
+''')
+conn.commit()
+conn.close()
+print("✅ Table 'sales_quote_items' created.")
 
 # # merge multiple json data to 1 table
 # def insert_orders_from_json(json_path):
@@ -174,57 +213,57 @@ def get_db_connection():
 # conn.close()
 # print(f"✅ Inserted {count} missing sales_order_detail lines")
 
-def insert_sales_orders_detail_from_json(json_path):
-    with open(json_path, "r", encoding="utf-8") as f:
-        data = json.load(f)
-
-    conn = sqlite3.connect("main.db")
-    cursor = conn.cursor()
-    order_count = 0
-    detail_count = 0
-
-    for order in data:
-        tx_no = order.get("transaction_no")
-        inserted = False
-
-        # Insert lines into sales_order_detail
-        lines = order.get("transaction_lines_attributes", [])
-        for i, line in enumerate(lines, start=1):
-            product_data = line.get("product", {})
-            item = product_data.get("name", "") if isinstance(product_data, dict) else str(product_data)
-            qty = int(line.get("quantity", 0))
-            unit_value = line.get("unit", "")
-            unit = unit_value["name"] if isinstance(unit_value, dict) else str(unit_value)
-            delivered = 0
-            remain_qty = qty
-            po_no = ""
-            warehouse_option = ""
-            delivery_date = ""
-            status = "open"
-            description = line.get("description", "")
-
-            # Check if this line already exists
-            cursor.execute("SELECT 1 FROM sales_order_detail WHERE transaction_no=? AND line=?", (tx_no, i))
-            if cursor.fetchone():
-                continue  # already exists
-
-            cursor.execute("""
-                INSERT INTO sales_order_detail (
-                    transaction_no, line, item, qty, unit,
-                    delivered, remain_qty, po_no,
-                    warehouse_option, delivery_date, status, description
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, (
-                tx_no, i, item, qty, unit,
-                delivered, remain_qty, po_no,
-                warehouse_option, delivery_date, status, description
-            ))
-            detail_count += 1
-
-    conn.commit()
-    conn.close()
-    print(f"✅ Imported {order_count} sales orders and {detail_count} detail lines from {json_path}.")
-
-insert_sales_orders_detail_from_json("static/data/sales_orders_open.json")
-insert_sales_orders_detail_from_json("static/data/sales_orders_closed_2024_190625.json")
-insert_sales_orders_detail_from_json("static/data/sales_orders_2025_06_19_to_25.json")
+# def insert_sales_orders_detail_from_json(json_path):
+#     with open(json_path, "r", encoding="utf-8") as f:
+#         data = json.load(f)
+#
+#     conn = sqlite3.connect("main.db")
+#     cursor = conn.cursor()
+#     order_count = 0
+#     detail_count = 0
+#
+#     for order in data:
+#         tx_no = order.get("transaction_no")
+#         inserted = False
+#
+#         # Insert lines into sales_order_detail
+#         lines = order.get("transaction_lines_attributes", [])
+#         for i, line in enumerate(lines, start=1):
+#             product_data = line.get("product", {})
+#             item = product_data.get("name", "") if isinstance(product_data, dict) else str(product_data)
+#             qty = int(line.get("quantity", 0))
+#             unit_value = line.get("unit", "")
+#             unit = unit_value["name"] if isinstance(unit_value, dict) else str(unit_value)
+#             delivered = 0
+#             remain_qty = qty
+#             po_no = ""
+#             warehouse_option = ""
+#             delivery_date = ""
+#             status = "open"
+#             description = line.get("description", "")
+#
+#             # Check if this line already exists
+#             cursor.execute("SELECT 1 FROM sales_order_detail WHERE transaction_no=? AND line=?", (tx_no, i))
+#             if cursor.fetchone():
+#                 continue  # already exists
+#
+#             cursor.execute("""
+#                 INSERT INTO sales_order_detail (
+#                     transaction_no, line, item, qty, unit,
+#                     delivered, remain_qty, po_no,
+#                     warehouse_option, delivery_date, status, description
+#                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+#             """, (
+#                 tx_no, i, item, qty, unit,
+#                 delivered, remain_qty, po_no,
+#                 warehouse_option, delivery_date, status, description
+#             ))
+#             detail_count += 1
+#
+#     conn.commit()
+#     conn.close()
+#     print(f"✅ Imported {order_count} sales orders and {detail_count} detail lines from {json_path}.")
+#
+# insert_sales_orders_detail_from_json("static/data/sales_orders_open.json")
+# insert_sales_orders_detail_from_json("static/data/sales_orders_closed_2024_190625.json")
+# insert_sales_orders_detail_from_json("static/data/sales_orders_2025_06_19_to_25.json")

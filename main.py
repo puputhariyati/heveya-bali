@@ -8,7 +8,7 @@ import json
 from flask import Flask, request, jsonify, render_template, redirect, flash, json
 from dotenv import load_dotenv
 
-from sales_quote import render_sales_quote, render_create_quote, render_save_quote
+from sales_quote import render_sales_quote, render_create_quote, render_save_quote, render_edit_quote
 from sales_order import render_sales_order, update_single_etd, bulk_update_status, bulk_update_etd
 from sales_order_detail import render_sales_order_detail, save_sales_order_detail
 
@@ -220,34 +220,9 @@ def create_quote():
 def save_quote():
     return render_save_quote()
 
-
-@app.route('/edit_quote/<int:quote_id>')
+@app.route('/sales_quote/<int:quote_id>')
 def edit_quote(quote_id):
-    conn = sqlite3.connect('main.db')
-    conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
-
-    cursor.execute("SELECT * FROM sales_quotes WHERE id = ?", (quote_id,))
-    row = cursor.fetchone()
-    conn.close()
-
-    if row is None:
-        return "Quote not found", 404
-
-    quote = dict(row)  # ✅ convert to dict for template safety
-
-    # ✅ Fill in any missing keys expected by the template
-    expected_keys = ['id', 'date', 'customer', 'address', 'phone', 'full_amount', 'discount',
-                     'grand_total', 'margin', 'status', 'ETD']
-    for key in expected_keys:
-        quote.setdefault(key, '')
-
-    df = pd.read_csv("static/data/products_std.csv")
-    df['image_url'] = df['image_url'].astype(str).str.strip()
-    product_list = df.to_dict(orient='records')
-
-    return render_template("create_quote.html", quote=quote, product_list=product_list, edit_mode=True)
-
+    return render_edit_quote(quote_id)
 
 @app.route('/sales_order')
 def sales_order():
