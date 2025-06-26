@@ -8,6 +8,7 @@ import json
 from flask import Flask, request, jsonify, render_template, redirect, flash, json
 from dotenv import load_dotenv
 
+from sales_quote import render_sales_quote, render_create_quote, render_save_quote
 from sales_order import render_sales_order, update_single_etd, bulk_update_status, bulk_update_etd
 from sales_order_detail import render_sales_order_detail, save_sales_order_detail
 
@@ -209,73 +210,15 @@ def sales_kpi():
 
 @app.route('/sales_quote')
 def sales_quote():
-    conn = sqlite3.connect("main.db")
-    conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
-
-    cursor.execute("SELECT * FROM sales_quotes ORDER BY id DESC")
-    quotes = cursor.fetchall()
-
-    conn.close()
-    return render_template("sales_quote.html", quotes=quotes)
-
+    return render_sales_quote()
 
 @app.route("/create_quote")
 def create_quote():
-    df = pd.read_csv("static/data/products_std.csv")
-
-    # Make sure image_url has no extra spaces
-    df['image_url'] = df['image_url'].astype(str).str.strip()
-
-    product_list = df.to_dict(orient='records')
-    return render_template("create_quote.html", product_list=product_list, quote=None)
+    return render_create_quote()
 
 @app.route('/save_quote', methods=['POST'])
 def save_quote():
-    data = request.get_json()
-    conn = sqlite3.connect('main.db')
-    cursor = conn.cursor()
-
-    if data.get('id'):
-        # UPDATE mode
-        cursor.execute('''
-            UPDATE sales_quotes
-            SET date=?, customer=?, phone=?, full_amount=?, discount=?, avg_disc=?, grand_total=?, margin=?, status=?, ETD=?
-            WHERE id=?
-        ''', (
-            data['date'],
-            data['customer'],
-            data['phone'],
-            data['full_amount'],
-            data['discount'],
-            0,
-            data['grand_total'],
-            data['margin'],
-            data['status'],
-            data['ETD'],
-            data['id']
-        ))
-    else:
-        # INSERT mode
-        cursor.execute('''
-            INSERT INTO sales_quotes (date, customer, phone, full_amount, discount, avg_disc, grand_total, margin, status, ETD)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ''', (
-            data['date'],
-            data['customer'],
-            data['phone'],
-            data['full_amount'],
-            data['discount'],
-            0,
-            data['grand_total'],
-            data['margin'],
-            data['status'],
-            data['ETD']
-        ))
-
-    conn.commit()
-    conn.close()
-    return jsonify({"status": "success"})
+    return render_save_quote()
 
 
 @app.route('/edit_quote/<int:quote_id>')
