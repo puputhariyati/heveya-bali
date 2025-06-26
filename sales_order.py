@@ -66,6 +66,30 @@ def render_sales_order():
     return render_template("sales_order.html", orders=results)
 
 
+def update_single_etd():
+    data = request.get_json()
+    transaction_no = data.get("transaction_no")
+    etd = data.get("etd")
+
+    if not transaction_no or not etd:
+        return jsonify({"success": False, "message": "Missing transaction number or ETD"})
+
+    conn = sqlite3.connect("main.db")
+    cursor = conn.cursor()
+
+    # Make sure ETD is stored as text
+    cursor.execute("""
+        UPDATE sales_order 
+        SET etd = ?
+        WHERE transaction_no = ?
+    """, (etd, transaction_no))
+
+    conn.commit()
+    conn.close()
+
+    return jsonify({"success": True})
+
+
 @app.route("/sales_order/bulk_update_status", methods=["POST"])
 def bulk_update_status():
     data = request.get_json()
@@ -106,7 +130,7 @@ def bulk_update_etd():
     cursor = conn.cursor()
 
     for tx_no in transaction_nos:
-        cursor.execute("UPDATE sales_order SET ETD = ? WHERE transaction_no = ?", (etd, tx_no))
+        cursor.execute("UPDATE sales_order SET etd = ? WHERE transaction_no = ?", (etd, tx_no))
 
     conn.commit()
     conn.close()

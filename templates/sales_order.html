@@ -28,6 +28,7 @@
         </div>
 
         <div style="text-align: center">
+            <p>Bulk Edit : </p>
             <button onclick="bulkUpdateStatus('closed')">Close Orders</button>
             <input type="date" id="bulk-etd" />
             <button onclick="bulkUpdateETD()">Set ETD</button>
@@ -59,7 +60,10 @@
                     <td>{{ order.balance_due or '-' }}</td>
                     <td>{{ order.total or '-' }}</td>
                     <td>{{ order.status.capitalize() }}</td>
-                    <td><input type="date" name="ETD" value="{{ order.ETD }}"></td>
+                    <td>
+                      <input type="date" name="ETD" value="{{ order.etd }}"
+                             onchange="updateETD('{{ order.transaction_no }}', this.value)">
+                    </td>
                 </tr>
                 {% endfor %}
               </tbody>

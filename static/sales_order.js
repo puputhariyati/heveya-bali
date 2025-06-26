@@ -19,6 +19,30 @@ function getSelectedTransactionNos() {
     });
 }
 
+function updateETD(transactionNo, newDate) {
+    fetch("/sales_order/update_etd", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            transaction_no: transactionNo,
+            etd: newDate
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert("✅ ETD saved for order " + transactionNo);
+        } else {
+            alert("❌ Failed to save ETD for " + transactionNo + ": " + data.message);
+        }
+    })
+    .catch(err => {
+        alert("❌ Error saving ETD for " + transactionNo + ": " + err);
+    });
+}
+
+
+
 function bulkUpdateStatus(status) {
     const transactionNos = getSelectedTransactionNos();
     if (!transactionNos.length) {
@@ -82,3 +106,4 @@ function bulkUpdateETD() {
     })
     .catch(err => alert("Error: " + err));
 }
+

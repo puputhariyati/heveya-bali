@@ -8,7 +8,7 @@ import json
 from flask import Flask, request, jsonify, render_template, redirect, flash, json
 from dotenv import load_dotenv
 
-from sales_order import render_sales_order, bulk_update_status, bulk_update_etd
+from sales_order import render_sales_order, update_single_etd, bulk_update_status, bulk_update_etd
 from sales_order_detail import render_sales_order_detail, save_sales_order_detail
 
 from pathlib import Path
@@ -309,6 +309,10 @@ def edit_quote(quote_id):
 @app.route('/sales_order')
 def sales_order():
     return render_sales_order()
+
+@app.route("/sales_order/update_etd", methods=["POST"])
+def sales_order_etd():
+    return update_single_etd()
 
 @app.route("/sales_order/bulk_update_status", methods=["POST"])
 def sales_order_bulk_status():
