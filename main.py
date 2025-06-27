@@ -102,6 +102,24 @@ def stock_history():
     result = filtered.sort_values('timestamp', ascending=False).to_dict(orient='records')
     return jsonify(result)
 
+@app.route('/adjust_stock', methods=['GET', 'POST'])
+def adjust_stock():
+    if request.method == 'POST':
+        category = request.form['category']
+        subcategory = request.form['subcategory']
+        size = request.form['size']
+        firmness = request.form['firmness']
+        location = request.form['location']
+        qty = float(request.form['qty'])
+        note = request.form['note']
+        source = 'Manual Adjust'
+        reference = request.form.get('reference', '')
+
+        log_stock_change(category, subcategory, size, firmness, location, qty, note, source, reference)
+        flash("Stock adjustment saved successfully!", "success")
+        return redirect('/adjust_stock')
+
+    return render_template('adjust_stock.html')
 
 @app.route('/customer')
 def render_customer():

@@ -267,3 +267,4 @@ def get_db_connection():
 # insert_sales_orders_detail_from_json("static/data/sales_orders_open.json")
 # insert_sales_orders_detail_from_json("static/data/sales_orders_closed_2024_190625.json")
 # insert_sales_orders_detail_from_json("static/data/sales_orders_2025_06_19_to_25.json")
+
