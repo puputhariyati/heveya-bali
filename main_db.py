@@ -106,30 +106,30 @@ def get_db_connection():
 # conn.close()
 # print("✅ Added quote_no column to sales_quotes table")
 
-conn = sqlite3.connect('main.db')
-cursor = conn.cursor()
-
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS sales_quote_items (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    quote_id INTEGER,
-    description TEXT,
-    qty REAL,
-    unit TEXT,
-    unit_price REAL,
-    discount REAL,
-    discounted_price REAL,
-    amount REAL,
-    notes TEXT,
-    full_amount REAL,
-    unit_cost REAL,
-    total_cost REAL,
-    margin REAL
-)
-''')
-conn.commit()
-conn.close()
-print("✅ Table 'sales_quote_items' created.")
+# conn = sqlite3.connect('main.db')
+# cursor = conn.cursor()
+#
+# cursor.execute('''
+# CREATE TABLE IF NOT EXISTS sales_quote_items (
+#     id INTEGER PRIMARY KEY AUTOINCREMENT,
+#     quote_id INTEGER,
+#     description TEXT,
+#     qty REAL,
+#     unit TEXT,
+#     unit_price REAL,
+#     discount REAL,
+#     discounted_price REAL,
+#     amount REAL,
+#     notes TEXT,
+#     full_amount REAL,
+#     unit_cost REAL,
+#     total_cost REAL,
+#     margin REAL
+# )
+# ''')
+# conn.commit()
+# conn.close()
+# print("✅ Table 'sales_quote_items' created.")
 
 # # merge multiple json data to 1 table
 # def insert_orders_from_json(json_path):

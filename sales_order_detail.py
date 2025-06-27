@@ -27,6 +27,20 @@ def render_sales_order_detail(transaction_no):
 
     return render_template("sales_order_detail.html", order=order, lines=lines)
 
+def parse_mattress_name(name):
+    try:
+        if "Mattress" not in name:
+            return None, None, None
+        parts = name.replace("Heveya Natural Organic Latex Mattress", "").strip().split(" - ")
+        category = "Heveya " + parts[0].strip()
+        size_part = parts[1].split("(")[1].replace(")", "").replace("W", "").replace("L", "").replace("cm", "").strip()
+        size = parts[1].split("(")[0].strip() + " " + size_part  # e.g., King 180x200
+        firmness = parts[2].strip()
+        return category, size, firmness
+    except Exception as e:
+        print("❌ Error parsing mattress name:", name, e)
+        return None, None, None
+
 def save_sales_order_detail(transaction_no):
     conn = sqlite3.connect("main.db")
     c = conn.cursor()
@@ -89,8 +103,9 @@ def save_sales_order_detail(transaction_no):
 
             # Update stock quantity if delivered quantity has changed
             if delivered_diff != 0:
+                updated = False  # flag to track if matched regular name
+                # Try matching by 'name' (standard logic)
                 product_idx = products_df[products_df['name'] == item_name].index
-
                 if len(product_idx) > 0:
                     idx = product_idx[0]
 
@@ -109,6 +124,22 @@ def save_sales_order_detail(transaction_no):
                             new_qty = current_qty - delivered_diff  # subtract or add based on diff
                             products_df.at[idx, 'warehouse_qty'] = max(new_qty, 0) if delivered_diff > 0 else new_qty
                             stock_updated = True
+                # 🛏️ If not updated by name, try mattress parser logic
+                if not updated and "Mattress" in item_name:
+                    category, size, firmness = parse_mattress_name(item_name)
+                    if category and size and firmness:
+                        mattress_idx = products_df[
+                            (products_df['Category'] == category) &
+                            (products_df['Subcategory'].str.contains(size)) &
+                            (products_df['Firmness'] == firmness)
+                            ].index
+
+                        if len(mattress_idx) > 0:
+                            idx = mattress_idx[0]
+                            if warehouse_option == 'warehouse':
+                                current_qty = float(products_df.at[idx, 'warehouse_qty'])
+                                products_df.at[idx, 'warehouse_qty'] = max(current_qty - delivered_diff, 0)
+                                stock_updated = True
 
         # Save updated stock quantities to CSV if any changes were made
         if stock_updated:
@@ -125,3 +156,5 @@ def save_sales_order_detail(transaction_no):
         conn.close()
 
     return redirect(f"/sales_order/{transaction_no}")
+
+

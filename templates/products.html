@@ -3,17 +3,16 @@
 {% block title %}Add Product{% endblock %}
 
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='product1.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='products.css') }}">
 {% endblock %}
 
 {% block content %}
   <div class="top-bar">
     <select id="warehouse-filter">
-      <option value="">Warehouses</option>
+      <option value="">Location</option>
+      <option value="">Showroom Bali</option>
       <option value="bali">Warehouse Bali</option>
-      <option value="jakarta">Warehouse Jakarta</option>
     </select>
-
     <select id="category-filter">
       <option value="">Categories</option>
       <option value="mattress">Mattress</option>
@@ -21,21 +20,20 @@
       <option value="duvet">Duvet</option>
       <!-- Add more as needed -->
     </select>
-
     <select id="subcategory-filter">
       <option value="">Subcategories</option>
       <option value="heveya1">Heveya I</option>
       <option value="heveya2">Heveya II</option>
       <!-- Add more as needed -->
     </select>
-
     <input type="text" id="product-search" placeholder="Search item...">
-
-    <button onclick="location.href='/inventory'">+ Add Product</button>
+    <button onclick="location.href='/inventory'">+ Adjust Stock</button>
   </div>
 
   <div class="category-header" onclick="toggleCategory('mattress')">Mattress +</div>
   <div id="mattress" class="subcategory">
+<!--    &lt;!&ndash; DEBUG: view mattress data &ndash;&gt;-->
+<!--    <pre>{{ mattresses | tojson(indent=2) }}</pre>-->
     <!-- Mattress Tables -->
     <div class="section-title">Heveya I</div>
     <table>
@@ -43,9 +41,9 @@
         <tr>
           <th rowspan="2">Item</th>
           <th colspan="4" class="warehouse">Warehouse Bali</th>
-          <th colspan="5" class="pending">WH Pending ETD</th>
-          <th colspan="4" class="upcoming">Upcoming</th>
-          <th colspan="3" class="request">Request PO</th>
+          <th colspan="5" class="pending">WH Bali Pending</th>
+          <th colspan="4" class="upcoming">Upcoming PO</th>
+          <th colspan="3" class="request">Req. PO</th>
         </tr>
         <tr>
           <th>S</th><th>M</th><th>F</th><th>S/M</th>
@@ -55,30 +53,43 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Super King 200x200</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>King 180x200</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
+        {% for size in ['Super King 200x200', 'King 180x200', 'Queen 160x200', 'Single 90x200'] %}
+          <tr data-size="{{ size }}">
+            <td style="text-align: left">{{ size }}</td>
+            {% for firmness in ['Soft', 'Medium', 'Firm', 'Topper'] %}
+              <td class="warehouse-qty" data-firmness="{{ firmness }}" data-category="Heveya I">
+                {% set displayed = '-' %}
+                {% for item in mattresses %}
+                  {% if item.Category == 'Mattress'
+                        and item.Subcategory == 'Heveya I'
+                        and item.Firmness == firmness
+                        and item.Size == size %}
+                    {% if item.warehouse_qty|float > 0 %}
+                        {{ item.warehouse_qty|int }}
+                    {% else %}
+                      {{ displayed }}
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+              </td>
+            {% endfor %}
+            <!-- Repeat the loop (empty) for pending, upcoming, req. PO columns -->
+            {% for i in range(12) %}
+              <td></td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
       </tbody>
     </table>
-
     <div class="section-title">Heveya II & Topper</div>
     <table>
       <thead>
         <tr>
           <th rowspan="2">Item</th>
           <th colspan="4" class="warehouse">Warehouse Bali</th>
-          <th colspan="5" class="pending">WH Pending ETD</th>
-          <th colspan="4" class="upcoming">Upcoming</th>
-          <th colspan="3" class="request">Request PO</th>
+          <th colspan="5" class="pending">WH Bali Pending</th>
+          <th colspan="4" class="upcoming">Upcoming PO</th>
+          <th colspan="3" class="request">Req. PO</th>
         </tr>
         <tr>
           <th>S</th><th>M</th><th>F</th><th>Topper</th>
@@ -88,20 +99,32 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Super King 200x200</td>
-          <td>5</td><td>3</td><td>1</td><td>9</td>
-          <td>3</td><td>1</td><td></td><td></td><td></td>
-          <td></td><td></td><td></td><td></td>
-          <td></td><td></td><td></td>
-        </tr>
-        <tr>
-          <td>King 180x200</td>
-          <td>5</td><td>1</td><td>6</td><td>2</td>
-          <td>2</td><td></td><td></td><td></td><td>5</td>
-          <td></td><td></td><td></td><td></td>
-          <td></td><td></td><td></td>
-        </tr>
+        {% for size in ['Super King 200x200', 'King 180x200', 'Queen 160x200', 'Single 90x200'] %}
+          <tr data-size="{{ size }}">
+            <td style="text-align: left">{{ size }}</td>
+            {% for firmness in ['Soft', 'Medium', 'Firm', 'Topper'] %}
+              <td class="warehouse-qty" data-firmness="{{ firmness }}" data-category="Heveya II">
+                {% set displayed = '-' %}
+                {% for item in mattresses %}
+                  {% if item.Category == 'Mattress'
+                        and item.Subcategory == 'Heveya II'
+                        and item.Firmness == firmness
+                        and item.Size == size %}
+                    {% if item.warehouse_qty|float > 0 %}
+                        {{ item.warehouse_qty|int }}
+                    {% else %}
+                      {{ displayed }}
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+              </td>
+            {% endfor %}
+            <!-- Repeat the loop (empty) for pending, upcoming, req. PO columns -->
+            {% for i in range(12) %}
+              <td></td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>
@@ -116,7 +139,7 @@
           <th class="warehouse">Showroom</th>
           <th class="pending">Warehouse</th>
           <th class="upcoming">Req.SH</th>
-          <th class="request">Req.WH</th>
+          <th class="request">Req.PO</th>
         </tr>
       </thead>
       <tbody>
@@ -132,7 +155,6 @@
       </tbody>
     </table>
   </div>
-
 
   <div class="category-header" onclick="toggleCategory('duvet')">Duvet & Protectors +</div>
   <div id="duvet" class="subcategory">
@@ -377,6 +399,6 @@
     <p>[Bedsheet stock table goes here]</p>
   </div>
 
-  <script src="{{ url_for('static', filename='product1.js') }}"></script>
+  <script src="{{ url_for('static', filename='products.js') }}"></script>
 
 {% endblock %}

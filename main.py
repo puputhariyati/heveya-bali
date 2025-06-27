@@ -9,8 +9,9 @@ from flask import Flask, request, jsonify, render_template, redirect, flash, jso
 from dotenv import load_dotenv
 
 from sales_quote import render_sales_quote, render_create_quote, render_save_quote, render_edit_quote
+from products import render_products
 from sales_order import render_sales_order, update_single_etd, bulk_update_status, bulk_update_etd
-from sales_order_detail import render_sales_order_detail, save_sales_order_detail
+from sales_order_detail import render_sales_order_detail, save_sales_order_detail, parse_mattress_name
 
 from pathlib import Path
 load_dotenv(Path(__file__).parent / "key.env")
@@ -53,16 +54,39 @@ def init_db():
     conn.commit()
     conn.close()
 
-
+# Add your project folder for pythonanywhere
+path = '/home/puputheveya/heveya-bali'
+if path not in sys.path:
+    sys.path.insert(0, path)
 
 #Dashboard page
 @app.route('/')
 def home():
     return render_template('index.html')
 
-@app.route('/crm')
-def crm():
-    return render_template('crm.html')
+@app.route('/api/sales_by_products', methods=["GET"])
+def sales_by_products():
+    # Always use dummy data for now
+    data = {
+        "sales_by_products": {
+            "reports": {
+                "products": [
+                    {"product": {"product_name": "Pillow", "quantity": 20}},
+                    {"product": {"product_name": "Mattress", "quantity": 15}},
+                    {"product": {"product_name": "Topper", "quantity": 10}},
+                ]
+            }
+        }
+    }
+    return jsonify(data)
+
+@app.route("/products")
+def products():
+    return render_products()
+
+@app.route('/customer')
+def render_customer():
+    return render_template('customer.html')
 
 @app.route('/api/crm', methods=['GET', 'POST'])
 def crm_data():
@@ -96,7 +120,6 @@ def crm_data():
     conn.close()
     return jsonify([dict(lead) for lead in leads])
 
-
 @app.route('/api/summary')
 def summary():
     conn = get_db_connection()
@@ -116,93 +139,6 @@ def summary():
         'follow_up': follow_up,
         'total_amount': total_amount
     })
-
-@app.route("/sync_sales", methods=["GET"])
-def sync_sales():
-    data = get_sales_orders()
-    if not data or "sales_orders" not in data:
-        return jsonify([])
-
-    items = []
-    for order in data["sales_orders"]:
-        for line in order.get("transaction_lines_attributes", []):
-            product = line.get("product")
-            if product:
-                items.append({
-                    "name": product.get("name"),
-                    "quantity": line.get("quantity")
-                })
-    return jsonify(items)
-
-import pandas as pd
-
-@app.route("/bedsheets")
-def bedsheets():
-    df = pd.read_csv("static/data/products_std.csv")
-    # Filter only pillow products
-    pillow_df = df[df['Category'].str.contains("pillow", case=False, na=False)].copy()
-    # Rename quantity columns for easier handling
-    pillow_df.rename(columns={
-        'Showroom_Qty': 'showroom_qty',
-        'Warehouse_Qty': 'warehouse_qty'
-    }, inplace=True)
-    # Compute required to showroom (req_sh)
-    pillow_df['req_sh'] = pillow_df.apply(
-        lambda row: 6 - row['showroom_qty'] if row['showroom_qty'] < 6 else 0,
-        axis=1
-    )
-    # Compute required to warehouse (req_wh)
-    pillow_df['req_wh'] = pillow_df.apply(
-        lambda row: 20 - row['warehouse_qty'] if row['warehouse_qty'] < 20 else 0,
-        axis=1
-    )
-    # Format numeric values for display
-    def format_qty(value):
-        try:
-            value = float(value)
-            if value == 0:
-                return '-'
-            elif value.is_integer():
-                return str(int(value))
-            else:
-                return str(value)
-        except:
-            return '-'
-    for col in ['showroom_qty', 'warehouse_qty', 'req_sh', 'req_wh']:
-        pillow_df[col] = pillow_df[col].apply(format_qty)
-
-    # Convert to list of dicts for template rendering
-    pillow_products = pillow_df.to_dict(orient='records')
-    return render_template("product1.html", pillows=pillow_products)
-
-# this is when using Mekari API
-# @app.route('/api/sales_by_products', methods=["GET"])
-# def sales_by_products():
-#     start_date = request.args.get('start_date')
-#     end_date = request.args.get('end_date')
-#     data = get_sales_by_products_dynamic(start_date, end_date)
-#     return jsonify(data)
-
-@app.route('/api/sales_by_products', methods=["GET"])
-def sales_by_products():
-    # Always use dummy data for now
-    data = {
-        "sales_by_products": {
-            "reports": {
-                "products": [
-                    {"product": {"product_name": "Pillow", "quantity": 20}},
-                    {"product": {"product_name": "Mattress", "quantity": 15}},
-                    {"product": {"product_name": "Topper", "quantity": 10}},
-                ]
-            }
-        }
-    }
-    return jsonify(data)
-
-# Add your project folder
-path = '/home/puputheveya/heveya-bali'
-if path not in sys.path:
-    sys.path.insert(0, path)
 
 @app.route('/sales_kpi')
 def sales_kpi():
@@ -243,6 +179,10 @@ def sales_order_bulk_etd():
 @app.route("/sales_order/<transaction_no>")
 def sales_order_detail_route(transaction_no):  # ✅ Rename to avoid name conflict
     return render_sales_order_detail(transaction_no)
+
+@app.route("/sales_order/<transaction_no>")
+def sales_order_detail_mattress(name):  # ✅ Rename to avoid name conflict
+    return parse_mattress_name(name)
 
 @app.route('/sales_order/save_detail/<transaction_no>', methods=['POST'])
 def save_sales_order_detail_route(transaction_no):  # ✅ Rename to avoid name conflict

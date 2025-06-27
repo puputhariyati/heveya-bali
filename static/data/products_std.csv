@@ -1,9 +1,9 @@
 Size,Category,Subcategory,Firmness,SKU,name,Unit,Normal Price IDR,unit cost,image_url,showroom_qty,warehouse_qty
 Super King 200x200,Mattress,Heveya I,Soft,MEU1SK200X200S,Heveya Natural Organic Latex Mattress  I -  Super King (W200cm x L200cm) - Soft,Pcs,"36,000,000","11,336,764",mattress-heveya-I.png,,
-Super King 200x200,Mattress,Heveya I,Medium,MEU1SK200X200M,Heveya Natural Organic Latex Mattress I -  Super King  (W200cm x L200cm) - Medium,Pcs,"36,000,000","12,332,279",mattress-heveya-I.png,,
-Super King 200x200,Mattress,Heveya I,Firm,MEU1SK200X200F,Heveya Natural Organic Latex Mattress I  -  Super King (W200cm x L200cm) - Firm,Pcs,"36,000,000","13,825,459",mattress-heveya-I.png,,
-Super King 200x200,Mattress,Heveya II,Soft,MEU2SK200X200S,Heveya Natural Organic Latex  Mattress II  - Super King (W200cm x L200cm) - Soft,Pcs,"46,500,000","13,937,815",mattress-heveya-II.png,,
-Super King 200x200,Mattress,Heveya II,Medium,MEU2SK200X200M,Heveya Natural Organic  Latex Mattress II -  Super King (W200cm x L200cm) - Medium,Pcs,"46,500,000","15,099,403",mattress-heveya-II.png,,
+Super King 200x200,Mattress,Heveya I,Medium,MEU1SK200X200M,Heveya Natural Organic Latex Mattress I -  Super King  (W200cm x L200cm) - Medium,Pcs,"36,000,000","12,332,279",mattress-heveya-I.png,3.0,1.0
+Super King 200x200,Mattress,Heveya I,Firm,MEU1SK200X200F,Heveya Natural Organic Latex Mattress I  -  Super King (W200cm x L200cm) - Firm,Pcs,"36,000,000","13,825,459",mattress-heveya-I.png,4.0,2.0
+Super King 200x200,Mattress,Heveya II,Soft,MEU2SK200X200S,Heveya Natural Organic Latex  Mattress II  - Super King (W200cm x L200cm) - Soft,Pcs,"46,500,000","13,937,815",mattress-heveya-II.png,5.0,3.0
+Super King 200x200,Mattress,Heveya II,Medium,MEU2SK200X200M,Heveya Natural Organic  Latex Mattress II -  Super King (W200cm x L200cm) - Medium,Pcs,"46,500,000","15,099,403",mattress-heveya-II.png,6.0,5.0
 Super King 200x200,Mattress,Heveya II,Firm,MEU2SK200X200F,Heveya Natural Organic Latex Mattress II - Super King (W200cm x L200cm) - Firm,Pcs,"46,500,000","16,924,174",mattress-heveya-II.png,,
 Super King 200x200,Mattress,Heveya III,Soft,MEU3SK200X200S,Heveya Natural Organic Latex Mattress III - Super King (W200cm x L200cm) - Soft,Pcs,"54,000,000","17,898,154",mattress-heveya-III.png,,
 Super King 200x200,Mattress,Heveya III,Medium,MEU3SK200X200M,Heveya Natural Organic Latex Mattress III -  Super King (W200cm x L200cm) - Medium,Pcs,"54,000,000","19,059,743",mattress-heveya-III.png,,
@@ -14,7 +14,7 @@ King 180x200,Mattress,Heveya I,Soft,MEU1K200X180S,Heveya Natural Organic Latex M
 King 180x200,Mattress,Heveya I,Medium,MEU1K200X180M,Heveya Natural Organic Latex Mattress I - King (W180cm x L200cm) - Medium,Pcs,"32,500,000","11,318,314",mattress-heveya-I.png,,
 King 180x200,Mattress,Heveya I,Firm,MEU1K200X180F,Heveya Natural Organic Latex Mattress I - King (W180cm x L200cm) - Firm,Pcs,"32,500,000","12,662,286",mattress-heveya-I.png,,
 King 180x200,Mattress,Heveya II,Soft,MEU2K200X180S,Heveya Natural Organic Latex Mattress II - King (W180cm x L200cm) - Soft,Pcs,"42,000,000","12,753,597",mattress-heveya-II.png,,
-King 180x200,Mattress,Heveya II,Medium,MEU2K200X180M,Heveya Natural Organic Latex Mattress II - King (W180cm x L200cm) - Medium,Pcs,"42,000,000","13,798,785",mattress-heveya-II.png,,
+King 180x200,Mattress,Heveya II,Medium,MEU2K200X180M,Heveya Natural Organic Latex Mattress II - King (W180cm x L200cm) - Medium,Pcs,"42,000,000","13,798,785",mattress-heveya-II.png,3.0,2.0
 King 180x200,Mattress,Heveya II,Firm,MEU2K200X180F,Heveya Natural Organic Latex Mattress II - King (W180cm x L200cm) - Firm,Pcs,"42,000,000","15,441,542",mattress-heveya-II.png,,
 King 180x200,Mattress,Heveya III,Soft,MEU3K200X180S,Heveya Natural Organic Latex Mattress III - King (W180cm x L200cm) - Soft,Pcs,"49,000,000","16,323,505",mattress-heveya-III.png,,
 King 180x200,Mattress,Heveya III,Medium,MEU3K200X180M,Heveya Natural Organic Latex Mattress III - King (W180cm x L200cm) - Medium,Pcs,"49,000,000","17,368,694",mattress-heveya-III.png,,
@@ -47,10 +47,10 @@ Single 90x200,Mattress,Topper,,TEU1S200X90S,Heveya Natural Organic Latex Topper 
 ,Pillow,Pillow 1,,PSLIA68X38S,Heveya Natural Organic Latex Pillow - (70cm x 40cm x 10cm) - Heveya 1,Pcs,"1,800,000","400,819",,1.0,45.0
 ,Pillow,Pillow 2,,PS1A70X40S,Heveya Natural Organic Latex Pillow - (70cm x 40cm x 14.5cm) - Heveya 2,Pcs,"1,800,000","450,499",,4.0,27.0
 ,Pillow,Pillow 3,,PC1A70X40S,Heveya Natural Organic Latex Pillow - (70cm x 40cm x 9/11.5cm) - Heveya 3,Pcs,"1,800,000","484,539",,0.0,28.0
-,Pillow,Pillow 4,,PS1A70X40LM,Heveya Natural Organic Latex Pillow - (70cm x 40cm x 12.5cm) - Heveya 4,Pcs,"1,800,000","459,009",,0.0,66.0
+,Pillow,Pillow 4,,PS1A70X40LM,Heveya Natural Organic Latex Pillow - (70cm x 40cm x 12.5cm) - Heveya 4,Pcs,"1,800,000","459,009",,1.0,66.0
 ,Pillow,Pillow 5,,PS1A70X40LF,Heveya Natural Organic Latex Pillow - (70cm x 40cm x 12.5cm) - Heveya 5,Pcs,"1,800,000","500,640",,3.0,18.0
 ,Pillow,Pillow 6,,PS1A70X40HF,Heveya Natural Organic Latex Pillow - (70cm x 40cm x 14.5cm) - Heveya 6,Pcs,"1,800,000","609,201",,0.0,52.0
-,Pillow,Bolster,,PB1A92X22M,Heveya Natural Organic Latex Bolster - ( L92cm x ø22cm),Pcs,"1,800,000","237,922",,,
+,Pillow,Bolster,,PB1A92X22M,Heveya Natural Organic Latex Bolster - ( L92cm x ø22cm),Pcs,"1,800,000","237,922",,2.0,5.0
 ,Pillow,Other,,PREGNANCY,Heveya Pregnancy Pillow  U-Shaped,Pcs,"1,800,000","343,723",,,
 ,Pillow,Other,,TPHH2,Travel Pillow - Half Heveya 2,Pcs,"950,000","262,018",,,
 ,Pillow,Other,,SPAPILLOW,Heveya Natural Organic Latex SPA Pillow,Pcs,"950,000","159,064",,,
