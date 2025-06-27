@@ -57,7 +57,7 @@
           <tr data-size="{{ size }}">
             <td style="text-align: left">{{ size }}</td>
             {% for firmness in ['Soft', 'Medium', 'Firm', 'Topper'] %}
-              <td class="warehouse-qty" data-firmness="{{ firmness }}" data-category="Heveya I">
+              <td class="warehouse-qty clickable" data-firmness="{{ firmness }}" data-category="Heveya I">
                 {% set displayed = '-' %}
                 {% for item in mattresses %}
                   {% if item.Category == 'Mattress'
@@ -74,7 +74,22 @@
               </td>
             {% endfor %}
             <!-- Repeat the loop (empty) for pending, upcoming, req. PO columns -->
-            {% for i in range(12) %}
+            {% for i in range(6) %}
+              <td class="wh-pending-qty" data-firmness="{{ firmness }}" data-category="Heveya I">
+                {% set displayed = '-' %}
+                {% for item in mattresses %}
+                  {% if item.Category == 'Mattress'
+                        and item.Subcategory == 'Heveya I'
+                        and item.Firmness == firmness
+                        and item.Size == size %}
+                    {% if item.warehouse_qty|float > 0 %}
+                        {{ item.warehouse_qty|int }}
+                    {% else %}
+                      {{ displayed }}
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+              </td>
               <td></td>
             {% endfor %}
           </tr>
@@ -398,6 +413,16 @@
   <div id="packaging" class="subcategory">
     <p>[Bedsheet stock table goes here]</p>
   </div>
+
+
+  <div id="stock-popup" class="popup" style="display:none;">
+    <div class="popup-content">
+      <span class="close" onclick="closePopup()">×</span>
+      <h3>Stock History</h3>
+      <div id="popup-details"></div>
+    </div>
+  </div>
+
 
   <script src="{{ url_for('static', filename='products.js') }}"></script>
 

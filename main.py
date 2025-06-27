@@ -84,6 +84,25 @@ def sales_by_products():
 def products():
     return render_products()
 
+@app.route('/stock_history')
+def stock_history():
+    category = request.args.get('category')
+    size = request.args.get('size')
+    firmness = request.args.get('firmness')
+    location = request.args.get('location')
+
+    df = pd.read_csv("static/data/stock_history.csv")
+    filtered = df[
+        (df['category'] == category) &
+        (df['size'] == size) &
+        (df['firmness'] == firmness) &
+        (df['location'] == location)
+    ]
+
+    result = filtered.sort_values('timestamp', ascending=False).to_dict(orient='records')
+    return jsonify(result)
+
+
 @app.route('/customer')
 def render_customer():
     return render_template('customer.html')
