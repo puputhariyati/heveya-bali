@@ -5,7 +5,6 @@ from flask import Flask, render_template, redirect, flash, json, request, jsonif
 from dotenv import load_dotenv
 from datetime import datetime
 
-
 from pathlib import Path
 load_dotenv(Path(__file__).parent / "key.env")
 

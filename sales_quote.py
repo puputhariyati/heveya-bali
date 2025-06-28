@@ -1,11 +1,23 @@
 import sqlite3
 import pandas as pd
+import os
 
 from flask import Flask, render_template, jsonify, request
 
+from dotenv import load_dotenv
+from pathlib import Path
+
+load_dotenv(Path(__file__).parent / "key.env")
+app = Flask(__name__)
+
+app.secret_key = os.getenv("SECRET_KEY")  # Retrieve secret key from .env
+
+BASE_DIR = Path(__file__).parent
+DATABASE = BASE_DIR / "main.db"
+
 
 def render_sales_quote():
-    conn = sqlite3.connect("main.db")
+    conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
@@ -27,7 +39,7 @@ def render_create_quote():
 
 def render_save_quote(data):
     try:
-        conn = sqlite3.connect('main.db')
+        conn = sqlite3.connect(DATABASE)
         cursor = conn.cursor()
 
         discount = float(data.get('discount', 0))
@@ -89,7 +101,7 @@ def render_save_quote(data):
 
 
 def render_edit_quote(quote_id):
-    conn = sqlite3.connect('main.db')
+    conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 

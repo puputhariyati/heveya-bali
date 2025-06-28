@@ -1,7 +1,19 @@
 import sqlite3
 import pandas as pd
+import os
 
-from flask import Flask, render_template, jsonify, request
+from flask import render_template, redirect, request, flash, Flask
+
+from dotenv import load_dotenv
+from pathlib import Path
+
+load_dotenv(Path(__file__).parent / "key.env")
+app = Flask(__name__)
+
+app.secret_key = os.getenv("SECRET_KEY")  # Retrieve secret key from .env
+
+BASE_DIR = Path(__file__).parent
+DATABASE = BASE_DIR / "main.db"
 
 # def render_products():
 #     df = pd.read_csv("static/data/products_std.csv")
