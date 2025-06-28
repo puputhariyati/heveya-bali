@@ -6,13 +6,15 @@ from dotenv import load_dotenv
 from datetime import datetime
 
 
-load_dotenv("key.env")  # Load environment variables from .env file
+from pathlib import Path
+load_dotenv(Path(__file__).parent / "key.env")
 
 app = Flask(__name__)
 
 app.secret_key = os.getenv("SECRET_KEY")  # Retrieve secret key from .env
 
-DATABASE = "main.db"  # ✅ Now using main.db instead of stock.db
+BASE_DIR = Path(__file__).parent
+DATABASE = BASE_DIR / "main.db"
 
 def get_db_connection():
     conn = sqlite3.connect(DATABASE)
@@ -20,7 +22,7 @@ def get_db_connection():
     return conn
 
 def render_sales_order():
-    conn = sqlite3.connect("main.db")
+    conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
