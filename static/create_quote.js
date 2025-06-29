@@ -269,12 +269,13 @@ function downloadPDF() {
 
 // Save Create_Quote page button
 function getText(id) {
-  const el = document.getElementById(id);
+  const el = document.getElementById(id) || document.querySelector("." + id);
   return el ? el.textContent.trim() : '0';
 }
 
 function parseNumber(text) {
-  const cleaned = text.replace(/[^\d.-]/g, '');
+  if (!text) return 0;
+  const cleaned = text.replace(/\./g, '').replace(/,/g, '.').replace(/[^\d.-]/g, '');
   return parseFloat(cleaned) || 0;
 }
 
@@ -294,7 +295,7 @@ function saveQuote() {
     full_amount: parseNumber(getText('full-amount-total')),
     discount: parseNumber(getText('total-discount')),
     grand_total: parseNumber(getText('grand-total')),
-    margin: parseNumber(document.querySelector('.abs-margin-total strong')?.textContent || '0'),
+    margin: parseNumber(document.querySelector('.abs-margin-total')?.textContent || '0'),
     status: 'Draft',
     ETD: null,
     items: []
@@ -325,6 +326,7 @@ function saveQuote() {
 
       quoteData.items.push(item);
     }
+
   });
 
   console.log("🧾 Items found:", quoteData.items.length);

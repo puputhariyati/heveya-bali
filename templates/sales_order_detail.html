@@ -73,6 +73,9 @@
                           <select name="warehouse_option" class="warehouse-option">
                             <option value="showroom" {% if line.warehouse_option == 'showroom' %}selected{% endif %}>Showroom</option>
                             <option value="warehouse" {% if line.warehouse_option == 'warehouse' %}selected{% endif %}>Warehouse</option>
+                            <option value="pending_wh" {% if line.warehouse_option == 'pending_wh' %}selected{% endif %}>Pending WH</option>
+                            <option value="pending_sh" {% if line.warehouse_option == 'pending_sh' %}selected{% endif %}>Pending SH</option>
+                            <option value="preorder" {% if line.warehouse_option == 'preorder' %}selected{% endif %}>Req. PO</option>
                           </select>
                         </td>
                         <td>

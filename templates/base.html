@@ -17,6 +17,7 @@
         <a href="/sales_order" class="sidebar-link {% if request.path.startswith('/sales_order') %}active{% endif %}">Delivery</a>
         <a href="/customer" class="sidebar-link {% if request.path.startswith('/crm') %}active{% endif %}">Purchase Order</a>
         <a href="/customer" class="sidebar-link {% if request.path.startswith('/crm') %}active{% endif %}">Transfer Warehouse</a>
+        <a href="/attendance" class="sidebar-link {% if request.path.startswith('/crm') %}active{% endif %}">Attendance</a>
     </div>
     <div class="main-content">
         {% block content %}

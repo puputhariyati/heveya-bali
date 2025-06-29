@@ -131,6 +131,23 @@ def get_db_connection():
 # conn.close()
 # print("✅ Table 'sales_quote_items' created.")
 
+# conn = sqlite3.connect('main.db')
+# cursor = conn.cursor()
+#
+# cursor.execute('''
+# CREATE TABLE attendance (
+#     id INTEGER PRIMARY KEY AUTOINCREMENT,
+#     user TEXT,
+#     name TEXT,
+#     date TEXT,
+#     time TEXT,
+#     note TEXT
+# );
+# ''')
+# conn.commit()
+# conn.close()
+# print("✅ Table 'sales_quote_items' created.")
+
 # # merge multiple json data to 1 table
 # def insert_orders_from_json(json_path):
 #     with open(json_path, "r", encoding="utf-8") as f:
@@ -166,7 +183,6 @@ def get_db_connection():
 # insert_orders_from_json("static/data/sales_orders_open.json")
 # insert_orders_from_json("static/data/sales_orders_closed_2024_190625.json")
 # insert_orders_from_json("static/data/sales_orders_2025_06_19_to_25.json")
-
 
 
 # # Load JSON sales_orders_open.json into main.db table sales_order_detail

@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}Attendance{% endblock %}
+
+{% block head %}
+<style>
+  .attendance-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+  }
+  .attendance-log {
+    margin-top: 20px;
+  }
+  .log-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .log-table th, .log-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  .log-table th {
+    background-color: #f4f4f4;
+    text-align: left;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="attendance-container">
+  <h2>Attendance Check-In</h2>
+
+  <form method="POST" action="/attendance/checkin">
+    <label for="name">Select Name:</label><br>
+    <select name="name" required>
+      <option value="">-- Choose Name --</option>
+      <option value="Puput">Puput</option>
+      <option value="Budi">Budi</option>
+      <option value="Sari">Sari</option>
+    </select><br><br>
+
+    <label for="note">Optional Note:</label><br>
+    <textarea id="note" name="note" rows="3" cols="40" placeholder="e.g. Visited client showroom"></textarea><br><br>
+
+    <button type="submit" class="primary">Check In</button>
+  </form>
+
+  <hr style="margin: 30px 0;">
+
+  <h3>Check-In History</h3>
+
+  <form method="GET" action="/attendance">
+    <label for="filter_name">Name:</label>
+    <select name="filter_name" required>
+      <option value="">-- Choose Name --</option>
+      <option value="Puput" {% if filter_name == 'Puput' %}selected{% endif %}>Puput</option>
+      <option value="Budi" {% if filter_name == 'Budi' %}selected{% endif %}>Budi</option>
+      <option value="Sari" {% if filter_name == 'Sari' %}selected{% endif %}>Sari</option>
+    </select>
+
+    <label>Start Date:</label>
+    <input type="date" name="start_date" value="{{ start_date }}">
+
+    <label>End Date:</label>
+    <input type="date" name="end_date" value="{{ end_date }}">
+
+    <button type="submit" class="primary">Show History</button>
+    <a href="/attendance/export?filter_name={{ filter_name }}&start_date={{ start_date }}&end_date={{ end_date }}" class="primary" style="margin-left: 10px;">Export to Excel</a>
+  </form>
+
+  <table class="log-table" style="margin-top: 20px;">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for record in records %}
+      <tr>
+        <td>{{ record.date }}</td>
+        <td>{{ record.time }}</td>
+        <td>{{ record.note }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

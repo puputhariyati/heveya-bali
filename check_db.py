@@ -47,15 +47,17 @@ cursor = conn.cursor()
 #
 # conn.close()
 
-# Export your SQLite tables to .csv
-import pandas as pd
-# Export each table
-for table in ["sales_quotes"]:
-    df = pd.read_sql_query(f"SELECT * FROM {table}", conn)
-    df.to_csv(f"{table}.csv", index=False)
-conn.close()
+# # Export your SQLite tables to .csv
+# import pandas as pd
+# # Export each table
+# for table in ["sales_quotes"]:
+#     df = pd.read_sql_query(f"SELECT * FROM {table}", conn)
+#     df.to_csv(f"{table}.csv", index=False)
+# conn.close()
 
 # # Run a quick count test
 # cursor.execute("SELECT COUNT(*) FROM sales_order_detail")
 # count = cursor.fetchone()[0]
 # print("Total rows in sales_order_detail:", count)
+
+
