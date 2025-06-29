@@ -131,6 +131,41 @@ def get_db_connection():
 # conn.close()
 # print("✅ Table 'sales_quote_items' created.")
 
+conn = sqlite3.connect('main.db')
+cursor = conn.cursor()
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS purchase_orders (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    transaction_no TEXT UNIQUE,
+    transaction_date TEXT,
+    vendor TEXT,
+    eta TEXT,
+    status TEXT
+);
+''')
+conn.commit()
+conn.close()
+print("✅ Table 'purchase_orders' created.")
+
+
+conn = sqlite3.connect('main.db')
+cursor = conn.cursor()
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS purchase_order_detail (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    transaction_no TEXT,
+    product_code TEXT,
+    description TEXT,
+    qty INTEGER,
+    unit TEXT,
+    unit_cost REAL
+);
+''')
+conn.commit()
+conn.close()
+print("✅ Table 'sales_quote_detail' created.")
+
+
 # conn = sqlite3.connect('main.db')
 # cursor = conn.cursor()
 #
