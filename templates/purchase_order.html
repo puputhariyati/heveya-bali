@@ -3,12 +3,18 @@
 {% block title %}Purchase Order{% endblock %}
 
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='sales_order.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='purchase_order.css') }}">
 {% endblock %}
 
 {% block content %}
 <div class="main-content">
   <div class="top-bar">
+
+    <!-- + Create PO Button -->
+    <div style="margin-left: auto;">
+      <a href="/create_po" class="create-po-btn">+ Create PO</a>
+    </div>
+
     <select id="status" onchange="filterOrders()">
       <option value="">All</option>
       <option value="open">PO Sent</option>

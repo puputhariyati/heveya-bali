@@ -51,7 +51,7 @@ def fetch_purchase_orders_test():
     if response.status_code == 200:
         data = response.json()
         print("✅ Fetched:", len(data.get('purchase_orders', [])), "orders")
-        with open('static/data/debug_purchase_orders.json', 'w', encoding='utf-8') as f:
+        with open('static/data/purchase_orders_10_29_jun.json', 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
     else:
         print(f"❌ Error: {response.status_code} - {response.text}")

@@ -1,0 +1,156 @@
+/* Sidebar width */
+:root {
+  --sidebar-width: 110px;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+.main-content {
+  margin-left: var(--sidebar-width);
+  padding: 20px;
+  max-width: calc(100vw - var(--sidebar-width));
+  box-sizing: border-box;
+  /*overflow-x: auto;*/
+}
+
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: white;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  margin-left: var(--sidebar-width);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  box-sizing: border-box;
+  max-width: calc(100vw - var(--sidebar-width));
+  width: fit-content;
+}
+
+
+.top-bar select,
+.top-bar input[type="text"],
+.top-bar button {
+  padding: 6px 10px;
+  font-size: 14px;
+  max-width: 200px;
+}
+
+.top-bar input[type="text"] {
+  min-width: 200px;
+}
+
+.top-bar button {
+  background-color: #5a9c4a;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.top-bar button:hover {
+  background-color: #4b883f;
+}
+
+
+/* Table Styling */
+table {
+  width: 90%;
+  border-collapse: collapse;
+  margin-top: 20px;
+
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 6px;
+  text-align: left;
+  vertical-align: middle;
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+thead {
+  background-color: #f5f5f5;
+}
+
+/* Make some columns flexible */
+td:nth-child(4), /* Customer */
+td:nth-child(5), /* Item */
+td:nth-child(9) { /* Purchase No */
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+.calendar-modal {
+  display: none;
+  position: fixed;
+  z-index: 20;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.calendar-content {
+  background: white;
+  margin: 5% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 600px;
+}
+
+.close-btn {
+  float: right;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.calendar-day {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.calendar-day:hover {
+  background-color: #f0f0f0;
+}
+
+.calendar-day.has-orders {
+  background-color: #e0f0ff; /* light blue */
+  border: 2px solid #2196f3;
+  font-weight: bold;
+}
+
+.create-po-btn {
+  background-color: #2e86de;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-left: 12px;
+  transition: background 0.2s ease;
+}
+
+.create-po-btn:hover {
+  background-color: #1b4f72;
+}

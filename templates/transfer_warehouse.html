@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Transfer Warehouse{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='transfer_warehouse.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="transfer-header">
+  <h2>Transfer Warehouse</h2>
+  <a href="{{ url_for('create_transfer') }}" class="create-button">+ Create Transfer</a>
+</div>
+
+<table id="transfer-list-table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>From</th>
+      <th>To</th>
+      <th>Total Items</th>
+      <th>Status</th>
+      <th>Created By</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for transfer in transfers %}
+    <tr>
+      <td>{{ transfer.date }}</td>
+      <td>{{ transfer.from_warehouse }}</td>
+      <td>{{ transfer.to_warehouse }}</td>
+      <td>{{ transfer.total_items }}</td>
+      <td>
+        {% if not transfer.approved %}
+          <span class="status-waiting">⏳ Waiting Approval</span>
+        {% else %}
+          <span class="status-approved">✅ Confirmed</span>
+        {% endif %}
+      </td>
+      <td>{{ transfer.created_by }}</td>
+      <td>
+        <a href="{{ url_for('view_transfer', transfer_id=transfer.id) }}">🔍 View</a>
+        {% if current_user.is_approver and not transfer.approved %}
+          <a href="{{ url_for('approve_transfer', transfer_id=transfer.id) }}">✔️ Approve</a>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

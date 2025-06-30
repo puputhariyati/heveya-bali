@@ -14,6 +14,7 @@ from products import render_products
 from sales_order import render_sales_order, update_single_etd, bulk_update_status, bulk_update_etd
 from sales_order_detail import render_sales_order_detail, save_sales_order_detail, parse_mattress_name
 from purchase_order import render_purchase_order, save_purchase_order, update_po_eta
+from create_po import render_create_po
 
 from pathlib import Path
 load_dotenv(Path(__file__).parent / "key.env")
@@ -104,8 +105,8 @@ def stock_history():
     result = filtered.sort_values('timestamp', ascending=False).to_dict(orient='records')
     return jsonify(result)
 
-@app.route('/adjust_stock', methods=['GET', 'POST'])
-def adjust_stock():
+@app.route('/stock_adjust', methods=['GET', 'POST'])
+def stock_adjust():
     if request.method == 'POST':
         category = request.form['category']
         subcategory = request.form['subcategory']
@@ -121,7 +122,7 @@ def adjust_stock():
         flash("Stock adjustment saved successfully!", "success")
         return redirect('/adjust_stock')
 
-    return render_template('adjust_stock.html')
+    return render_template('stock_adjust.html')
 
 @app.route('/customer')
 def render_customer():
@@ -231,13 +232,48 @@ def save_sales_order_detail_route(transaction_no):  # ✅ Rename to avoid name c
 def show_purchase_order():
     return render_purchase_order()
 
-@app.route('/save_purchase_order', methods=['POST'])
-def save_po():
-    return save_purchase_order()
+@app.route("/create_po")
+def create_po():
+    return render_create_po()
 
-@app.route('/update_po_eta', methods=['POST'])
-def update_eta():
-    return update_po_eta()
+@app.route('/transfer_warehouse')
+def transfer_list():
+    transfers = get_all_transfers()  # Fetch from DB
+    return render_template('transfer_list.html', transfers=transfers)
+
+@app.route('/transfers/create', methods=['GET', 'POST'])
+def create_transfer():
+    if request.method == 'POST':
+        # Process and save the new transfer
+        create_new_transfer(request.form, created_by=current_user.username)
+        return redirect(url_for('transfer_list'))
+    return render_template('create_transfer.html')
+
+@app.route('/transfers/<int:transfer_id>')
+def view_transfer(transfer_id):
+    transfer = get_transfer_by_id(transfer_id)
+    return render_template('view_transfer.html', transfer=transfer)
+
+@app.route('/transfers/<int:transfer_id>/approve')
+def approve_transfer(transfer_id):
+    if not current_user.is_approver:
+        return "Not authorized", 403
+    approve_transfer_in_db(transfer_id)
+    return redirect(url_for('transfer_list'))
+
+@app.route('/create-test-transfer')
+def create_test_transfer():
+    transfer = TransferWarehouse(
+        date=datetime.now(),
+        from_warehouse='Warehouse Bali',
+        to_warehouse='Showroom Bali',
+        approved=False,
+        created_by='puput',
+        notes='Urgent showroom restock'
+    )
+    db.session.add(transfer)
+    db.session.commit()
+    return "Test transfer created!"
 
 @app.route("/attendance", methods=["GET"])
 def attendance_page():

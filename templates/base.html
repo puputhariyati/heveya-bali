@@ -12,11 +12,12 @@
         <div class="logo">Heveya</div>
         <a href="/" class="sidebar-link {% if request.path == '/' %}active{% endif %}">Dashboard</a>
         <a href="/sales_quote" class="sidebar-link {% if request.path.startswith('/sales_quote') %}active{% endif %}">Sales Quote</a>
-        <a href="/products" class="sidebar-link {% if request.path.startswith('/bedsheets') %}active{% endif %}">Products</a>
+        <a href="/sales_order" class="sidebar-link {% if request.path.startswith('/sales_order') %}active{% endif %}">Sales Orders & Delivery</a>
         <a href="/customer" class="sidebar-link {% if request.path.startswith('/crm') %}active{% endif %}">Customers</a>
-        <a href="/sales_order" class="sidebar-link {% if request.path.startswith('/sales_order') %}active{% endif %}">Delivery</a>
+        <a href="/products" class="sidebar-link {% if request.path.startswith('/bedsheets') %}active{% endif %}">Products Stock</a>
         <a href="/purchase_order" class="sidebar-link {% if request.path.startswith('/crm') %}active{% endif %}">Purchase Order</a>
-        <a href="/customer" class="sidebar-link {% if request.path.startswith('/crm') %}active{% endif %}">Transfer Warehouse</a>
+        <a href="/transfer_warehouse" class="sidebar-link {% if request.path.startswith('/crm') %}active{% endif %}">Transfer Warehouse</a>
+        <a href="/stock_adjust" class="sidebar-link {% if request.path.startswith('/crm') %}active{% endif %}">Stock Adjust</a>
         <a href="/attendance" class="sidebar-link {% if request.path.startswith('/crm') %}active{% endif %}">Attendance</a>
     </div>
     <div class="main-content">
