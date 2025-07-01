@@ -15,10 +15,11 @@ from sales_order import render_sales_order, update_single_etd, bulk_update_statu
 from sales_order_detail import render_sales_order_detail, save_sales_order_detail, parse_mattress_name
 from purchase_order import render_purchase_order, save_purchase_order, update_po_eta
 from create_po import render_create_po
+from transfer_warehouse import render_transfer_list, render_create_transfer
+from attendance import render_attendance, render_attendance_checkin
 
 from pathlib import Path
 load_dotenv(Path(__file__).parent / "key.env")
-
 
 app = Flask(__name__)
 
@@ -66,22 +67,6 @@ if path not in sys.path:
 @app.route('/')
 def home():
     return render_template('index.html')
-
-@app.route('/api/sales_by_products', methods=["GET"])
-def sales_by_products():
-    # Always use dummy data for now
-    data = {
-        "sales_by_products": {
-            "reports": {
-                "products": [
-                    {"product": {"product_name": "Pillow", "quantity": 20}},
-                    {"product": {"product_name": "Mattress", "quantity": 15}},
-                    {"product": {"product_name": "Topper", "quantity": 10}},
-                ]
-            }
-        }
-    }
-    return jsonify(data)
 
 @app.route("/products")
 def products():
@@ -238,16 +223,11 @@ def create_po():
 
 @app.route('/transfer_warehouse')
 def transfer_list():
-    transfers = get_all_transfers()  # Fetch from DB
-    return render_template('transfer_list.html', transfers=transfers)
+    return render_transfer_list()
 
 @app.route('/transfers/create', methods=['GET', 'POST'])
 def create_transfer():
-    if request.method == 'POST':
-        # Process and save the new transfer
-        create_new_transfer(request.form, created_by=current_user.username)
-        return redirect(url_for('transfer_list'))
-    return render_template('create_transfer.html')
+    return render_create_transfer
 
 @app.route('/transfers/<int:transfer_id>')
 def view_transfer(transfer_id):
@@ -277,51 +257,10 @@ def create_test_transfer():
 
 @app.route("/attendance", methods=["GET"])
 def attendance_page():
-    filter_name = request.args.get("filter_name", "")
-    start_date = request.args.get("start_date", "")
-    end_date = request.args.get("end_date", "")
-
-    query = "SELECT date, time, note FROM attendance WHERE 1=1"
-    params = []
-
-    if filter_name:
-        query += " AND name=?"
-        params.append(filter_name)
-    if start_date:
-        query += " AND date >= ?"
-        params.append(start_date)
-    if end_date:
-        query += " AND date <= ?"
-        params.append(end_date)
-
-    query += " ORDER BY date DESC, time DESC"
-
-    conn = get_db()
-    cur = conn.cursor()
-    cur.execute(query, params)
-    records = cur.fetchall()
-
-    return render_template("attendance.html",
-        records=records,
-        filter_name=filter_name,
-        start_date=start_date,
-        end_date=end_date,
-        today_date=date.today()
-    )
-
+    return render_attendance ()
 @app.route("/attendance/checkin", methods=["POST"])
 def attendance_checkin():
-    user = "sales_person_1"  # Replace with session.get("user") if available
-    now = datetime.now()
-    note = request.form.get("note", "")
-
-    conn = sqlite3.connect(DATABASE)
-    cur = conn.cursor()
-    cur.execute("INSERT INTO attendance (user, date, time, note) VALUES (?, ?, ?, ?)", (
-        user, now.date().isoformat(), now.time().strftime("%H:%M:%S"), note))
-    conn.commit()
-
-    return redirect("/attendance")
+    return render_attendance_checkin()
 
 
 if __name__ == "__main__":

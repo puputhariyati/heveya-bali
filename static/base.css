@@ -50,3 +50,32 @@ body {
     padding: 20px;
     width: 100%;
 }
+
+
+/* 📱 Mobile-specific styles */
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    box-shadow: none;
+  }
+
+  .main-content {
+    display: none; /* Hidden by default on mobile */
+    margin-left: 0;
+    padding: 10px;
+  }
+
+  body.show-content .main-content {
+    display: block;
+  }
+
+  body.show-content .sidebar {
+    display: none;
+  }
+}

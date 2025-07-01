@@ -4,102 +4,44 @@
 
 {% block head %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 {% endblock %}
 
 {% block content %}
 <div class="container">
   <h1>Dashboard</h1>
-  <!-- Sales by Products -->
-  <section>
-    <h2>Sales by Products (Qty %)</h2>
-    <div class="filters">
-      <label for="start_date">Start Date:</label>
-      <input type="date" id="start_date" name="start_date">
-      <label for="end_date">End Date:</label>
-      <input type="date" id="end_date" name="end_date">
-      <button id="generate_report" onclick="fetchReport()">Generate Report</button>
-    </div>
-    <div class="filters">
-      <label for="categoryFilter">Filter by Category:</label>
-      <select id="categoryFilter">
-        <option value="all">All</option>
-        <option value="mattress">Mattress</option>
-        <option value="pillow">Pillow</option>
-        <option value="sheet">Sheet</option>
-        <option value="organic duvet">Organic Duvet</option>
-        <option value="towel">Towel</option>
-        <option value="frame">Frame</option>
-        <option value="others">Others</option>
-      </select>
-    </div>
-    <div class="chart-wrapper">
-      <canvas id="salesChart"></canvas>
-      <div id="legendContainer">
-        <div id="categoryInfo" style="margin-top: 20px;"></div>
-        <p id="categoryTotal" style="font-weight: bold; text-align: center; margin-top: 10px;"></p>
+    <div class="chart-row">
+      <div class="chart-box">
+        <h3>Sales by Category</h3>
+        <div id="salesPieChart"></div>
+      </div>
+      <div class="chart-box">
+        <h3>Inventory by Category</h3>
+        <div id="inventoryPieChart"></div>
+      </div>
+      <div class="chart-box">
+        <h3>Customers by Total Payment</h3>
+        <div id="customerPieChart"></div>
       </div>
     </div>
-      <a id="downloadExcel" href="#">📥 Export to Excel</a>
-  </section>
-  <!-- Inventory by Products -->
-  <section>
-    <h2>Inventory by Products</h2>
-    <div class="chart-wrapper">
-      <canvas id="inventoryChart"></canvas>
-    </div>
-  </section>
-  <!-- Customers by Total Amount -->
-  <section>
-    <h2>Customers by Total Order Amount</h2>
-    <div class="chart-wrapper">
-      <canvas id="customerChart"></canvas>
-    </div>
-  </section>
-</div>
+
 
     <h1>Heveya Sales KPI Dashboard</h1>
-    <div class="filter-container">
-        <label for="yearSelect">Select Year: </label>
-        <select id="yearSelect">
-            <option value="2025" selected>2025</option>
-            <option value="2024">2024</option>
-            <option value="2023">2023</option>
-        </select>
-    </div>
-
     <div class="dashboard-charts">
         <div class="chart-container"><canvas id="yearlyChart"></canvas></div>
         <div class="chart-container"><canvas id="quarterlyChart"></canvas></div>
         <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
     </div>
 
-    <h2>Yearly Summary</h2>
-    <table>
-        <tr><th>Target 2025</th><th>Sales Up to Date</th><th>Achieved</th></tr>
-        <tr class="highlight">
-            <td>Rp28,000,000,000</td>
-            <td>Rp6,564,744,731</td>
-            <td>23.45%</td>
-        </tr>
+    <h2>Summary</h2>
+    <table id="kpiTable">
+        <thead>
+          <tr><th>Period</th><th>Target</th><th>Actual</th><th>Progress</th></tr>
+        </thead>
+        <tbody></tbody>
     </table>
-
-    <h2>Quarterly Summary</h2>
-    <table>
-        <tr><th>Quarter</th><th>Target</th><th>Actual</th><th>Progress</th></tr>
-        <tr><td>Q1</td><td>Rp5,880,000,000</td><td>Rp4,432,484,593</td><td>75.4%</td></tr>
-        <tr><td>Q2</td><td>Rp6,160,000,000</td><td>Rp2,132,260,138</td><td>34.6%</td></tr>
-        <tr><td>Q3</td><td>Rp7,280,000,000</td><td>Rp0</td><td>0.0%</td></tr>
-        <tr><td>Q4</td><td>Rp8,680,000,000</td><td>Rp0</td><td>0.0%</td></tr>
-    </table>
-
-    <h2>Monthly Summary (Q2)</h2>
-    <table>
-        <tr><th>Month</th><th>Target</th><th>Actual</th><th>Progress</th></tr>
-        <tr><td>April</td><td>Rp1,745,333,333</td><td>Rp1,825,524,138</td><td>104.6%</td></tr>
-        <tr><td>May</td><td>Rp2,258,666,667</td><td>Rp306,736,000</td><td>13.6%</td></tr>
-        <tr><td>June</td><td>Rp2,156,000,000</td><td>Rp0</td><td>0.0%</td></tr>
-    </table>
+    </div>
 
 <!-- Optional: Include your JS file specific to this page -->
 <script src="{{ url_for('static', filename='script.js') }}"></script>

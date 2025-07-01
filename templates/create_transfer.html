@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Warehouse Transfer{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>Create Warehouse Transfer</h1>
+
+  <form method="POST" action="{{ url_for('create_transfer') }}">
+    <div class="form-group">
+      <label for="date">Transfer Date:</label>
+      <input type="date" id="date" name="date" class="form-control" required>
+    </div>
+
+    <div class="form-group">
+      <label for="from_warehouse">From Warehouse:</label>
+      <select id="from_warehouse" name="from_warehouse" class="form-control" required>
+        <option value="">Select...</option>
+        <option value="Warehouse Bali">Warehouse Bali</option>
+        <option value="Warehouse Jakarta">Warehouse Jakarta</option>
+        <option value="Showroom Bali">Showroom Bali</option>
+        <option value="Showroom Jakarta">Showroom Jakarta</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="to_warehouse">To Warehouse:</label>
+      <select id="to_warehouse" name="to_warehouse" class="form-control" required>
+        <option value="">Select...</option>
+        <option value="Warehouse Bali">Warehouse Bali</option>
+        <option value="Warehouse Jakarta">Warehouse Jakarta</option>
+        <option value="Showroom Bali">Showroom Bali</option>
+        <option value="Showroom Jakarta">Showroom Jakarta</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="notes">Notes:</label>
+      <textarea id="notes" name="notes" class="form-control" rows="3"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit Transfer</button>
+  </form>
+</div>
+{% endblock %}

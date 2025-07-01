@@ -24,6 +24,25 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+# conn = sqlite3.connect("main.db")
+# cursor = conn.cursor()
+# # Create sales_order table if it doesn't exist
+# cursor.execute("""
+# CREATE TABLE IF NOT EXISTS sales_order (
+#     transaction_no TEXT PRIMARY KEY,
+#     transaction_date TEXT,
+#     customer TEXT,
+#     balance_due TEXT,
+#     total TEXT,
+#     status TEXT,
+#     etd TEXT
+# )
+# """)
+# conn.commit()
+# conn.close()
+# print("✅ sales_order table created.")
+
+
 # # Create only the new sales_order_detail table or any others you need
 # def init_db():
 #     conn = get_db_connection()
@@ -48,25 +67,6 @@ def get_db_connection():
 #     conn.commit()
 #     conn.close()
 # print("✅ sales_order_detail table created.")
-#
-#
-# conn = sqlite3.connect("main.db")
-# cursor = conn.cursor()
-# # Create sales_order table if it doesn't exist
-# cursor.execute("""
-# CREATE TABLE IF NOT EXISTS sales_order (
-#     transaction_no TEXT PRIMARY KEY,
-#     transaction_date TEXT,
-#     customer TEXT,
-#     balance_due TEXT,
-#     total TEXT,
-#     status TEXT,
-#     etd TEXT
-# )
-# """)
-# conn.commit()
-# conn.close()
-# print("✅ sales_order table created.")
 
 
 # conn = sqlite3.connect('main.db')
@@ -131,40 +131,60 @@ def get_db_connection():
 # conn.close()
 # print("✅ Table 'sales_quote_items' created.")
 
-conn = sqlite3.connect('main.db')
-cursor = conn.cursor()
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS purchase_orders (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    transaction_no TEXT UNIQUE,
-    transaction_date TEXT,
-    vendor TEXT,
-    eta TEXT,
-    status TEXT
-);
-''')
-conn.commit()
-conn.close()
-print("✅ Table 'purchase_orders' created.")
+# conn = sqlite3.connect('main.db')
+# cursor = conn.cursor()
+# cursor.execute('''
+# CREATE TABLE IF NOT EXISTS purchase_orders (
+#     id INTEGER PRIMARY KEY AUTOINCREMENT,
+#     transaction_no TEXT UNIQUE,
+#     transaction_date TEXT,
+#     vendor TEXT,
+#     eta TEXT,
+#     status TEXT
+# );
+# ''')
+# conn.commit()
+# conn.close()
+# print("✅ Table 'purchase_orders' created.")
+#
+#
+# conn = sqlite3.connect('main.db')
+# cursor = conn.cursor()
+# cursor.execute('''
+# CREATE TABLE IF NOT EXISTS purchase_order_detail (
+#     id INTEGER PRIMARY KEY AUTOINCREMENT,
+#     transaction_no TEXT,
+#     product_code TEXT,
+#     description TEXT,
+#     qty INTEGER,
+#     unit TEXT,
+#     unit_cost REAL
+# );
+# ''')
+# conn.commit()
+# conn.close()
+# print("✅ Table 'sales_quote_detail' created.")
 
 
-conn = sqlite3.connect('main.db')
-cursor = conn.cursor()
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS purchase_order_detail (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    transaction_no TEXT,
-    product_code TEXT,
-    description TEXT,
-    qty INTEGER,
-    unit TEXT,
-    unit_cost REAL
-);
-''')
-conn.commit()
-conn.close()
-print("✅ Table 'sales_quote_detail' created.")
-
+# conn = sqlite3.connect("main.db")
+# c = conn.cursor()
+#
+# c.execute("""
+# CREATE TABLE IF NOT EXISTS transfer_warehouse (
+#     id INTEGER PRIMARY KEY AUTOINCREMENT,
+#     date TEXT,
+#     from_warehouse TEXT,
+#     to_warehouse TEXT,
+#     approved INTEGER DEFAULT 0,
+#     created_by TEXT,
+#     notes TEXT
+# )
+# """)
+#
+# conn.commit()
+# conn.close()
+#
+# print("✅ transfer_warehouse table created.")
 
 # conn = sqlite3.connect('main.db')
 # cursor = conn.cursor()
@@ -334,7 +354,12 @@ print("✅ Table 'sales_quote_detail' created.")
 
 #
 # # Delete table from the stock table
-# cursor.execute("DROP TABLE IF EXISTS inventory;")
+# conn = sqlite3.connect("main.db")
+# cursor = conn.cursor()
+# cursor.execute("DROP TABLE IF EXISTS sales_quote;")
+# # Commit changes and close connection
+# conn.commit()
+# conn.close()
 #
 # # Delete all rows from the BOM Table
 # cursor.execute("DELETE FROM bom;")
@@ -342,9 +367,7 @@ print("✅ Table 'sales_quote_detail' created.")
 # # # Reset auto-increment ID (optional)
 # # cursor.execute("DELETE FROM sqlite_sequence WHERE name='inventory';")
 #
-# # Commit changes and close connection
-# conn.commit()
-# conn.close()
+
 #
 # print("Stock database has been cleared.")
 
@@ -356,24 +379,26 @@ print("✅ Table 'sales_quote_detail' created.")
 # conn.close()
 #
 # To see what tables list in my main.db
-# conn = sqlite3.connect("main.db")
-# cursor = conn.cursor()
-#
-# cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-# tables = cursor.fetchall()
-#
-# for table in tables:
-#     print(table[0])
-#
-# conn.close()
+conn = sqlite3.connect("main.db")
+cursor = conn.cursor()
+cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+tables = cursor.fetchall()
+for table in tables:
+    print(table[0])
+conn.close()
 
 # # Export your SQLite tables to .csv
+# import sqlite3
 # import pandas as pd
-# # Export each table
-# for table in ["sales_quotes"]:
-#     df = pd.read_sql_query(f"SELECT * FROM {table}", conn)
-#     df.to_csv(f"{table}.csv", index=False)
+# # Connect to DB
+# conn = sqlite3.connect("main.db")
+# # Load sales_order table
+# df = pd.read_sql_query("SELECT * FROM sales_quote", conn)
+# # Save to CSV
+# df.to_csv("sales_quote_db.csv", index=False)
 # conn.close()
+# print("✅ sales_quote_db.csv saved")
+
 
 # # Run a quick count test
 # cursor.execute("SELECT COUNT(*) FROM sales_order_detail")
