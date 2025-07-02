@@ -13,18 +13,18 @@ BASE_URL = 'https://api.mekari.com'
 # ENDPOINT = '/public/jurnal/api/v1/products'
 ENDPOINT = '/public/jurnal/api/v1/sales_orders'
 
-# def get_rfc7231_date():
-#     return formatdate(usegmt=True)
-#
-# def generate_hmac_header(method, full_path, date_header):
-#     signing_string = f'date: {date_header}\n{method} {full_path} HTTP/1.1'
-#     digest = hmac.new(
-#         CLIENT_SECRET.encode(),
-#         signing_string.encode(),
-#         hashlib.sha256
-#     ).digest()
-#     signature = base64.b64encode(digest).decode()
-#     return f'hmac username="{CLIENT_ID}", algorithm="hmac-sha256", headers="date request-line", signature="{signature}"'
+def get_rfc7231_date():
+    return formatdate(usegmt=True)
+
+def generate_hmac_header(method, full_path, date_header):
+    signing_string = f'date: {date_header}\n{method} {full_path} HTTP/1.1'
+    digest = hmac.new(
+        CLIENT_SECRET.encode(),
+        signing_string.encode(),
+        hashlib.sha256
+    ).digest()
+    signature = base64.b64encode(digest).decode()
+    return f'hmac username="{CLIENT_ID}", algorithm="hmac-sha256", headers="date request-line", signature="{signature}"'
 
 # def fetch_and_save_products_csv(filename='products_per30Jun.csv', start_page=161):
 #     page = start_page
@@ -91,37 +91,111 @@ ENDPOINT = '/public/jurnal/api/v1/sales_orders'
 # fetch_and_save_products_csv()
 
 
-def get_rfc7231_date():
-    return formatdate(usegmt=True)
+# def get_rfc7231_date():
+#     return formatdate(usegmt=True)
+#
+# def generate_hmac_header(method, full_path, date_header):
+#     signing_string = f'date: {date_header}\n{method} {full_path} HTTP/1.1'
+#     digest = hmac.new(
+#         CLIENT_SECRET.encode(),
+#         signing_string.encode(),
+#         hashlib.sha256
+#     ).digest()
+#     signature = base64.b64encode(digest).decode()
+#     return f'hmac username="{CLIENT_ID}", algorithm="hmac-sha256", headers="date request-line", signature="{signature}"'
 
-def generate_hmac_header(method, full_path, date_header):
-    signing_string = f'date: {date_header}\n{method} {full_path} HTTP/1.1'
-    digest = hmac.new(
-        CLIENT_SECRET.encode(),
-        signing_string.encode(),
-        hashlib.sha256
-    ).digest()
-    signature = base64.b64encode(digest).decode()
-    return f'hmac username="{CLIENT_ID}", algorithm="hmac-sha256", headers="date request-line", signature="{signature}"'
+# def fetch_and_save_sales_order_csv(filename='sales_orders_jun2025.csv', start_page=1):
+#     page = start_page
+#     more_pages = True
+#     first_write = page == 1  # Write header only if starting fresh
+#     method = 'GET'
+#     date_header = get_rfc7231_date()
+#
+#     with open(filename, 'a', newline='', encoding='utf-8') as f:
+#         fieldnames = ['transaction_no', 'transaction_date', 'customer', 'product_code', 'product_name', 'quantity', 'total']
+#         writer = csv.DictWriter(f, fieldnames=fieldnames)
+#
+#         if first_write:
+#             writer.writeheader()
+#
+#         while more_pages:
+#             query = f'?start_date=2025-06-01&end_date=2025-06-30&page={page}&sort_by=transaction_date&sort_order=asc'
+#
+#             full_path = ENDPOINT + query
+#             url = BASE_URL + full_path
+#             auth_header = generate_hmac_header(method, full_path, date_header)
+#
+#             headers = {
+#                 'Content-Type': 'application/json',
+#                 'Date': date_header,
+#                 'Authorization': auth_header
+#             }
+#
+#             print(f"🔄 Fetching page {page}...")
+#             response = requests.get(url, headers=headers)
+#
+#             if response.status_code == 200:
+#                 data = response.json()
+#                 sales_orders = data.get('sales_orders', [])
+#
+#                 if not sales_orders:
+#                     print(f"✅ No more sales order at page {page}")
+#                     break
+#
+#                 # Function to clean and convert total to numeric
+#                 def clean_amount(value):
+#                     if not value:
+#                         return ''
+#                     value = value.replace("Rp", "").replace(".", "").replace(",", "").strip()
+#                     try:
+#                         return int(value)
+#                     except ValueError:
+#                         return ''
+#
+#                 for order in sales_orders:
+#                     lines = order.get('transaction_lines_attributes', [])
+#                     wrote_total = False
+#                     for item in lines:
+#                         product = item.get('product', {})
+#                         writer.writerow({
+#                             'transaction_no': order.get('transaction_no'),
+#                             'transaction_date': order.get('transaction_date'),
+#                             'customer': order.get('person', {}).get('display_name', ''),
+#                             'product_code': product.get('product_code', ''),
+#                             'product_name': product.get('name', ''),
+#                             'quantity': item.get('quantity', 0),
+#                             'total': clean_amount(
+#                                 order.get('original_amount_currency_format')) if not wrote_total else ''
+#                         })
+#                         wrote_total = True
+#
+#                 print(f"✅ Page {page} saved ({len(sales_orders)} sales orders)")
+#                 page += 1
+#             elif response.status_code == 429:
+#                 print(f"🚫 Rate limit hit at page {page}. Try again later.")
+#                 break
+#             else:
+#                 print(f"❌ Failed at page {page}: {response.status_code} - {response.text}")
+#                 break
+#
+#     print(f"✅ Finished saving to: {filename}")
+#     print(f"✅ Total sales orders fetched: {len(sales_orders)}")
+#
+# # Run it
+# fetch_and_save_sales_order_csv()
 
-def fetch_and_save_sales_order_csv(filename='sales_orders_jun2025.csv', start_page=1):
-    page = start_page
-    more_pages = True
-    first_write = page == 1  # Write header only if starting fresh
+def fetch_specific_sales_orders(transaction_nos, filename='specific_sales_orders.csv'):
     method = 'GET'
     date_header = get_rfc7231_date()
 
-    with open(filename, 'a', newline='', encoding='utf-8') as f:
+    with open(filename, 'w', newline='', encoding='utf-8') as f:
         fieldnames = ['transaction_no', 'transaction_date', 'customer', 'product_code', 'product_name', 'quantity', 'total']
         writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
 
-        if first_write:
-            writer.writeheader()
-
-        while more_pages:
-            query = f'?start_date=2025-06-01&end_date=2025-06-30&page={page}&sort_by=transaction_date&sort_order=asc'
-
-            full_path = ENDPOINT + query
+        for trans_no in transaction_nos:
+            endpoint = f"/public/jurnal/api/v1/sales_orders/{trans_no}"
+            full_path = endpoint
             url = BASE_URL + full_path
             auth_header = generate_hmac_header(method, full_path, date_header)
 
@@ -131,16 +205,11 @@ def fetch_and_save_sales_order_csv(filename='sales_orders_jun2025.csv', start_pa
                 'Authorization': auth_header
             }
 
-            print(f"🔄 Fetching page {page}...")
+            print(f"🔍 Fetching sales order {trans_no}...")
             response = requests.get(url, headers=headers)
 
             if response.status_code == 200:
-                data = response.json()
-                sales_orders = data.get('sales_orders', [])
-
-                if not sales_orders:
-                    print(f"✅ No more sales order at page {page}")
-                    break
+                order = response.json().get('sales_order', {})
 
                 # Function to clean and convert total to numeric
                 def clean_amount(value):
@@ -152,34 +221,23 @@ def fetch_and_save_sales_order_csv(filename='sales_orders_jun2025.csv', start_pa
                     except ValueError:
                         return ''
 
-                for order in sales_orders:
-                    lines = order.get('transaction_lines_attributes', [])
-                    wrote_total = False
-                    for item in lines:
-                        product = item.get('product', {})
-                        writer.writerow({
-                            'transaction_no': order.get('transaction_no'),
-                            'transaction_date': order.get('transaction_date'),
-                            'customer': order.get('person', {}).get('display_name', ''),
-                            'product_code': product.get('product_code', ''),
-                            'product_name': product.get('name', ''),
-                            'quantity': item.get('quantity', 0),
-                            'total': clean_amount(
-                                order.get('original_amount_currency_format')) if not wrote_total else ''
-                        })
-                        wrote_total = True
-
-                print(f"✅ Page {page} saved ({len(sales_orders)} sales orders)")
-                page += 1
-            elif response.status_code == 429:
-                print(f"🚫 Rate limit hit at page {page}. Try again later.")
-                break
+                lines = order.get('transaction_lines_attributes', [])
+                wrote_total = False
+                for item in lines:
+                    product = item.get('product', {})
+                    writer.writerow({
+                        'transaction_no': order.get('transaction_no'),
+                        'transaction_date': order.get('transaction_date'),
+                        'customer': order.get('person', {}).get('display_name', ''),
+                        'product_code': product.get('product_code', ''),
+                        'product_name': product.get('name', ''),
+                        'quantity': item.get('quantity', 0),
+                        'total': clean_amount(order.get('original_amount_currency_format')) if not wrote_total else ''
+                    })
+                    wrote_total = True
             else:
-                print(f"❌ Failed at page {page}: {response.status_code} - {response.text}")
-                break
+                print(f"❌ Failed to fetch {trans_no}: {response.status_code} - {response.text}")
 
-    print(f"✅ Finished saving to: {filename}")
-    print(f"✅ Total sales orders fetched: {len(sales_orders)}")
-
-# Run it
-fetch_and_save_sales_order_csv()
+    print(f"✅ Finished saving {len(transaction_nos)} sales orders to: {filename}")
+transaction_nos = ['10325', '12896', '13102', '13104', '13070', '13271']
+fetch_specific_sales_orders(transaction_nos)

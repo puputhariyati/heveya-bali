@@ -3,10 +3,6 @@ import hashlib
 import base64
 import hmac
 import json
-import datetime
-import time
-import os
-
 from email.utils import formatdate
 from datetime import datetime
 
@@ -28,6 +24,200 @@ def generate_hmac_header(method, full_path, date_header):
     ).digest()
     signature = base64.b64encode(digest).decode()
     return f'hmac username="{CLIENT_ID}", algorithm="hmac-sha256", headers="date request-line", signature="{signature}"'
+
+def get_sales_orders():
+    method = 'GET'
+    query = ''
+    full_path = ENDPOINT + query
+    url = BASE_URL + full_path
+
+    date_header = get_rfc7231_date()
+    auth_header = generate_hmac_header(method, full_path, date_header)
+
+    headers = {
+        'Content-Type': 'application/json',
+        'Date': date_header,
+        'Authorization': auth_header
+    }
+
+    print("📤 Sending GET to:", url)
+    print("🧾 Headers:", headers)
+
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+        return response.json()  # Return the parsed JSON, not print it yet
+    else:
+        print(f"❌ Error {response.status_code}:", response.text)
+        return None
+
+# Fetch the data
+data = get_sales_orders()
+
+# ✅ Pretty print the JSON only if data is returned
+if data:
+    print("✅ Formatted Response:")
+    print(json.dumps(data, indent=2))
+
+# # ✅ Get the newest (latest) sales order by transaction_date
+# if data and "sales_orders" in data and data["sales_orders"]:
+#     try:
+#         # Convert to list of tuples (parsed_date, order)
+#         orders_with_dates = [
+#             (datetime.strptime(order["transaction_date"], "%d/%m/%Y"), order)
+#             for order in data["sales_orders"]
+#         ]
+#
+#         # Sort by date descending, get the latest
+#         latest_order = sorted(orders_with_dates, key=lambda x: x[0], reverse=True)[0][1]
+#
+#         print("✅ Latest Sales Order:")
+#         print(json.dumps(latest_order, indent=2))
+#
+#     except Exception as e:
+#         print(f"⚠️ Error parsing dates: {e}")
+# else:
+#     print("⚠️ No sales orders found.")
+
+# ✅ Get the newest (latest) sales order by transaction_date
+# if data and "sales_orders" in data and data["sales_orders"]:
+#     try:
+#         # Convert to list of tuples (parsed_date, order)
+#         orders_with_dates = [
+#             (datetime.strptime(order["transaction_date"], "%d/%m/%Y"), order)
+#             for order in data["sales_orders"]
+#         ]
+#
+#         # Sort by date descending, get the latest
+#         latest_order = sorted(orders_with_dates, key=lambda x: x[0], reverse=True)[0][1]
+#
+#         # ✅ Simplify the sales order to include only transaction info and products
+#         simplified_order = {
+#             "transaction_no": latest_order["transaction_no"],
+#             "transaction_date": latest_order["transaction_date"],
+#             "products": []
+#         }
+#
+#         for line in latest_order.get("transaction_lines_attributes", []):
+#             product = line.get("product")
+#             if product:
+#                 simplified_order["products"].append({
+#                     "name": product.get("name"),
+#                     # "quantity": product.get("quantity") #product stock qty
+#                     "quantity": line.get("quantity")
+#                 })
+#
+#         print("✅ Simplified Sales Order:")
+#         print(json.dumps(simplified_order, indent=2))
+#
+#     except Exception as e:
+#         print(f"⚠️ Error parsing or simplifying data: {e}")
+# else:
+#     print("⚠️ No sales orders found.")
+
+def find_customer_in_pages(target_name, start_page=11, end_page=11):
+    method = 'GET'
+    full_path = ENDPOINT
+    url = BASE_URL + full_path
+
+    for page in range(start_page, end_page + 1):
+        date_header = get_rfc7231_date()
+        auth_header = generate_hmac_header(method, full_path, date_header)
+
+        headers = {
+            'Content-Type': 'application/json',
+            'Date': date_header,
+            'Authorization': auth_header
+        }
+
+        params = {
+            "page": page,
+            "type": "customer"
+        }
+
+        print(f"📤 Searching on page {page}...")
+
+        response = requests.get(url, headers=headers, params=params)
+
+        if response.status_code == 200:
+            data = response.json()
+            customers = data.get('customers', [])
+
+            for customer in customers:
+                if customer.get('display_name') == target_name:
+                    print(f"✅ Found '{target_name}' on page {page}!")
+                    return customer  # Return immediately when found
+        else:
+            print(f"❌ Error {response.status_code} on page {page}: {response.text}")
+
+    print(f"❌ '{target_name}' not found in pages {start_page}-{end_page}.")
+    return None
+
+# 🔥 Now use it
+target_name = "Ann Marie"
+customer_data = find_customer_in_pages(target_name)
+
+# if customer_data:
+#     print("✅ Customer Data:")
+#     print(json.dumps(customer_data, indent=2))
+
+def fetch_all_products(start_page=1):
+    all_products = []
+    page = start_page
+    more_pages = True
+
+    while more_pages:
+        method = 'GET'
+        query = f'?archive=false&page={page}'
+        full_path = ENDPOINT + query
+        url = BASE_URL + full_path
+
+        date_header = get_rfc7231_date()
+        auth_header = generate_hmac_header(method, full_path, date_header)
+
+        headers = {
+            'Date': date_header,
+            'Authorization': auth_header,
+            'Accept': 'application/json'
+        }
+
+        response = requests.get(url, headers=headers)
+
+        if response.status_code == 200:
+            data = response.json()
+            products = data.get('products', [])
+            all_products.extend(products)
+
+            links = data.get('links', {})
+            if 'next_link' in links and links['next_link']:
+                page += 1
+            else:
+                more_pages = False
+        elif response.status_code == 429:
+            print(f"🚫 Rate limit hit at page {page}. Try again after a minute.")
+            break
+        else:
+            print(f"❌ Failed on page {page}: {response.status_code} - {response.text}")
+            break
+
+    return all_products
+
+
+# Resume from page 41
+resumed_products = fetch_all_products(start_page=161)
+
+# Load previously saved products
+with open('product_non_archived.json') as f:
+    existing_products = json.load(f)
+
+# Combine and save again
+combined = existing_products + resumed_products
+
+with open('product_non_archived.json', 'w') as f:
+    json.dump(combined, f, indent=2)
+
+print(f"✅ Total saved products: {len(combined)}")
+
 
 def fetch_sales_orders(start_page=1, max_page=200):
     all_sales_orders = []
@@ -353,5 +543,35 @@ print(f"✅ Total sales orders fetched: {len(sales_orders)}")
 # with open('static/data/sales_orders_2025_06_19_to_25.json', 'w', encoding='utf-8') as f:
 #     json.dump(orders, f, indent=2, ensure_ascii=False)
 # print(f"✅ Saved {len(orders)} orders.")
-#
+
+
+def fetch_purchase_orders_test():
+    method = 'GET'
+    date_header = get_rfc7231_date()
+    query = '?page=1&start_date=2025-06-10&end_date=2025-06-29'
+    full_path = ENDPOINT + query
+    url = BASE_URL + full_path
+    auth_header = generate_hmac_header(method, full_path, date_header)
+
+    headers = {
+        'Content-Type': 'application/json',
+        'Date': date_header,
+        'Authorization': auth_header
+    }
+
+    print("🔑 FULL PATH:", full_path)
+    print("🧾 Authorization Header:", headers['Authorization'])
+
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+        data = response.json()
+        print("✅ Fetched:", len(data.get('purchase_orders', [])), "orders")
+        with open('static/data/purchase_orders_10_29_jun.json', 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+    else:
+        print(f"❌ Error: {response.status_code} - {response.text}")
+
+fetch_purchase_orders_test()
+
 
