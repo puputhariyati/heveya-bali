@@ -12,9 +12,7 @@ from sqlalchemy import column
 from sales_order_detail import render_sales_order_detail, save_sales_order_detail
 
 load_dotenv("key.env")  # Load environment variables from .env file
-
 app = Flask(__name__)
-
 app.secret_key = os.getenv("SECRET_KEY")  # Retrieve secret key from .env
 
 DATABASE = "main.db"  # ✅ Now using main.db instead of stock.db
