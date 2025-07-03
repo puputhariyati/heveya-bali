@@ -15,7 +15,7 @@ BASE_DIR = Path(__file__).parent
 BASE_URL = os.getenv("BASE_URL", "https://api.mekari.com")
 # ENDPOINT = '/public/jurnal/api/v1/products'
 SALES_ORDERS_ENDPOINT  = "/public/jurnal/api/v1/sales_orders"
-# ENDPOINT = '/public/jurnal/api/v1/sales_invoices'
+SALES_INVOICES_ENDPOINT = '/public/jurnal/api/v1/sales_invoices'
 # ENDPOINT = '/public/jurnal/api/v1/sales_quotes'
 CUSTOMER_ENDPOINT = "/public/jurnal/api/v1/customers"
 
@@ -37,19 +37,19 @@ def generate_hmac_header(method, full_path, date_header):
     )
 
 
-OUT_PATH  = Path("static/data/sales_orders_010323_300625.json")
-CKPT_PATH = Path("sales_orders_checkpoint.txt")
+OUT_PATH  = Path("static/data/sales_invoices_2024_0712.json")
+CKPT_PATH = Path("sales_invoices_checkpoint.txt")
 BATCH     = 500
 MAX_PAGES = 200
 
 # ─── DOWNLOAD ────────────────────────────────────────────────────
-def fetch_sales_orders(start_page=1):
+def fetch_sales_invoices(start_page=1):
     collected, page = [], start_page
     date_hdr = get_rfc7231_date()
     while page <= MAX_PAGES:
-        query = (f"?start_date=2023-03-01&end_date=2025-06-30"
+        query = (f"?start_date=2024-07-01&end_date=2024-12-31"
                  f"&page={page}&sort_by=transaction_date&sort_order=asc")
-        full_path = SALES_ORDERS_ENDPOINT + query
+        full_path = SALES_INVOICES_ENDPOINT + query
         url       = BASE_URL + full_path
         headers = {
             "Date": date_hdr,
@@ -63,7 +63,7 @@ def fetch_sales_orders(start_page=1):
             print(f"❌ Page {page}: {res.status_code} – {res.text}")
             break
 
-        batch = res.json().get("sales_orders", [])
+        batch = res.json().get("sales_invoices", [])
         if not batch:
             print("✅ No more data.")
             break
@@ -84,12 +84,22 @@ def fetch_sales_orders(start_page=1):
 
 def append_to_file(rows):
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    mode = "a" if OUT_PATH.exists() else "w"
-    with open(OUT_PATH, mode, encoding="utf-8") as f:
-        # write as NDJSON (one json object per line) for easy append
-        for obj in rows:
-            f.write(json.dumps(obj, ensure_ascii=False) + "\n")
-    print(f"💾  Wrote {len(rows)} rows to {OUT_PATH.name}")
+    # 1⃣  Load existing array (or start fresh)
+    existing = []
+    if OUT_PATH.exists():
+        try:
+            with open(OUT_PATH, "r", encoding="utf-8") as f:
+                existing = json.load(f)
+        except json.JSONDecodeError:
+            print("⚠️ Existing JSON corrupt or empty – starting over.")
+    # 2⃣  Extend with the new batch
+    existing.extend(rows)
+    # 3⃣  Write to a temp file then rename (so file is never half‑written)
+    tmp_path = OUT_PATH.with_suffix(".tmp")
+    with open(tmp_path, "w", encoding="utf-8") as f:
+        json.dump(existing, f, indent=2, ensure_ascii=False)
+    tmp_path.replace(OUT_PATH)
+    print(f"💾  Wrote {len(rows)} rows — total now {len(existing)} in {OUT_PATH.name}")
 
 def save_checkpoint(next_page):
     CKPT_PATH.write_text(str(next_page))
@@ -99,18 +109,7 @@ def save_checkpoint(next_page):
 if __name__ == "__main__":
     # resume if checkpoint exists
     start = int(CKPT_PATH.read_text()) if CKPT_PATH.exists() else 1
-    fetch_sales_orders(start_page=24)
-
-    # combine NDJSON to one sorted JSON array (only once, at the end)
-    if CKPT_PATH.exists():
-        CKPT_PATH.unlink()                       # remove checkpoint
-        print("🔄  Post‑processing …")
-        with open(OUT_PATH, "r", encoding="utf-8") as f:
-            data = [json.loads(line) for line in f]
-        data.sort(key=lambda x: x.get("transaction_date", ""))
-        with open(OUT_PATH, "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=2, ensure_ascii=False)
-        print(f"🏁  Done – total orders: {len(data)} → {OUT_PATH}")
+    fetch_sales_invoices(start_page=1)
 
 
 
