@@ -12,12 +12,12 @@ app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")  # Retrieve secret key from .env
 BASE_DIR = Path(__file__).parent
 
-BASE_URL = 'https://api.mekari.com'
+BASE_URL = os.getenv("BASE_URL", "https://api.mekari.com")
 # ENDPOINT = '/public/jurnal/api/v1/products'
-# ENDPOINT = '/public/jurnal/api/v1/sales_orders'
+SALES_ORDERS_ENDPOINT  = "/public/jurnal/api/v1/sales_orders"
 # ENDPOINT = '/public/jurnal/api/v1/sales_invoices'
 # ENDPOINT = '/public/jurnal/api/v1/sales_quotes'
-ENDPOINT = '/public/jurnal/api/v1/customers'
+CUSTOMER_ENDPOINT = "/public/jurnal/api/v1/customers"
 
 def get_rfc7231_date():
     return formatdate(usegmt=True)
@@ -36,140 +36,83 @@ def generate_hmac_header(method, full_path, date_header):
         f'headers="date request-line", signature="{signature}"'
     )
 
-# def get_sales_orders():
-#     method = 'GET'
-#     query = ''
-#     full_path = ENDPOINT + query
-#     url = BASE_URL + full_path
-#
-#     date_header = get_rfc7231_date()
-#     auth_header = generate_hmac_header(method, full_path, date_header)
-#
-#     headers = {
-#         'Content-Type': 'application/json',
-#         'Date': date_header,
-#         'Authorization': auth_header
-#     }
-#
-#     print("📤 Sending GET to:", url)
-#     print("🧾 Headers:", headers)
-#
-#     response = requests.get(url, headers=headers)
-#
-#     if response.status_code == 200:
-#         return response.json()  # Return the parsed JSON, not print it yet
-#     else:
-#         print(f"❌ Error {response.status_code}:", response.text)
-#         return None
-#
-# # Fetch the data
-# data = get_sales_orders()
-#
-# # ✅ Pretty print the JSON only if data is returned
-# if data:
-#     print("✅ Formatted Response:")
-#     print(json.dumps(data, indent=2))
 
-# # ✅ Get the newest (latest) sales order by transaction_date
-# if data and "sales_orders" in data and data["sales_orders"]:
-#     try:
-#         # Convert to list of tuples (parsed_date, order)
-#         orders_with_dates = [
-#             (datetime.strptime(order["transaction_date"], "%d/%m/%Y"), order)
-#             for order in data["sales_orders"]
-#         ]
-#
-#         # Sort by date descending, get the latest
-#         latest_order = sorted(orders_with_dates, key=lambda x: x[0], reverse=True)[0][1]
-#
-#         print("✅ Latest Sales Order:")
-#         print(json.dumps(latest_order, indent=2))
-#
-#     except Exception as e:
-#         print(f"⚠️ Error parsing dates: {e}")
-# else:
-#     print("⚠️ No sales orders found.")
+OUT_PATH  = Path("static/data/sales_orders_010323_300625.json")
+CKPT_PATH = Path("sales_orders_checkpoint.txt")
+BATCH     = 500
+MAX_PAGES = 200
 
-# ✅ Get the newest (latest) sales order by transaction_date
-# if data and "sales_orders" in data and data["sales_orders"]:
-#     try:
-#         # Convert to list of tuples (parsed_date, order)
-#         orders_with_dates = [
-#             (datetime.strptime(order["transaction_date"], "%d/%m/%Y"), order)
-#             for order in data["sales_orders"]
-#         ]
-#
-#         # Sort by date descending, get the latest
-#         latest_order = sorted(orders_with_dates, key=lambda x: x[0], reverse=True)[0][1]
-#
-#         # ✅ Simplify the sales order to include only transaction info and products
-#         simplified_order = {
-#             "transaction_no": latest_order["transaction_no"],
-#             "transaction_date": latest_order["transaction_date"],
-#             "products": []
-#         }
-#
-#         for line in latest_order.get("transaction_lines_attributes", []):
-#             product = line.get("product")
-#             if product:
-#                 simplified_order["products"].append({
-#                     "name": product.get("name"),
-#                     # "quantity": product.get("quantity") #product stock qty
-#                     "quantity": line.get("quantity")
-#                 })
-#
-#         print("✅ Simplified Sales Order:")
-#         print(json.dumps(simplified_order, indent=2))
-#
-#     except Exception as e:
-#         print(f"⚠️ Error parsing or simplifying data: {e}")
-# else:
-#     print("⚠️ No sales orders found.")
+# ─── DOWNLOAD ────────────────────────────────────────────────────
+def fetch_sales_orders(start_page=1):
+    collected, page = [], start_page
+    date_hdr = get_rfc7231_date()
+    while page <= MAX_PAGES:
+        query = (f"?start_date=2023-03-01&end_date=2025-06-30"
+                 f"&page={page}&sort_by=transaction_date&sort_order=asc")
+        full_path = SALES_ORDERS_ENDPOINT + query
+        url       = BASE_URL + full_path
+        headers = {
+            "Date": date_hdr,
+            "Authorization": generate_hmac_header("GET", full_path, date_hdr),
+            "Content-Type": "application/json",
+        }
 
-#
-# def fetch_sales_orders(start_page=1, max_page=200):
-#     all_sales_orders = []
-#     method = 'GET'
-#     date_header = get_rfc7231_date()
-#
-#     for page in range(start_page, max_page + 1):
-#         query = f'?start_date=2025-06-01&end_date=2025-06-30&page={page}&sort_by=transaction_date&sort_order=asc'
-#         full_path = ENDPOINT + query
-#         url = BASE_URL + full_path
-#         auth_header = generate_hmac_header(method, full_path, date_header)
-#
-#         headers = {
-#             'Content-Type': 'application/json',
-#             'Date': date_header,
-#             'Authorization': auth_header
-#         }
-#
-#         print(f"🔄 Fetching page {page}...")
-#         response = requests.get(url, headers=headers)
-#
-#         if response.status_code == 200:
-#             data = response.json()
-#             sales_orders = data.get('sales_orders', [])
-#             if not sales_orders:
-#                 print("✅ No more data.")
-#                 break
-#             all_sales_orders.extend(sales_orders)
-#         else:
-#             print(f"❌ Error on page {page}: {response.status_code} - {response.text}")
-#             break
-#
-#     return all_sales_orders
-#
-# # 📦 Fetch and Save
-# sales_orders = fetch_sales_orders(start_page=1)
-# print(f"✅ Total sales orders fetched: {len(sales_orders)}")
-#
-# # Optional: sort again (just in case)
-# sales_orders.sort(key=lambda x: x.get("transaction_date", ""))
-#
-# # 💾 Save to JSON
-# with open('static/data/sales_orders_May2025.json', 'w', encoding='utf-8') as f:
-#     json.dump(sales_orders, f, indent=2, ensure_ascii=False)
+        print(f"🔄 Fetching page {page}…")
+        res = requests.get(url, headers=headers)
+        if res.status_code != 200:
+            print(f"❌ Page {page}: {res.status_code} – {res.text}")
+            break
+
+        batch = res.json().get("sales_orders", [])
+        if not batch:
+            print("✅ No more data.")
+            break
+
+        collected.extend(batch)
+        page += 1
+
+        # flush every BATCH rows
+        if len(collected) >= BATCH:
+            append_to_file(collected)
+            collected.clear()
+            save_checkpoint(page)
+
+    # write remaining rows
+    if collected:
+        append_to_file(collected)
+        save_checkpoint(page)
+
+def append_to_file(rows):
+    OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    mode = "a" if OUT_PATH.exists() else "w"
+    with open(OUT_PATH, mode, encoding="utf-8") as f:
+        # write as NDJSON (one json object per line) for easy append
+        for obj in rows:
+            f.write(json.dumps(obj, ensure_ascii=False) + "\n")
+    print(f"💾  Wrote {len(rows)} rows to {OUT_PATH.name}")
+
+def save_checkpoint(next_page):
+    CKPT_PATH.write_text(str(next_page))
+    print(f"📌  Checkpoint saved (resume at page {next_page})")
+
+# ─── MAIN ────────────────────────────────────────────────────────
+if __name__ == "__main__":
+    # resume if checkpoint exists
+    start = int(CKPT_PATH.read_text()) if CKPT_PATH.exists() else 1
+    fetch_sales_orders(start_page=24)
+
+    # combine NDJSON to one sorted JSON array (only once, at the end)
+    if CKPT_PATH.exists():
+        CKPT_PATH.unlink()                       # remove checkpoint
+        print("🔄  Post‑processing …")
+        with open(OUT_PATH, "r", encoding="utf-8") as f:
+            data = [json.loads(line) for line in f]
+        data.sort(key=lambda x: x.get("transaction_date", ""))
+        with open(OUT_PATH, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+        print(f"🏁  Done – total orders: {len(data)} → {OUT_PATH}")
+
+
 
 # def fetch_open_sales_orders(start_page=1, max_page=200):
 #     all_sales_orders = []
@@ -558,45 +501,45 @@ def generate_hmac_header(method, full_path, date_header):
 #     print(json.dumps(customer_data, indent=2))
 
 
-def fetch_customers(start_page=1, max_page=200):
-    all_customers = []
-    method = 'GET'
-    date_header = get_rfc7231_date()
-    for page in range(start_page, max_page + 1):
-        query = f'?page={page}&sort_by=name&sort_order=asc'
-        full_path = ENDPOINT + query
-        url = BASE_URL + full_path
-        auth_header = generate_hmac_header(method, full_path, date_header)
-        headers = {
-            'Content-Type': 'application/json',
-            'Date': date_header,
-            'Authorization': auth_header
-        }
-
-        print(f"🔄 Fetching page {page}...")
-        response = requests.get(url, headers=headers)
-
-        if response.status_code == 200:
-            data = response.json()
-            customers = data.get('customers', [])
-            if not customers:
-                print("✅ No more data.")
-                break
-            all_customers.extend(customers)
-        else:
-            print(f"❌ Error on page {page}: {response.status_code} - {response.text}")
-            break
-    return all_customers
-# 📦 Fetch and Save
-customers = fetch_customers(start_page=1)
-print(f"✅ Total customers fetched: {len(customers)}")
-# Optional: sort alphabetically again (in case backend didn’t do it right)
-customers.sort(key=lambda x: x.get("name", "").lower())
-# Save to JSON file
-with open("static/data/customers.json", "w", encoding="utf-8") as f:
-    json.dump(customers, f, ensure_ascii=False, indent=2)
-
-print("💾 Customers saved to customers.json")
+# def fetch_customers(start_page=1, max_page=200):
+#     all_customers = []
+#     method = 'GET'
+#     date_header = get_rfc7231_date()
+#     for page in range(start_page, max_page + 1):
+#         query = f'?page={page}&sort_by=name&sort_order=asc'
+#         full_path = ENDPOINT + query
+#         url = BASE_URL + full_path
+#         auth_header = generate_hmac_header(method, full_path, date_header)
+#         headers = {
+#             'Content-Type': 'application/json',
+#             'Date': date_header,
+#             'Authorization': auth_header
+#         }
+#
+#         print(f"🔄 Fetching page {page}...")
+#         response = requests.get(url, headers=headers)
+#
+#         if response.status_code == 200:
+#             data = response.json()
+#             customers = data.get('customers', [])
+#             if not customers:
+#                 print("✅ No more data.")
+#                 break
+#             all_customers.extend(customers)
+#         else:
+#             print(f"❌ Error on page {page}: {response.status_code} - {response.text}")
+#             break
+#     return all_customers
+# # 📦 Fetch and Save
+# customers = fetch_customers(start_page=1)
+# print(f"✅ Total customers fetched: {len(customers)}")
+# # Optional: sort alphabetically again (in case backend didn’t do it right)
+# customers.sort(key=lambda x: x.get("name", "").lower())
+# # Save to JSON file
+# with open("static/data/customers.json", "w", encoding="utf-8") as f:
+#     json.dump(customers, f, ensure_ascii=False, indent=2)
+#
+# print("💾 Customers saved to customers.json")
 
 
 # def fetch_purchase_orders_test():
