@@ -247,3 +247,83 @@ function filterByDateRange() {
     row.style.display = show ? "" : "none";
   });
 }
+
+/* -------------  PAGINATION STATE ------------- */
+let allOrders      = salesOrders;        // array injected from Jinja
+let filteredOrders = [...allOrders];     // after search / status filters
+let rowsPerPage    = 25;
+let currentPage    = 1;
+
+/* ----------  MAIN RENDER FUNCTION ----------- */
+function renderTable() {
+  const tbody = document.querySelector("#delivery-table tbody");
+  tbody.innerHTML = "";
+
+  const total = filteredOrders.length;
+  const start = (currentPage - 1) * rowsPerPage;
+  const end   = Math.min(start + rowsPerPage, total);
+
+  // slice & build rows
+  filteredOrders.slice(start, end).forEach(o => {
+    const tr   = document.createElement("tr");
+    tr.innerHTML = `
+      <td><input type="checkbox" class="row-check"></td>
+      <td>${o.transaction_date}</td>
+      <td><a href="/sales_order/${o.transaction_no}">${o.transaction_no}</a></td>
+      <td>${o.customer || "-"}</td>
+      <td>${o.balance_due || "-"}</td>
+      <td>${o.total || "-"}</td>
+      <td>${(o.status || "").charAt(0).toUpperCase() + (o.status||"").slice(1)}</td>
+      <td><input type="date" value="${o.etd || ""}"
+                 onchange="updateETD('${o.transaction_no}', this.value)"></td>`;
+    tbody.appendChild(tr);
+  });
+
+  /* update pagination text / inputs */
+  document.getElementById("pageInfo").textContent =
+      total ? `Showing ${start + 1}‑${end} of ${total}`: "No data";
+  const totalPages = Math.max(1, Math.ceil(total / rowsPerPage));
+  document.getElementById("totalPages").textContent = `from ${totalPages} pages`;
+  document.getElementById("pageInput").value = currentPage;
+}
+
+/* ----------  PAGINATION CONTROL HANDLERS ----------- */
+function changeRowsPerPage(val){
+  rowsPerPage = parseInt(val, 10) || 25;
+  currentPage = 1;
+  renderTable();
+}
+function prevPage(){
+  if (currentPage > 1){ currentPage--; renderTable(); }
+}
+function nextPage(){
+  const totalPages = Math.max(1, Math.ceil(filteredOrders.length / rowsPerPage));
+  if (currentPage < totalPages){ currentPage++; renderTable(); }
+}
+function goToPage(val){
+  const pageNum    = parseInt(val, 10) || 1;
+  const totalPages = Math.max(1, Math.ceil(filteredOrders.length / rowsPerPage));
+  currentPage = Math.min(Math.max(pageNum,1), totalPages);
+  renderTable();
+}
+
+/* ----------  EXISTING FILTERS (hook pagination) ---- */
+function filterOrders(){
+  const status = document.getElementById("status").value.toLowerCase();
+  const query  = document.getElementById("searchBox").value.toLowerCase();
+
+  filteredOrders = allOrders.filter(o => {
+    const statusOk = !status || o.status.toLowerCase() === status;
+    const searchOk = !query  ||
+      (o.customer && o.customer.toLowerCase().includes(query)) ||
+      (o.transaction_no && o.transaction_no.toLowerCase().includes(query));
+    return statusOk && searchOk;
+  });
+  currentPage = 1;
+  renderTable();
+}
+
+/* ----------  INIT ------------- */
+document.addEventListener("DOMContentLoaded", () => {
+  renderTable();                     // initial draw
+});

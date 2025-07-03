@@ -87,8 +87,29 @@
                 </tr>
                 {% endfor %}
               </tbody>
-
             </table>
+            <!-- ▸▸ Pagination controls  --------------------------------- -->
+            <div class="pagination-container">
+              <div class="pagination-left">
+                <label>
+                  Rows per page
+                  <select id="rowsPerPage" onchange="changeRowsPerPage(this.value)">
+                    <option>5</option><option>10</option><option selected>25</option>
+                    <option>50</option><option>100</option>
+                  </select>
+                </label>
+                <span id="pageInfo"></span>
+              </div>
+              <div class="pagination-right">
+                <button onclick="prevPage()">◀</button>
+                <input type="number" id="pageInput" min="1" value="1"
+                       onchange="goToPage(this.value)">
+                <span id="totalPages"></span>
+                <button onclick="nextPage()">▶</button>
+              </div>
+            </div>
+            <!-- --------------------------------------------------------- -->
+
             <br>
           </form>
         </div>
