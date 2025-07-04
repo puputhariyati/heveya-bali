@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 
 from sales_quote import render_sales_quote, render_create_quote, render_save_quote, render_edit_quote
 from products import render_products
-from sales_order import render_sales_order, update_single_etd, bulk_update_status, bulk_update_etd
+from sales_order import render_sales_order, update_single_etd, bulk_update_status, bulk_update_etd, upsert_sales_order
 from sales_order_detail import render_sales_order_detail, save_sales_order_detail, parse_mattress_name
 from purchase_order import render_purchase_order, save_purchase_order, update_po_eta
 from create_po import render_create_po
@@ -212,6 +212,15 @@ def sales_order_detail_mattress(name):  # ✅ Rename to avoid name conflict
 @app.route('/sales_order/save_detail/<transaction_no>', methods=['POST'])
 def save_sales_order_detail_route(transaction_no):  # ✅ Rename to avoid name conflict
     return save_sales_order_detail(transaction_no)
+
+@app.route('/refresh_orders')
+def refresh_orders():
+    new_orders = fetch_from_api_or_json()  # your fetching logic
+    conn = get_db_connection()
+    for order in new_orders:
+        upsert_sales_order(conn, order)
+    conn.close()
+    return jsonify({"status": "success", "message": "Orders refreshed"})
 
 @app.route('/purchase_order')
 def show_purchase_order():

@@ -323,6 +323,34 @@ function filterOrders(){
   renderTable();
 }
 
+// Refresh Invoices Button
+async function loadLastRefresh(){
+  const r = await fetch("/api/last-refresh");
+  const { last_refresh } = await r.json();
+  document.getElementById("lastRefresh").textContent =
+      last_refresh ? `Last refreshed: ${new Date(last_refresh).toLocaleString()}` :
+      "Never refreshed";
+}
+// call on page load
+loadLastRefresh();
+document.getElementById("btnRefresh").onclick = async () => {
+  const btn = event.target;
+  btn.disabled = true; btn.textContent = "Refreshing…";
+  const res = await fetch("/api/refresh-sales-orders", {method:"POST"});
+  const data = await res.json();
+
+  if (data.status === "ok"){
+      alert(`Added ${data.added}, updated ${data.updated} orders`);
+      // update the label without reloading page
+      document.getElementById("lastRefresh").textContent =
+          `Last refreshed: ${new Date(data.last_refresh).toLocaleString()}`;
+  } else {
+      alert("Error: " + data.msg);
+  }
+  btn.disabled = false; btn.textContent = "🔄 Refresh orders";
+};
+
+
 /* ----------  INIT ------------- */
 document.addEventListener("DOMContentLoaded", () => {
   renderTable();                     // initial draw

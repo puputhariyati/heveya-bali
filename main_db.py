@@ -337,97 +337,97 @@ def get_db_connection():
 # insert_sales_orders_detail_from_json("static/data/sales_orders_closed_2024_190625.json")
 # insert_sales_orders_detail_from_json("static/data/sales_orders_2025_06_19_to_25.json")
 
-# # Insert multiple Sales Orders csv to sales_order table
-# # Paths to your CSV files
-# csv_files = [
-#     'static/data/sales_orders_jun2025.csv',
-#     'static/data/specific_sales_orders.csv'
-# ]
-#
-# # Connect to the SQLite database
-# conn = sqlite3.connect("main.db")
-# cursor = conn.cursor()
-#
-# inserted = 0
-# skipped = 0
-#
-# for file in csv_files:
-#     df = pd.read_csv(file)
-#
-#     # Normalize column names
-#     df.columns = [c.strip().lower().replace(" ", "_") for c in df.columns]
-#
-#     # Group by transaction_no
-#     grouped = df.groupby("transaction_no")
-#
-#     for transaction_no, group in grouped:
-#         cursor.execute("SELECT 1 FROM sales_order WHERE transaction_no = ?", (transaction_no,))
-#         if cursor.fetchone():
-#             skipped += 1
-#             continue  # already exists
-#
-#         # Get order-level data from the first row
-#         first_row = group.iloc[0]
-#         transaction_date = first_row.get("transaction_date", "")
-#         customer = first_row.get("customer", "")
-#         total = first_row.get("total", "")
-#
-#         # Insert into sales_order
-#         cursor.execute("""
-#             INSERT INTO sales_order (transaction_no, transaction_date, customer, total)
-#             VALUES (?, ?, ?, ?)
-#         """, (transaction_no, transaction_date, customer, total))
-#
-#         # Insert each item into sales_order_detail
-#         for i, row in enumerate(group.itertuples(), start=1):
-#             product_name = getattr(row, "product_name", "")
-#             product_code = getattr(row, "product_code", "")
-#             quantity = int(float(getattr(row, "quantity", 0)))
-#
-#             cursor.execute("""
-#                 INSERT INTO sales_order_detail (
-#                     transaction_no, line, item, qty, unit, delivered, remain_qty, po_no, status
-#                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-#             """, (
-#                 transaction_no, i, product_name, quantity, "pcs", 0, quantity, "", "open"
-#             ))
-#
-#         inserted += 1
-#
-# conn.commit()
-# conn.close()
-#
-# print(f"✅ Insert complete! Inserted: {inserted}, Skipped (already exists): {skipped}")
+# Insert multiple Sales Orders csv to sales_order table
+# Paths to your CSV files
+csv_files = [
+    'static/data/sales_orders_jun2025.csv',
+    'static/data/specific_sales_orders.csv'
+]
 
-
-# One-time script to update all totals in sales_order table:
-def format_to_rupiah(value):
-    try:
-        value = int(float(value))
-        return "Rp. {:,}".format(value).replace(",", ".")
-    except:
-        return value  # leave as is if already formatted or invalid
-
+# Connect to the SQLite database
 conn = sqlite3.connect("main.db")
 cursor = conn.cursor()
 
-cursor.execute("SELECT transaction_no, total FROM sales_order")
-rows = cursor.fetchall()
+inserted = 0
+skipped = 0
 
-updated = 0
+for file in csv_files:
+    df = pd.read_csv(file)
 
-for tx_no, total in rows:
-    if isinstance(total, str) and total.startswith("Rp."):
-        continue  # already formatted
+    # Normalize column names
+    df.columns = [c.strip().lower().replace(" ", "_") for c in df.columns]
 
-    formatted = format_to_rupiah(total)
-    cursor.execute("UPDATE sales_order SET total = ? WHERE transaction_no = ?", (formatted, tx_no))
-    updated += 1
+    # Group by transaction_no
+    grouped = df.groupby("transaction_no")
+
+    for transaction_no, group in grouped:
+        cursor.execute("SELECT 1 FROM sales_order WHERE transaction_no = ?", (transaction_no,))
+        if cursor.fetchone():
+            skipped += 1
+            continue  # already exists
+
+        # Get order-level data from the first row
+        first_row = group.iloc[0]
+        transaction_date = first_row.get("transaction_date", "")
+        customer = first_row.get("customer", "")
+        total = first_row.get("total", "")
+
+        # Insert into sales_order
+        cursor.execute("""
+            INSERT INTO sales_order (transaction_no, transaction_date, customer, total)
+            VALUES (?, ?, ?, ?)
+        """, (transaction_no, transaction_date, customer, total))
+
+        # Insert each item into sales_order_detail
+        for i, row in enumerate(group.itertuples(), start=1):
+            product_name = getattr(row, "product_name", "")
+            product_code = getattr(row, "product_code", "")
+            quantity = int(float(getattr(row, "quantity", 0)))
+
+            cursor.execute("""
+                INSERT INTO sales_order_detail (
+                    transaction_no, line, item, qty, unit, delivered, remain_qty, po_no, status
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                transaction_no, i, product_name, quantity, "pcs", 0, quantity, "", "open"
+            ))
+
+        inserted += 1
 
 conn.commit()
 conn.close()
 
-print(f"✅ Updated {updated} totals to currency format.")
+print(f"✅ Insert complete! Inserted: {inserted}, Skipped (already exists): {skipped}")
+
+
+# # One-time script to update all totals in sales_order table:
+# def format_to_rupiah(value):
+#     try:
+#         value = int(float(value))
+#         return "Rp. {:,}".format(value).replace(",", ".")
+#     except:
+#         return value  # leave as is if already formatted or invalid
+#
+# conn = sqlite3.connect("main.db")
+# cursor = conn.cursor()
+#
+# cursor.execute("SELECT transaction_no, total FROM sales_order")
+# rows = cursor.fetchall()
+#
+# updated = 0
+#
+# for tx_no, total in rows:
+#     if isinstance(total, str) and total.startswith("Rp."):
+#         continue  # already formatted
+#
+#     formatted = format_to_rupiah(total)
+#     cursor.execute("UPDATE sales_order SET total = ? WHERE transaction_no = ?", (formatted, tx_no))
+#     updated += 1
+#
+# conn.commit()
+# conn.close()
+#
+# print(f"✅ Updated {updated} totals to currency format.")
 
 
 
@@ -464,15 +464,16 @@ print(f"✅ Updated {updated} totals to currency format.")
 # cursor.execute("ALTER TABLE sales_order_detail ADD COLUMN description TEXT")
 # conn.commit()
 # conn.close()
-# #
-# # To see what tables list in my main.db
-# conn = sqlite3.connect("main.db")
-# cursor = conn.cursor()
-# cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-# tables = cursor.fetchall()
-# for table in tables:
-#     print(table[0])
-# conn.close()
+
+
+# To see what tables list in my main.db
+conn = sqlite3.connect("main.db")
+cursor = conn.cursor()
+cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+tables = cursor.fetchall()
+for table in tables:
+    print(table[0])
+conn.close()
 
 # # Export your SQLite tables to .csv
 # import sqlite3

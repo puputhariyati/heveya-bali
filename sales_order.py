@@ -2,13 +2,10 @@ import os
 import sqlite3
 
 from flask import Flask, render_template, redirect, flash, json, request, jsonify
-from dotenv import load_dotenv
 from datetime import datetime
 
 from pathlib import Path
-load_dotenv(Path(__file__).parent / "key.env")
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY")  # Retrieve secret key from .env
 BASE_DIR = Path(__file__).parent
 
 DATABASE = BASE_DIR / "main.db"
@@ -73,7 +70,7 @@ def update_single_etd():
     if not transaction_no or not etd:
         return jsonify({"success": False, "message": "Missing transaction number or ETD"})
 
-    conn = sqlite3.connect("main.db")
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
     # Make sure ETD is stored as text
@@ -98,7 +95,7 @@ def bulk_update_status():
     if not transaction_nos or status not in ["closed"]:
         return jsonify({"success": False, "message": "Invalid data"})
 
-    conn = sqlite3.connect("main.db")
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
     for tx_no in transaction_nos:
@@ -116,7 +113,6 @@ def bulk_update_status():
     return jsonify({"success": True})
 
 
-
 def bulk_update_etd():
     data = request.get_json()
     transaction_nos = data.get("transaction_nos", [])
@@ -125,7 +121,7 @@ def bulk_update_etd():
     if not transaction_nos or not etd:
         return jsonify({"success": False, "message": "Missing data"})
 
-    conn = sqlite3.connect("main.db")
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
     for tx_no in transaction_nos:
@@ -135,3 +131,25 @@ def bulk_update_etd():
     conn.close()
 
     return jsonify({"success": True})
+
+# Refresh Invoices Button
+def upsert_sales_order(conn, order):
+    query = """
+    INSERT INTO sales_order (
+        transaction_no, transaction_date, customer, balance_due, total, status, etd
+    ) VALUES (?, ?, ?, ?, ?, ?, ?)
+    ON CONFLICT(transaction_no) DO UPDATE SET
+        balance_due = excluded.balance_due,
+        status      = excluded.status,
+        etd         = excluded.etd;
+    """
+    conn.execute(query, (
+        order['transaction_no'],
+        order['transaction_date'],
+        order['customer'],
+        order['balance_due'],
+        order['total'],
+        order['status'],
+        order['etd']
+    ))
+    conn.commit()

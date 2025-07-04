@@ -5,20 +5,20 @@ import os
 
 from flask import render_template, redirect, request, flash, Flask
 
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 from pathlib import Path
 
-load_dotenv(Path(__file__).parent / "key.env")
+# load_dotenv(Path(__file__).parent / "key.env")
 app = Flask(__name__)
 
-app.secret_key = os.getenv("SECRET_KEY")  # Retrieve secret key from .env
+# app.secret_key = os.getenv("SECRET_KEY")  # Retrieve secret key from .env
 
 BASE_DIR = Path(__file__).parent
 DATABASE = BASE_DIR / "main.db"
 
 
 def render_sales_order_detail(transaction_no):
-    conn = sqlite3.connect("main.db")
+    conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
@@ -38,6 +38,7 @@ def render_sales_order_detail(transaction_no):
 
     return render_template("sales_order_detail.html", order=order, lines=lines)
 
+# use parse mattress logic for stock update
 def parse_mattress_name(name):
     try:
         if "Mattress" not in name:
@@ -53,7 +54,7 @@ def parse_mattress_name(name):
         return None, None, None
 
 def save_sales_order_detail(transaction_no):
-    conn = sqlite3.connect("main.db")
+    conn = sqlite3.connect(DATABASE)
     c = conn.cursor()
 
     try:
