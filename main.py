@@ -1,16 +1,16 @@
 import csv
-import os
-import sqlite3
+import sqlite3, os
 import sys
 import pandas as pd
 import json
-from datetime import datetime, date
+from datetime import datetime, timezone, timedelta
 
 from flask import Flask, request, jsonify, render_template, redirect, flash, json
 from dotenv import load_dotenv
 
 from sales_quote import render_sales_quote, render_create_quote, render_save_quote, render_edit_quote
 from products import render_products
+from sales_invoices import sync_sales_invoices, DATABASE
 from sales_order import render_sales_order, update_single_etd, bulk_update_status, bulk_update_etd, upsert_sales_order
 from sales_order_detail import render_sales_order_detail, save_sales_order_detail, parse_mattress_name
 from purchase_order import render_purchase_order, save_purchase_order, update_po_eta
@@ -184,6 +184,62 @@ def save_quote():
 @app.route('/sales_quote/<int:quote_id>')
 def edit_quote(quote_id):
     return render_edit_quote(quote_id)
+
+# 🔄 Refresh endpoint (POST)
+@app.route("/api/refresh-sales-invoices", methods=["POST"])
+def refresh_invoices():
+    try:
+        # --- 1. choose date window (last 30 days here) ------------------
+        date_to   = datetime.now().strftime("%Y-%m-%d")
+        date_from = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d")
+
+        # --- 2. pull & upsert ------------------------------------------
+        added, updated = sync_sales_invoices(date_from, date_to)
+
+        # make 100 % sure we pass *real* JSON‑serialisable values
+        added        = int(added or 0)
+        updated      = int(updated or 0)
+        last_refresh = datetime.now(timezone.utc)\
+                              .isoformat(timespec="seconds")\
+                              .replace("+00:00", "Z")
+
+        return jsonify({
+            "status"      : "ok",
+            "added"       : added,
+            "updated"     : updated,
+            "last_refresh": last_refresh
+        })
+
+    except Exception as e:
+        # log to stderr so you can see it in the PA error log
+        print("❌ refresh_invoices failed:", e)
+        return jsonify({"status": "error", "msg": str(e)}), 500
+
+# 📄 Render invoices table
+@app.route("/sales_invoices")
+def sales_invoices_page():
+    # 1️⃣ open DB and make rows behave like dicts
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    cur = conn.execute("""
+       SELECT transaction_no,
+              transaction_date,
+              COALESCE(customer, '')    AS customer,
+              COALESCE(balance_due, '') AS balance_due,
+              COALESCE(total, '')       AS total,
+              COALESCE(status, '')      AS status,
+              COALESCE(etd, '')         AS etd
+       FROM sales_order
+       ORDER BY transaction_date DESC
+        """)
+
+    # 2️⃣ convert sqlite3.Row → plain dict
+    rows = [dict(r) for r in cur.fetchall()]
+    conn.close()
+
+    # 3️⃣ render template with safe JSON‑serialisable data
+    return render_template("sales_invoices.html", orders=rows)
+
 
 @app.route('/sales_order')
 def sales_order():

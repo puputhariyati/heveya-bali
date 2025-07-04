@@ -325,12 +325,14 @@ function filterOrders(){
 
 // Refresh Invoices Button
 async function loadLastRefresh(){
-  const r = await fetch("/api/last-refresh");
-  const { last_refresh } = await r.json();
+  const r = await fetch("/api/refresh-sales-invoices", {method:"POST"});
+  const j = await r.json();
   document.getElementById("lastRefresh").textContent =
-      last_refresh ? `Last refreshed: ${new Date(last_refresh).toLocaleString()}` :
-      "Never refreshed";
+      "Last refresh: " + new Date(j.last_refresh).toLocaleString();
+  alert(`Added ${j.added}, updated ${j.updated} invoices`);
+  location.reload();           // refresh table
 }
+document.getElementById("btnRefresh").onclick = loadLastRefresh;
 // call on page load
 loadLastRefresh();
 document.getElementById("btnRefresh").onclick = async () => {
@@ -347,7 +349,7 @@ document.getElementById("btnRefresh").onclick = async () => {
   } else {
       alert("Error: " + data.msg);
   }
-  btn.disabled = false; btn.textContent = "🔄 Refresh orders";
+  btn.disabled = false; btn.textContent = "🔄 Refresh Invoices";
 };
 
 
