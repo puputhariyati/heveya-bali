@@ -1,12 +1,13 @@
 # fetch_to_db.py  (API → SQLite with pre‑formatted currency)
 import os, json, requests, sqlite3, base64, hashlib, hmac, re
+from requests.exceptions import Timeout
 from email.utils import formatdate
 from datetime import datetime, timezone
 
 from pathlib import Path
 DOTENV_PATH = Path(__file__).parent / "key.env"
-print("🔎  Expecting .env at:", DOTENV_PATH.resolve())
-print("🔎  Exists? →", DOTENV_PATH.exists())
+# print("🔎  Expecting .env at:", DOTENV_PATH.resolve())
+# print("🔎  Exists? →", DOTENV_PATH.exists())
 
 from dotenv import load_dotenv
 load_dotenv(DOTENV_PATH, override=True)
@@ -45,8 +46,7 @@ def format_rupiah(value):
     return "Rp. {:,}".format(int(digits or 0)).replace(",", ".")
 
 # ── FETCH API ────────────────────────────────────────────────────
-def fetch_sales_invoices(date_from, date_to) -> list:
-    """Return ALL sales invoices between date_from and date_to (YYYY‑MM‑DD)."""
+def fetch_sales_invoices(date_from, date_to):
     all_orders, page = [], 1
     while True:
         date_hdr = formatdate(usegmt=True)
@@ -56,9 +56,15 @@ def fetch_sales_invoices(date_from, date_to) -> list:
         hdrs = {"Date": date_hdr,
                 "Authorization": _hmac_header("GET", full, date_hdr),
                 "Content-Type": "application/json"}
-        r = requests.get(BASE_URL + full, headers=hdrs, timeout=20)
+        try:
+            r = requests.get(BASE_URL + full, headers=hdrs, timeout=60)  # ⬅ timeout 60 s
+        except Timeout:
+            print(f"⚠️  Mekari timeout on page {page}, retrying once …")
+            r = requests.get(BASE_URL + full, headers=hdrs, timeout=60)
+
         if r.status_code != 200:
-            raise RuntimeError(f"Mekari API error {r.status_code}: {r.text}")
+            raise RuntimeError(f"Mekari error {r.status_code}: {r.text}")
+
         batch = r.json().get("sales_invoices", [])
         if not batch:
             break
@@ -83,7 +89,7 @@ def _upsert_header(cur, o):
         o.get("person", {}).get("display_name", ""),
         format_rupiah(o.get("remaining_currency_format") or o.get("remaining", "")),
         format_rupiah(o.get("original_amount_currency_format") or o.get("total", "")),
-        o.get("status", ""),
+        o.get("transaction_status", {}).get("name", ""),
         o.get("etd", "")
     ))
     return cur.rowcount == 1          # 1=insert, 2=update

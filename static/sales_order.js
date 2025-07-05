@@ -323,37 +323,58 @@ function filterOrders(){
   renderTable();
 }
 
-// Refresh Invoices Button
-async function loadLastRefresh(){
-  const r = await fetch("/api/refresh-sales-invoices", {method:"POST"});
-  const j = await r.json();
-  document.getElementById("lastRefresh").textContent =
-      "Last refresh: " + new Date(j.last_refresh).toLocaleString();
-  alert(`Added ${j.added}, updated ${j.updated} invoices`);
-  location.reload();           // refresh table
-}
-document.getElementById("btnRefresh").onclick = loadLastRefresh;
-// call on page load
-loadLastRefresh();
-document.getElementById("btnRefresh").onclick = async () => {
-  const btn = event.target;
-  btn.disabled = true; btn.textContent = "Refreshing…";
-  const res = await fetch("/api/refresh-sales-orders", {method:"POST"});
-  const data = await res.json();
-
-  if (data.status === "ok"){
-      alert(`Added ${data.added}, updated ${data.updated} orders`);
-      // update the label without reloading page
-      document.getElementById("lastRefresh").textContent =
-          `Last refreshed: ${new Date(data.last_refresh).toLocaleString()}`;
-  } else {
-      alert("Error: " + data.msg);
-  }
-  btn.disabled = false; btn.textContent = "🔄 Refresh Invoices";
-};
-
-
 /* ----------  INIT ------------- */
 document.addEventListener("DOMContentLoaded", () => {
   renderTable();                     // initial draw
 });
+
+// Refresh Invoices Button
+/* ============  (1) Load last‑refresh label on first load  ============ */
+async function fetchLastRefreshLabel(){
+  try{
+    const res = await fetch("/api/last-refresh");   // backend must return {"last_refresh": "..."}
+    const j   = await res.json();
+    if (j.last_refresh){
+      document.getElementById("lastRefresh").textContent =
+        "Last refresh: " + new Date(j.last_refresh).toLocaleString();
+    }
+  }catch(e){
+    console.warn("Could not load last‑refresh label:", e);
+  }
+}
+
+/* ============  (2) Click handler for 🔄 Refresh orders  ============== */
+async function handleRefreshClick(event){
+  const btn = event.target;
+  const originalLabel = btn.textContent;
+  btn.disabled  = true;
+  btn.textContent = "Refreshing…";
+
+  try{
+    const res = await fetch("/api/refresh-sales-invoices", {method:"POST"});
+    const j   = await res.json();
+
+    if (j.status === "ok"){
+      alert(`✅ Sync complete — inserted: ${j.added}, updated: ${j.updated}`);
+      document.getElementById("lastRefresh").textContent =
+        "Last refresh: " + new Date(j.last_refresh).toLocaleString();
+      location.reload();                       // rebuild table & pagination
+    } else {
+      alert("❌ Refresh failed: " + j.msg);
+    }
+  }catch(err){
+    alert("❌ Network / server error: " + err);
+  }
+
+  btn.disabled  = false;
+  btn.textContent = originalLabel;
+}
+
+/* ============  (3) Initialise after DOM ready ======================= */
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("btnRefresh")
+          .addEventListener("click", handleRefreshClick);
+
+  fetchLastRefreshLabel();       // comment this line out if /api/last-refresh not yet implemented
+});
+

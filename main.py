@@ -191,7 +191,8 @@ def refresh_invoices():
     try:
         # --- 1. choose date window (last 30 days here) ------------------
         date_to   = datetime.now().strftime("%Y-%m-%d")
-        date_from = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d")
+        date_from = "2025-07-01"  # ← fixed start
+        # date_from = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d") #backward 30days from today
 
         # --- 2. pull & upsert ------------------------------------------
         added, updated = sync_sales_invoices(date_from, date_to)
@@ -215,30 +216,55 @@ def refresh_invoices():
         print("❌ refresh_invoices failed:", e)
         return jsonify({"status": "error", "msg": str(e)}), 500
 
-# 📄 Render invoices table
 @app.route("/sales_invoices")
 def sales_invoices_page():
-    # 1️⃣ open DB and make rows behave like dicts
-    conn = sqlite3.connect(DATABASE)
-    conn.row_factory = sqlite3.Row
-    cur = conn.execute("""
-       SELECT transaction_no,
-              transaction_date,
-              COALESCE(customer, '')    AS customer,
-              COALESCE(balance_due, '') AS balance_due,
-              COALESCE(total, '')       AS total,
-              COALESCE(status, '')      AS status,
-              COALESCE(etd, '')         AS etd
-       FROM sales_order
-       ORDER BY transaction_date DESC
-        """)
-
-    # 2️⃣ convert sqlite3.Row → plain dict
-    rows = [dict(r) for r in cur.fetchall()]
+    conn = get_db_connection()
+    cur  = conn.execute("""
+        SELECT
+          transaction_no,
+          transaction_date,              -- may be ISO or DD/MM/YYYY
+          COALESCE(customer,'')    AS customer,
+          COALESCE(balance_due,'') AS balance_due,
+          COALESCE(total,'')       AS total,
+          COALESCE(status,'')      AS status,
+          COALESCE(etd,'')         AS etd
+        FROM sales_order
+    """)
+    rows_raw = cur.fetchall()
     conn.close()
 
-    # 3️⃣ render template with safe JSON‑serialisable data
+    rows = []
+    for r in rows_raw:
+        d = dict(r)
+
+        # --- Parse the date safely ---------------------------------
+        iso = d["transaction_date"]
+        try:
+            # try ISO first
+            dt = datetime.strptime(iso, "%Y-%m-%d")
+            display_date = dt.strftime("%d/%m/%Y")
+        except ValueError:
+            # fallback: DD/MM/YYYY in DB already
+            try:
+                dt = datetime.strptime(iso, "%d/%m/%Y")
+                display_date = iso                # already formatted
+            except ValueError:
+                dt = datetime.min                 # put bad rows at bottom
+                display_date = iso
+
+        d["transaction_date"] = display_date
+        d["_dt_obj"] = dt        # helper key for sorting
+        rows.append(d)
+
+    # --- Sort newest → oldest using _dt_obj -------------------------
+    rows.sort(key=lambda x: x["_dt_obj"], reverse=True)
+
+    # Remove helper key before sending to template
+    for d in rows:
+        d.pop("_dt_obj", None)
+
     return render_template("sales_invoices.html", orders=rows)
+
 
 
 @app.route('/sales_order')
