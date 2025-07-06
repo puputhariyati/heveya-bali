@@ -3,15 +3,16 @@ import os, json, requests, sqlite3, base64, hashlib, hmac, re
 from requests.exceptions import Timeout
 from email.utils import formatdate
 from datetime import datetime, timezone
+from flask import Flask, render_template, redirect, flash, json, request, jsonify
 
 from pathlib import Path
+
 DOTENV_PATH = Path(__file__).parent / "key.env"
 # print("🔎  Expecting .env at:", DOTENV_PATH.resolve())
 # print("🔎  Exists? →", DOTENV_PATH.exists())
 
 from dotenv import load_dotenv
 load_dotenv(DOTENV_PATH, override=True)
-
 
 # ── CONFIG ───────────────────────────────────────────────────────
 BASE_URL   = "https://api.mekari.com"
@@ -31,6 +32,11 @@ def _hmac_header(method, path, date_hdr):
     ).decode()
     return (f'hmac username="{CLIENT_ID}", algorithm="hmac-sha256", '
             f'headers="date request-line", signature="{sig}"')
+
+def get_db_connection():
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    return conn
 
 def format_rupiah(value):
     """Accept int/float/str and return 'Rp. 1.234.567'."""
@@ -81,8 +87,12 @@ def _upsert_header(cur, o):
         ) VALUES (?,?,?,?,?,?,?)
         ON CONFLICT(transaction_no) DO UPDATE SET
             balance_due = excluded.balance_due,
-            status      = excluded.status,
-            etd         = excluded.etd
+            etd         = excluded.etd,
+            status      = CASE
+                            WHEN sales_order.status IS NULL OR sales_order.status = ''
+                            THEN excluded.status
+                            ELSE sales_order.status
+                          END
     """, (
         o["transaction_no"],
         o["transaction_date"],
@@ -92,7 +102,8 @@ def _upsert_header(cur, o):
         o.get("transaction_status", {}).get("name", ""),
         o.get("etd", "")
     ))
-    return cur.rowcount == 1          # 1=insert, 2=update
+    return cur.rowcount == 1
+
 
 def _insert_detail(cur, txn_no, i, ln):
     prod = ln.get("product", {})
@@ -112,6 +123,50 @@ def _insert_detail(cur, txn_no, i, ln):
         "open"
     ))
 
+def bulk_update_status():
+    data = request.get_json()
+    transaction_nos = data.get("transaction_nos", [])
+    status = data.get("status")
+
+    if not transaction_nos or status not in ["closed"]:
+        return jsonify({"success": False, "message": "Invalid data"})
+
+    conn = sqlite3.connect("main.db")
+    cursor = conn.cursor()
+
+    for tx_no in transaction_nos:
+        if status == "closed":
+            # Mark as fully delivered → remain_qty = 0
+            cursor.execute("""
+                UPDATE sales_order_detail
+                SET remain_qty = 0,
+                    delivered = qty
+                WHERE transaction_no = ?
+            """, (tx_no,))
+    conn.commit()
+    conn.close()
+
+    return jsonify({"success": True})
+
+def bulk_update_etd():
+    data = request.get_json()
+    transaction_nos = data.get("transaction_nos", [])
+    etd = data.get("etd")
+
+    if not transaction_nos or not etd:
+        return jsonify({"success": False, "message": "Missing data"})
+
+    conn = sqlite3.connect("main.db")
+    cursor = conn.cursor()
+
+    for tx_no in transaction_nos:
+        cursor.execute("UPDATE sales_order SET ETD = ? WHERE transaction_no = ?", (etd, tx_no))
+
+    conn.commit()
+    conn.close()
+
+    return jsonify({"success": True})
+
 def sync_sales_invoices(date_from, date_to):
     """Fetch from API, upsert into DB, return (added, updated)."""
     orders = fetch_sales_invoices(date_from, date_to)
@@ -127,6 +182,7 @@ def sync_sales_invoices(date_from, date_to):
 
     conn.commit(); conn.close()
     return added, updated
+
 
 
 # # ───────────────  QUICK SELF‑TEST  ───────────────────────────────

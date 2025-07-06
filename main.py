@@ -10,8 +10,8 @@ from dotenv import load_dotenv
 
 from sales_quote import render_sales_quote, render_create_quote, render_save_quote, render_edit_quote
 from products import render_products
-from sales_invoices import sync_sales_invoices, DATABASE
-from sales_order import render_sales_order, update_single_etd, bulk_update_status, bulk_update_etd, upsert_sales_order
+from sales_invoices import sync_sales_invoices, DATABASE, bulk_update_status, bulk_update_etd
+# from sales_order import render_sales_order, update_single_etd, bulk_update_status, bulk_update_etd, upsert_sales_order
 from sales_order_detail import render_sales_order_detail, save_sales_order_detail, parse_mattress_name
 from purchase_order import render_purchase_order, save_purchase_order, update_po_eta
 from create_po import render_create_po
@@ -265,22 +265,20 @@ def sales_invoices_page():
 
     return render_template("sales_invoices.html", orders=rows)
 
+# @app.route('/sales_order')
+# def sales_order():
+#     return render_sales_order()
 
+# @app.route("/sales_order/update_etd", methods=["POST"])
+# def sales_order_etd():
+#     return update_single_etd()
 
-@app.route('/sales_order')
-def sales_order():
-    return render_sales_order()
-
-@app.route("/sales_order/update_etd", methods=["POST"])
-def sales_order_etd():
-    return update_single_etd()
-
-@app.route("/sales_order/bulk_update_status", methods=["POST"])
-def sales_order_bulk_status():
+@app.route("/sales_invoices/bulk_update_status", methods=["POST"])
+def sales_invoices_bulk_status():
     return bulk_update_status()
 
-@app.route("/sales_order/bulk_update_etd", methods=["POST"])
-def sales_order_bulk_etd():
+@app.route("/sales_invoices/bulk_update_etd", methods=["POST"])
+def sales_invoices_bulk_etd():
     return bulk_update_etd()
 
 @app.route("/sales_order/<transaction_no>")

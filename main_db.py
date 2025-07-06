@@ -481,11 +481,11 @@ import pandas as pd
 # Connect to DB
 conn = sqlite3.connect("main.db")
 # Load sales_order table
-df = pd.read_sql_query("SELECT * FROM sales_order_detail", conn)
+df = pd.read_sql_query("SELECT * FROM sales_order", conn)
 # Save to CSV
-df.to_csv("db_sales_orders_detail_test.csv", index=False)
+df.to_csv("db_sales_invoices_test.csv", index=False)
 conn.close()
-print("✅ db_sales_orders_detail_test.csv")
+print("✅ db_sales_invoices_test.csv")
 
 
 # # Run a quick count test

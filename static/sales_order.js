@@ -14,10 +14,10 @@ function filterOrders() {
 }
 
 function getSelectedTransactionNos() {
-    return Array.from(document.querySelectorAll('.row-check:checked')).map(row => {
-        return row.closest('tr').querySelector('a').textContent.trim(); // get transaction_no
-    });
+  return Array.from(document.querySelectorAll(".row-check:checked"))
+              .map(cb => cb.value);        // ← now defined
 }
+
 
 function updateETD(transactionNo, newDate) {
     fetch("/sales_order/update_etd", {
@@ -42,35 +42,44 @@ function updateETD(transactionNo, newDate) {
 }
 
 
-
 function bulkUpdateStatus(status) {
-    const transactionNos = getSelectedTransactionNos();
-    if (!transactionNos.length) {
-        alert("Please select at least one order.");
-        return;
-    }
+  const transactionNos = getSelectedTransactionNos();
+  console.log("Selected TX:", transactionNos);
 
-    fetch("/sales_order/bulk_update_status", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            transaction_nos: transactionNos,
-            status: status
-        })
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            alert("Status updated successfully!");
-            location.reload();
-        } else {
-            alert("Update failed: " + data.message);
-        }
-    })
-    .catch(err => alert("Error: " + err));
+  if (!transactionNos.length) {
+    alert("Please select at least one order.");
+    return;
+  }
+
+  fetch("/sales_invoices/bulk_update_status", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ transaction_nos: transactionNos, status })
+  })
+  .then(res => res.json())
+  .then(data => {
+      if (data.success) {
+        // loop over each updated order and patch the row
+        data.rows.forEach(r => {
+          const row = document.querySelector(
+            `tr[data-tx="${r.transaction_no}"]`
+          );
+          if (row){
+            const statusCell = row.querySelector(".status-cell");
+            statusCell.textContent = r.status.charAt(0).toUpperCase() + r.status.slice(1);
+          }
+        });
+
+        alert(`Status updated for ${data.updated} order(s)!`);
+      } else {
+        alert("Update failed: " + data.message);
+      }
+  })
+
+
+  .catch(err => alert("Error: " + err));
 }
+
 
 function bulkUpdateETD() {
     const etd = document.getElementById("bulk-etd").value;
