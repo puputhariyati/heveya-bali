@@ -75,24 +75,17 @@
               <tbody>
                 {% for order in orders %}
                 <tr>
-                    <td>
-                        <input type="checkbox" class="row-check" value="{{ order.transaction_no }}">
-                    </td>
+                    <td><input type="checkbox" class="row-check"></td>
                     <td>{{ order.transaction_date }}</td>
-                    <td>
-                        <a href="/sales_invoices/{{ order.transaction_no }}">{{ order.transaction_no }}</a>
-                    </td>
+                    <td><a href="/sales_invoices/{{ order.transaction_no }}">{{ order.transaction_no }}</a></td>
                     <td>{{ order.customer or '-' }}</td>
                     <td>{{ order.balance_due or '-' }}</td>
                     <td>{{ order.total or '-' }}</td>
-                    <td class="status-cell">{{ order.status.capitalize() }}</td>  {# ✅ allows JS update #}
-                    <td>
-                        <input type="date" name="ETD" value="{{ order.etd }}">
-                    </td>
+                    <td>{{ order.status.capitalize() }}</td>
+                    <td><input type="date" name="ETD" value="{{ order.ETD }}"></td>
                 </tr>
                 {% endfor %}
               </tbody>
-
             </table>
             <!-- ▸▸ Pagination controls  --------------------------------- -->
             <div class="pagination-container">
@@ -115,7 +108,6 @@
               </div>
             </div>
             <!-- --------------------------------------------------------- -->
-
             <br>
           </form>
         </div>

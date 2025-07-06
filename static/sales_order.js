@@ -13,9 +13,10 @@ function filterOrders() {
     });
 }
 
-function getSelectedTransactionNos(){
-  return Array.from(document.querySelectorAll(".row-check:checked"))
-              .map(cb => cb.value);          // read the value attr
+function getSelectedTransactionNos() {
+    return Array.from(document.querySelectorAll('.row-check:checked')).map(row => {
+        return row.closest('tr').querySelector('a').textContent.trim(); // get transaction_no
+    });
 }
 
 
@@ -42,52 +43,32 @@ function updateETD(transactionNo, newDate) {
 }
 
 function bulkUpdateStatus(status) {
-  // 1. collect selected transaction numbers
-  const txs = Array.from(document.querySelectorAll(".row-check:checked"))
-                   .map(cb => cb.value)           // value="<transaction_no>"
-                   .filter(Boolean);
-
-  if (!txs.length) {
-    alert("Please select at least one order.");
-    return;
-  }
-
-  // 2. send to backend
-  fetch("/sales_invoices/bulk_update_status", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ transaction_nos: txs, status })
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (!data.success) {
-      alert("Update failed: " + (data.message || "unknown error"));
-      return;
+    const transactionNos = getSelectedTransactionNos();
+    if (!transactionNos.length) {
+        alert("Please select at least one order.");
+        return;
     }
-
-    // 3. patch each updated row in the DOM (keeps current page)
-    data.rows.forEach(r => {
-      const row = document
-        .querySelector(`input.row-check[value="${r.transaction_no}"]`)
-        ?.closest("tr");
-      const cell = row ? row.querySelector(".status-cell") : null;
-      if (cell) {
-        cell.textContent =
-          r.status.charAt(0).toUpperCase() + r.status.slice(1);
-      }
-    });
-
-    alert(`Status updated for ${data.updated} order${data.updated !== 1 ? "s" : ""}!`);
-
-    // optional: uncheck boxes after update
-    document.querySelectorAll(".row-check:checked").forEach(cb => cb.checked = false);
-  })
-  .catch(err => {
-    console.error(err);
-    alert("Network or server error: " + err);
-  });
+    fetch("/sales_invoices/bulk_update_status", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            transaction_nos: transactionNos,
+            status: status
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert("Status updated successfully!");
+            location.reload();
+        } else {
+            alert("Update failed: " + data.message);
+        }
+    })
+    .catch(err => alert("Error: " + err));
 }
-
 
 
 function bulkUpdateETD() {

@@ -82,51 +82,6 @@ def render_refresh_invoices():
         return jsonify({"status": "error", "msg": str(e)}), 500
 
 
-# def render_sales_invoices():
-#     conn = get_db_connection()
-#     cur  = conn.execute("""
-#         SELECT
-#           transaction_no,
-#           transaction_date,              -- may be ISO or DD/MM/YYYY
-#           COALESCE(customer,'')    AS customer,
-#           COALESCE(balance_due,'') AS balance_due,
-#           COALESCE(total,'')       AS total,
-#           COALESCE(status,'')      AS status,
-#           COALESCE(etd,'')         AS etd
-#         FROM sales_order
-#     """)
-#     rows_raw = cur.fetchall()
-#     conn.close()
-#
-#     rows = []
-#     for r in rows_raw:
-#         d = dict(r)
-#
-#         # --- Parse the date safely ---------------------------------
-#         iso = d["transaction_date"]
-#         try:
-#             # try ISO first
-#             dt = datetime.strptime(iso, "%Y-%m-%d")
-#             display_date = dt.strftime("%d/%m/%Y")
-#         except ValueError:
-#             # fallback: DD/MM/YYYY in DB already
-#             try:
-#                 dt = datetime.strptime(iso, "%d/%m/%Y")
-#                 display_date = iso                # already formatted
-#             except ValueError:
-#                 dt = datetime.min                 # put bad rows at bottom
-#                 display_date = iso
-#
-#         d["transaction_date"] = display_date
-#         d["_dt_obj"] = dt        # helper key for sorting
-#         rows.append(d)
-#     # --- Sort newest → oldest using _dt_obj -------------------------
-#     rows.sort(key=lambda x: x["_dt_obj"], reverse=True)
-#     # Remove helper key before sending to template
-#     for d in rows:
-#         d.pop("_dt_obj", None)
-#     return render_template("sales_invoices.html", orders=rows)
-
 def render_sales_invoices():
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
@@ -247,32 +202,29 @@ def _insert_detail(cur, txn_no, i, ln):
 
 def bulk_update_status():
     data = request.get_json()
-    txn_nos  = data.get("transaction_nos", [])
-    new_stat = data.get("status")
+    print('🚚 received', data)
+    transaction_nos = data.get("transaction_nos", [])
+    status = data.get("status")
 
-    if not txn_nos or new_stat not in ("closed",):
-        return jsonify(success=False, message="Invalid data"), 400
+    if not transaction_nos or status not in ["closed"]:
+        return jsonify({"success": False, "message": "Invalid data"})
 
-    conn = get_db_connection()
-    cur  = conn.cursor()
+    conn = sqlite3.connect("main.db")
+    cursor = conn.cursor()
 
-    cur.executemany(
-        "UPDATE sales_order SET status=? WHERE transaction_no=?",
-        [(new_stat, tx) for tx in txn_nos]
-    )
+    for tx_no in transaction_nos:
+        if status == "closed":
+            # Mark as fully delivered → remain_qty = 0
+            cursor.execute("""
+                           UPDATE sales_order_detail
+                           SET remain_qty = 0,
+                               delivered  = qty
+                           WHERE transaction_no = ?
+                           """, (tx_no,))
     conn.commit()
-
-    # return patched rows so JS can update DOM
-    placeholders = ",".join("?"*len(txn_nos))
-    cur.execute(f"""
-        SELECT transaction_no, status
-        FROM sales_order
-        WHERE transaction_no IN ({placeholders})
-    """, txn_nos)
-    rows = [dict(r) for r in cur.fetchall()]
     conn.close()
 
-    return jsonify(success=True, updated=len(rows), rows=rows)
+    return jsonify({"success": True})
 
 
 def bulk_update_etd():
@@ -283,7 +235,7 @@ def bulk_update_etd():
     if not transaction_nos or not etd:
         return jsonify({"success": False, "message": "Missing data"})
 
-    conn = sqlite3.connect("main.db")
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
     for tx_no in transaction_nos:
