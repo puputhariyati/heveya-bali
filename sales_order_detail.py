@@ -17,7 +17,7 @@ BASE_DIR = Path(__file__).parent
 DATABASE = BASE_DIR / "main.db"
 
 
-def render_sales_order_detail(transaction_no):
+def render_sales_invoices_detail(transaction_no):
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
@@ -53,7 +53,7 @@ def parse_mattress_name(name):
         print("❌ Error parsing mattress name:", name, e)
         return None, None, None
 
-def save_sales_order_detail(transaction_no):
+def save_sales_invoices_detail(transaction_no):
     conn = sqlite3.connect(DATABASE)
     c = conn.cursor()
 
@@ -167,6 +167,6 @@ def save_sales_order_detail(transaction_no):
     finally:
         conn.close()
 
-    return redirect(f"/sales_order/{transaction_no}")
+    return redirect(f"/sales_invoices/{transaction_no}")
 
 

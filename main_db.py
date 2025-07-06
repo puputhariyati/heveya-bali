@@ -9,7 +9,7 @@ from flask import Flask, request, jsonify, render_template, redirect, flash, jso
 from dotenv import load_dotenv
 from sqlalchemy import column
 
-from sales_order_detail import render_sales_order_detail, save_sales_order_detail
+from sales_order_detail import render_sales_invoices_detail, save_sales_invoices_detail
 
 load_dotenv("key.env")  # Load environment variables from .env file
 app = Flask(__name__)

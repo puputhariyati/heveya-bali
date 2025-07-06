@@ -10,9 +10,9 @@ from dotenv import load_dotenv
 
 from sales_quote import render_sales_quote, render_create_quote, render_save_quote, render_edit_quote
 from products import render_products
-from sales_invoices import sync_sales_invoices, DATABASE, bulk_update_status, bulk_update_etd
+from sales_invoices import render_refresh_invoices, render_sales_invoices, sync_sales_invoices, DATABASE, bulk_update_status, bulk_update_etd
 # from sales_order import render_sales_order, update_single_etd, bulk_update_status, bulk_update_etd, upsert_sales_order
-from sales_order_detail import render_sales_order_detail, save_sales_order_detail, parse_mattress_name
+from sales_order_detail import render_sales_invoices_detail, save_sales_invoices_detail, parse_mattress_name
 from purchase_order import render_purchase_order, save_purchase_order, update_po_eta
 from create_po import render_create_po
 from transfer_warehouse import render_transfer_list, render_create_transfer
@@ -25,7 +25,7 @@ app = Flask(__name__)
 
 app.secret_key = os.getenv("SECRET_KEY")  # Retrieve secret key from .env
 
-DATABASE = "main.db"  # ✅ Now using main.db instead of stock.db
+DATABASE = "main.db"
 
 def get_db_connection():
     conn = sqlite3.connect(DATABASE)
@@ -188,82 +188,11 @@ def edit_quote(quote_id):
 # 🔄 Refresh endpoint (POST)
 @app.route("/api/refresh-sales-invoices", methods=["POST"])
 def refresh_invoices():
-    try:
-        # --- 1. choose date window (last 30 days here) ------------------
-        date_to   = datetime.now().strftime("%Y-%m-%d")
-        date_from = "2025-07-01"  # ← fixed start
-        # date_from = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d") #backward 30days from today
-
-        # --- 2. pull & upsert ------------------------------------------
-        added, updated = sync_sales_invoices(date_from, date_to)
-
-        # make 100 % sure we pass *real* JSON‑serialisable values
-        added        = int(added or 0)
-        updated      = int(updated or 0)
-        last_refresh = datetime.now(timezone.utc)\
-                              .isoformat(timespec="seconds")\
-                              .replace("+00:00", "Z")
-
-        return jsonify({
-            "status"      : "ok",
-            "added"       : added,
-            "updated"     : updated,
-            "last_refresh": last_refresh
-        })
-
-    except Exception as e:
-        # log to stderr so you can see it in the PA error log
-        print("❌ refresh_invoices failed:", e)
-        return jsonify({"status": "error", "msg": str(e)}), 500
+    return render_refresh_invoices()
 
 @app.route("/sales_invoices")
-def sales_invoices_page():
-    conn = get_db_connection()
-    cur  = conn.execute("""
-        SELECT
-          transaction_no,
-          transaction_date,              -- may be ISO or DD/MM/YYYY
-          COALESCE(customer,'')    AS customer,
-          COALESCE(balance_due,'') AS balance_due,
-          COALESCE(total,'')       AS total,
-          COALESCE(status,'')      AS status,
-          COALESCE(etd,'')         AS etd
-        FROM sales_order
-    """)
-    rows_raw = cur.fetchall()
-    conn.close()
-
-    rows = []
-    for r in rows_raw:
-        d = dict(r)
-
-        # --- Parse the date safely ---------------------------------
-        iso = d["transaction_date"]
-        try:
-            # try ISO first
-            dt = datetime.strptime(iso, "%Y-%m-%d")
-            display_date = dt.strftime("%d/%m/%Y")
-        except ValueError:
-            # fallback: DD/MM/YYYY in DB already
-            try:
-                dt = datetime.strptime(iso, "%d/%m/%Y")
-                display_date = iso                # already formatted
-            except ValueError:
-                dt = datetime.min                 # put bad rows at bottom
-                display_date = iso
-
-        d["transaction_date"] = display_date
-        d["_dt_obj"] = dt        # helper key for sorting
-        rows.append(d)
-
-    # --- Sort newest → oldest using _dt_obj -------------------------
-    rows.sort(key=lambda x: x["_dt_obj"], reverse=True)
-
-    # Remove helper key before sending to template
-    for d in rows:
-        d.pop("_dt_obj", None)
-
-    return render_template("sales_invoices.html", orders=rows)
+def sales_invoices():
+    return render_sales_invoices()
 
 # @app.route('/sales_order')
 # def sales_order():
@@ -281,17 +210,17 @@ def sales_invoices_bulk_status():
 def sales_invoices_bulk_etd():
     return bulk_update_etd()
 
-@app.route("/sales_order/<transaction_no>")
-def sales_order_detail_route(transaction_no):  # ✅ Rename to avoid name conflict
-    return render_sales_order_detail(transaction_no)
+@app.route("/sales_invoices/<transaction_no>")
+def sales_invoices_detail_route(transaction_no):  # ✅ Rename to avoid name conflict
+    return render_sales_invoices_detail(transaction_no)
 
-@app.route("/sales_order/<transaction_no>")
-def sales_order_detail_mattress(name):  # ✅ Rename to avoid name conflict
+@app.route("/sales_invoices/<transaction_no>")
+def sales_invoices_detail_mattress(name):  # ✅ Rename to avoid name conflict
     return parse_mattress_name(name)
 
-@app.route('/sales_order/save_detail/<transaction_no>', methods=['POST'])
-def save_sales_order_detail_route(transaction_no):  # ✅ Rename to avoid name conflict
-    return save_sales_order_detail(transaction_no)
+@app.route('/sales_invoices/save_detail/<transaction_no>', methods=['POST'])
+def save_sales_invoices_detail_route(transaction_no):  # ✅ Rename to avoid name conflict
+    return save_sales_invoices_detail(transaction_no)
 
 @app.route('/refresh_orders')
 def refresh_orders():
