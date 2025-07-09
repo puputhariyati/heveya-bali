@@ -8,6 +8,7 @@ from datetime import datetime, timezone, timedelta
 from flask import Flask, request, jsonify, render_template, redirect, flash, json
 from dotenv import load_dotenv
 
+from dashboard import render_api_sales_by_category
 from sales_quote import render_sales_quote, render_create_quote, render_save_quote, render_edit_quote
 from products import render_products
 from sales_invoices import render_refresh_invoices, render_sales_invoices, sync_sales_invoices, DATABASE, bulk_update_status, bulk_update_etd
@@ -25,38 +26,12 @@ app = Flask(__name__)
 
 app.secret_key = os.getenv("SECRET_KEY")  # Retrieve secret key from .env
 
-DATABASE = "main.db"
+DATABASE = Path(__file__).parent / "main.db"
 
 def get_db_connection():
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     return conn
-
-# Create only the new sales_order_detail table or any others you need
-def init_db():
-    conn = get_db_connection()
-    cursor = conn.cursor()
-
-    # Example: your new sales_order_detail table
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS sales_order_detail (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            transaction_no TEXT,
-            line INTEGER,
-            item TEXT,
-            qty INTEGER,
-            unit TEXT,
-            delivered INTEGER DEFAULT 0,
-            remain_qty INTEGER,
-            po_no TEXT,
-            warehouse_option TEXT,
-            delivery_date TEXT,
-            status TEXT
-        )
-    """)
-
-    conn.commit()
-    conn.close()
 
 # Add your project folder for pythonanywhere
 path = '/home/puputheveya/heveya-bali'
@@ -67,6 +42,10 @@ if path not in sys.path:
 @app.route('/')
 def home():
     return render_template('index.html')
+
+@app.route("/api/sales-by-category")
+def api_sales_by_category():
+    return render_api_sales_by_category()
 
 @app.route("/products")
 def products():
@@ -282,5 +261,4 @@ def attendance_checkin():
 
 
 if __name__ == "__main__":
-    init_db()
     app.run(debug=True, use_reloader=False)

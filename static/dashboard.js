@@ -1,449 +1,121 @@
-// let chart;
-// let processedData = []; // ✅ Correct, it's an array of raw products
-// let categoryTotals = {};
-//
-// function fetchReport() {
-//     const start = document.getElementById('start_date').value;
-//     const end = document.getElementById('end_date').value;
-//
-//     fetch(`/api/sales_by_products?start_date=${start}&end_date=${end}`)
-//         .then(res => {
-//             if (!res.ok) throw new Error(`HTTP ${res.status}`);
-//             return res.json();
-//         })
-//         .then(data => {
-//             console.log("Full API response:", data); // ✅ Add this to inspect structure
-//
-//             const products = data?.sales_by_products?.reports?.products;
-//
-//             if (!products || products.length === 0) {
-//                 alert("No product data found for the selected date range.");
-//                 return;
-//             }
-//
-//             processedData = products; // Save globally
-//             categoryTotals = {};      // ✅ Reset to avoid accumulation
-//
-//             const colorMap = {};
-//             products.forEach(p => {
-//                 const name = p.product.product_name;
-//                 const qty = parseFloat(p.product.quantity) || 0;
-//                 const category = getCategory(name);
-//                 categoryTotals[category] = (categoryTotals[category] || 0) + qty;
-//
-//                 if (!colorMap[category]) {
-//                     colorMap[category] = `hsl(${Math.random() * 360}, 70%, 70%)`;
-//                 }
-//             });
-//
-//             const labels = Object.keys(categoryTotals);
-//             const qty = Object.values(categoryTotals);
-//             const colors = labels.map(l => colorMap[l]);
-//
-//             if (chart) chart.destroy();
-//
-//             const ctx = document.getElementById('salesChart').getContext('2d');
-//             chart = new Chart(ctx, {
-//                 type: 'pie',
-//                 data: {
-//                     labels: labels,
-//                     datasets: [{
-//                         data: qty,
-//                         backgroundColor: colors
-//                     }]
-//                 },
-//                 options: {
-//                     responsive: true,
-//                     plugins: {
-//                         datalabels: {
-//                             color: '#fff',
-//                             font: { weight: 'bold' },
-//                             formatter: (value, context) => {
-//                                 const total = context.chart.data.datasets[0].data.reduce((sum, val) => sum + val, 0);
-//                                 const percent = (value / total * 100).toFixed(1);
-//                                 return `${percent}%`;
-//                             }
-//                         },
-//                         legend: {
-//                             position: 'bottom'
-//                         }
-//                     },
-//                     onClick: function (event, elements) {
-//                         if (elements.length > 0) {
-//                             const index = elements[0].index;
-//                             const category = labels[index];
-//                             console.log("Clicked category:", category);
-//                             showCategoryDetails(category);
-//                         }
-//                     }
-//                 },
-//                 plugins: [ChartDataLabels]
-//             });
-//
-//             // Show total breakdown with percentages
-//             const totalQty = qty.reduce((sum, val) => sum + val, 0);
-//             let html = `<h3>Total by Category</h3><ul>`;
-//             labels.forEach((category, index) => {
-//                 const q = qty[index];
-//                 const percent = ((q / totalQty) * 100).toFixed(1);
-//                 html += `<div class="total-breakdown-item">
-//                             <div>${category}</div>
-//                             <div>${q}</div>
-//                             <div>${percent}%</div>
-//                          </div>`;
-//             });
-//             html += `</ul>`;
-//             document.getElementById('categoryInfo').innerHTML = html;
-//
-//             // Update Excel export link
-//             document.getElementById("downloadExcel").href = `/api/sales_by_products_excel?start_date=${start}&end_date=${end}`;
-//         })
-//         .catch(error => {
-//             console.error("Error fetching report:", error);
-//             alert("Failed to fetch data. Check console for details.");
-//         });
-// }
-//
-//
-// function getCategory(name) {
-//     name = name.toLowerCase();
-//
-//     const isValidMattress = [
-//         "mattress",
-//         "hospitality mattress",
-//         "cot mattress",
-//         "topper"
-//     ].some(keyword => name.includes(keyword));
-//     if (isValidMattress) {
-//         if (name.includes("protector")) return "others";
-//         return "mattress";
-//     }
-//
-//     const isValidPillow = [
-//         "latex pillow", "latex medium pillow",
-//         "latex bolster", "toddler pillow",
-//         "toddler flat pillow", "toddler contour pillow",
-//         "travel pillow - half heveya 2", "latex spa pillow",
-//         "latex travel mini bolster", "heveya pregnancy pillow"
-//     ].some(keyword => name.includes(keyword));
-//     if (isValidPillow) {
-//         if (name.includes("bamboo")) return "others"; // Exclude bamboo-labeled pillows as 'others'
-//         return "pillow";
-//     }
-//
-//     const isValidSheets = [
-//         "bamboo duvet", "bamboo fitted", "bamboo flat",
-//         "linen duvet", "linen fitted", "linen flat",
-//         "bamboo cotton"
-//     ].some(keyword => name.includes(keyword));
-//     if (isValidSheets) {
-//         if (["bag", "box"].some(ex => name.includes(ex))) return "others"; // Exclude packaging
-//         return "sheets";
-//     }
-//
-//     if (name.includes("inner duvet")) return "organic duvet";
-//
-//
-//     if (["towel", "bath mat", "bath robe", "bath sheet"].some(keyword => name.includes(keyword))) {
-//         return "towel";
-//     }
-//
-//     if (name.includes("frame")) return "frame";
-//
-//     return "others";
-// }
-//
-// function groupByCategory(products) {
-//     const grouped = {};
-//     products.forEach(p => {
-//         if (!grouped[p.category]) {
-//             grouped[p.category] = [];
-//         }
-//         grouped[p.category].push(p);
-//     });
-//     return grouped;
-// }
-//
-// function renderChart(data, filterCategory = 'all') {
-//     if (chart) chart.destroy();
-//
-//     let labels = [];
-//     let qty = [];
-//     let colors = [];
-//     let categoryLookup = [];
-//
-//     Object.entries(data).forEach(([category, items]) => {
-//         if (filterCategory === 'all' || category.toLowerCase() === filterCategory.toLowerCase()) {
-//             const total = items.reduce((sum, item) => sum + item.qty, 0);
-//             labels.push(category); // category, not item name
-//             qty.push(total);
-//             colors.push(items[0].color); // just use the first item color
-//             categoryLookup.push(category);
-//         }
-//     });
-//
-//     const ctx = document.getElementById("salesChart").getContext("2d");
-//     chart = new Chart(ctx, {
-//         type: 'pie',
-//         data: {
-//             labels: labels,
-//             datasets: [{
-//                 data: qty,
-//                 backgroundColor: colors
-//             }]
-//         },
-//         options: {
-//             responsive: true,
-//             plugins: {
-//                 datalabels: {
-//                     color: '#fff',
-//                     font: {
-//                         weight: 'bold'
-//                     },
-//                     formatter: (value, context) => {
-//                         const total = context.chart.data.datasets[0].data.reduce((sum, val) => sum + val, 0);
-//                         const percent = (value / total * 100).toFixed(1);
-//                         return `${percent}%`;
-//                     }
-//                 },
-//                 legend: {
-//                     position: 'bottom'
-//                 }
-//             },
-//             onClick: function (event, elements) {
-//                 if (elements.length > 0) {
-//                     const index = elements[0].index;
-//                     const category = labels[index];
-//                     console.log("Clicked category:", category);
-//                     showCategoryDetails(category);
-//                 }
-//             }
-//         },
-//         plugins: [ChartDataLabels]
-//     });
-// }
-//
-// // After chart is rendered
-// const infoDiv = document.getElementById('categoryInfo');
-// let html = `<h3>Total by Category</h3><ul>`;
-// Object.entries(categoryTotals)
-//     .sort((a, b) => b[1] - a[1]) // optional: sort descending
-//     .forEach(([cat, qty]) => {
-//         html += `<li>${cat}: ${qty}</li>`;
-//     });
-// html += `</ul>`;
-// infoDiv.innerHTML = html;
-//
-//
-// function showCategoryDetails(category) {
-//     if (!Array.isArray(processedData)) {
-//         console.error("processedData is not ready or not an array", processedData);
-//         return;
-//     }
-//
-//     const lowerCategory = category.trim().toLowerCase();
-//
-//     // Filter items by normalized category
-//     const categoryItems = processedData.filter(p => {
-//         const itemCategory = getCategory(p.product.product_name);
-//         return itemCategory && itemCategory.trim().toLowerCase() === lowerCategory;
-//     });
-//
-//     if (categoryItems.length === 0) {
-//         console.warn(`No items found for category "${category}"`);
-//         document.getElementById('categoryInfo').innerHTML = `<h3>No products found for "${category}"</h3>`;
-//         return;
-//     }
-//
-//     const labels = categoryItems.map(p => p.product.product_name);
-//     const data = categoryItems.map(p => parseFloat(p.product.quantity) || 0);
-//     const total = data.reduce((sum, q) => sum + q, 0);
-//     const colors = labels.map(() => `hsl(${Math.random() * 360}, 70%, 70%)`);
-//
-//     if (chart) chart.destroy();
-//
-//     const ctx = document.getElementById("salesChart").getContext("2d");
-//     chart = new Chart(ctx, {
-//         type: "pie",
-//         data: {
-//             labels: labels,
-//             datasets: [{
-//                 data: data,
-//                 backgroundColor: colors
-//             }]
-//         },
-//         options: {
-//             responsive: true,
-//             plugins: {
-//                 datalabels: {
-//                     color: "#fff",
-//                     font: {
-//                         weight: "bold"
-//                     },
-//                     formatter: (value, context) => {
-//                         const percent = (value / total * 100).toFixed(1);
-//                         return `${percent}%`;
-//                     }
-//                 },
-//                 legend: {
-//                     position: "bottom"
-//                 }
-//             },
-//             onClick: function (event, elements) {
-//                 if (elements.length > 0) {
-//                     const index = elements[0].index;
-//                     const productName = labels[index];
-//                     const quantity = data[index];
-//                     alert(`${productName}\nQuantity Sold: ${quantity}`);
-//                 }
-//             }
-//         },
-//         plugins: [ChartDataLabels]
-//     });
-//
-//     // Render product list in info panel with percentages
-//     const infoDiv = document.getElementById('categoryInfo');
-//     let html = `<h3>Total ${category}: ${total}</h3><ul>`;
-//     labels.forEach((label, i) => {
-//         const percent = ((data[i] / total) * 100).toFixed(1);
-//         html += `<li style="display: grid; grid-template-columns: gap: 20px;">
-//             ${label}: ${data[i]} (${percent}%)</li>`;
-//     });
-//     html += `</ul>`;
-//     infoDiv.innerHTML = html;
-// }
-//
-//
-// function renderLegend(data) {
-//     const container = document.getElementById("legendContainer");
-//     container.innerHTML = "";
-//
-//     Object.entries(data).forEach(([category, items]) => {
-//         const group = document.createElement("div");
-//         group.innerHTML = `<strong>${category}</strong>`;
-//
-//         items.forEach(item => {
-//             const div = document.createElement("div");
-//             div.innerHTML = `<span style="display:inline-block;width:12px;height:12px;background:${item.color};margin-right:5px;"></span>${item.name} (${item.qty})`;
-//             group.appendChild(div);
-//         });
-//
-//         container.appendChild(group);
-//     });
-// }
-//
-//
-// window.onload = function () {
-//     const today = new Date();
-//     const lastYear = new Date();
-//     lastYear.setFullYear(today.getFullYear() - 1);
-//
-//     const format = (date) => date.toISOString().split('T')[0];
-//     document.getElementById('start_date').value = format(lastYear);
-//     document.getElementById('end_date').value = format(today);
-//
-//     // Bind event listener
-//     document.getElementById('categoryFilter').addEventListener('change', () => {
-//         const selectedCategory = document.getElementById('categoryFilter').value;
-//
-//         if (!Array.isArray(processedData)) {
-//             console.error("processedData is not an array!", processedData);
-//             return;
-//         }
-//
-//         const grouped = groupByCategory(processedData);
-//         renderChart(grouped, selectedCategory);
-//
-//         const infoDiv = document.getElementById('categoryInfo');
-//         if (selectedCategory !== 'all') {
-//             const lowerCategory = selectedCategory.toLowerCase(); // ✅ Add this line
-//
-//             const items = grouped[lowerCategory] || [];
-//             const total = items.reduce((sum, item) => sum + item.qty, 0);
-//             let listHTML = `<h3>Total ${selectedCategory}: ${total}</h3>`;
-//
-//             // Now this works correctly
-//             const categoryItems = processedData.filter(p => {
-//                 return getCategory(p.product.product_name)?.toLowerCase() === lowerCategory;
-//             });
-//             const labels = categoryItems.map(p => p.product.product_name);
-//             const data = categoryItems.map(p => parseFloat(p.product.quantity) || 0);
-//
-//             // Optional: append product list if needed
-//             listHTML += `<ul>${categoryItems.map(p => `<li>${p.product.product_name} - ${p.product.quantity}</li>`).join('')}</ul>`;
-//
-//             infoDiv.innerHTML = listHTML;
-//         } else {
-//             infoDiv.innerHTML = '';
-//         }
-//     });
-//
-//     // ✅ Fetch data immediately instead of clicking a button
-//     fetchReport();
-// };
+function loadAllCharts() {
+  Promise.all([
+    fetch("/api/sales-by-category").then(res => res.json()),
+    fetch("/static/data/products_std.csv").then(res => res.text()),
+    fetch("/static/data/customer_total_payments.csv").then(res => res.text())
+  ])
+    .then(([salesData, inventoryCSV, customerCSV]) => {
+      console.log("📦 Sales Data:", salesData);
+      console.log("📦 Inventory CSV:", inventoryCSV.slice(0, 200)); // Just a preview
+      console.log("📦 Customer CSV:", customerCSV.slice(0, 200));
 
-document.addEventListener("DOMContentLoaded", function () {
-    // Automatically load the report on page load (optional)
-    fetchReport();
-});
+      // ✅ Safely parse the CSVs to arrays of objects
+      const inventoryData = parseCSV(inventoryCSV);
+      const customerData = parseCSV(customerCSV);
 
-function fetchReport() {
-    // Use dummy data instead of fetching from API
-    const dummyData = {
-        "sales_by_products": {
-            "reports": {
-                "products": [
-                    { "product": { "product_name": "Pillow", "quantity": 20 } },
-                    { "product": { "product_name": "Mattress", "quantity": 15 } },
-                    { "product": { "product_name": "Topper", "quantity": 10 } }
-                ]
-            }
-        }
-    };
-
-    renderChart(dummyData);
-}
-
-function renderChart(data) {
-    const ctx = document.getElementById("salesChart").getContext("2d");
-
-    const products = data.sales_by_products.reports.products;
-    const labels = products.map(item => item.product.product_name);
-    const quantities = products.map(item => item.product.quantity);
-
-    // Destroy existing chart if it exists
-    if (window.salesChartInstance) {
-        window.salesChartInstance.destroy();
-    }
-
-    window.salesChartInstance = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Qty %',
-                data: quantities,
-                backgroundColor: ['#ff6384', '#36a2eb', '#ffce56'],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                datalabels: {
-                    formatter: (value, ctx) => {
-                        const total = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                        return ((value / total) * 100).toFixed(1) + "%";
-                    },
-                    color: '#fff',
-                },
-                legend: {
-                    position: 'bottom',
-                }
-            }
-        },
-        plugins: [ChartDataLabels]
+      // ✅ Render each chart
+      renderSalesPie(salesData);
+      renderInventoryPie(inventoryData);
+      renderCustomerPie(customerData);
+    })
+    .catch(err => {
+      console.error("🚨 Dashboard load failed:", err);
     });
-
-    document.getElementById("categoryTotal").textContent = `Total Sold: ${quantities.reduce((a, b) => a + b, 0)} units`;
 }
+
+
+function renderSalesPie(data) {
+  console.log("🧪 Sales Data:", data); // ← check structure here!
+
+  const labels = data.map(d => d.name);   // Make sure it's an array of { name, value }
+  const values = data.map(d => d.value);
+
+  Plotly.newPlot("salesPieChart", [{
+    type: "pie",
+    labels: labels,
+    values: values,
+    textinfo: "label+percent",
+    marker: {
+      colors: labels.map(() => `hsl(${Math.random() * 360}, 70%, 70%)`)
+    }
+  }], {
+    title: "Sales by Category",
+    height: 400,
+    width: 400,
+    margin: { t: 40, b: 20, l: 20, r: 20 }
+  });
+}
+
+
+// Basic CSV parser
+function parseCSV(csvText) {
+  const [headerLine, ...lines] = csvText.trim().split("\n");
+  const headers = headerLine.split(",").map(h => h.trim());
+
+  return lines.map(line => {
+    const values = line.split(",").map(v => v.trim());
+    const obj = {};
+    headers.forEach((h, i) => {
+      obj[h] = values[i];
+    });
+    return obj;
+  });
+}
+
+
+function renderInventoryPie(data) {
+  const totals = {};
+  for (const row of data) {
+    const cat = row.Category || "Unknown";
+    const qty = parseFloat(row.warehouse_qty || 0);
+    totals[cat] = (totals[cat] || 0) + qty;
+  }
+
+  const labels = Object.keys(totals);
+  const values = Object.values(totals);
+
+  Plotly.newPlot("inventoryPieChart", [{
+    type: "pie",
+    labels: labels,
+    values: values,
+    textinfo: "label+percent"
+  }], {
+    title: "Inventory by Category",
+    height: 400,
+    width: 400,
+    margin: { t: 40 }
+  });
+}
+
+function renderCustomerPie(data) {
+  const buckets = {
+    "<100mio": 0,
+    "100–150mio": 0,
+    "150–200mio": 0,
+    ">200mio": 0
+  };
+
+  for (const row of data) {
+    const rawPayment = row.total_payment || "0";  // ✅ Handle missing values
+    const cleanPayment = parseFloat(rawPayment.replace(/[^0-9.]/g, "")) || 0;
+
+    if (cleanPayment < 100_000_000) buckets["<100mio"]++;
+    else if (cleanPayment <= 150_000_000) buckets["100–150mio"]++;
+    else if (cleanPayment <= 200_000_000) buckets["150–200mio"]++;
+    else buckets[">200mio"]++;
+  }
+
+  Plotly.newPlot("customerPieChart", [{
+    type: "pie",
+    labels: Object.keys(buckets),
+    values: Object.values(buckets),
+    textinfo: "label+percent"
+  }], {
+    title: "Customers by Total Payment",
+    height: 400,
+    width: 400,
+    margin: { t: 40 }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", loadAllCharts);

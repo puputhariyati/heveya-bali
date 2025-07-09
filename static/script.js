@@ -7,19 +7,39 @@ document.querySelectorAll('.sidebar-link').forEach(link => {
   });
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  const body    = document.body;
+  const burger  = document.getElementById("hamburger");
+  /* Toggle sidebar via hamburger */
+  burger.addEventListener("click", () =>
+    body.classList.toggle("hide-sidebar")
+  );
+  /* Hide sidebar & show content after a sidebar link is tapped */
+  document.querySelectorAll(".sidebar a").forEach(link => {
+    link.addEventListener("click", () => {
+      if (innerWidth <= 768) {
+        body.classList.add("hide-sidebar", "show-content");
+      }
+    });
+  });
+});
+
+
 
 // static/dashboard_charts.js
 
 // Load CSVs and render charts
 Promise.all([
-  fetch('/static/data/sales_orders_jun2025.csv').then(res => res.text()),
-  fetch('/static/data/products_std.csv').then(res => res.text()),
-  fetch('/static/data/customer_total_payments.csv').then(res => res.text())
-]).then(([salesCSV, productsCSV, customersCSV]) => {
-  renderSalesPie(parseCSV(salesCSV));
+  fetch("/api/sales-by-category").then(r => r.json()),   // ← JSON already
+  fetch("/static/data/products_std.csv").then(r => r.text()),
+  fetch("/static/data/customer_total_payments.csv").then(r => r.text())
+])
+.then(([salesData, productsCSV, customersCSV]) => {
+  renderSalesPie(salesData);                 // ← no parseCSV here
   renderInventoryPie(parseCSV(productsCSV));
   renderCustomerPie(parseCSV(customersCSV));
-});
+})
+.catch(err => console.error("Dashboard load failed:", err));
 
 function parseCSV(str) {
   const [headerLine, ...lines] = str.trim().split("\n");

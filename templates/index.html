@@ -4,9 +4,15 @@
 
 {% block head %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 {% endblock %}
+
+<!-- ✅ Put this just before </body> -->
+{% block scripts %}
+<script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+{% endblock %}
+
 
 {% block content %}
 <div class="container">
@@ -14,15 +20,17 @@
     <div class="chart-row">
       <div class="chart-box">
         <h3>Sales by Category</h3>
-        <div id="salesPieChart"></div>
+        <div id="salesPieChart" style="width: 100%; height: 400px;"></div>
       </div>
+
       <div class="chart-box">
         <h3>Inventory by Category</h3>
-        <div id="inventoryPieChart"></div>
+        <div id="inventoryPieChart" style="width: 100%; height: 400px;"></div>
       </div>
+
       <div class="chart-box">
         <h3>Customers by Total Payment</h3>
-        <div id="customerPieChart"></div>
+        <div id="customerPieChart" style="width: 100%; height: 400px;"></div>
       </div>
     </div>
 
@@ -41,8 +49,6 @@
         </thead>
         <tbody></tbody>
     </table>
-    </div>
+</div>
 
-<!-- Optional: Include your JS file specific to this page -->
-<script src="{{ url_for('static', filename='script.js') }}"></script>
 {% endblock %}

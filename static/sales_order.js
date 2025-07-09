@@ -321,7 +321,6 @@ function filterOrders(){
   currentPage = 1;
   renderTable();
 }
-
 /* ----------  INIT ------------- */
 document.addEventListener("DOMContentLoaded", () => {
   renderTable();                     // initial draw
@@ -329,18 +328,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Refresh Invoices Button
 /* ============  (1) Load last‑refresh label on first load  ============ */
-async function fetchLastRefreshLabel(){
-  try{
-    const res = await fetch("/api/last-refresh");   // backend must return {"last_refresh": "..."}
-    const j   = await res.json();
-    if (j.last_refresh){
-      document.getElementById("lastRefresh").textContent =
-        "Last refresh: " + new Date(j.last_refresh).toLocaleString();
-    }
-  }catch(e){
-    console.warn("Could not load last‑refresh label:", e);
-  }
-}
+// async function fetchLastRefreshLabel(){
+//   try{
+//     const res = await fetch("/api/last-refresh");   // backend must return {"last_refresh": "..."}
+//     const j   = await res.json();
+//     if (j.last_refresh){
+//       document.getElementById("lastRefresh").textContent =
+//         "Last refresh: " + new Date(j.last_refresh).toLocaleString();
+//     }
+//   }catch(e){
+//     console.warn("Could not load last‑refresh label:", e);
+//   }
+// }
 
 /* ============  (2) Click handler for 🔄 Refresh orders  ============== */
 async function handleRefreshClick(event){
@@ -374,6 +373,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("btnRefresh")
           .addEventListener("click", handleRefreshClick);
 
-  fetchLastRefreshLabel();       // comment this line out if /api/last-refresh not yet implemented
+  // fetchLastRefreshLabel();       // comment this line out if /api/last-refresh not yet implemented
 });
 

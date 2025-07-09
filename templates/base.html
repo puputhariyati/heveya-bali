@@ -8,6 +8,7 @@
     {% block head %}{% endblock %}
 </head>
 <body>
+    <button id="hamburger" class="hamburger" aria-label="menu">☰</button>
     <div class="sidebar">
         <div class="logo">Heveya</div>
         <a href="/" class="sidebar-link {% if request.path == '/' %}active{% endif %}">Dashboard</a>
@@ -26,6 +27,7 @@
         {% endblock %}
     </div>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    {% block scripts %}{% endblock %}
 </body>
 </html>
+
