@@ -17,6 +17,12 @@
 {% block content %}
 <div class="container">
   <h1>Dashboard</h1>
+    <div class="filters">
+      <label>From: <input type="date" id="startDate" value="2025-06-01"></label>
+      <label>To: <input type="date" id="endDate" value="2025-06-30"></label>
+      <button onclick="loadAllCharts()">Apply</button>
+    </div>
+
     <div class="chart-row">
       <div class="chart-box">
         <h3>Sales by Category</h3>

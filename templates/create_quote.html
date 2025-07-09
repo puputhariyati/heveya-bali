@@ -1,4 +1,4 @@
-  {% extends 'base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Sales - Heveya App{% endblock %}
 
@@ -9,7 +9,7 @@
 
 {% block content %}
   <div id="invoice">
-    <input type="hidden" id="quote-id" value="{{ quote.id if quote else '' }}">
+    <input type="hidden" id="quote-id" value="{{ quote.id if quote }}">
     <!-- Header -->
     <table class="header-table">
       <tr>
@@ -20,9 +20,9 @@
           Email: 434893871906000
         </td>
         <td>
-          <label>QUOTE: # <input type="text" name="quote_no" placeholder="quote no" /></label><br>
-          <label>DATE: <input type="date" id="quote-date" value="{{ quote.date if quote else '' }}"></label><br><br>
-          <label>EXPIRED DATE: <input type="date" id="quote-expiry" /></label><br><br>
+          <label>QUOTE: # <input type="text" name="quote_no" placeholder="quote no" value="{{ quote.quote_no if quote }}"></label><br>
+          <label>DATE: <input type="date" id="quote-date" value="{{ quote.date if quote }}"></label><br><br>
+          <label>EXPIRED DATE: <input type="date" id="quote-expiry" value="{{ quote.expiry_date if quote }}"></label><br><br>
         </td>
         <td style="text-align: center;">
           <img src="{{ url_for('static', filename='images/heveya-logo.png') }}" alt="heveya logo">
@@ -38,13 +38,13 @@
         <td>
           <strong>CUSTOMER</strong><br>
             <label>NAME: <input type="text" id="client-name" placeholder="Client Name" value="{{ quote.customer if quote else '' }}" /></label><br><br>
-            <label>ADDRESS: <textarea type="text" id="client-address" placeholder="Client Address" value="{{ quote.address if quote and quote.address else '' }}"></textarea></label><br>
+            <label>ADDRESS: <textarea id="client-address" placeholder="Client Address">{{ quote.address if quote else '' }}</textarea></label><br>
             <label>PHONE: <input type="text" id="client-phone" placeholder="Client Phone" value="{{ quote.phone if quote else '' }}" /></label>
         </td>
         <td>
           <strong>PROJECT</strong><br>
-          <label>PROJECT NAME: <input type="text" id="project-name" placeholder="Project Name" value="{{ quote.customer if quote else '' }}" /></label><br><br>
-          <label>Estimated Time of Delivery <input type="date" id="etd-date"></label><br><br>
+          <label>PROJECT NAME: <input type="text" id="project-name" placeholder="Project Name" value="{{ quote.project_name if quote else '' }}"></label><br><br>
+          <label>Estimated Time of Delivery <input type="date" id="etd-date" value="{{ quote.ETD if quote else '' }}"></label><br><br>
         </td>
       </tr>
     </table>
@@ -71,38 +71,77 @@
           <th class="internal-only">Abs. Margin</th>
         </tr>
       </thead>
+
       <tbody id="quote-items">
-        {% for i in range(1, 4) %}
-        <tr>
-          <td>{{ i }}</td>
-          <td><img src="https://via.placeholder.com/60" class="product-image" width="60"></td>
-          <td>
-            <div class="input-wrapper">
-              <textarea class="description" placeholder="Type product..." oninput="showSuggestions(this)"></textarea>
-              <div class="suggestions"></div>
-            </div>
-          </td>
-          <td><input type="number" class="qty" value="1" min="1" onchange="recalculate(this)"></td>
-          <td class="unit">-</td>
-          <td class="unit-price">-</td>
-          <td class="discount-cell">
-            <div class="discount-wrapper">
-              <input type="number" class="discount" value="0" min="0" max="100" onchange="recalculate(this)">
-              <span class="percent-sign">%</span>
-            </div>
-          </td>
-          <td class="discounted-price">-</td>
-          <td class="amount">-</td>
-          <td><textarea type="text" class="notes" placeholder="Optional"></textarea></td>
-          <td><button onclick="this.closest('tr').remove()">🗑️</button></td>
-          <td class="internal-only full-amount">-</td>
-          <td class="internal-only sell-no-ppn">-</td>
-          <td class="internal-only unit-cost" data-cost="0">-</td>
-          <td class="internal-only total-cost">-</td>
-          <td class="internal-only abs-margin">-</td>
-        </tr>
-        {% endfor %}
+        {% if items %}
+          {% for item in items %}
+          <tr>
+            <td>{{ loop.index }}</td>
+            <td>
+              {% set product = (product_list | selectattr('name', 'equalto', item.description) | list | first) %}
+              <img src="{{ product.image_url if product else 'https://via.placeholder.com/60' }}" class="product-image" width="60">
+            </td>
+            <td>
+              <div class="input-wrapper">
+                <textarea class="description" oninput="showSuggestions(this)">{{ item.description }}</textarea>
+                <div class="suggestions"></div>
+              </div>
+            </td>
+            <td><input type="number" class="qty" value="{{ item.qty }}" min="1" onchange="recalculate(this)"></td>
+            <td class="unit">{{ item.unit }}</td>
+            <td class="unit-price">{{ item.unit_price }}</td>
+            <td class="discount-cell">
+              <div class="discount-wrapper">
+                <input type="number" class="discount" value="{{ item.discount }}" min="0" max="100" onchange="recalculate(this)">
+                <span class="percent-sign">%</span>
+              </div>
+            </td>
+            <td class="discounted-price">{{ item.discounted_price }}</td>
+            <td class="amount">{{ item.amount }}</td>
+            <td><textarea class="notes">{{ item.notes }}</textarea></td>
+            <td><button onclick="this.closest('tr').remove()">🗑️</button></td>
+            <td class="internal-only full-amount">{{ item.full_amount }}</td>
+            <td class="internal-only sell-no-ppn">-</td>
+            <td class="internal-only unit-cost" data-cost="{{ item.unit_cost }}">{{ item.unit_cost }}</td>
+            <td class="internal-only total-cost">{{ item.total_cost }}</td>
+            <td class="internal-only abs-margin">{{ item.margin }}</td>
+          </tr>
+          {% endfor %}
+        {% else %}
+          <!-- Default 3 rows if no items yet -->
+          {% for i in range(1, 4) %}
+          <tr>
+            <td>{{ i }}</td>
+            <td><img src="https://via.placeholder.com/60" class="product-image" width="60"></td>
+            <td>
+              <div class="input-wrapper">
+                <textarea class="description" placeholder="Type product..." oninput="showSuggestions(this)"></textarea>
+                <div class="suggestions"></div>
+              </div>
+            </td>
+            <td><input type="number" class="qty" value="1" min="1" onchange="recalculate(this)"></td>
+            <td class="unit">-</td>
+            <td class="unit-price">-</td>
+            <td class="discount-cell">
+              <div class="discount-wrapper">
+                <input type="number" class="discount" value="0" min="0" max="100" onchange="recalculate(this)">
+                <span class="percent-sign">%</span>
+              </div>
+            </td>
+            <td class="discounted-price">-</td>
+            <td class="amount">-</td>
+            <td><textarea type="text" class="notes" placeholder="Optional"></textarea></td>
+            <td><button onclick="this.closest('tr').remove()">🗑️</button></td>
+            <td class="internal-only full-amount">-</td>
+            <td class="internal-only sell-no-ppn">-</td>
+            <td class="internal-only unit-cost" data-cost="0">-</td>
+            <td class="internal-only total-cost">-</td>
+            <td class="internal-only abs-margin">-</td>
+          </tr>
+          {% endfor %}
+        {% endif %}
       </tbody>
+
       <tfoot>
         <tr>
           <td colspan="8" style="text-align: right;"><strong>Grand Total (Incl. PPN 11%):</strong></td>

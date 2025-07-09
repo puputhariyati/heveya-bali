@@ -8,7 +8,7 @@ from datetime import datetime, timezone, timedelta
 from flask import Flask, request, jsonify, render_template, redirect, flash, json
 from dotenv import load_dotenv
 
-from dashboard import render_api_sales_by_category
+from dashboard import render_api_sales_by_category, render_api_sales_by_subcategory
 from sales_quote import render_sales_quote, render_create_quote, render_save_quote, render_edit_quote
 from products import render_products
 from sales_invoices import render_refresh_invoices, render_sales_invoices, sync_sales_invoices, DATABASE, bulk_update_status, bulk_update_etd
@@ -46,6 +46,10 @@ def home():
 @app.route("/api/sales-by-category")
 def api_sales_by_category():
     return render_api_sales_by_category()
+
+@app.route("/api/sales-by-subcategory")
+def api_sales_by_subcategory():
+    return render_api_sales_by_subcategory()
 
 @app.route("/products")
 def products():
@@ -160,7 +164,7 @@ def create_quote():
 def save_quote():
     return render_save_quote()
 
-@app.route('/sales_quote/<int:quote_id>')
+@app.route("/edit_quote/<int:quote_id>")
 def edit_quote(quote_id):
     return render_edit_quote(quote_id)
 

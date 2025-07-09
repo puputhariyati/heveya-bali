@@ -35,43 +35,61 @@ def render_save_quote():
         data = request.get_json()
         print("🔍 Received Quote:", data)
 
-        # Determine next ID
-        next_id = 1
+        quote_id = data.get("id")
+        is_edit = False
+
+        # Load existing quotes
+        existing_quotes = []
         if QUOTES_FILE.exists():
-            with open(QUOTES_FILE, 'r', newline='') as f:
+            with open(QUOTES_FILE, newline='') as f:
                 reader = csv.DictReader(f)
-                existing = list(reader)
-                ids = [int(r['id']) for r in existing if r.get('id') and r['id'].isdigit()]
-                next_id = max(ids) + 1 if ids else 1
+                existing_quotes = list(reader)
 
-        quote_id = data.get("id") or str(next_id)
-        data['id'] = quote_id  # Update back to data
+        if quote_id:
+            is_edit = any(q["id"] == quote_id for q in existing_quotes)
+        else:
+            ids = [int(q["id"]) for q in existing_quotes if q["id"].isdigit()]
+            quote_id = str(max(ids, default=0) + 1)
+            data["id"] = quote_id
 
-        # Save quote
-        headers = ['id', 'date', 'customer', 'phone', 'full_amount', 'discount', 'grand_total', 'margin', 'status', 'ETD', 'quote_no']
-        write_header = not QUOTES_FILE.exists()
-        with open(QUOTES_FILE, 'a', newline='') as f:
+        # ✅ Save updated quote list (overwrite existing quote if editing)
+        headers = [
+            'id', 'date', 'quote_no', 'expiry_date',
+            'customer', 'address', 'phone',
+            'project_name', 'ETD',
+            'full_amount', 'discount', 'grand_total', 'margin', 'status'
+        ]
+        updated_quotes = [q for q in existing_quotes if q["id"] != quote_id]
+        updated_quotes.append({k: data.get(k, '') for k in headers})
+        with open(QUOTES_FILE, 'w', newline='') as f:
             writer = csv.DictWriter(f, fieldnames=headers)
-            if write_header:
-                writer.writeheader()
-            writer.writerow({k: data.get(k, '') for k in headers})
+            writer.writeheader()
+            writer.writerows(updated_quotes)
 
-        # Save items
+        # ✅ Save updated items (overwrite all previous items for this quote)
         item_headers = ['quote_id', 'description', 'qty', 'unit', 'unit_price', 'discount', 'discounted_price', 'amount', 'notes', 'full_amount', 'unit_cost', 'total_cost', 'margin']
-        write_detail_header = not DETAIL_FILE.exists()
-        with open(DETAIL_FILE, 'a', newline='') as f:
-            writer = csv.DictWriter(f, fieldnames=item_headers)
-            if write_detail_header:
-                writer.writeheader()
-            for item in data.get('items', []):
-                item['quote_id'] = quote_id
-                writer.writerow({k: item.get(k, '') for k in item_headers})
+        existing_items = []
+        if DETAIL_FILE.exists():
+            with open(DETAIL_FILE, newline='') as f:
+                reader = csv.DictReader(f)
+                existing_items = [r for r in reader if r["quote_id"] != quote_id]
 
-        return jsonify({"status": "success"})
+        new_items = []
+        for item in data.get("items", []):
+            item["quote_id"] = quote_id
+            new_items.append({k: item.get(k, '') for k in item_headers})
+
+        with open(DETAIL_FILE, 'w', newline='') as f:
+            writer = csv.DictWriter(f, fieldnames=item_headers)
+            writer.writeheader()
+            writer.writerows(existing_items + new_items)
+
+        return jsonify({"status": "success", "id": quote_id})
 
     except Exception as e:
         print("❌ Server error:", e)
         return jsonify({"status": "error", "message": str(e)}), 500
+
 
 def render_edit_quote(quote_id):
     quote = None
@@ -101,5 +119,6 @@ def render_edit_quote(quote_id):
     df = pd.read_csv(PRODUCTS_CSV)
     df['image_url'] = df['image_url'].astype(str).str.strip()
     product_list = df.to_dict(orient='records')
+    print("🧾 Editing quote:", quote)
 
     return render_template("create_quote.html", quote=quote, items=items, product_list=product_list, edit_mode=True)

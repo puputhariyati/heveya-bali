@@ -1,6 +1,6 @@
 import requests
 import csv, sqlite3, re
-from flask import jsonify
+from flask import jsonify, request
 from pathlib import Path
 
 PRODUCTS_STD = Path("static/data/products_std.csv")   # adjust if elsewhere
@@ -26,11 +26,17 @@ def render_api_sales_by_category():
     # 2️⃣ sum qty per item from DB
     conn = sqlite3.connect(DATABASE)
     cur  = conn.cursor()
+
+    start_date = request.args.get("start_date", "2025-06-01")
+    end_date = request.args.get("end_date", "2025-06-30")
+
+    # Use start_date and end_date to filter the sales_order_detail data
     cur.execute("""
-        SELECT item, SUM(qty) AS total_qty
-        FROM sales_order_detail
-        GROUP BY item
-    """)
+                SELECT item, SUM(qty) AS total_qty
+                FROM sales_order_detail
+                WHERE date BETWEEN ? AND ?
+                GROUP BY item
+                """, (start_date, end_date))
     rows = cur.fetchall()
     conn.close()
 
@@ -47,6 +53,10 @@ def render_api_sales_by_category():
     ]
     return jsonify(payload)
 
+def render_api_sales_by_subcategory():
+    category = request.args.get("category")
+    ...
+    # filter products in this category and sum sales by subcategory
 
 
 # def get_sales_by_products():

@@ -289,17 +289,22 @@ function saveQuote() {
 
   const quoteData = {
     id: quoteId,
-    date: document.getElementById('quote-date').value,
-    customer: document.getElementById('client-name').value,
-    phone: document.getElementById('client-phone').value,
+    quote_no: document.querySelector('[name="quote_no"]')?.value || '',
+    date: document.getElementById('quote-date')?.value || '',
+    expiry_date: document.getElementById('quote-expiry')?.value || '',
+    customer: document.getElementById('client-name')?.value || '',
+    address: document.getElementById('client-address')?.value || '',
+    phone: document.getElementById('client-phone')?.value || '',
+    project_name: document.getElementById('project-name')?.value || '',
+    ETD: document.getElementById('etd-date')?.value || '',
     full_amount: parseNumber(getText('full-amount-total')),
     discount: parseNumber(getText('total-discount')),
     grand_total: parseNumber(getText('grand-total')),
     margin: parseNumber(document.querySelector('.abs-margin-total')?.textContent || '0'),
     status: 'Draft',
-    ETD: null,
     items: []
   };
+
 
   // ✅ Loop through each item row
   document.querySelectorAll('#quote-items tr').forEach(row => {

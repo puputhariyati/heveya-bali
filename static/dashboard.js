@@ -1,6 +1,8 @@
 function loadAllCharts() {
+    const startDate = document.getElementById("startDate").value;
+    const endDate = document.getElementById("endDate").value;
   Promise.all([
-    fetch("/api/sales-by-category").then(res => res.json()),
+    fetch(`/api/sales-by-category?start_date=${startDate}&end_date=${endDate}`).then(res => res.json()),
     fetch("/static/data/products_std.csv").then(res => res.text()),
     fetch("/static/data/customer_total_payments.csv").then(res => res.text())
   ])
@@ -25,24 +27,39 @@ function loadAllCharts() {
 
 
 function renderSalesPie(data) {
-  console.log("🧪 Sales Data:", data); // ← check structure here!
-
-  const labels = data.map(d => d.name);   // Make sure it's an array of { name, value }
+  const labels = data.map(d => d.name);
   const values = data.map(d => d.value);
 
   Plotly.newPlot("salesPieChart", [{
     type: "pie",
-    labels: labels,
-    values: values,
-    textinfo: "label+percent",
-    marker: {
-      colors: labels.map(() => `hsl(${Math.random() * 360}, 70%, 70%)`)
-    }
+    labels,
+    values,
+    textinfo: "label+percent"
   }], {
     title: "Sales by Category",
     height: 400,
-    width: 400,
-    margin: { t: 40, b: 20, l: 20, r: 20 }
+    width: 400
+  });
+
+  document.getElementById("salesPieChart").on('plotly_click', function(eventData) {
+    const clickedCategory = eventData.points[0].label;
+    fetch(`/api/sales-by-subcategory?category=${encodeURIComponent(clickedCategory)}`)
+      .then(res => res.json())
+      .then(renderSubcategoryPie);
+  });
+}
+
+
+function renderSubcategoryPie(data) {
+  Plotly.newPlot("salesPieChart", [{
+    type: "pie",
+    labels: data.map(d => d.name),
+    values: data.map(d => d.value),
+    textinfo: "label+percent"
+  }], {
+    title: "Sales by Subcategory",
+    height: 400,
+    width: 400
   });
 }
 
@@ -80,7 +97,6 @@ function renderInventoryPie(data) {
     values: values,
     textinfo: "label+percent"
   }], {
-    title: "Inventory by Category",
     height: 400,
     width: 400,
     margin: { t: 40 }
@@ -111,7 +127,6 @@ function renderCustomerPie(data) {
     values: Object.values(buckets),
     textinfo: "label+percent"
   }], {
-    title: "Customers by Total Payment",
     height: 400,
     width: 400,
     margin: { t: 40 }
