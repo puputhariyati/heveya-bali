@@ -1,0 +1,10 @@
+# Ignore specific JSON files
+heveyabali/static/data/sales_invoices_2022_0106.json
+heveyabali/static/data/sales_invoices_2022_0712.json
+heveyabali/static/data/sales_invoices_2023_0106.json
+heveyabali/static/data/sales_invoices_2023_0712.json
+heveyabali/static/data/sales_invoices_2024_0106.json
+heveyabali/static/data/sales_invoices_2024_0712.json
+
+## Or ignore all JSON files in a folder
+#heveyabali/static/data/*.json
