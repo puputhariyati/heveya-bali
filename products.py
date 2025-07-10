@@ -3,6 +3,7 @@ import pandas as pd
 import os
 
 from flask import render_template, redirect, request, flash, Flask
+from collections import defaultdict
 
 from dotenv import load_dotenv
 from pathlib import Path
@@ -97,8 +98,39 @@ def render_products():
     mattress_df = df[df['Category'] == 'Mattress'].copy()
     mattresses = mattress_df.to_dict(orient='records')
 
+    # 🔹 BATHROOM SERIES (Bath Accessories)
+    bathroom_df = df[df['Category'].str.contains("Bath Accessories", case=False, na=False)].copy()
+    # Calculate showroom & warehouse requests
+    bathroom_df['req_sh'] = bathroom_df.apply(
+        lambda row: 6 - float(row['showroom_qty']) if float(row['showroom_qty']) < 6 else 0,
+        axis=1
+    )
+    bathroom_df['req_wh'] = bathroom_df.apply(
+        lambda row: 20 - float(row['warehouse_qty']) if float(row['warehouse_qty']) < 20 else 0,
+        axis=1
+    )
+    # Format values
+    for col in ['showroom_qty', 'warehouse_qty', 'req_sh', 'req_wh']:
+        bathroom_df[col] = bathroom_df[col].apply(format_qty)
+    # Group by item type (excluding color)
+    grouped_bathroom = defaultdict(lambda: {
+        'Showroom': {},
+        'Warehouse': {},
+        'ReqSH': {},
+        'ReqWH': {},
+    })
+    for _, row in bathroom_df.iterrows():
+        name_parts = row['name'].rsplit('-', 1)
+        item_type = name_parts[0].strip()  # e.g., "Heveya Vegan Cotton Face Towel - 30x30cm"
+        color = name_parts[1].strip() if len(name_parts) > 1 else 'Unknown'
+        grouped_bathroom[item_type]['Showroom'][color] = row['showroom_qty']
+        grouped_bathroom[item_type]['Warehouse'][color] = row['warehouse_qty']
+        grouped_bathroom[item_type]['ReqSH'][color] = row['req_sh']
+        grouped_bathroom[item_type]['ReqWH'][color] = row['req_wh']
+
     return render_template(
         "products.html",
         pillows=pillow_products,
-        mattresses=mattresses
+        mattresses=mattresses,
+        grouped_bathroom=grouped_bathroom
     )

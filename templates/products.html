@@ -173,235 +173,299 @@
 
   <div class="category-header" onclick="toggleCategory('duvet')">Duvet & Protectors +</div>
   <div id="duvet" class="subcategory">
-    <p>[Duvet stock table goes here]</p>
+    <!-- Duvet & Protectors Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th class="warehouse">Showroom</th>
+          <th class="pending">Warehouse</th>
+          <th class="upcoming">Req.SH</th>
+          <th class="request">Req.PO</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in pillows %}
+          <tr data-item-name="{{ item.name }}">
+            <td style="text-align: left">{{ item.name }}</td>
+            <td class="showroom-qty">{{ item.showroom_qty }}</td>
+            <td class="warehouse-qty">{{ item.warehouse_qty }}</td>
+            <td class="req-sh">{{ item.req_sh }}</td>
+            <td class="req-wh">{{ item.req_wh }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 
   <div class="category-header" onclick="toggleCategory('bedsheets')">Bed Sheets +</div>
   <div id="bedsheets" class="subcategory">
   <!-- Bedsheets Tables -->
     <div class="section-title">100% Bamboo Lyocell</div>
-    <table>
-      <thead>
-        <tr>
-          <th rowspan="2">Fitted Sheets</th>
-          <th colspan="4" class="warehouse">Showroom</th>
-          <th colspan="4" class="pending">Warehouse</th>
-          <th colspan="4" class="upcoming">Req.SH</th>
-          <th colspan="4" class="request">Req.WH</th>
-        </tr>
-        <tr>
-          {% for _ in range(4) %}
-            <th>SK</th><th>K</th><th>Q</th><th>S</th>
-          {% endfor %}
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>White</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Sand</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Grey</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Dark Grey</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Sage</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Moss Green</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-      </tbody>
-    </table>
-    <table>
-      <thead>
-        <tr>
-          <th rowspan="2">Duvet Cover</th>
-          <th colspan="4" class="warehouse">Showroom</th>
-          <th colspan="4" class="pending">Warehouse</th>
-          <th colspan="4" class="upcoming">Req.SH</th>
-          <th colspan="4" class="request">Req.WH</th>
-        </tr>
-        <tr>
-          {% for _ in range(4) %}
-            <th>SK</th><th>K</th><th>Q</th><th>S</th>
-          {% endfor %}
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>White</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Sand</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Grey</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Dark Grey</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Sage</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Moss Green</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-      </tbody>
-    </table>
-    <table>
-      <thead>
-        <tr>
-          <th rowspan="2">Flat Sheets</th>
-          <th colspan="4" class="warehouse">Showroom</th>
-          <th colspan="4" class="pending">Warehouse</th>
-          <th colspan="4" class="upcoming">Req.SH</th>
-          <th colspan="4" class="request">Req.WH</th>
-        </tr>
-        <tr>
-          {% for _ in range(4) %}
-            <th>SK</th><th>K</th><th>Q</th><th>S</th>
-          {% endfor %}
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>White</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Sand</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Grey</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Dark Grey</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Sage</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Moss Green</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-      </tbody>
-    </table>
+      <table>
+        <thead>
+          <tr>
+            <th rowspan="2">Fitted Sheets</th>
+            <th colspan="4" class="warehouse">Showroom</th>
+            <th colspan="4" class="pending">Warehouse</th>
+            <th colspan="4" class="upcoming">Req.SH</th>
+            <th colspan="4" class="request">Req.WH</th>
+          </tr>
+          <tr>
+            {% for _ in range(4) %}
+              <th>SK</th><th>K</th><th>Q</th><th>S</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>White</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Sand</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Grey</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Dark Grey</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Sage</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Moss Green</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Blush Mauve</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Burnt Orange</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+        </tbody>
+      </table>
+      <table>
+        <thead>
+          <tr>
+            <th rowspan="2">Duvet Cover</th>
+            <th colspan="4" class="warehouse">Showroom</th>
+            <th colspan="4" class="pending">Warehouse</th>
+            <th colspan="4" class="upcoming">Req.SH</th>
+            <th colspan="4" class="request">Req.WH</th>
+          </tr>
+          <tr>
+            {% for _ in range(4) %}
+              <th>SK</th><th>K</th><th>Q</th><th>S</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>White</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Sand</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Grey</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Dark Grey</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Sage</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Moss Green</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Blush Mauve</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Burnt Orange</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+        </tbody>
+      </table>
+      <table>
+        <thead>
+          <tr>
+            <th rowspan="2">Flat Sheets</th>
+            <th colspan="4" class="warehouse">Showroom</th>
+            <th colspan="4" class="pending">Warehouse</th>
+            <th colspan="4" class="upcoming">Req.SH</th>
+            <th colspan="4" class="request">Req.WH</th>
+          </tr>
+          <tr>
+            {% for _ in range(4) %}
+              <th>SK</th><th>K</th><th>Q</th><th>S</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>White</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Sand</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Grey</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Dark Grey</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Sage</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Moss Green</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Blush Mauve</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Burnt Orange</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+        </tbody>
+      </table>
+
     <div class="section-title">Linen</div>
-    <table>
-      <thead>
-        <tr>
-          <th rowspan="2">Fitted Sheets</th>
-          <th colspan="4" class="warehouse">Showroom</th>
-          <th colspan="4" class="pending">Warehouse</th>
-          <th colspan="4" class="upcoming">Req.SH</th>
-          <th colspan="4" class="request">Req.WH</th>
-        </tr>
-        <tr>
-          {% for _ in range(4) %}
-            <th>SK</th><th>K</th><th>Q</th><th>S</th>
-          {% endfor %}
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>White</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Natural</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Charcoal Grey</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Pinstripe</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Olive</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-        <tr>
-          <td>Olive Stripe</td>
-          {% for i in range(16) %}
-            <td></td>
-          {% endfor %}
-        </tr>
-      </tbody>
-    </table>
+      <table>
+        <thead>
+          <tr>
+            <th rowspan="2">Fitted Sheets</th>
+            <th colspan="4" class="warehouse">Showroom</th>
+            <th colspan="4" class="pending">Warehouse</th>
+            <th colspan="4" class="upcoming">Req.SH</th>
+            <th colspan="4" class="request">Req.WH</th>
+          </tr>
+          <tr>
+            {% for _ in range(4) %}
+              <th>SK</th><th>K</th><th>Q</th><th>S</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>White</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Natural</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Charcoal Grey</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Pinstripe</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Olive</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Olive Stripe</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Hazelnut</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Peach</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Mustard</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+        </tbody>
+      </table>
+      <table>
+        <thead>
+          <tr>
+            <th rowspan="2">Duvet Cover</th>
+            <th colspan="4" class="warehouse">Showroom</th>
+            <th colspan="4" class="pending">Warehouse</th>
+            <th colspan="4" class="upcoming">Req.SH</th>
+            <th colspan="4" class="request">Req.WH</th>
+          </tr>
+          <tr>
+            {% for _ in range(4) %}
+              <th>SK</th><th>K</th><th>Q</th><th>S</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>White</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Natural</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Charcoal Grey</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Pinstripe</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Olive</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Olive Stripe</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Hazelnut</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Peach</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Mustard</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+        </tbody>
+      </table>
+      <table>
+        <thead>
+          <tr>
+            <th rowspan="2">Flat Sheets</th>
+            <th colspan="4" class="warehouse">Showroom</th>
+            <th colspan="4" class="pending">Warehouse</th>
+            <th colspan="4" class="upcoming">Req.SH</th>
+            <th colspan="4" class="request">Req.WH</th>
+          </tr>
+          <tr>
+            {% for _ in range(4) %}
+              <th>SK</th><th>K</th><th>Q</th><th>S</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>White</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Natural</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Charcoal Grey</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Pinstripe</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Olive</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Olive Stripe</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Hazelnut</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Peach</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Mustard</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+        </tbody>
+      </table>
+
+    <div class="section-title">Bamboo Cotton</div>
+      <table>
+        <thead>
+          <tr>
+            <th rowspan="2">Fitted Sheets</th>
+            <th colspan="4" class="warehouse">Showroom</th>
+            <th colspan="4" class="pending">Warehouse</th>
+            <th colspan="4" class="upcoming">Req.SH</th>
+            <th colspan="4" class="request">Req.WH</th>
+          </tr>
+          <tr>
+            {% for _ in range(4) %}
+              <th>SK</th><th>K</th><th>Q</th><th>S</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>White</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Sand</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+        </tbody>
+      </table>
+      <table>
+        <thead>
+          <tr>
+            <th rowspan="2">Duvet Cover</th>
+            <th colspan="4" class="warehouse">Showroom</th>
+            <th colspan="4" class="pending">Warehouse</th>
+            <th colspan="4" class="upcoming">Req.SH</th>
+            <th colspan="4" class="request">Req.WH</th>
+          </tr>
+          <tr>
+            {% for _ in range(4) %}
+              <th>SK</th><th>K</th><th>Q</th><th>S</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>White</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Sand</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+        </tbody>
+      </table>
+      <table>
+        <thead>
+          <tr>
+            <th rowspan="2">Flat Sheets</th>
+            <th colspan="4" class="warehouse">Showroom</th>
+            <th colspan="4" class="pending">Warehouse</th>
+            <th colspan="4" class="upcoming">Req.SH</th>
+            <th colspan="4" class="request">Req.WH</th>
+          </tr>
+          <tr>
+            {% for _ in range(4) %}
+              <th>SK</th><th>K</th><th>Q</th><th>S</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>White</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          <tr><td>Sand</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+        </tbody>
+      </table>
   </div>
 
   <div class="category-header" onclick="toggleCategory('bathroom')">Bathroom Series +</div>
   <div id="bathroom" class="subcategory">
-    <p>[Bedsheet stock table goes here]</p>
+    <!-- Bathroom Series Table -->
+    <table>
+      <thead>
+        <tr>
+          <th rowspan="2">Item</th>
+          <th colspan="4" class="warehouse">Showroom</th>
+          <th colspan="4" class="pending">Warehouse</th>
+          <th colspan="4" class="upcoming">Req.SH</th>
+          <th colspan="4" class="request">Req.WH</th>
+        </tr>
+        <tr>
+          {% for i in range(4) %}
+            <th>White</th><th>Natural</th><th>Silver</th><th>Stone</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for item_name, data in grouped_bathroom.items() %}
+        <tr>
+          <td style="text-align: left">{{ item_name }}</td>
+
+          {% for color in ['White', 'Natural', 'Silver', 'Stone'] %}
+            <td>{{ data.Showroom[color] or '-' }}</td>
+          {% endfor %}
+          {% for color in ['White', 'Natural', 'Silver', 'Stone'] %}
+            <td>{{ data.Warehouse[color] or '-' }}</td>
+          {% endfor %}
+          {% for color in ['White', 'Natural', 'Silver', 'Stone'] %}
+            <td>{{ data.ReqSH[color] or '-' }}</td>
+          {% endfor %}
+          {% for color in ['White', 'Natural', 'Silver', 'Stone'] %}
+            <td>{{ data.ReqWH[color] or '-' }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 
   <div class="category-header" onclick="toggleCategory('decor')">Decor Series +</div>
