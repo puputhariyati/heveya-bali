@@ -69,19 +69,32 @@ def save_sales_invoices_detail(transaction_no):
         description_list = request.form.getlist('description')
         remain_qty_list = request.form.getlist('remain_qty')
 
-        # Load products CSV for stock update
+        # ✅ NEW: Get selected rows and bulk warehouse option from the form
+        selected_rows = request.form.getlist('selected_rows')  # e.g., ["1", "3", "5"]
+        bulk_warehouse_option = request.form.get('bulk_warehouse_option')
+
+        # Convert selected row indices to int
+        selected_indices = set(int(i) for i in selected_rows)
+
         products_csv_path = "static/data/products_std.csv"
         products_df = pd.read_csv(products_csv_path)
         stock_updated = False
 
         for i in range(len(item_list)):
-            delivered = int(float(delivered_list[i])) if delivered_list[i] else 0
             qty = int(float(qty_list[i])) if qty_list[i] else 0
+
+            # ✅ Apply bulk logic if this row was selected
+            if i in selected_indices:
+                delivered = qty  # Set delivered = qty
+                warehouse_option = bulk_warehouse_option
+            else:
+                delivered = int(float(delivered_list[i])) if delivered_list[i] else 0
+                warehouse_option = warehouse_option_list[i]
+
             remain = int(float(remain_qty_list[i])) if remain_qty_list[i] else max(qty - delivered, 0)
             item_name = item_list[i]
-            warehouse_option = warehouse_option_list[i]
 
-            # Get previous delivered value to calculate the difference
+            # Get previous delivered value to calculate stock difference
             c.execute("SELECT delivered FROM sales_order_detail WHERE transaction_no=? AND line=?", (transaction_no, i + 1))
             prev_record = c.fetchone()
             prev_delivered = prev_record[0] if prev_record else 0
@@ -98,7 +111,7 @@ def save_sales_invoices_detail(transaction_no):
                     WHERE transaction_no=? AND line=?
                 """, (
                     delivered, remain, po_no_list[i], delivery_date_list[i],
-                    warehouse_option_list[i], status_list[i], description_list[i],
+                    warehouse_option, status_list[i], description_list[i],
                     transaction_no, i + 1
                 ))
             else:
@@ -110,50 +123,46 @@ def save_sales_invoices_detail(transaction_no):
                 """, (
                     transaction_no, i + 1, item_name, qty, unit_list[i],
                     delivered, remain, po_no_list[i],
-                    warehouse_option_list[i], delivery_date_list[i], status_list[i], description_list[i]
+                    warehouse_option, delivery_date_list[i], status_list[i], description_list[i]
                 ))
 
-            # Update stock quantity if delivered quantity has changed
-            if delivered_diff != 0:
-                updated = False  # flag to track if matched regular name
-                # Try matching by 'name' (standard logic)
-                product_idx = products_df[products_df['name'] == item_name].index
-                if len(product_idx) > 0:
-                    idx = product_idx[0]
+            # ✅ Stock update (same as before, untouched)
+            updated = False
+            product_idx = products_df[products_df['name'] == item_name].index
+            if len(product_idx) > 0:
+                idx = product_idx[0]
+                if warehouse_option == 'showroom':
+                    current_qty = products_df.at[idx, 'showroom_qty']
+                    if pd.notna(current_qty) and current_qty != '':
+                        current_qty = float(current_qty)
+                        new_qty = current_qty - delivered_diff
+                        products_df.at[idx, 'showroom_qty'] = max(new_qty, 0) if delivered_diff > 0 else new_qty
+                        stock_updated = True
+                        updated = True
+                elif warehouse_option == 'warehouse':
+                    current_qty = products_df.at[idx, 'warehouse_qty']
+                    if pd.notna(current_qty) and current_qty != '':
+                        current_qty = float(current_qty)
+                        new_qty = current_qty - delivered_diff
+                        products_df.at[idx, 'warehouse_qty'] = max(new_qty, 0) if delivered_diff > 0 else new_qty
+                        stock_updated = True
+                        updated = True
 
-                    if warehouse_option == 'showroom':
-                        current_qty = products_df.at[idx, 'showroom_qty']
-                        if pd.notna(current_qty) and current_qty != '':
-                            current_qty = float(current_qty)
-                            new_qty = current_qty - delivered_diff  # subtract or add based on diff
-                            products_df.at[idx, 'showroom_qty'] = max(new_qty, 0) if delivered_diff > 0 else new_qty
+            if not updated and "Mattress" in item_name:
+                category, size, firmness = parse_mattress_name(item_name)
+                if category and size and firmness:
+                    mattress_idx = products_df[
+                        (products_df['Category'] == category) &
+                        (products_df['Subcategory'].str.contains(size)) &
+                        (products_df['Firmness'] == firmness)
+                    ].index
+                    if len(mattress_idx) > 0:
+                        idx = mattress_idx[0]
+                        if warehouse_option == 'warehouse':
+                            current_qty = float(products_df.at[idx, 'warehouse_qty'])
+                            products_df.at[idx, 'warehouse_qty'] = max(current_qty - delivered_diff, 0)
                             stock_updated = True
 
-                    elif warehouse_option == 'warehouse':
-                        current_qty = products_df.at[idx, 'warehouse_qty']
-                        if pd.notna(current_qty) and current_qty != '':
-                            current_qty = float(current_qty)
-                            new_qty = current_qty - delivered_diff  # subtract or add based on diff
-                            products_df.at[idx, 'warehouse_qty'] = max(new_qty, 0) if delivered_diff > 0 else new_qty
-                            stock_updated = True
-                # 🛏️ If not updated by name, try mattress parser logic
-                if not updated and "Mattress" in item_name:
-                    category, size, firmness = parse_mattress_name(item_name)
-                    if category and size and firmness:
-                        mattress_idx = products_df[
-                            (products_df['Category'] == category) &
-                            (products_df['Subcategory'].str.contains(size)) &
-                            (products_df['Firmness'] == firmness)
-                            ].index
-
-                        if len(mattress_idx) > 0:
-                            idx = mattress_idx[0]
-                            if warehouse_option == 'warehouse':
-                                current_qty = float(products_df.at[idx, 'warehouse_qty'])
-                                products_df.at[idx, 'warehouse_qty'] = max(current_qty - delivered_diff, 0)
-                                stock_updated = True
-
-        # Save updated stock quantities to CSV if any changes were made
         if stock_updated:
             products_df.to_csv(products_csv_path, index=False)
 
@@ -168,5 +177,6 @@ def save_sales_invoices_detail(transaction_no):
         conn.close()
 
     return redirect(f"/sales_invoices/{transaction_no}")
+
 
 
