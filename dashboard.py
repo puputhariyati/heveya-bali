@@ -29,15 +29,17 @@ def render_api_sales_by_category():
 
     start_date = request.args.get("start_date", "2025-06-01")
     end_date = request.args.get("end_date", "2025-06-30")
+    print("➡️ Filtering between:", start_date, "and", end_date)
 
-    # Use start_date and end_date to filter the sales_order_detail data
     cur.execute("""
-                SELECT item, SUM(qty) AS total_qty
-                FROM sales_order_detail
-                WHERE date BETWEEN ? AND ?
-                GROUP BY item
-                """, (start_date, end_date))
+                SELECT d.item, SUM(d.qty) AS total_qty
+                FROM sales_order_detail d
+                         JOIN sales_order o ON TRIM(d.transaction_no) = TRIM(o.transaction_no)
+                GROUP BY d.item
+                """)
     rows = cur.fetchall()
+    print("📊 NO DATE FILTER rows:", rows)
+
     conn.close()
 
     # 3️⃣ collapse into categories
@@ -51,6 +53,8 @@ def render_api_sales_by_category():
         {"name": cat, "value": qty}           # <-- keys the chart lib expects
         for cat, qty in sorted(cat_totals.items(), key=lambda x: -x[1])
     ]
+    print("📊 Final Payload:", payload)
+
     return jsonify(payload)
 
 def render_api_sales_by_subcategory():

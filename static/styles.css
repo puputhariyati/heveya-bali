@@ -120,6 +120,12 @@ th {
   align-items: center;
 }
 
+#salesPieChart, #inventoryPieChart, #customerPieChart {
+  min-height: 300px;
+  margin: 20px 0;
+}
+
+
 
 @media screen and (max-width: 768px) {
   .chart-row {

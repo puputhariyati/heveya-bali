@@ -1,4 +1,5 @@
 function loadAllCharts() {
+  console.log("🔁 Apply button clicked");
     const startDate = document.getElementById("startDate").value;
     const endDate = document.getElementById("endDate").value;
   Promise.all([
@@ -27,6 +28,7 @@ function loadAllCharts() {
 
 
 function renderSalesPie(data) {
+  console.log("🟢 Sales Pie Data Received:", data);
   const labels = data.map(d => d.name);
   const values = data.map(d => d.value);
 
@@ -36,7 +38,6 @@ function renderSalesPie(data) {
     values,
     textinfo: "label+percent"
   }], {
-    title: "Sales by Category",
     height: 400,
     width: 400
   });
@@ -57,7 +58,6 @@ function renderSubcategoryPie(data) {
     values: data.map(d => d.value),
     textinfo: "label+percent"
   }], {
-    title: "Sales by Subcategory",
     height: 400,
     width: 400
   });
