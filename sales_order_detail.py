@@ -13,8 +13,9 @@ app = Flask(__name__)
 
 # app.secret_key = os.getenv("SECRET_KEY")  # Retrieve secret key from .env
 
-BASE_DIR = Path(__file__).parent
+BASE_DIR = Path(__file__).resolve().parent
 DATABASE = BASE_DIR / "main.db"
+products_csv_path = BASE_DIR / "static" / "data" / "products_std.csv"
 
 
 def render_sales_invoices_detail(transaction_no):
@@ -76,7 +77,6 @@ def save_sales_invoices_detail(transaction_no):
         # Convert selected row indices to int
         selected_indices = set(int(i) for i in selected_rows)
 
-        products_csv_path = "static/data/products_std.csv"
         products_df = pd.read_csv(products_csv_path)
         stock_updated = False
 
