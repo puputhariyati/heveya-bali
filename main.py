@@ -3,30 +3,30 @@ import sqlite3, os
 import sys
 import pandas as pd
 import json
-from datetime import datetime, timezone, timedelta
 
+from datetime import datetime, timezone, timedelta
 from flask import Flask, request, jsonify, render_template, redirect, flash, json
-from dotenv import load_dotenv
 
 from dashboard import render_api_sales_by_category, render_api_sales_by_subcategory
 from sales_quote import render_sales_quote, render_create_quote, render_save_quote, render_edit_quote
 from products import render_products
-from sales_invoices import render_refresh_invoices, render_sales_invoices, sync_sales_invoices, DATABASE, bulk_update_status, bulk_update_etd
-# from sales_order import render_sales_order, update_single_etd, bulk_update_status, bulk_update_etd, upsert_sales_order
+from sales_invoices import render_refresh_invoices, render_sales_invoices, sync_sales_invoices, bulk_update_status, bulk_update_etd
 from sales_order_detail import render_sales_invoices_detail, save_sales_invoices_detail, parse_mattress_name
 from purchase_order import render_purchase_order, save_purchase_order, update_po_eta
 from create_po import render_create_po
 from transfer_warehouse import render_transfer_list, render_create_transfer
 from attendance import render_attendance, render_attendance_checkin
 
+from dotenv import load_dotenv
 from pathlib import Path
-load_dotenv(Path(__file__).parent / "key.env")
 
+load_dotenv(Path(__file__).parent / "key.env")
 app = Flask(__name__)
 
 app.secret_key = os.getenv("SECRET_KEY")  # Retrieve secret key from .env
 
-DATABASE = Path(__file__).parent / "main.db"
+BASE_DIR = Path(__file__).parent
+DATABASE = BASE_DIR / "main.db"
 
 def get_db_connection():
     conn = sqlite3.connect(DATABASE)
@@ -34,7 +34,7 @@ def get_db_connection():
     return conn
 
 # Add your project folder for pythonanywhere
-path = '/home/puputheveya/heveya-bali'
+path = '/home/puputheveya/heveyabali'
 if path not in sys.path:
     sys.path.insert(0, path)
 

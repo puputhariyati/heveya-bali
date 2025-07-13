@@ -200,31 +200,43 @@ def _insert_detail(cur, txn_no, i, ln):
         "open"
     ))
 
+
 def bulk_update_status():
-    data = request.get_json()
-    print('🚚 received', data)
-    transaction_nos = data.get("transaction_nos", [])
-    status = data.get("status")
+    try:
+        data = request.get_json()
+        print("📦 Received data:", data)
 
-    if not transaction_nos or status not in ["closed"]:
-        return jsonify({"success": False, "message": "Invalid data"})
+        transaction_nos = data.get("transaction_nos", [])
+        status = data.get("status")
 
-    conn = sqlite3.connect("main.db")
-    cursor = conn.cursor()
+        print("🧾 Transactions:", transaction_nos)
+        print("🚦 Status:", status)
 
-    for tx_no in transaction_nos:
-        if status == "closed":
-            # Mark as fully delivered → remain_qty = 0
-            cursor.execute("""
-                           UPDATE sales_order_detail
-                           SET remain_qty = 0,
-                               delivered  = qty
-                           WHERE transaction_no = ?
-                           """, (tx_no,))
-    conn.commit()
-    conn.close()
+        if not transaction_nos or status not in ["closed"]:
+            return jsonify({"success": False, "message": "Invalid data"})
 
-    return jsonify({"success": True})
+        conn = sqlite3.connect(DATABASE)
+        cursor = conn.cursor()
+
+        for tx_no in transaction_nos:
+            print(f"🔄 Updating tx {tx_no}")
+            if status == "closed":
+                cursor.execute("""
+                               UPDATE sales_order_detail
+                               SET remain_qty = 0,
+                                   delivered  = qty
+                               WHERE transaction_no = ?
+                               """, (tx_no,))
+
+        conn.commit()
+        conn.close()
+
+        print("✅ Bulk update status successful")
+        return jsonify({"success": True})
+
+    except Exception as e:
+        print("❌ ERROR IN bulk_update_status():", e)
+        return jsonify({"success": False, "message": str(e)})
 
 
 def bulk_update_etd():
