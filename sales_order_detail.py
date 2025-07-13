@@ -37,7 +37,7 @@ def render_sales_invoices_detail(transaction_no):
 
     conn.close()
 
-    return render_template("sales_order_detail.html", order=order, lines=lines)
+    return render_template("sales_invoices_detail.html", order=order, lines=lines)
 
 # use parse mattress logic for stock update
 def parse_mattress_name(name):

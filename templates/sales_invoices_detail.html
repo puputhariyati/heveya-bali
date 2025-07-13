@@ -35,6 +35,20 @@
     <h2>Sales Order: {{ order.transaction_no }}</h2>
 
     <form method="POST" action="/sales_invoices/save_detail/{{ order.transaction_no }}">
+      <div style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;">
+        <strong>Bulk Edit (for selected rows):</strong><br>
+        <label>Apply warehouse option:</label>
+        <select name="bulk_warehouse_option">
+          <option value="">— Choose —</option>
+          <option value="showroom">Showroom</option>
+          <option value="warehouse">Warehouse</option>
+          <option value="pending_wh">Pending WH</option>
+          <option value="pending_sh">Pending SH</option>
+          <option value="preorder">Req. PO</option>
+        </select>
+<!--        <button type="submit" style="margin-left: 10px;">Bulk Deliver & Assign Warehouse</button>-->
+      </div>
+
       <table>
         <thead>
           <tr>
@@ -89,22 +103,6 @@
           {% endfor %}
         </tbody>
       </table>
-
-      <br>
-      <div style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;">
-        <strong>Bulk Edit (for selected rows):</strong><br>
-        <label>Apply warehouse option:</label>
-        <select name="bulk_warehouse_option">
-          <option value="">— Choose —</option>
-          <option value="showroom">Showroom</option>
-          <option value="warehouse">Warehouse</option>
-          <option value="pending_wh">Pending WH</option>
-          <option value="pending_sh">Pending SH</option>
-          <option value="preorder">Req. PO</option>
-        </select>
-        <button type="submit" style="margin-left: 10px;">Bulk Deliver & Assign Warehouse</button>
-      </div>
-
       <br><br>
       <button type="submit">Save</button>
     </form>

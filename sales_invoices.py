@@ -87,19 +87,30 @@ def render_sales_invoices():
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
+    search_query = request.args.get("search", "").lower()
+
     # Fetch all sales orders
     cursor.execute("SELECT * FROM sales_order ORDER BY transaction_date DESC")
     orders = cursor.fetchall()
-
     results = []
 
     for order in orders:
         tx_no = order["transaction_no"]
+
+        # ✅ Apply item-level filtering only if search query provided
+        if search_query:
+            cursor.execute("SELECT item FROM sales_order_detail WHERE transaction_no = ?", (tx_no,))
+            items = [row["item"].lower() for row in cursor.fetchall()]
+            # Skip this order if item doesn't match search
+            search_words = search_query.split()
+            if not any(all(word in item for word in search_words) for item in items):
+                continue
+
         # Fetch details to determine status
         cursor.execute("SELECT delivered, remain_qty FROM sales_order_detail WHERE transaction_no = ?", (tx_no,))
         details = cursor.fetchall()
 
-        # Default status logic
+        # Determine status
         if not details:
             status = "closed"
         else:
@@ -113,20 +124,19 @@ def render_sales_invoices():
             else:
                 status = "open"
 
-        # Merge status into order
         order_dict = dict(order)
         order_dict["status"] = status
         results.append(order_dict)
 
-    # ✅ Sort by newest date using datetime.strptime
+    # ✅ Sort by date
     results.sort(
         key=lambda x: datetime.strptime(x["transaction_date"], "%d/%m/%Y"),
         reverse=True
     )
 
-    conn.commit()
     conn.close()
     return render_template("sales_invoices.html", orders=results)
+
 
 # ── FETCH API ────────────────────────────────────────────────────
 def fetch_sales_invoices(date_from, date_to):

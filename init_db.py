@@ -8,30 +8,30 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
-def init_db():
-    conn = get_db_connection()
-    cursor = conn.cursor()
-
-    # Example: your new sales_order_detail table
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS sales_order_detail (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            transaction_no TEXT,
-            line INTEGER,
-            item TEXT,
-            qty INTEGER,
-            unit TEXT,
-            delivered INTEGER DEFAULT 0,
-            remain_qty INTEGER,
-            po_no TEXT,
-            warehouse_option TEXT,
-            delivery_date TEXT,
-            status TEXT
-        )
-    """)
-
-    conn.commit()
-    conn.close()
+# def init_db():
+#     conn = get_db_connection()
+#     cursor = conn.cursor()
+#
+#     # Example: your new sales_order_detail table
+#     cursor.execute("""
+#         CREATE TABLE IF NOT EXISTS sales_order_detail (
+#             id INTEGER PRIMARY KEY AUTOINCREMENT,
+#             transaction_no TEXT,
+#             line INTEGER,
+#             item TEXT,
+#             qty INTEGER,
+#             unit TEXT,
+#             delivered INTEGER DEFAULT 0,
+#             remain_qty INTEGER,
+#             po_no TEXT,
+#             warehouse_option TEXT,
+#             delivery_date TEXT,
+#             status TEXT
+#         )
+#     """)
+#
+#     conn.commit()
+#     conn.close()
 
     # # Create sales_order table if it doesn't exist
     # cursor.execute("""
@@ -48,6 +48,19 @@ def init_db():
     # conn.commit()
     # conn.close()
     # print("✅ sales_order table created.")
+
+# # Add New Column, SQLite can only added 1 column each, cannot multiple
+# conn = sqlite3.connect("main.db")
+# cursor = conn.cursor()
+#
+# # Add new columns
+# # cursor.execute("ALTER TABLE sales_order ADD COLUMN po_no TEXT")
+# # cursor.execute("ALTER TABLE sales_order ADD COLUMN tags TEXT")
+# cursor.execute("ALTER TABLE sales_order ADD COLUMN payment TEXT")
+#
+# conn.commit()
+# conn.close()
+# print("✅ Column added to sales_order table.")
 
     # # Create only the new sales_order_detail table or any others you need
     # def init_db():
