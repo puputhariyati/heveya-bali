@@ -86,7 +86,7 @@ def update_single_etd():
     return jsonify({"success": True})
 
 
-@app.route("/sales_order/bulk_update_status", methods=["POST"])
+
 def bulk_update_status():
     data = request.get_json()
     transaction_nos = data.get("transaction_nos", [])

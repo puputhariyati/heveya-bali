@@ -1,3 +1,3 @@
-id,date,customer,phone,full_amount,discount,grand_total,margin,status,ETD,quote_no
-1,2025-07-09,puput,,36000000,0,36000000,21095668,Draft,,
-2,2025-07-01,test2,123,36000000,0,36000000,21095668,Draft,2025-07-17,2
+id,date,quote_no,expiry_date,customer,address,phone,project_name,ETD,full_amount,discount,grand_total,margin,status
+2,2025-07-01,2,,test2,,123,,2025-07-17,36000000,0,36000000,21095668,Draft
+1,2025-07-13,,2025-08-13,puput,,,,2025-07-11,300000,0,300000,200722,Draft
