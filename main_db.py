@@ -288,37 +288,37 @@ def get_db_connection():
 # conn.close()
 
 
-# To see what tables list in my main.db
-conn = sqlite3.connect("main.db")
-cursor = conn.cursor()
-import sqlite3
-
-cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-tables = cursor.fetchall()
-
-for table in tables:
-    table_name = table[0]
-    try:
-        cursor.execute(f"SELECT COUNT(*) FROM {table_name}")
-        row_count = cursor.fetchone()[0]
-        print(f"{table_name}: {row_count}")
-    except Exception as e:
-        print(f"Could not read {table_name}: {e}")
-
-conn.close()
-
-
-# # Export your SQLite tables to .csv
-# import sqlite3
-# import pandas as pd
-# # Connect to DB
+# # To see what tables list in my main.db
 # conn = sqlite3.connect("main.db")
-# # Load sales_order table
-# df = pd.read_sql_query("SELECT * FROM sales_order", conn)
-# # Save to CSV
-# df.to_csv("db_sales_invoices_test.csv", index=False)
+# cursor = conn.cursor()
+# import sqlite3
+#
+# cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+# tables = cursor.fetchall()
+#
+# for table in tables:
+#     table_name = table[0]
+#     try:
+#         cursor.execute(f"SELECT COUNT(*) FROM {table_name}")
+#         row_count = cursor.fetchone()[0]
+#         print(f"{table_name}: {row_count}")
+#     except Exception as e:
+#         print(f"Could not read {table_name}: {e}")
+#
 # conn.close()
-# print("✅ db_sales_invoices_test.csv")
+
+
+# Export your SQLite tables to .csv
+import sqlite3
+import pandas as pd
+# Connect to DB
+conn = sqlite3.connect("main.db")
+# Load sales_order table
+df = pd.read_sql_query("SELECT * FROM sales_order", conn)
+# Save to CSV
+df.to_csv("db_sales_invoices_test.csv", index=False)
+conn.close()
+print("✅ db_sales_invoices_test.csv")
 
 
 # # Run a quick count test
