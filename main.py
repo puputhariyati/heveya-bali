@@ -51,6 +51,18 @@ def api_sales_by_category():
 def api_sales_by_subcategory():
     return render_api_sales_by_subcategory()
 
+
+@app.template_filter('format_qty')
+def format_qty(value):
+    try:
+        value = float(value)
+        if value == 0:
+            return '-'
+        return str(int(value)) if value.is_integer() else str(value)
+    except:
+        return '-'
+
+
 @app.route("/products")
 def products():
     return render_products()

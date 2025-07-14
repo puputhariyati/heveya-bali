@@ -218,14 +218,23 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td>White</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Sand</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Grey</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Dark Grey</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Sage</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Moss Green</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Blush Mauve</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Burnt Orange</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          {% for color in ['White', 'Sand', 'Grey', 'Dark Grey', 'Sage', 'Moss Green', 'Blush Mauve', 'Burnt Orange'] %}
+            <tr>
+              <td>{{ color }}</td>
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets['Fitted Sheets'][color][size]['showroom'] | format_qty if grouped_bedsheets['Fitted Sheets'][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets['Fitted Sheets'][color][size]['warehouse'] | format_qty if grouped_bedsheets['Fitted Sheets'][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets['Fitted Sheets'][color][size]['req_sh'] | format_qty if grouped_bedsheets['Fitted Sheets'][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets['Fitted Sheets'][color][size]['req_wh'] | format_qty if grouped_bedsheets['Fitted Sheets'][color][size] is defined else '-' }}</td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
         </tbody>
       </table>
       <table>
@@ -448,7 +457,7 @@
       <tbody>
         {% for item_name, data in grouped_bathroom.items() %}
         <tr>
-          <td style="text-align: left">{{ item_name }}</td>
+          <td style="text-align: left">{{ item_name.replace("Heveya Vegan Cotton ", "") }}</td>
 
           {% for color in ['White', 'Natural', 'Silver', 'Stone'] %}
             <td>{{ data.Showroom[color] or '-' }}</td>
