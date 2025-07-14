@@ -71,11 +71,12 @@ def render_products():
         axis=1
     )
 
-    # Group by sheet type → material → color → size
     grouped_bedsheets = defaultdict(lambda: defaultdict(lambda: defaultdict(dict)))
 
     for _, row in bedsheets_df.iterrows():
+        subcategory = row.get('Subcategory', '').strip()  # e.g., "Bamboo Fitted"
         name = row.get('name', '')
+
         if not isinstance(name, str) or '-' not in name:
             continue
 
@@ -83,8 +84,8 @@ def render_products():
         if len(parts) < 3:
             continue
 
-        color = parts[-1].strip()  # ✅ Now this is 'White'
-        size_raw = parts[-2].strip().lower()  # ✅ 'Super King (200x200)'
+        color = parts[-1].strip()
+        size_raw = parts[-2].strip().lower()
         size = (
             'SK' if 'super' in size_raw else
             'K' if 'king' in size_raw else
@@ -93,11 +94,11 @@ def render_products():
             'Unknown'
         )
 
-        grouped_bedsheets['Fitted Sheets'][color][size] = {
-            'showroom': row['showroom_qty'],
-            'warehouse': row['warehouse_qty'],
-            'req_sh': row['req_sh'],
-            'req_wh': row['req_wh'],
+        grouped_bedsheets[subcategory][color][size] = {
+            'showroom': float(row['showroom_qty']),
+            'warehouse': float(row['warehouse_qty']),
+            'req_sh': float(row['req_sh']),
+            'req_wh': float(row['req_wh']),
         }
 
     # 🔹 BATHROOM SERIES (Bath Accessories)
@@ -111,16 +112,18 @@ def render_products():
         lambda row: 20 - float(row['warehouse_qty']) if float(row['warehouse_qty']) < 20 else 0,
         axis=1
     )
-    # # Format values
-    # for col in ['showroom_qty', 'warehouse_qty', 'req_sh', 'req_wh']:
-    #     bathroom_df[col] = bathroom_df[col].apply(format_qty)
-    # Group by item type (excluding color)
+
+    # Format values
+    for col in ['showroom_qty', 'warehouse_qty', 'req_sh', 'req_wh']:
+        bathroom_df[col] = bathroom_df[col].apply(format_qty)
+
     grouped_bathroom = defaultdict(lambda: {
         'Showroom': {},
         'Warehouse': {},
         'ReqSH': {},
         'ReqWH': {},
     })
+
     for _, row in bathroom_df.iterrows():
         name_parts = row['name'].rsplit('-', 1)
         item_type = name_parts[0].strip()  # e.g., "Heveya Vegan Cotton Face Towel - 30x30cm"

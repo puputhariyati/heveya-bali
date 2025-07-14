@@ -218,20 +218,21 @@
           </tr>
         </thead>
         <tbody>
+          {% set category = 'Bamboo Fitted' %}
           {% for color in ['White', 'Sand', 'Grey', 'Dark Grey', 'Sage', 'Moss Green', 'Blush Mauve', 'Burnt Orange'] %}
             <tr>
               <td>{{ color }}</td>
               {% for size in ['SK', 'K', 'Q', 'S'] %}
-                <td>{{ grouped_bedsheets['Fitted Sheets'][color][size]['showroom'] | format_qty if grouped_bedsheets['Fitted Sheets'][color][size] is defined else '-' }}</td>
+                <td>{{ grouped_bedsheets[category][color][size]['showroom'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
               {% endfor %}
               {% for size in ['SK', 'K', 'Q', 'S'] %}
-                <td>{{ grouped_bedsheets['Fitted Sheets'][color][size]['warehouse'] | format_qty if grouped_bedsheets['Fitted Sheets'][color][size] is defined else '-' }}</td>
+                <td>{{ grouped_bedsheets[category][color][size]['warehouse'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
               {% endfor %}
               {% for size in ['SK', 'K', 'Q', 'S'] %}
-                <td>{{ grouped_bedsheets['Fitted Sheets'][color][size]['req_sh'] | format_qty if grouped_bedsheets['Fitted Sheets'][color][size] is defined else '-' }}</td>
+                <td>{{ grouped_bedsheets[category][color][size]['req_sh'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
               {% endfor %}
               {% for size in ['SK', 'K', 'Q', 'S'] %}
-                <td>{{ grouped_bedsheets['Fitted Sheets'][color][size]['req_wh'] | format_qty if grouped_bedsheets['Fitted Sheets'][color][size] is defined else '-' }}</td>
+                <td>{{ grouped_bedsheets[category][color][size]['req_wh'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
               {% endfor %}
             </tr>
           {% endfor %}
@@ -253,14 +254,24 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td>White</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Sand</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Grey</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Dark Grey</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Sage</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Moss Green</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Blush Mauve</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Burnt Orange</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          {% set category = 'Bamboo Duvet' %}
+          {% for color in ['White', 'Sand', 'Grey', 'Dark Grey', 'Sage', 'Moss Green', 'Blush Mauve', 'Burnt Orange'] %}
+            <tr>
+              <td>{{ color }}</td>
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['showroom'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['warehouse'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['req_sh'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['req_wh'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
         </tbody>
       </table>
       <table>
@@ -279,14 +290,24 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td>White</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Sand</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Grey</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Dark Grey</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Sage</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Moss Green</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Blush Mauve</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Burnt Orange</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          {% set category = 'Bamboo Flat' %}
+          {% for color in ['White', 'Sand', 'Grey', 'Dark Grey', 'Sage', 'Moss Green', 'Blush Mauve', 'Burnt Orange'] %}
+            <tr>
+              <td>{{ color }}</td>
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['showroom'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['warehouse'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['req_sh'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['req_wh'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
         </tbody>
       </table>
 
@@ -307,15 +328,24 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td>White</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Natural</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Charcoal Grey</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Pinstripe</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Olive</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Olive Stripe</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Hazelnut</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Peach</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Mustard</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          {% set category = 'Linen Fitted' %}
+          {% for color in ['White', 'Natural', 'Charcoal Grey', 'Pinstripe', 'Olive', 'Olive Stripe', 'Hazelnut', 'Peach', 'Mustard'] %}
+            <tr>
+              <td>{{ color }}</td>
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['showroom'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['warehouse'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['req_sh'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['req_wh'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
         </tbody>
       </table>
       <table>
@@ -334,15 +364,24 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td>White</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Natural</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Charcoal Grey</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Pinstripe</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Olive</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Olive Stripe</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Hazelnut</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Peach</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Mustard</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          {% set category = 'Linen Duvet' %}
+          {% for color in ['White', 'Natural', 'Charcoal Grey', 'Pinstripe', 'Olive', 'Olive Stripe', 'Hazelnut', 'Peach', 'Mustard'] %}
+            <tr>
+              <td>{{ color }}</td>
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['showroom'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['warehouse'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['req_sh'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['req_wh'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
         </tbody>
       </table>
       <table>
@@ -361,15 +400,24 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td>White</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Natural</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Charcoal Grey</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Pinstripe</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Olive</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Olive Stripe</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Hazelnut</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Peach</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Mustard</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          {% set category = 'Linen Flat' %}
+          {% for color in ['White', 'Natural', 'Charcoal Grey', 'Pinstripe', 'Olive', 'Olive Stripe', 'Hazelnut', 'Peach', 'Mustard'] %}
+            <tr>
+              <td>{{ color }}</td>
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['showroom'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['warehouse'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['req_sh'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['req_wh'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
         </tbody>
       </table>
 
@@ -390,8 +438,24 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td>White</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Sand</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          {% set category = 'Bamboo Cotton Fitted' %}
+          {% for color in ['White', 'Sand'] %}
+            <tr>
+              <td>{{ color }}</td>
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['showroom'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['warehouse'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['req_sh'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['req_wh'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
         </tbody>
       </table>
       <table>
@@ -410,8 +474,24 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td>White</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Sand</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          {% set category = 'Bamboo Cotton Duvet' %}
+          {% for color in ['White', 'Sand'] %}
+            <tr>
+              <td>{{ color }}</td>
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['showroom'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['warehouse'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['req_sh'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['req_wh'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
         </tbody>
       </table>
       <table>
@@ -430,8 +510,24 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td>White</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
-          <tr><td>Sand</td>{% for i in range(16) %}<td></td>{% endfor %}</tr>
+          {% set category = 'Bamboo Cotton Flat' %}
+          {% for color in ['White', 'Sand'] %}
+            <tr>
+              <td>{{ color }}</td>
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['showroom'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['warehouse'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['req_sh'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+              {% for size in ['SK', 'K', 'Q', 'S'] %}
+                <td>{{ grouped_bedsheets[category][color][size]['req_wh'] | format_qty if grouped_bedsheets[category][color][size] is defined else '-' }}</td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
         </tbody>
       </table>
   </div>
