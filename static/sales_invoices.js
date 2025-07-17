@@ -343,10 +343,10 @@ async function handleRefreshClick(event){
     const j   = await res.json();
 
     if (j.status === "ok"){
-      alert(`✅ Sync complete — inserted: ${j.added}, updated: ${j.updated}`);
+      alert(`✅ Sync complete — inserted: ${j.added}, updated: ${j.updated}, detail rows: ${j.detail_rows}`);
       document.getElementById("lastRefresh").textContent =
         "Last refresh: " + new Date(j.last_refresh).toLocaleString();
-      location.reload();                       // rebuild table & pagination
+      location.reload();
     } else {
       alert("❌ Refresh failed: " + j.msg);
     }
@@ -363,6 +363,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("btnRefresh")
           .addEventListener("click", handleRefreshClick);
 
-  // fetchLastRefreshLabel();       // comment this line out if /api/last-refresh not yet implemented
+  fetchLastRefreshLabel();       // comment this line out if /api/last-refresh not yet implemented
 });
 

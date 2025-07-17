@@ -73,7 +73,7 @@ cursor = conn.cursor()
 # insert_orders_from_json("static/data/sales_invoices_2025_0406.json")
 #
 #
-# # ✅ merge multiple json data to 1 table sales_invoices_detail
+# ✅ merge multiple json data to 1 table sales_invoices_detail
 # def insert_sales_orders_detail_from_json(json_path):
 #     with open(json_path, "r", encoding="utf-8") as f:
 #         data = json.load(f)
@@ -134,6 +134,32 @@ cursor = conn.cursor()
 # insert_sales_orders_detail_from_json("static/data/sales_invoices_2024_0712.json")
 # insert_sales_orders_detail_from_json("static/data/sales_invoices_2025_0103.json")
 # insert_sales_orders_detail_from_json("static/data/sales_invoices_2025_0406.json")
+
+# # ✅ create a composite unique constraint on (transaction_no, line) for the sales_invoices_detail
+db_path = "main.db"  # Make sure this is the one your app uses
+def ensure_tx_line_index():
+    conn = sqlite3.connect(db_path)
+    cur = conn.cursor()
+    cur.execute("""
+        CREATE UNIQUE INDEX IF NOT EXISTS idx_tx_line
+        ON sales_invoices_detail (transaction_no, line)
+    """)
+    conn.commit()
+    conn.close()
+    print("✅ Composite UNIQUE index on (transaction_no, line) ensured.")
+ensure_tx_line_index()
+
+
+# # ✅debug_table_schema
+# def debug_table_schema():
+#     conn = sqlite3.connect(DATABASE)
+#     cursor = conn.cursor()
+#     cursor.execute("PRAGMA table_info(sales_invoices_detail)")
+#     for row in cursor.fetchall():
+#         print(row)
+#     conn.close()
+# debug_table_schema()
+
 
 
 # # Insert multiple Sales Orders csv to sales_order table
@@ -278,34 +304,34 @@ cursor = conn.cursor()
 # # cursor.execute("DELETE FROM sqlite_sequence WHERE name='inventory';")
 # print("Stock database has been cleared.")
 
-#✅ Delete data from date
-cursor.execute("""
-    DELETE FROM sales_invoices
-    WHERE substr(transaction_date, 7, 4) || '-' ||
-          substr(transaction_date, 4, 2) || '-' ||
-          substr(transaction_date, 1, 2)
-          >= '2025-07-01'
-""")
-deleted_rows = cursor.rowcount
-print(f"🗑️ Deleted {deleted_rows} existing rows")
-conn.commit()
-conn.close()
-
-#✅ To see what tables list in my main.db
-conn = sqlite3.connect("main.db")
-cursor = conn.cursor()
-import sqlite3
-cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-tables = cursor.fetchall()
-for table in tables:
-    table_name = table[0]
-    try:
-        cursor.execute(f"SELECT COUNT(*) FROM {table_name}")
-        row_count = cursor.fetchone()[0]
-        print(f"{table_name}: {row_count}")
-    except Exception as e:
-        print(f"Could not read {table_name}: {e}")
-conn.close()
+# #✅ Delete data from date
+# cursor.execute("""
+#     DELETE FROM sales_invoices
+#     WHERE substr(transaction_date, 7, 4) || '-' ||
+#           substr(transaction_date, 4, 2) || '-' ||
+#           substr(transaction_date, 1, 2)
+#           >= '2025-07-01'
+# """)
+# deleted_rows = cursor.rowcount
+# print(f"🗑️ Deleted {deleted_rows} existing rows")
+# conn.commit()
+# conn.close()
+#
+# #✅ To see what tables list in my main.db
+# conn = sqlite3.connect("main.db")
+# cursor = conn.cursor()
+# import sqlite3
+# cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+# tables = cursor.fetchall()
+# for table in tables:
+#     table_name = table[0]
+#     try:
+#         cursor.execute(f"SELECT COUNT(*) FROM {table_name}")
+#         row_count = cursor.fetchone()[0]
+#         print(f"{table_name}: {row_count}")
+#     except Exception as e:
+#         print(f"Could not read {table_name}: {e}")
+# conn.close()
 
 
 # #✅ Export your SQLite tables to .csv
