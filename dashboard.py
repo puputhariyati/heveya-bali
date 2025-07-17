@@ -33,8 +33,8 @@ def render_api_sales_by_category():
 
     cur.execute("""
                 SELECT d.item, SUM(d.qty) AS total_qty
-                FROM sales_order_detail d
-                         JOIN sales_order o ON TRIM(d.transaction_no) = TRIM(o.transaction_no)
+                FROM sales_invoices_detail d
+                         JOIN sales_invoices o ON TRIM(d.transaction_no) = TRIM(o.transaction_no)
                 GROUP BY d.item
                 """)
     rows = cur.fetchall()
