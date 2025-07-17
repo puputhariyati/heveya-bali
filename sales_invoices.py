@@ -316,48 +316,45 @@ def sync_sales_invoices(date_from, date_to):
         try:
             tx_no = inv["transaction_no"]
 
-            # 🔍 Skip if already exists to avoid duplication
             cursor.execute("SELECT COUNT(*) FROM sales_invoices WHERE transaction_no = ?", (tx_no,))
             exists = cursor.fetchone()[0] > 0
-            if exists:
-                continue
 
-            # ✅ Extract and format values safely
-            transaction_date = inv.get("transaction_date", "")
-            customer = inv.get("person", {}).get("display_name", "Unknown")
-            balance_due = inv.get("remaining_currency_format") or inv.get("remaining", "")
-            total = inv.get("original_amount_currency_format") or inv.get("total", "")
-            etd = inv.get("etd", "")
-            status = inv.get("transaction_status", {}).get("name", "open")
+            if not exists:
+                # Insert sales_invoices
+                transaction_date = inv.get("transaction_date", "")
+                customer = inv.get("person", {}).get("display_name", "Unknown")
+                balance_due = inv.get("remaining_currency_format") or inv.get("remaining", "")
+                total = inv.get("original_amount_currency_format") or inv.get("total", "")
+                etd = inv.get("etd", "")
+                status = inv.get("transaction_status", {}).get("name", "open")
 
-            # ✅ Insert sales_invoices
-            cursor.execute("""
-                INSERT INTO sales_invoices (
-                    transaction_no, transaction_date, customer,
-                    balance_due, total, status, etd
-                ) VALUES (?, ?, ?, ?, ?, ?, ?)
-            """, (
-                tx_no, transaction_date, customer,
-                balance_due, total, status, etd
-            ))
+                cursor.execute("""
+                               INSERT INTO sales_invoices (transaction_no, transaction_date, customer,
+                                                           balance_due, total, status, etd)
+                               VALUES (?, ?, ?, ?, ?, ?, ?)
+                               """, (
+                                   tx_no, transaction_date, customer,
+                                   balance_due, total, status, etd
+                               ))
+                added += 1
+            else:
+                updated += 1  # optional: count updates if you're modifying anything
 
-            # ✅ Insert sales_invoices_detail items
+            # 🧹 Clean up any existing details before inserting fresh ones
+            cursor.execute("DELETE FROM sales_invoices_detail WHERE transaction_no = ?", (tx_no,))
+
+            # Insert fresh detail items
             for item in inv.get("details", []):
                 item_name = item.get("name", "")
                 delivered = item.get("delivered", 0)
                 remain_qty = item.get("remain_qty", 0)
-                print(
-                    f"✅ Item for {tx_no}: {item.get('name')} (Delivered: {item.get('delivered')}, Remain: {item.get('remain_qty')})")
 
                 cursor.execute("""
-                    INSERT INTO sales_invoices_detail (
-                        transaction_no, item, delivered, remain_qty
-                    ) VALUES (?, ?, ?, ?)
-                """, (
-                    tx_no, item_name, delivered, remain_qty
-                ))
-
-            added += 1
+                               INSERT INTO sales_invoices_detail (transaction_no, item, delivered, remain_qty)
+                               VALUES (?, ?, ?, ?)
+                               """, (
+                                   tx_no, item_name, delivered, remain_qty
+                               ))
 
         except Exception as e:
             print(f"⚠️ Skipped invoice {inv.get('transaction_no', '?')}: {e}")
