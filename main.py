@@ -7,7 +7,7 @@ import json
 from datetime import datetime, timezone, timedelta
 from flask import Flask, request, jsonify, render_template, redirect, flash, json
 
-from dashboard import render_api_sales_by_category, render_api_sales_by_subcategory
+from dashboard import render_api_sales_by_category
 from sales_quote import render_sales_quote, render_create_quote, render_save_quote, render_edit_quote
 from products import render_products
 from sales_invoices import render_refresh_invoices, render_sales_invoices, sync_sales_invoices, bulk_update_status, bulk_update_etd
