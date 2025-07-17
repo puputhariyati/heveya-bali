@@ -37,7 +37,7 @@ def generate_hmac_header(method, full_path, date_header):
     )
 
 
-OUT_PATH  = Path("static/data/sales_invoices_2024_0712.json")
+OUT_PATH  = Path("static/data/sales_invoices_2025_0406.json")
 CKPT_PATH = Path("sales_invoices_checkpoint.txt")
 BATCH     = 500
 MAX_PAGES = 200
@@ -47,7 +47,7 @@ def fetch_sales_invoices(start_page=1):
     collected, page = [], start_page
     date_hdr = get_rfc7231_date()
     while page <= MAX_PAGES:
-        query = (f"?start_date=2024-07-01&end_date=2024-12-31"
+        query = (f"?start_date=2025-04-01&end_date=2025-06-30"
                  f"&page={page}&sort_by=transaction_date&sort_order=asc")
         full_path = SALES_INVOICES_ENDPOINT + query
         url       = BASE_URL + full_path
