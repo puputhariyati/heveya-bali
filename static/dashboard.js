@@ -58,8 +58,6 @@ function renderSalesPie(data) {
     responsive: true
   });
 
-
-
   document.getElementById("salesPieChart").on('plotly_click', function(eventData) {
     const clickedCategory = eventData.points[0].label;
     fetch(`/api/sales-by-subcategory?category=${encodeURIComponent(clickedCategory)}`)
@@ -111,13 +109,28 @@ function renderInventoryPie(data) {
 
   Plotly.newPlot("inventoryPieChart", [{
     type: "pie",
-    labels: labels,
-    values: values,
-    textinfo: "label+percent"
+    showlegend: true,
+    labels,
+    values,
+    textinfo: "label+percent+value",
+    textposition: "inside",
+    insidetextorientation: "radial",
+    textfont: { size: 12 },
   }], {
-    height: 400,
-    width: 400,
-    margin: { t: 40 }
+    height: 400,     // keep height
+    // remove width
+    legend: {
+      orientation: "v",
+      x: 0.9,
+      xanchor: "right",
+      y: 0.5,
+      itemwidth: 50,// ⬅️ Reduce this to pull text closer to the color box
+      yanchor: "middle",
+      font: { size: 12 }
+    },
+    margin: { l: 20, r: 100, t: 50, b: 40 }
+  }, {
+    responsive: true
   });
 }
 
@@ -143,11 +156,23 @@ function renderCustomerPie(data) {
     type: "pie",
     labels: Object.keys(buckets),
     values: Object.values(buckets),
-    textinfo: "label+percent"
+    textinfo: "label+percent+value",
+    textposition: "inside",
   }], {
-    height: 400,
-    width: 400,
-    margin: { t: 40 }
+    height: 400,     // keep height
+    // remove width
+    legend: {
+      orientation: "v",
+      x: 0.9,
+      xanchor: "right",
+      y: 0.5,
+      itemwidth: 50,// ⬅️ Reduce this to pull text closer to the color box
+      yanchor: "middle",
+      font: { size: 12 }
+    },
+    margin: { l: 20, r: 100, t: 50, b: 40 }
+  }, {
+    responsive: true
   });
 }
 
