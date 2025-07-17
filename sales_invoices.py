@@ -90,7 +90,7 @@ def render_sales_invoices():
     search_query = request.args.get("search", "").lower()
 
     # Fetch all sales orders
-    cursor.execute("SELECT * FROM sales_order ORDER BY transaction_date DESC")
+    cursor.execute("SELECT * FROM sales_invoices ORDER BY transaction_date DESC")
     orders = cursor.fetchall()
     results = []
 
@@ -99,7 +99,7 @@ def render_sales_invoices():
 
         # ✅ Apply item-level filtering only if search query provided
         if search_query:
-            cursor.execute("SELECT item FROM sales_order_detail WHERE transaction_no = ?", (tx_no,))
+            cursor.execute("SELECT item FROM sales_invoices_detail WHERE transaction_no = ?", (tx_no,))
             items = [row["item"].lower() for row in cursor.fetchall()]
             # Skip this order if item doesn't match search
             search_words = search_query.split()
@@ -107,7 +107,7 @@ def render_sales_invoices():
                 continue
 
         # Fetch details to determine status
-        cursor.execute("SELECT delivered, remain_qty FROM sales_order_detail WHERE transaction_no = ?", (tx_no,))
+        cursor.execute("SELECT delivered, remain_qty FROM sales_invoices_detail WHERE transaction_no = ?", (tx_no,))
         details = cursor.fetchall()
 
         # Determine status
@@ -139,20 +139,52 @@ def render_sales_invoices():
 
 
 # ── FETCH API ────────────────────────────────────────────────────
+# def fetch_sales_invoices(date_from, date_to):
+#     all_orders, page = [], 1
+#     while True:
+#         date_hdr = formatdate(usegmt=True)
+#         query = (f"?start_date={date_from}&end_date={date_to}"
+#                  f"&page={page}&sort_by=transaction_date&sort_order=asc")
+#         full = SALES_INVOICES_ENDPOINT + query
+#         hdrs = {"Date": date_hdr,
+#                 "Authorization": _hmac_header("GET", full, date_hdr),
+#                 "Content-Type": "application/json"}
+#         try:
+#             r = requests.get(BASE_URL + full, headers=hdrs, timeout=60)  # ⬅ timeout 60 s
+#         except Timeout:
+#             print(f"⚠️  Mekari timeout on page {page}, retrying once …")
+#             r = requests.get(BASE_URL + full, headers=hdrs, timeout=60)
+#
+#         if r.status_code != 200:
+#             raise RuntimeError(f"Mekari error {r.status_code}: {r.text}")
+#
+#         batch = r.json().get("sales_invoices", [])
+#         if not batch:
+#             break
+#         all_orders.extend(batch)
+#         page += 1
+#     return all_orders
+
 def fetch_sales_invoices(date_from, date_to):
     all_orders, page = [], 1
     while True:
         date_hdr = formatdate(usegmt=True)
-        query = (f"?start_date={date_from}&end_date={date_to}"
-                 f"&page={page}&sort_by=transaction_date&sort_order=asc")
+        query = (
+            f"?start_date={date_from}&end_date={date_to}"
+            f"&page={page}&sort_by=transaction_date&sort_order=asc"
+            f"&expand=details"  # 🟢 this tells Mekari to include item-level data
+        )
         full = SALES_INVOICES_ENDPOINT + query
-        hdrs = {"Date": date_hdr,
-                "Authorization": _hmac_header("GET", full, date_hdr),
-                "Content-Type": "application/json"}
+        hdrs = {
+            "Date": date_hdr,
+            "Authorization": _hmac_header("GET", full, date_hdr),
+            "Content-Type": "application/json"
+        }
+
         try:
-            r = requests.get(BASE_URL + full, headers=hdrs, timeout=60)  # ⬅ timeout 60 s
+            r = requests.get(BASE_URL + full, headers=hdrs, timeout=60)
         except Timeout:
-            print(f"⚠️  Mekari timeout on page {page}, retrying once …")
+            print(f"⚠️ Timeout on page {page}, retrying once …")
             r = requests.get(BASE_URL + full, headers=hdrs, timeout=60)
 
         if r.status_code != 200:
@@ -161,14 +193,17 @@ def fetch_sales_invoices(date_from, date_to):
         batch = r.json().get("sales_invoices", [])
         if not batch:
             break
+
         all_orders.extend(batch)
         page += 1
+
     return all_orders
+
 
 # ── DB UPSERT ────────────────────────────────────────────────────
 def _upsert_header(cur, o):
     cur.execute("""
-        INSERT INTO sales_order (
+        INSERT INTO sales_invoices (
             transaction_no, transaction_date, customer,
             balance_due, total, status, etd
         ) VALUES (?,?,?,?,?,?,?)
@@ -176,9 +211,9 @@ def _upsert_header(cur, o):
             balance_due = excluded.balance_due,
             etd         = excluded.etd,
             status      = CASE
-                            WHEN sales_order.status IS NULL OR sales_order.status = ''
+                            WHEN sales_invoices.status IS NULL OR sales_invoices.status = ''
                             THEN excluded.status
-                            ELSE sales_order.status
+                            ELSE sales_invoices.status
                           END
     """, (
         o["transaction_no"],
@@ -195,7 +230,7 @@ def _upsert_header(cur, o):
 def _insert_detail(cur, txn_no, i, ln):
     prod = ln.get("product", {})
     cur.execute("""
-        INSERT OR IGNORE INTO sales_order_detail (
+        INSERT OR IGNORE INTO sales_invoices_detail (
             transaction_no, line, item, qty, unit,
             delivered, remain_qty, po_no, status
         ) VALUES (?,?,?,?,?,?,?,?,?)
@@ -232,7 +267,7 @@ def bulk_update_status():
             print(f"🔄 Updating tx {tx_no}")
             if status == "closed":
                 cursor.execute("""
-                               UPDATE sales_order_detail
+                               UPDATE sales_invoices_detail
                                SET remain_qty = 0,
                                    delivered  = qty
                                WHERE transaction_no = ?
@@ -261,7 +296,7 @@ def bulk_update_etd():
     cursor = conn.cursor()
 
     for tx_no in transaction_nos:
-        cursor.execute("UPDATE sales_order SET ETD = ? WHERE transaction_no = ?", (etd, tx_no))
+        cursor.execute("UPDATE sales_invoices SET ETD = ? WHERE transaction_no = ?", (etd, tx_no))
 
     conn.commit()
     conn.close()
@@ -269,19 +304,66 @@ def bulk_update_etd():
     return jsonify({"success": True})
 
 def sync_sales_invoices(date_from, date_to):
-    """Fetch from API, upsert into DB, return (added, updated)."""
-    orders = fetch_sales_invoices(date_from, date_to)
-    conn   = sqlite3.connect(DATABASE)
-    cur    = conn.cursor()
-    added = updated = 0
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
 
-    for o in orders:
-        if _upsert_header(cur, o): added += 1
-        else:                      updated += 1
-        for i, ln in enumerate(o.get("transaction_lines_attributes", []), start=1):
-            _insert_detail(cur, o["transaction_no"], i, ln)
+    fetched_invoices = fetch_sales_invoices(date_from, date_to)
 
-    conn.commit(); conn.close()
+    added = 0
+    updated = 0
+
+    for inv in fetched_invoices:
+        try:
+            tx_no = inv["transaction_no"]
+
+            # 🔍 Skip if already exists to avoid duplication
+            cursor.execute("SELECT COUNT(*) FROM sales_invoices WHERE transaction_no = ?", (tx_no,))
+            exists = cursor.fetchone()[0] > 0
+            if exists:
+                continue
+
+            # ✅ Extract and format values safely
+            transaction_date = inv.get("transaction_date", "")
+            customer = inv.get("person", {}).get("display_name", "Unknown")
+            balance_due = inv.get("remaining_currency_format") or inv.get("remaining", "")
+            total = inv.get("original_amount_currency_format") or inv.get("total", "")
+            etd = inv.get("etd", "")
+            status = inv.get("transaction_status", {}).get("name", "open")
+
+            # ✅ Insert sales_invoices
+            cursor.execute("""
+                INSERT INTO sales_invoices (
+                    transaction_no, transaction_date, customer,
+                    balance_due, total, status, etd
+                ) VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (
+                tx_no, transaction_date, customer,
+                balance_due, total, status, etd
+            ))
+
+            # ✅ Insert sales_invoices_detail items
+            for item in inv.get("details", []):
+                item_name = item.get("name", "")
+                delivered = item.get("delivered", 0)
+                remain_qty = item.get("remain_qty", 0)
+                print(
+                    f"✅ Item for {tx_no}: {item.get('name')} (Delivered: {item.get('delivered')}, Remain: {item.get('remain_qty')})")
+
+                cursor.execute("""
+                    INSERT INTO sales_invoices_detail (
+                        transaction_no, item, delivered, remain_qty
+                    ) VALUES (?, ?, ?, ?)
+                """, (
+                    tx_no, item_name, delivered, remain_qty
+                ))
+
+            added += 1
+
+        except Exception as e:
+            print(f"⚠️ Skipped invoice {inv.get('transaction_no', '?')}: {e}")
+
+    conn.commit()
+    conn.close()
     return added, updated
 
 
@@ -305,7 +387,7 @@ def sync_sales_invoices(date_from, date_to):
 #         conn = sqlite3.connect(DATABASE)
 #         cur  = conn.cursor()
 #         cur.execute(
-#             "SELECT COUNT(*) FROM sales_order WHERE transaction_date >= ?",
+#             "SELECT COUNT(*) FROM sales_invoices WHERE transaction_date >= ?",
 #             (test_from,)
 #         )
 #         count = cur.fetchone()[0]

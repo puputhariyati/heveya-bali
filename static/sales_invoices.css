@@ -5,8 +5,9 @@
 
 body {
   margin: 0;
-  overflow-x: hidden;
+  overflow-x: auto; /* ✅ allow horizontal scroll */
 }
+
 
 .main-content {
   margin-left: var(--sidebar-width);
@@ -61,27 +62,41 @@ body {
 
 
 /* Table Styling */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 20px;
+}
+
+/* Force the table to be wider than the screen */
+.table-wrapper table {
+  width: max-content;
+  min-width: 1200px; /* or higher depending on column count */
+  border-collapse: collapse;
+}
+
 table {
-  width: 90%;
+  min-width: 1200px;
   border-collapse: collapse;
   margin-top: 20px;
-
 }
 
 th, td {
   border: 1px solid #ccc;
   padding: 6px;
   text-align: left;
-  vertical-align: middle;
   font-size: 13px;
-  overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-thead {
+
+thead th {
+  position: sticky;
+  top: 0;
   background-color: #f5f5f5;
+  z-index: 1;
 }
+
 
 /* Make some columns flexible */
 td:nth-child(4), /* Customer */

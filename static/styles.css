@@ -101,33 +101,33 @@ th {
     font-weight: bold;
 }
 
+
 .chart-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)); /* wider min */
   gap: 30px;
   margin-top: 20px;
-  align-items: stretch;
 }
 
 .chart-box {
   background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  height: 100%;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 #salesPieChart, #inventoryPieChart, #customerPieChart {
-  min-height: 300px;
-  margin: 20px 0;
+  width: 100%;
+  min-height: 500px; /* Increased height */
 }
 
 
 
-@media screen and (max-width: 768px) {
+
+@media (max-width: 900px) {
   .chart-row {
     grid-template-columns: 1fr;
   }

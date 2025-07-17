@@ -50,7 +50,7 @@ function parseCSV(str) {
   });
 }
 
-// Sales by Product (Category > Subcategory > Size > Color)
+
 function renderSalesPie(data) {
   const groupBy = (arr, key) => {
     return arr.reduce((acc, obj) => {
@@ -73,11 +73,23 @@ function renderSalesPie(data) {
     hoverinfo: 'label+value',
   };
 
-  Plotly.newPlot('salesPieChart', [trace], {
+  const layout = {
     title: 'Sales by Category',
-    responsive: true
-  });
+    height: 500,
+    margin: { t: 50, b: 100 },
+    legend: {
+      orientation: 'h',
+      y: -0.3,
+      xanchor: 'center',
+      x: 0.5,
+      font: { size: 12 }
+    }
+  };
+
+  Plotly.newPlot('salesPieChart', [trace], layout, { responsive: true });
 }
+
+
 
 // Inventory by Products (Category > Subcategory > Warehouse)
 function renderInventoryPie(data) {

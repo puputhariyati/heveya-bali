@@ -24,14 +24,14 @@ def render_sales_invoices_detail(transaction_no):
     cursor = conn.cursor()
 
     # Fetch header
-    cursor.execute("SELECT * FROM sales_order WHERE transaction_no = ?", (transaction_no,))
+    cursor.execute("SELECT * FROM sales_invoices WHERE transaction_no = ?", (transaction_no,))
     order_row = cursor.fetchone()
     if not order_row:
         return f"Sales order {transaction_no} not found", 404
     order = dict(order_row)
 
     # Fetch details
-    cursor.execute("SELECT * FROM sales_order_detail WHERE transaction_no = ?", (transaction_no,))
+    cursor.execute("SELECT * FROM sales_invoices_detail WHERE transaction_no = ?", (transaction_no,))
     detail_rows = cursor.fetchall()
     lines = [dict(row) for row in detail_rows]
 
@@ -95,17 +95,17 @@ def save_sales_invoices_detail(transaction_no):
             item_name = item_list[i]
 
             # Get previous delivered value to calculate stock difference
-            c.execute("SELECT delivered FROM sales_order_detail WHERE transaction_no=? AND line=?", (transaction_no, i + 1))
+            c.execute("SELECT delivered FROM sales_invoices_detail WHERE transaction_no=? AND line=?", (transaction_no, i + 1))
             prev_record = c.fetchone()
             prev_delivered = prev_record[0] if prev_record else 0
             delivered_diff = delivered - prev_delivered
 
-            c.execute("SELECT id FROM sales_order_detail WHERE transaction_no=? AND line=?", (transaction_no, i + 1))
+            c.execute("SELECT id FROM sales_invoices_detail WHERE transaction_no=? AND line=?", (transaction_no, i + 1))
             exists = c.fetchone()
 
             if exists:
                 c.execute("""
-                    UPDATE sales_order_detail
+                    UPDATE sales_invoices_detail
                     SET delivered=?, remain_qty=?, po_no=?, delivery_date=?, 
                         warehouse_option=?, status=?, description=?
                     WHERE transaction_no=? AND line=?
@@ -116,7 +116,7 @@ def save_sales_invoices_detail(transaction_no):
                 ))
             else:
                 c.execute("""
-                    INSERT INTO sales_order_detail
+                    INSERT INTO sales_invoices_detail
                     (transaction_no, line, item, qty, unit, delivered, remain_qty,
                     po_no, warehouse_option, delivery_date, status, description)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)

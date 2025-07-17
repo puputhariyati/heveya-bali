@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 from sqlalchemy import column
 from pathlib import Path
 
-from sales_order_detail import render_sales_invoices_detail, save_sales_invoices_detail
+from sales_invoices_detail import render_sales_invoices_detail, save_sales_invoices_detail
 
 load_dotenv("key.env")  # Load environment variables from .env file
 app = Flask(__name__)
@@ -18,12 +18,16 @@ app.secret_key = os.getenv("SECRET_KEY")  # Retrieve secret key from .env
 
 DATABASE = Path(__file__).parent / "main.db"
 
-def get_db_connection():
-    conn = sqlite3.connect(DATABASE)
-    conn.row_factory = sqlite3.Row
-    return conn
+# def get_db_connection():
+#     conn = sqlite3.connect(DATABASE)
+#     conn.row_factory = sqlite3.Row
+#     return conn
 
-# # merge multiple json data to 1 table
+# Connect to your database
+conn = sqlite3.connect("main.db")
+cursor = conn.cursor()
+
+# # ✅ merge multiple json data to 1 table
 # def insert_orders_from_json(json_path):
 #     with open(json_path, "r", encoding="utf-8") as f:
 #         data = json.load(f)
@@ -34,76 +38,35 @@ def get_db_connection():
 #
 #     for order in data:
 #         cursor.execute("""
-#             INSERT OR IGNORE INTO sales_order (
-#                 transaction_no, transaction_date, customer,
-#                 balance_due, total, status, etd
-#             ) VALUES (?, ?, ?, ?, ?, ?, ?)
-#         """, (
-#             order.get("transaction_no"),
-#             order.get("transaction_date"),
-#             order.get("person", {}).get("display_name", ""),
-#             order.get("remaining_currency_format", "-"),
-#             order.get("original_amount_currency_format", "-"),
-#             "open",  # default status
-#             None
-#         ))
+#            INSERT OR IGNORE INTO sales_invoices (
+#             transaction_no, transaction_date, customer,
+#             balance_due, total, status, etd, po_no, tags, payment
+#             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+#            """, (
+#                order.get("transaction_no"),
+#                order.get("transaction_date"),
+#                order.get("person", {}).get("display_name", ""),
+#                order.get("remaining_currency_format", "-"),
+#                order.get("original_amount_currency_format", "-"),
+#                "closed",  # default status
+#                None,  # etd (optional)
+#                order.get("po_number", ""),
+#                order.get("tags_string", ""),
+#                order["payments"][0]["payment_method_name"] if order.get("payments") else ""
+#            ))
+#
 #         if cursor.rowcount > 0:
 #             count += 1
 #
 #     conn.commit()
 #     conn.close()
-#     print(f"✅ Imported {count} new records from {json_path} into sales_order table.")
+#     print(f"Imported {count} new records from {json_path} into sales_invoices table.")
 #
 # # 🔁 Add more files here
-# insert_orders_from_json("static/data/sales_orders_open.json")
-# insert_orders_from_json("static/data/sales_orders_closed_2024_190625.json")
-# insert_orders_from_json("static/data/sales_orders_2025_06_19_to_25.json")
+# insert_orders_from_json("static/data/sales_invoices_2024_0106.json")
 
 
-# # Load JSON sales_orders_open.json into main.db table sales_order_detail
-# with open("static/data/sales_orders_open.json", "r", encoding="utf-8") as f:
-#     orders = json.load(f)
-# conn = sqlite3.connect("main.db")
-# c = conn.cursor()
-# count = 0
-# for order in orders:
-#     tx_no = order["transaction_no"]
-#     lines = order.get("transaction_lines_attributes", [])
-#     for i, line in enumerate(lines, start=1):
-#         product_data = line.get("product", {})
-#         item = product_data.get("name", "") if isinstance(product_data, dict) else str(product_data)
-#         qty = int(line.get("quantity", 0))
-#         unit_value = line.get("unit", "")
-#         unit = unit_value["name"] if isinstance(unit_value, dict) else str(unit_value)
-#         delivered = 0
-#         remain_qty = qty
-#         po_no = ""
-#         warehouse_option = ""
-#         delivery_date = ""
-#         status = "prepared"
-#         description = line.get("description", "")
-#
-#         # Check if already exists
-#         c.execute("SELECT 1 FROM sales_order_detail WHERE transaction_no=? AND line=?", (tx_no, i))
-#         if c.fetchone():
-#             continue  # Skip if already in DB
-#
-#         # Insert into DB
-#         c.execute("""
-#             INSERT INTO sales_order_detail
-#             (transaction_no, line, item, qty, unit, delivered, remain_qty,
-#             po_no, warehouse_option, delivery_date, status, description)
-#             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-#         """, (
-#             tx_no, i, item, qty, unit, delivered, remain_qty,
-#             po_no, warehouse_option, delivery_date, status, description
-#         ))
-#         count += 1
-#
-# conn.commit()
-# conn.close()
-# print(f"✅ Inserted {count} missing sales_order_detail lines")
-
+# # ✅ merge multiple json data to 1 table sales_invoices_detail
 # def insert_sales_orders_detail_from_json(json_path):
 #     with open(json_path, "r", encoding="utf-8") as f:
 #         data = json.load(f)
@@ -125,21 +88,21 @@ def get_db_connection():
 #             qty = int(line.get("quantity", 0))
 #             unit_value = line.get("unit", "")
 #             unit = unit_value["name"] if isinstance(unit_value, dict) else str(unit_value)
-#             delivered = 0
-#             remain_qty = qty
+#             delivered = qty
+#             remain_qty = 0
 #             po_no = ""
 #             warehouse_option = ""
 #             delivery_date = ""
-#             status = "open"
+#             status = "closed"
 #             description = line.get("description", "")
 #
 #             # Check if this line already exists
-#             cursor.execute("SELECT 1 FROM sales_order_detail WHERE transaction_no=? AND line=?", (tx_no, i))
+#             cursor.execute("SELECT 1 FROM sales_invoices_detail WHERE transaction_no=? AND line=?", (tx_no, i))
 #             if cursor.fetchone():
 #                 continue  # already exists
 #
 #             cursor.execute("""
-#                 INSERT INTO sales_order_detail (
+#                 INSERT INTO sales_invoices_detail (
 #                     transaction_no, line, item, qty, unit,
 #                     delivered, remain_qty, po_no,
 #                     warehouse_option, delivery_date, status, description
@@ -153,11 +116,11 @@ def get_db_connection():
 #
 #     conn.commit()
 #     conn.close()
-#     print(f"✅ Imported {order_count} sales orders and {detail_count} detail lines from {json_path}.")
+#     print(f"✅ Imported {order_count} sales invoices detail and {detail_count} detail lines from {json_path}.")
 #
-# insert_sales_orders_detail_from_json("static/data/sales_orders_open.json")
-# insert_sales_orders_detail_from_json("static/data/sales_orders_closed_2024_190625.json")
-# insert_sales_orders_detail_from_json("static/data/sales_orders_2025_06_19_to_25.json")
+# # # 🔁 Add more files here
+# insert_sales_orders_detail_from_json("static/data/sales_invoices_2024_0106.json")
+
 
 # # Insert multiple Sales Orders csv to sales_order table
 # # Paths to your CSV files
@@ -251,16 +214,41 @@ def get_db_connection():
 #
 # print(f"✅ Updated {updated} totals to currency format.")
 
-
-
-# # Connect to your database
+# Add Column into existing table
 # conn = sqlite3.connect("main.db")
 # cursor = conn.cursor()
+# cursor.execute("ALTER TABLE sales_order_detail ADD COLUMN description TEXT")
+# conn.commit()
+# conn.close()
 
+# ✅ Step-by-Step: Update Only New Columns
+# for inv in fetched_invoices:
+#     try:
+#         tx_no = inv["transaction_no"]
+#
+#         po_no = inv.get("po_number", "")
+#         tags = ", ".join(tag["name"] for tag in inv.get("tags", [])) if inv.get("tags") else ""
+#         payment = inv.get("payment_method", {}).get("name", "")
+#
+#         # Only update existing records
+#         cursor.execute("""
+#             UPDATE sales_invoices
+#             SET po_no = ?, tags = ?, payment = ?
+#             WHERE transaction_no = ?
+#         """, (po_no, tags, payment, tx_no))
+#
+#         if cursor.rowcount == 0:
+#             print(f"⚠️ Invoice {tx_no} not found — skipping")
+#
+#     except Exception as e:
+#         print(f"⚠️ Failed to update invoice {inv.get('transaction_no', '?')}: {e}")
+
+
+#
 # # ✅ Clear the table first
-# cursor.execute("DELETE FROM sales_order_detail")
+# cursor.execute("DELETE FROM sales_invoices_detail")
 # deleted_rows = cursor.rowcount
-# print(f"🗑️ Deleted {deleted_rows} existing rows from sales_order_detail")
+# print(f"🗑️ Deleted {deleted_rows} existing rows")
 # conn.commit()
 # conn.close()
 #
@@ -272,30 +260,19 @@ def get_db_connection():
 # conn.commit()
 # conn.close()
 #
-# # Delete all rows from the BOM Table
-# cursor.execute("DELETE FROM bom;")
 #
 # # # Reset auto-increment ID (optional)
 # # cursor.execute("DELETE FROM sqlite_sequence WHERE name='inventory';")
 
 # print("Stock database has been cleared.")
 
-# Add Column into existing table
-# conn = sqlite3.connect("main.db")
-# cursor = conn.cursor()
-# cursor.execute("ALTER TABLE sales_order_detail ADD COLUMN description TEXT")
-# conn.commit()
-# conn.close()
 
-
-# # To see what tables list in my main.db
+# #✅ To see what tables list in my main.db
 # conn = sqlite3.connect("main.db")
 # cursor = conn.cursor()
 # import sqlite3
-#
 # cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
 # tables = cursor.fetchall()
-#
 # for table in tables:
 #     table_name = table[0]
 #     try:
@@ -304,21 +281,20 @@ def get_db_connection():
 #         print(f"{table_name}: {row_count}")
 #     except Exception as e:
 #         print(f"Could not read {table_name}: {e}")
-#
 # conn.close()
 
 
-# Export your SQLite tables to .csv
+#✅ Export your SQLite tables to .csv
 import sqlite3
 import pandas as pd
 # Connect to DB
 conn = sqlite3.connect("main.db")
 # Load sales_order table
-df = pd.read_sql_query("SELECT * FROM sales_order", conn)
+df = pd.read_sql_query("SELECT * FROM sales_invoices_detail", conn)
 # Save to CSV
-df.to_csv("db_sales_invoices_test.csv", index=False)
+df.to_csv("db_sales_invoices_detail_test.csv", index=False)
 conn.close()
-print("✅ db_sales_invoices_test.csv")
+print("db_sales_invoices_test.csv")
 
 
 # # Run a quick count test
@@ -326,4 +302,15 @@ print("✅ db_sales_invoices_test.csv")
 # count = cursor.fetchone()[0]
 # print("Total rows in sales_order_detail:", count)
 
+
+# # RENAME TABLE
+# conn = sqlite3.connect("main.db")
+# cursor = conn.cursor()
+#
+# # Rename table
+# cursor.execute("ALTER TABLE sales_order_detail RENAME TO sales_invoices_detail")
+#
+# conn.commit()
+# conn.close()
+# print("✅ Table renamed to sales_invoices.")
 

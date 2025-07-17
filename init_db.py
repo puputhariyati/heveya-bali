@@ -12,7 +12,7 @@ def get_db_connection():
 #     conn = get_db_connection()
 #     cursor = conn.cursor()
 #
-#     # Example: your new sales_order_detail table
+#     # Example: your new sales_invoices_detail table
 #     cursor.execute("""
 #         CREATE TABLE IF NOT EXISTS sales_order_detail (
 #             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -33,7 +33,7 @@ def get_db_connection():
 #     conn.commit()
 #     conn.close()
 
-    # # Create sales_order table if it doesn't exist
+    # # Create sales_invoices table if it doesn't exist
     # cursor.execute("""
     # CREATE TABLE IF NOT EXISTS sales_order (
     #     transaction_no TEXT PRIMARY KEY,

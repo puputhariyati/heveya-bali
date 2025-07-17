@@ -264,19 +264,23 @@ function renderTable() {
 
   // slice & build rows
   filteredOrders.slice(start, end).forEach(o => {
-    const tr   = document.createElement("tr");
-    tr.innerHTML = `
-      <td><input type="checkbox" class="row-check"></td>
-      <td>${o.transaction_date}</td>
-      <td><a href="/sales_invoices/${o.transaction_no}">${o.transaction_no}</a></td>
-      <td>${o.customer || "-"}</td>
-      <td>${o.balance_due || "-"}</td>
-      <td>${o.total || "-"}</td>
-      <td>${(o.status || "").charAt(0).toUpperCase() + (o.status||"").slice(1)}</td>
-      <td><input type="date" value="${o.etd || ""}"
-                 onchange="updateETD('${o.transaction_no}', this.value)"></td>`;
-    tbody.appendChild(tr);
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+        <td><input type="checkbox" class="row-check"></td>
+        <td>${o.transaction_date}</td>
+        <td><a href="/sales_invoices/${o.transaction_no}">${o.transaction_no}</a></td>
+        <td>${o.customer || "-"}</td>
+        <td>${o.balance_due || "-"}</td>
+        <td>${o.total || "-"}</td>
+        <td>${(o.status || "").charAt(0).toUpperCase() + (o.status || "").slice(1)}</td>
+        <td><input type="date" value="${o.etd || ""}" onchange="updateETD('${o.transaction_no}', this.value)"></td>
+        <td>${o.po_no || "-"}</td>
+        <td>${o.tags || "-"}</td>
+        <td>${o.payment || "-"}</td>
+      `;
+      tbody.appendChild(tr);
   });
+
 
   /* update pagination text / inputs */
   document.getElementById("pageInfo").textContent =

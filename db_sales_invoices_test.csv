@@ -1,239 +1,1147 @@
 transaction_no,transaction_date,customer,balance_due,total,status,etd,po_no,tags,payment
-13314,04/06/2025,Jennifer Yuen,Rp.  0,Rp.  31.500.000,open,2025-07-08,,,
-13335,09/06/2025,Arsh Sharma,Rp.  0,Rp.  61.350.000,partially sent,2025-07-07,,,
-13350,11/06/2025,Michael Young,Rp.  0,Rp.  43.200.000,closed,,,,
-13356,12/06/2025,PT Bellevue Pacific Group,Rp.  0,Rp.  400.500.000,closed,,,,
-13366,14/06/2025,Andy,Rp.  0,Rp.  51.300.000,closed,2025-07-07,,,
-13363,14/06/2025,Marisse Reyes,Rp.  3.720.000,Rp.  7.240.000,closed,,,,
-12644,15/02/2025,Vicky Sby,Rp.  113.235.000,Rp.  203.235.000,closed,2025-08-31,,,
-13375,15/06/2025,CENTRAL RETAIL INDONESIA,Rp.  1.116.500,Rp.  1.116.500,closed,,,,
-13198,16/05/2025,Cecilia Zhao,Rp.  0,Rp.  48.600.000,closed,2025-07-15,,,
-13392,17/06/2025,CENTRAL RETAIL INDONESIA,Rp.  1.809.500,Rp.  1.809.500,closed,,,,
-13399,18/06/2025,CENTRAL RETAIL INDONESIA,Rp.  1.386.000,Rp.  1.386.000,closed,,,,
-13402,19/06/2025,Heveya Dubai,Rp.  939.112,Rp.  939.112,closed,,,,
-13410,20/06/2025,Hailee,Rp.  1.680.000,Rp.  1.680.000,closed,,,,
-13408,20/06/2025,Jasmine Holder,Rp.  1.440.000,Rp.  1.440.000,closed,,,,
-13407,20/06/2025,Bradley Otto,Rp.  24.500.000,Rp.  49.000.000,closed,2025-07-05,,,
-13404,20/06/2025,Marta & Jan,Rp.  0,Rp.  9.555.000,closed,,,,
-13217,21/05/2025,Paulina,Rp.  14.025.000,Rp.  28.050.000,closed,2025-07-15,,,
-13244,24/05/2025,Rose Breedlove,Rp.  67.830.000,Rp.  67.830.000,closed,2025-07-15,,,
-13264,27/05/2025,Nicole Yau,Rp.  0,Rp.  24.200.000,closed,,,,
-13074,28/04/2025,Vanessa Van Houten,Rp.  0,Rp.  112.800.000,closed,2025-08-30,,,
-12076,01/12/2024,CENTRAL RETAIL INDONESIA,Rp.  45.615.900,Rp.  45.615.900,open,,,,
-12182,06/12/2024,Liv Schoenbaechler,Rp.  0,Rp.  44.700.000,open,2025-07-08,,,
-13367,14/06/2025,Zarif & Benita,Rp.  49.794.250,Rp.  49.794.250,open,2025-07-15,,,
-11887,25/10/2024,Rickey Sharma,Rp.  247.240.000,Rp.  247.240.000,open,2025-07-08,,,
-12322,28/12/2024,PT Akomodasi Bali Indah - Dominique,Rp.  0,Rp.  87.600.000,open,2025-07-15,,,
-11719,30/09/2024,Victoria Paras,Rp.  30.300.000,Rp.  33.300.000,open,2025-07-15,,,
-13444,25/06/2025,Yuni Ahmad,Rp.  0,Rp.  1.380.000,open,2025-06-25,,,
-13442,25/06/2025,Nicolas John Krelle,Rp.  0,Rp.  380.000,open,2025-06-26,,,
-13441,25/06/2025,Ade Waworuntu,Rp.  3.600.000,Rp.  3.600.000,open,2025-06-25,,,
-13440,25/06/2025,Paul Westaway,Rp.  0,Rp.  3.600.000,open,2025-06-25,,,
-13439,25/06/2025,Pooja Thawani,Rp.  0,Rp.  5.868.000,open,2025-06-25,,,
-13438,24/06/2025,Ade Waworuntu,Rp.  0,Rp.  2.916.000,open,2025-06-25,,,
-13437,24/06/2025,Marta,Rp.  0,Rp.  1.880.000,open,2025-06-28,,,
-13436,24/06/2025,Anantasha F,Rp.  0,Rp.  32.080.000,open,2025-07-15,,,
-13434,24/06/2025,Alex Shtefan,Rp.  0,Rp.  1.800.000,open,,,,
-13433,24/06/2025,Alexandra Ale,Rp.  91.800.000,Rp.  91.800.000,open,,,,
-13432,24/06/2025,Barbara Soltysinska,Rp.  0,Rp.  1.800.000,open,,,,
-13431,24/06/2025,Mikaela K,Rp.  0,Rp.  1.800.000,open,,,,
-#FREE0077,24/06/2025,Yohana Mirah Canggu Development,Rp.  0,Rp.  0,open,,,,
-13430,23/06/2025,Kevin and Judith,Rp.  0,Rp.  12.825.000,open,,,,
-13429,23/06/2025,PT STANDARDPEN INDUSTRIES,Rp.  138.200.000,Rp.  269.200.000,open,2025-07-15,,,
-13428,23/06/2025,Margarita Zaitseva,Rp.  0,Rp.  27.015.000,open,,,,
-13427,23/06/2025,CENTRAL RETAIL INDONESIA,Rp.  1.116.500,Rp.  1.116.500,open,,,,
-13426,23/06/2025,PT Jenggala Keramik Bali,Rp.  0,Rp.  24.300.000,open,2025-07-05,,,
-13424,23/06/2025,Rio Ubud,Rp.  0,Rp.  2.916.000,open,,,,
-13423,23/06/2025,Regula,Rp.  0,Rp.  1.800.000,open,,,,
-13422,22/06/2025,Heveya Hongkong,Rp.  507.046,Rp.  507.046,open,,,,
-13421,22/06/2025,Hyerim Ko,Rp.  0,Rp.  2.900.000,open,,,,
-13418,22/06/2025,Shaun - SG,Rp.  0,Rp.  1.800.000,open,,,,
-13420,21/06/2025,CENTRAL RETAIL INDONESIA,Rp.  654.500,Rp.  654.500,open,,,,
-13419,21/06/2025,CENTRAL RETAIL INDONESIA,Rp.  5.266.800,Rp.  5.266.800,open,,,,
-13417,21/06/2025,Rytis Majauskas,Rp.  0,Rp.  4.070.000,open,,,,
-13416,21/06/2025,Nicolas Demanez,Rp.  0,Rp.  380.000,open,,,,
-13415,21/06/2025,Susanna,Rp.  0,Rp.  13.880.000,open,,,,
-13414,21/06/2025,Briggitta Faraneva,Rp.  0,Rp.  3.600.000,open,,,,
-13413,20/06/2025,PT DERIDDER INVESTMENTS BALI,Rp.  0,Rp.  3.240.000,open,,,,
-13412,20/06/2025,Sabrina Ricci Pacifici,Rp.  0,Rp.  9.980.000,open,,,,
-13411,20/06/2025,Lianne,Rp.  0,Rp.  3.240.000,open,,,,
-13409,20/06/2025,Hailee,Rp.  0,Rp.  10.435.000,open,,,,
-13406,20/06/2025,Anik Rurin Purwaningsih,Rp.  0,Rp.  1.750.000,open,,,,
-13405,20/06/2025,Sachi Kurosu,Rp.  0,Rp.  4.500.000,open,,,,
-13403,20/06/2025,Herbert B,Rp.  0,Rp.  2.940.000,open,,,,
-13401,19/06/2025,Angela Widjaja,Rp.  0,Rp.  807.500,open,,,,
-13400,19/06/2025,Xaviera Pattipeilohy,Rp.  0,Rp.  4.230.000,open,,,,
-13398,19/06/2025,Matt Pochodyla,Rp.  0,Rp.  2.740.000,open,,,,
-13397,19/06/2025,Liam Otto,Rp.  152.766.000,Rp.  305.532.000,open,2026-01-01,,,
-13396,19/06/2025,Roman - Ubud,Rp.  1.800.000,Rp.  1.800.000,open,,,,
-13395,19/06/2025,Herbert Ypma,Rp.  0,Rp.  9.095.000,open,,,,
-13394,19/06/2025,Surya Maotama,Rp.  714.363,Rp.  714.363,open,,,,
-13279,19/06/2025,PT ELEMENTIS DEVELOPMENT INDONESIA,Rp.  1.189.685.200,Rp.  1.189.685.200,open,2025-09-01,,,
-13291,01/06/2025,Sabina Jangda,,Rp. 6.975.000,,,,,
-13292,01/06/2025,Felicia Boka,,Rp. 4.940.000,,,,,
-13293,01/06/2025,Angela Rummans,,Rp. 2.700.000,,,,,
-13294,01/06/2025,Zee Rimba,,Rp. 6.840.000,,,,,
-13295,01/06/2025,Lisa Chedanne,,Rp. 950.000,,,,,
-13297,02/06/2025,Atika Rosli,,Rp. 5.950.000,,,,,
-13298,02/06/2025,Utina,,Rp. 2.950.000,,,,,
-13299,02/06/2025,Lena Konrad,,Rp. 5.605.000,,,,,
-13300,02/06/2025,Paul It,,Rp. 1.800.000,,,,,
-13301,03/06/2025,Maxime,,Rp. 2.350.000,,,,,
-13302,03/06/2025,Daniela,,Rp. 3.078.000,,,,,
-13303,03/06/2025,Erika Kauder,,Rp. 3.100.000,,,,,
-13304,03/06/2025,Lana Bubalo,,Rp. 12.500.000,,,,,
-13306,03/06/2025,Levania Zefanya,,Rp. 5.605.000,,,,,
-13309,03/06/2025,Irina Zasukha,,Rp. 9.680.000,,,,,
-13310,03/06/2025,Mickael Maxant,,Rp. 4.590.000,,,,,
-13311,04/06/2025,Joelle Louwaars,,Rp. 100.000,,,,,
-13312,04/06/2025,Charly (Ticket to The Moon),,Rp. 8.721.000,,,,,
-13313,01/06/2025,CENTRAL RETAIL INDONESIA,,Rp. 616.000,,,,,
-13315,04/06/2025,Maxim Levie,,Rp. 1.800.000,,,,,
-13317,04/06/2025,Heveya Singapore,,Rp. 2.232.649,,,,,
-13318,05/06/2025,Iveta Rikmane,,Rp. 4.240.000,,,,,
-13319,05/06/2025,Jennie,,Rp. 1.440.000,,,,,
-13320,05/06/2025,Bas Jansen,,Rp. 1.620.000,,,,,
-13321,05/06/2025,Nailing Beauty,,Rp. 1.960.000,,,,,
-13322,05/06/2025,Jason Shapire,,Rp. 900.000,,,,,
-13323,05/06/2025,Ibu Elly Heveya,,Rp. 3.798.348,,,,,
-13324,06/06/2025,nabiella,,Rp. 380.000,,,,,
-13325,07/06/2025,Paul Westaway,,Rp. 61.955.200,,,,,
-13326,07/06/2025,Andi Nugraha,,Rp. 1.380.000,,,,,
-13327,08/06/2025,Miki Dakiiwa,,Rp. 1.800.000,,,,,
-13328,07/06/2025,Humay Farthing,,Rp. 4.470.000,,,,,
-13329,08/06/2025,Catalina,,Rp. 10.670.000,,,,,
-13330,08/06/2025,Migo Hermeler,,Rp. 3.240.000,,,,,
-13331,08/06/2025,Corinna,,Rp. 5.530.000,,,,,
-13332,09/06/2025,Jaco,,Rp. 42.000.000,,,,,
-13333,09/06/2025,Vita,,Rp. 6.210.000,,,,,
-13334,09/06/2025,Alex Hossick,,Rp. 650.000,,,,,
-13336,10/06/2025,Ana Jure,,Rp. 5.150.000,,,,,
-13337,10/06/2025,Ismail Danaci,,Rp. 1.800.000,,,,,
-13338,10/06/2025,Sofia Safitri Hessel,,Rp. 2.940.000,,,,,
-13339,10/06/2025,Sarah Tiffin,,Rp. 9.540.000,,,,,
-13340,03/06/2025,CENTRAL RETAIL INDONESIA,,Rp. 500.500,,,,,
-13341,10/06/2025,Boris,,Rp. 139.968.000,,,,,
-13342,08/06/2025,CENTRAL RETAIL INDONESIA,,Rp. 1.386.000,,,,,
-13343,08/06/2025,CENTRAL RETAIL INDONESIA,,Rp. 1.732.500,,,,,
-13344,10/06/2025,Eva Yuniani,,Rp. 30.190.000,,,,,
-13345,11/06/2025,Margaret,,Rp. 930.000,,,,,
-13346,11/06/2025,Amber Leah,,Rp. 970.000,,,,,
-13347,11/06/2025,Chris van der Drift,,Rp. 8.500.000,,,,,
-13348,11/06/2025,Khayal Abbasan,,Rp. 1.800.000,,,,,
-13351,11/06/2025,PT Bellevue Pacific Group,,Rp. 1.152.000,,,,,
-13352,11/06/2025,CENTRAL RETAIL INDONESIA,,Rp. 885.500,,,,,
-13353,12/06/2025,Joanna Ball,,Rp. 7.200.000,,,,,
-13354,12/06/2025,Anton Kuznetsov,,Rp. 4.590.000,,,,,
-13355,12/06/2025,Yumike Lidya Hastan,,Rp. 2.700.000,,,,,
-13357,13/06/2025,PT Segara Dreams Hospitality,,Rp. 16.640.000,,,,,
-13358,13/06/2025,Chelsea Bell,,Rp. 11.700.000,,,,,
-13359,13/06/2025,Yudha Hari Radite,,Rp. 4.350.000,,,,,
-13360,13/06/2025,Grégoire MORLAËS-DUSAUTOIR,,Rp. 12.600.000,,,,,
-13361,13/06/2025,Gia Alam,,Rp. 15.125.000,,,,,
-13362,13/06/2025,Jack Skipp,,Rp. 760.000,,,,,
-13364,14/06/2025,Andre Drake,,Rp. 4.230.000,,,,,
-13365,14/06/2025,Joshua Mullane,,Rp. 4.250.000,,,,,
-13368,14/06/2025,Diksha Patel,,Rp. 4.290.000,,,,,
-13369,14/06/2025,CENTRAL RETAIL INDONESIA,,Rp. 3.619.000,,,,,
-13370,14/06/2025,CENTRAL RETAIL INDONESIA,,Rp. 2.125.200,,,,,
-13371,15/06/2025,Don,,Rp. 34.760.000,,,,,
-13372,15/06/2025,Mariana Palmeiro,,Rp. 7.950.000,,,,,
-13373,15/06/2025,Emily Hearne,,Rp. 1.800.000,,,,,
-13374,15/06/2025,Tara Lee Susanto,,Rp. 2.736.000,,,,,
-13376,16/06/2025,Rama,,Rp. 4.590.000,,,,,
-13377,16/06/2025,Raffal Azhary,,Rp. 8.010.000,,,,,
-13378,16/06/2025,Alexandra Ale,,Rp. 4.853.500,,,,,
-13379,16/06/2025,Chris UK,,Rp. 7.830.000,,,,,
-13380,16/06/2025,Meilany Gunawan,,Rp. 46.150.000,,,,,
-13381,16/06/2025,Mariana Palmeiro,,Rp. 1.320.000,,,,,
-13382,17/06/2025,Ibu Elly Heveya,,Rp. 943.362,,,,,
-13383,17/06/2025,Julie Thibaut,,Rp. 11.700.000,,,,,
-13384,17/06/2025,RUFIDI CHANDRA,,Rp. 6.840.000,,,,,
-13385,17/06/2025,Yovia Jogia,,Rp. 380.000,,,,,
-13386,17/06/2025,Wira Maria,,Rp. 550.000,,,,,
-13387,17/06/2025,Nozomi Seah,,Rp. 900.000,,,,,
-13388,17/06/2025,dr Erick - Pondok Indah Clinic,,Rp. 1.710.000,,,,,
-13389,18/06/2025,Denis,,Rp. 1.800.000,,,,,
-13390,18/06/2025,Angela Widjaja,,Rp. 6.498.000,,,,,
-13391,18/06/2025,Unknown,,Rp. 380.000,,,,,
-13393,18/06/2025,Elena Dolmatora,,Rp. 2.700.000,,,,,
-13445,26/06/2025,Thijs Veyfeyken,,Rp. 1.442.220,,,,,
-13446,26/06/2025,PT ISA DEVELOPMENT - POTATO HEAD,,Rp. 41.088.000,,,,,
-13447,26/06/2025,Robin Loke,,Rp. 20.850.000,,,,,
-13449,26/06/2025,Henry Lau,,Rp. 900.000,,,,,
-13450,26/06/2025,CENTRAL RETAIL INDONESIA,,Rp. 10.333.400,,,,,
-13451,26/06/2025,CENTRAL RETAIL INDONESIA,,Rp. 2.633.400,,,,,
-13452,27/06/2025,Jae Huang,,Rp. 2.940.000,,,,,
-13453,27/06/2025,CENTRAL RETAIL INDONESIA,,Rp. 760.000,,,,,
-13455,27/06/2025,John Kivel,,Rp. 2.432.000,,,,,
-13456,27/06/2025,CENTRAL RETAIL INDONESIA,,Rp. 2.494.800,,,,,
-13457,27/06/2025,Raphael Hoppe,,Rp. 1.800.000,,,,,
-13458,27/06/2025,Rili Djohani,,Rp. 900.000,,,,,
-13459,28/06/2025,Juliana,,Rp. 6.840.000,,,,,
-13461,28/06/2025,Sasma Apostoline,,Rp. 380.000,,,,,
-13462,28/06/2025,Niko Bujons,,Rp. 3.240.000,,,,,
-13463,28/06/2025,Penelope Fabert,,Rp. 4.620.000,,,,,
-13464,28/06/2025,Romain Caillez,,Rp. 4.590.000,,,,,
-13465,28/06/2025,dr Erick - Pondok Indah Clinic,,Rp. 1.710.000,,,,,
-13466,28/06/2025,dr Erick - Pondok Indah Clinic,,Rp. 3.420.000,,,,,
-13467,29/06/2025,Audrey Ayana Lan F,,Rp. 6.440.000,,,,,
-13468,29/06/2025,Mckenna Irwin,,Rp. 2.250.000,,,,,
-13469,29/06/2025,Angela Widjaja,,Rp. 3.182.500,,,,,
-13470,29/06/2025,Robert Taber,,Rp. 5.550.000,,,,,
-13471,30/06/2025,Felicia Boka,,Rp. 9.177.000,,,,,
-13472,30/06/2025,Petra Lee,,Rp. 1.800.000,,,,,
-13473,30/06/2025,Jane Andyanto,,Rp. 2.380.000,,,,,
-13474,30/06/2025,Naturfit Concious Living,,Rp. 5.790.000,,,,,
-13475,30/06/2025,Melvin Gras,,Rp. 14.400.000,,,,,
-13476,30/06/2025,Ross,,Rp. 61.906.750,,,,,
-13477,30/06/2025,CENTRAL RETAIL INDONESIA,,Rp. 6.575.800,,,,,
-14205,02/06/2025,James Stanistreet,,Rp. 4.770.000,,,,,
-10325,13/02/2024,Kimberley & Rob,,Rp. 209.120.000,,,,,
-12896,02/04/2025,Nana Isomi,,Rp. 36.739.000,,,,,
-13070,15/05/2025,PT. MANDALA ECOVILLAGE LOMBOK,,Rp. 374.400.000,,,,,
-13102,30/04/2025,Gintare Drexel,,Rp. 43.920.000,,,,,
-13104,30/04/2025,Nathan,,Rp. 62.100.000,,,,,
-13271,28/05/2025,Jakub & Zuzana,,Rp. 245.088.000,,,,,
-14465,06/07/2025,Park Amber,Rp.  0,Rp.  19.850.000,Paid,,,,
-14464,05/07/2025,Jingyi Tan,Rp.  0,Rp.  4.380.000,closed,2025-07-07,,,
-14463,05/07/2025,Riley Tonkin,Rp.  0,Rp.  4.360.500,closed,2025-07-05,,,
-14462,05/07/2025,Don From Ubud,Rp.  0,Rp.  650.000,Paid,2025-07-05,,,
-14461,05/07/2025,Don From Ubud,Rp.  0,Rp.  3.705.000,Paid,,,,
-14460,05/07/2025,Jonathan (Joy),Rp.  0,Rp.  3.260.000,Paid,,,,
-14459,05/07/2025,dr Erick - Pondok Indah Clinic,Rp.  1.710.000,Rp.  1.710.000,Overdue,,,,
-KOL250004,04/07/2025,Dr Erick & Sarah,Rp.  3.600.000,Rp.  3.600.000,Overdue,,,,
-14458,04/07/2025,dr Erick - Pondok Indah Clinic,Rp.  0,Rp.  1.753.000,Paid,,,,
-14457,04/07/2025,dr Erick - Pondok Indah Clinic,Rp.  1.710.000,Rp.  1.710.000,Overdue,,,,
-14456,04/07/2025,dr Erick - Pondok Indah Clinic,Rp.  0,Rp.  6.840.000,Paid,,,,
-14455,04/07/2025,Miki Massey,Rp.  0,Rp.  4.080.000,Paid,,,,
-14454,04/07/2025,Diana Lim,Rp.  0,Rp.  2.940.000,Paid,,,,
-14453,04/07/2025,Michael Luible,Rp.  0,Rp.  2.600.000,Paid,,,,
-14451,04/07/2025,Meilany Gunawan,Rp.  0,Rp.  9.310.000,Paid,,,,
-14450,04/07/2025,Don From Ubud,Rp.  0,Rp.  46.407.500,Paid,,,,
-14409,04/07/2025,Rose Breedlove,Rp.  0,Rp.  67.830.000,Paid,,,,
-14449,03/07/2025,dr Erick - Pondok Indah Clinic,Rp.  0,Rp.  1.710.000,Paid,,,,
-14448,03/07/2025,Astrid,Rp.  0,Rp.  2.150.000,Paid,,,,
-14447,03/07/2025,Loulou & Mike,Rp.  0,Rp.  6.631.000,Paid,,,,
-14446,03/07/2025,Frederic Devos - Five Palms Villas,Rp.  0,Rp.  5.520.000,Paid,,,,
-14445,03/07/2025,Irene & Reonald Widjaja,Rp.  0,Rp.  143.635.000,Paid,,,,
-14444,03/07/2025,Safina Iqbal,Rp.  0,Rp.  3.415.000,Paid,,,,
-14442,02/07/2025,Fiona Jacob,Rp.  0,Rp.  30.420.000,Paid,,,,
-14441,02/07/2025,dr Erick - Pondok Indah Clinic,Rp.  1.710.000,Rp.  1.710.000,Overdue,,,,
-14440,02/07/2025,Craig,Rp.  0,Rp.  5.300.000,Paid,,,,
-14439,02/07/2025,Anatta,Rp.  0,Rp.  650.000,Paid,,,,
-14438,02/07/2025,Yuey Tan,Rp.  0,Rp.  2.560.000,Paid,,,,
-14437,02/07/2025,dr Erick - Pondok Indah Clinic,Rp.  0,Rp.  1.710.000,Paid,,,,
-14434,02/07/2025,dr Erick - Pondok Indah Clinic,Rp.  0,Rp.  1.710.000,Paid,,,,
-14433,02/07/2025,dr Erick - Pondok Indah Clinic,Rp.  1.710.000,Rp.  1.710.000,Overdue,,,,
-14432,02/07/2025,dr Erick - Pondok Indah Clinic,Rp.  0,Rp.  1.710.000,Paid,,,,
-14431,02/07/2025,Brooke Moralejo,Rp.  0,Rp.  49.115.000,Paid,,,,
-14436,01/07/2025,PT. Cap Karoso Development,Rp. 3.624,Rp. 3.624,Open,,,,
-14429,01/07/2025,dr Erick - Pondok Indah Clinic,Rp.  0,Rp.  1.710.000,Paid,,,,
-14428,01/07/2025,Yakir,Rp.  0,Rp.  1.800.000,Paid,,,,
-14427,01/07/2025,Imam Yaqin,Rp.  0,Rp.  27.000.000,Paid,,,,
-14425,01/07/2025,Anastasia Sumeisey,Rp.  0,Rp.  2.143.472,Paid,,,,
-14424,01/07/2025,Dian Widayanti,Rp.  0,Rp.  7.310.000,Paid,,,,
-14423,01/07/2025,KIARA BEACH FRONT,Rp.  151.050.000,Rp.  302.100.000,Overdue,,,,
-14415,01/07/2025,Heveya Hongkong,Rp.  1.908.645,Rp.  1.908.645,Overdue,,,,
-14404,01/07/2025,Cap Karoso Sumba,Rp.  13.106.250,Rp.  13.106.250,Overdue,,,,
-14403,01/07/2025,Cap Karoso Sumba,Rp.  20.475.000,Rp.  20.475.000,Overdue,,,,
+11960,30/06/2024,Urban Quarter Plaza Indonesia,Rp.  0,Rp.  36.960.000,closed,,,Partner,Bank Transfer
+11956,30/06/2024,ALCHEMY,Rp.  0,Rp.  635.500,closed,,,Partner,Bank Transfer
+11899,30/06/2024,Veronika Navarro,Rp.  0,Rp.  19.870.000,closed,,,"Whatsapp, Elise",Bank Transfer
+11892,30/06/2024,Jessica Sadjadja,Rp.  0,Rp.  8.260.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11819,30/06/2024,CV. Berkat Oslo Mandiri,Rp.  0,Rp.  720.000,closed,,,Partner,Bank Transfer
+11808,30/06/2024,Urban Quarter Bali,Rp.  0,Rp.  1.480.000,closed,,,Partner,Bank Transfer
+11807,30/06/2024,Urban Quarter Kemang Store,Rp.  0,Rp.  12.160.000,closed,,,Partner,Bank Transfer
+11806,30/06/2024,Yana Kultysheva,Rp.  0,Rp.  13.040.000,closed,,,"Whatsapp, Elise",Bank Transfer
+11795,30/06/2024,Alex uzunov,Rp.  0,Rp.  950.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11793,30/06/2024,Maria & Yasin,Rp.  0,Rp.  2.700.000,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+11792,30/06/2024,Irma Damayanti,Rp.  0,Rp.  3.660.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11791,30/06/2024,Zaheer,Rp.  0,Rp.  1.950.000,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+11790,30/06/2024,Vittoria,Rp.  0,Rp.  2.700.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11900,29/06/2024,Katerina Motyckova,Rp.  0,Rp.  19.870.000,closed,,,"Whatsapp, Elise",Bank Transfer
+11794,29/06/2024,PT LMB GLOBAL INVEST,Rp.  0,Rp.  11.250.000,closed,,,"Showroom, Elise",Xendit
+11789,29/06/2024,Donna Kurniawan,Rp.  0,Rp.  3.870.000,closed,,,"Online, Elise",Xendit Online Shop
+11786,29/06/2024,Octaviani,Rp.  0,Rp.  680.000,closed,,,"Showroom, Elise, Repeat Customer",Cash
+11785,29/06/2024,Wen Li,Rp.  0,Rp.  6.255.000,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+FREE0011,28/06/2024,Fabrice LC,Rp.  0,Rp.  264.819,closed,,,"Showroom, Feni",
+11989,28/06/2024,Julia Solervicens,Rp.  0,Rp.  6.400.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11987,28/06/2024,Noorani Sukardi,Rp.  0,Rp.  16.074.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11901,28/06/2024,Ni Ketut Indrawati,Rp.  0,Rp.  26.000.000,closed,,,"Online, Repeat Customer",Xendit Online Shop
+11784,28/06/2024,Grégoire MORLAËS-DUSAUTOIR,Rp.  0,Rp.  3.870.000,closed,,,"Whatsapp, Elise, Repeat Customer",BCA EDC Machine
+11783,28/06/2024,Aline Chevalier,Rp.  0,Rp.  2.700.000,closed,,,"Whatsapp, Feni",Bank Transfer
+11780,28/06/2024,Joanne Guelke,Rp.  0,Rp.  4.802.500,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11939,27/06/2024,Heveya Singapore,Rp.  0,Rp.  1.665.216,closed,,,"Feni, Email",
+11778,27/06/2024,Lizzy Fallows,Rp.  0,Rp.  16.000.000,closed,,,"Online, Repeat Customer, Bali",Xendit Online Shop
+11777,27/06/2024,Logan Rosel,Rp.  0,Rp.  4.140.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11776,27/06/2024,Agnes,Rp.  0,Rp.  5.482.500,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11775,27/06/2024,Yana Kultysheva,Rp.  0,Rp.  5.450.000,closed,,,"Whatsapp, Feni",Bank Transfer
+FREE0010,26/06/2024,Anders,Rp.  0,Rp.  748.207,closed,,,"Whatsapp, Feni",
+11771,26/06/2024,Jihyeon Won,Rp.  0,Rp.  2.450.000,closed,,,"Online, Feni, Repeat Customer",Xendit Online Shop
+11770,26/06/2024,Jasmine Torres,Rp.  0,Rp.  2.280.000,closed,,,"Showroom, Feni",BCA EDC Machine
+KOL240004,25/06/2024,Happy Salma,Rp.  0,Rp.  500.000,closed,,,,
+KOL240003,25/06/2024,Ameera Home,Rp.  0,Rp.  1.495.727,closed,,,,
+11993,25/06/2024,Mr. Alex Dong,Rp.  0,Rp.  4.653.000,closed,,,"Whatsapp, Feni",Bank Transfer
+11903,25/06/2024,Amelia H Hiawanthana,Rp.  0,Rp.  11.610.000,closed,,,"Whatsapp, Feni, Jakarta",Bank Transfer
+11887,25/06/2024,John Tesdeale,Rp.  0,Rp.  18.525.000,closed,,,"Feni, Interior Design",Bank Transfer
+11803,25/06/2024,Guy Inger,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, JJ",BCA EDC Machine
+11768,25/06/2024,Shenoa Saputra,Rp.  0,Rp.  3.600.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+11763,25/06/2024,Joshua Mullane,Rp.  0,Rp.  3.015.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+12291,24/06/2024,Heveya Singapore,Rp.  0,Rp.  1.801.555,closed,,,,
+11769,24/06/2024,Ivan Pradana,Rp.  0,Rp.  3.600.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11767,24/06/2024,Jason H,Rp.  0,Rp.  7.110.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11766,24/06/2024,Djamal Saouli,Rp.  0,Rp.  3.240.000,closed,,,"Online, Bali",Xendit Online Shop
+11758,24/06/2024,Fransisca Julianti,Rp.  0,Rp.  497.250,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11756,24/06/2024,Ardian Aditya,Rp.  0,Rp.  7.105.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11754,24/06/2024,Bianka,Rp.  0,Rp.  3.250.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11753,24/06/2024,Bianka,Rp.  0,Rp.  1.300.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11752,24/06/2024,Elise Debaisieux.,Rp.  0,Rp.  534.434,closed,,,"Whatsapp, Feni",BCA EDC Machine
+11759,23/06/2024,Noorani Sukardi,Rp.  0,Rp.  5.170.000,closed,,,"Whatsapp, Elise, Repeat Customer",Bank Transfer
+11749,23/06/2024,Summer,Rp.  0,Rp.  4.140.000,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+11748,23/06/2024,Carla Priscillia,Rp.  0,Rp.  850.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11747,23/06/2024,Maor,Rp.  0,Rp.  7.210.000,closed,,,"Showroom, Elise",Cash
+11746,23/06/2024,Sarah Palermo,Rp.  0,Rp.  2.700.000,closed,,,"Whatsapp, Elise",Bank Transfer
+11745,23/06/2024,Indigo Restaurant,Rp.  0,Rp.  1.360.000,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+11981,22/06/2024,Lois & Alejandra,Rp.  0,Rp.  57.494.000,closed,,,"Showroom, Elise",Bank Transfer
+11781,22/06/2024,Nataly,Rp.  0,Rp.  3.600.000,closed,,,"Showroom, Elise",Cash
+11744,22/06/2024,Henny Winata,Rp.  0,Rp.  5.250.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11743,22/06/2024,Guido van Beek,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11750,21/06/2024,Ayusarita Satriani,Rp.  0,Rp.  2.750.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11742,21/06/2024,Max Oltyan,Rp.  0,Rp.  12.225.000,closed,,,"Showroom, Elise",Bank Transfer
+11741,21/06/2024,Gerald Ng,Rp.  0,Rp.  3.350.000,closed,,,"Showroom, Elise, Repeat Customer, Singapore",BCA EDC Machine
+11739,20/06/2024,Benjamin Wilson,Rp.  0,Rp.  4.410.000,closed,,,"Online, Bali",Xendit Online Shop
+11737,20/06/2024,Pascal Tremblay,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, Maria",Bank Transfer
+11894,19/06/2024,SILOLONA PINISI EKSPLORER,Rp.  0,Rp.  15.390.000,closed,,,"Hotel/Villa, Elise",Bank Transfer
+11734,19/06/2024,Jake Smith,Rp.  0,Rp.  5.349.645,closed,,,"Showroom, JJ",Credit Card
+FREE0009,18/06/2024,Urana Batjargal,Rp.  0,Rp.  2.179.219,closed,,,"Showroom, Elise, Repeat Customer",
+12490,18/06/2024,PT. The Paradise Group (Paradise Road Designs) - Chloe Barreto,Rp.  0,Rp.  54.880.000,closed,,,"Showroom, Elise, Interior Design",Bank Transfer
+11774,18/06/2024,Kie Mei Fen,Rp.  0,Rp.  4.200.000,closed,,,"Online, Repeat Customer, Jakarta",Xendit Online Shop
+11761,18/06/2024,Djamal Saouli,Rp.  0,Rp.  6.480.000,closed,,,"Whatsapp, Elise",Xendit Online Shop
+11735,18/06/2024,Lieke Sofiar,Rp.  0,Rp.  14.004.000,closed,,,"Showroom, Maria, Repeat Customer",Xendit
+11731,18/06/2024,Agnes,Rp.  0,Rp.  8.542.500,closed,,,"Showroom, Maria",Bank Transfer
+11728,17/06/2024,Karen,Rp.  0,Rp.  9.560.000,closed,,,"Showroom, Maria",BCA EDC Machine
+11724,17/06/2024,Adeline Windy,Rp.  0,Rp.  18.640.000,closed,,,"Showroom, Maria",Bank Transfer
+11722,17/06/2024,Thomas Scholz,Rp.  0,Rp.  650.000,closed,,,"Showroom, Maria, Repeat Customer",BCA EDC Machine
+11721,17/06/2024,Reem,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, Maria",BCA EDC Machine
+11720,17/06/2024,Minhui,Rp.  0,Rp.  3.249.000,closed,,,"Showroom, Maria, Singapore",BCA EDC Machine
+11736,16/06/2024,Harsha Reddy,Rp.  0,Rp.  3.450.000,closed,,,"Whatsapp, Feni",Xendit
+11727,16/06/2024,YVONNE TIRTOPROJO,Rp.  0,Rp.  5.170.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11723,16/06/2024,Tom Dunn,Rp.  0,Rp.  13.870.000,closed,,,"Showroom, Elise",Bank Transfer
+11719,16/06/2024,Becca,Rp.  0,Rp.  5.200.000,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+11717,16/06/2024,Mathias,Rp.  0,Rp.  900.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11716,16/06/2024,Phoebe Greenacre,Rp.  0,Rp.  380.000,closed,,,"Whatsapp, Elise, Repeat Customer",Bank Transfer
+11715,16/06/2024,Magdalena & Budi,Rp.  0,Rp.  4.140.000,closed,,,"Showroom, Elise, Jakarta",BCA EDC Machine
+11714,16/06/2024,Mathias,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11713,16/06/2024,Anton & Asia,Rp.  0,Rp.  2.800.000,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+11712,16/06/2024,Joshua Mullane,Rp.  0,Rp.  4.689.000,closed,,,"Showroom, Elise",BCA EDC Machine
+12043,15/06/2024,Ana Jure,Rp.  0,Rp.  41.540.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11773,15/06/2024,Alexandra Ale,Rp.  0,Rp.  6.631.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11730,15/06/2024,Nikki,Rp.  0,Rp.  12.430.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11725,15/06/2024,Adriaan van Maaren,Rp.  0,Rp.  3.900.000,closed,,,"Elise, Repeat Customer, Email",Bank Transfer
+11711,15/06/2024,Adam Davies,Rp.  0,Rp.  9.500.000,closed,,,"Whatsapp, Elise",Bank Transfer
+11710,15/06/2024,PT Myrah Penaloza,Rp.  0,Rp.  2.552.000,closed,,,"Showroom, Elise, Repeat Customer",Bank Transfer
+11709,15/06/2024,Tiffany Hill,Rp.  0,Rp.  7.950.000,closed,,,"Whatsapp, Elise, Repeat Customer",Xendit
+11708,15/06/2024,Kyle Riley,Rp.  0,Rp.  1.300.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11707,15/06/2024,Arian Ney,Rp.  0,Rp.  6.455.000,closed,,,"Online, Repeat Customer",Xendit Online Shop
+KOL240002,14/06/2024,Ayudia C,Rp.  0,Rp.  988.276,closed,,,,
+11884,14/06/2024,Audrie,Rp.  0,Rp.  4.730.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11835,14/06/2024,Fransisca Julianti,Rp.  0,Rp.  48.816.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11701,14/06/2024,PT Segara Dreams Hospitality,Rp.  0,Rp.  9.440.000,closed,,,"Hotel/Villa, Feni",Bank Transfer
+11699,14/06/2024,Emma Vipond,Rp.  0,Rp.  4.680.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11698,14/06/2024,Nicole Gasko,Rp.  0,Rp.  4.700.000,closed,,,"Online, Bali",Xendit Online Shop
+11697,14/06/2024,Margo Ham,Rp.  0,Rp.  8.407.500,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11696,14/06/2024,John Kivel,Rp.  0,Rp.  1.862.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11695,14/06/2024,Zainab Mahmood Pyarali Rahim,Rp.  0,Rp.  7.834.500,closed,,,"Showroom, Elise",BCA EDC Machine
+11694,14/06/2024,Margo Ham,Rp.  0,Rp.  3.240.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11693,14/06/2024,Marisse Reyes,Rp.  0,Rp.  2.880.000,closed,,,"Feni, Interior Design, Repeat Customer",Bank Transfer
+11689,14/06/2024,Saba Steck,Rp.  0,Rp.  29.600.000,closed,,,"Feni, Interior Design, Repeat Customer",
+12461,13/06/2024,Katie Moss,Rp.  0,Rp.  98.000.000,closed,,,"Showroom, Hotel/Villa, Elise",Bank Transfer
+11882,13/06/2024,Fifie Bong / Dwihayati Bong,Rp.  0,Rp.  5.700.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11796,13/06/2024,Marco Sutedja,Rp.  0,Rp.  3.600.000,closed,,,"Online, Repeat Customer, Jakarta",Xendit Online Shop
+11703,13/06/2024,Marco Sutedja,Rp.  0,Rp.  6.450.000,closed,,,"Online, Repeat Customer, Jakarta",Xendit Online Shop
+11691,13/06/2024,John Tesdeale,Rp.  0,Rp.  51.200.000,closed,,,"Feni, Interior Design",Bank Transfer
+11690,13/06/2024,Fifie Bong / Dwihayati Bong,Rp.  0,Rp.  8.174.750,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11688,13/06/2024,Kuo Chia Ling,Rp.  0,Rp.  2.700.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11687,13/06/2024,Emma Murmuridis,Rp.  0,Rp.  8.640.000,closed,,,"Whatsapp, Feni",Bank Transfer
+11686,13/06/2024,Yuanne Hamilton,Rp.  0,Rp.  1.850.000,closed,,,"Showroom, Feni",BCA EDC Machine
+12299,12/06/2024,Cristina Digby,Rp.  0,Rp.  8.236.500,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+11982,12/06/2024,Cristina Digby,Rp.  0,Rp.  6.467.125,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+11685,12/06/2024,Craft Corp Projects,Rp.  0,Rp.  1.750.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11684,12/06/2024,Alina Gorbatenko,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, Feni, Russian",BCA EDC Machine
+11683,12/06/2024,Salvita,Rp.  0,Rp.  2.700.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11682,12/06/2024,Hadi Gerami,Rp.  0,Rp.  11.000.000,closed,,,"Showroom, Feni, Repeat Customer",
+11681,12/06/2024,Fabrice LC,Rp.  0,Rp.  7.890.000,closed,,,"Showroom, Elise",BCA EDC Machine
+OXO0003,11/06/2024,OXO LIVING,Rp.  0,Rp.  177.970,closed,,,Partner,
+11680,11/06/2024,Amberly Valentine,Rp.  0,Rp.  807.500,closed,,,"Showroom, Feni",BCA EDC Machine
+11679,11/06/2024,Prisca Edwards,Rp.  0,Rp.  4.590.000,closed,,,"Showroom, Stefan",BCA EDC Machine
+11678,11/06/2024,Hadi Gerami,Rp.  0,Rp.  1.850.000,closed,,,"Showroom, Elise",Bank Transfer
+11676,11/06/2024,Leni,Rp.  0,Rp.  5.900.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11760,10/06/2024,Cameron Foul,Rp.  0,Rp.  37.000.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11677,10/06/2024,Alison Goodwill,Rp.  0,Rp.  3.750.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11673,10/06/2024,Ben Woods,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11670,10/06/2024,Margo Ham,Rp.  0,Rp.  3.150.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11669,10/06/2024,Eva Stewart,Rp.  0,Rp.  2.655.000,closed,,,"Showroom, Repeat Customer, JJ",BCA EDC Machine
+11675,09/06/2024,Lydia Hartono,Rp.  0,Rp.  2.950.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11674,09/06/2024,Sebastian Maier,Rp.  0,Rp.  1.500.000,closed,,,"Online, Bali",Xendit Online Shop
+11668,09/06/2024,Cizanne,Rp.  0,Rp.  2.940.000,closed,,,"Whatsapp, Feni, Repeat Customer",BCA EDC Machine
+11667,09/06/2024,Michael J Clements,Rp.  0,Rp.  650.000,closed,,,"Online, Bali",Xendit Online Shop
+11834,08/06/2024,Mariska Wandscher,Rp.  0,Rp.  4.230.000,closed,,,"Whatsapp, Feni, Repeat Customer",Cash
+11762,08/06/2024,Jonathan and Larisa,Rp.  0,Rp.  21.000.000,closed,,,"Whatsapp, Elise, Repeat Customer",Bank Transfer
+11663,08/06/2024,John Marciano,Rp.  0,Rp.  7.960.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11662,08/06/2024,Olivia Plotnick,Rp.  0,Rp.  1.300.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11661,08/06/2024,Esi,Rp.  0,Rp.  1.950.000,closed,,,"Showroom, Elise, Indonesian",BCA EDC Machine
+OXO0002,07/06/2024,OXO LIVING,Rp.  0,Rp.  1.492.451,closed,,,Partner,
+12015,07/06/2024,Nomy and Tom,Rp.  0,Rp.  38.500.000,closed,,,"Showroom, Feni",Bank Transfer
+11765,07/06/2024,Ni Ketut Indrawati,Rp.  0,Rp.  3.250.000,closed,,,"Online, Repeat Customer, Bali",Xendit Online Shop
+11657,07/06/2024,HS N Harinovich,Rp.  0,Rp.  2.280.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+11656,07/06/2024,Iben Durhuus,Rp.  0,Rp.  950.000,closed,,,"Showroom, Feni, European",BCA EDC Machine
+11654,07/06/2024,Margo Ham,Rp.  0,Rp.  2.900.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+OXO0001,06/06/2024,Meiltrine Iskandar,Rp.  0,Rp.  73.509,closed,,,"Showroom, JJ",
+11850,06/06/2024,Angela Widjaja,Rp.  0,Rp.  17.722.250,closed,,,"Showroom, JJ",BCA EDC Machine
+11653,06/06/2024,Margo Ham,Rp.  0,Rp.  2.250.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11649,06/06/2024,Jen - Escape Haven,Rp.  0,Rp.  4.800.000,closed,,,"Feni, Interior Design, Repeat Customer",Bank Transfer
+11648,06/06/2024,July Bruel,Rp.  0,Rp.  6.697.500,closed,,,"Showroom, Feni, Repeat Customer",Bank Transfer
+11644,06/06/2024,ARKE STUDIO,Rp.  0,Rp.  2.184.000,closed,,,"Feni, Interior Design, Repeat Customer",BCA EDC Machine
+GA0002,05/06/2024,Dyar Ayu,Rp.  0,Rp.  2.075.621,closed,,,"Whatsapp, Feni",
+GA0001,05/06/2024,Lajeng Padmaratri,Rp.  0,Rp.  1.898.915,closed,,,"Whatsapp, Feni",
+11782,05/06/2024,Rumah Hujan,Rp.  0,Rp.  16.560.000,closed,,,"Hotel/Villa, Feni, Repeat Customer",Bank Transfer
+11643,05/06/2024,Jihyeon Won,Rp.  0,Rp.  12.200.000,closed,,,"Whatsapp, Feni",Bank Transfer
+11640,05/06/2024,Kirfll,Rp.  0,Rp.  850.000,closed,,,"Showroom, Russian, JJ",Cash
+11639,05/06/2024,Retha Sylviana,Rp.  0,Rp.  1.950.000,closed,,,"Online, Repeat Customer",Xendit Online Shop
+11638,05/06/2024,Evi Damayanti,Rp.  0,Rp.  2.700.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11637,05/06/2024,Liz Silcock,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11635,05/06/2024,Oleksit Nudrytskyi,Rp.  0,Rp.  850.000,closed,,,"Showroom, Feni, Russian",BCA EDC Machine
+11633,05/06/2024,Richard Shellcock,Rp.  0,Rp.  990.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+11632,05/06/2024,Franck Gentil,Rp.  0,Rp.  3.650.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11630,05/06/2024,Natalie Mal,Rp.  0,Rp.  3.900.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11757,04/06/2024,Susan Paat,Rp.  0,Rp.  6.255.000,closed,,,"Online, Repeat Customer, Jakarta",Xendit Online Shop
+11642,04/06/2024,Shenoa Saputra,Rp.  0,Rp.  4.430.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11628,04/06/2024,Tracy Horan,Rp.  0,Rp.  5.945.000,closed,,,"Whatsapp, Feni",Bank Transfer
+11627,04/06/2024,Rara,Rp.  0,Rp.  1.950.000,closed,,,"Showroom, JJ",BCA EDC Machine
+11626,04/06/2024,Amira,Rp.  0,Rp.  4.275.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11625,04/06/2024,Ni Ketut Indrawati,Rp.  0,Rp.  6.059.625,closed,,,"Online, Bali",Xendit Online Shop
+11624,04/06/2024,Andreas,Rp.  0,Rp.  2.600.000,closed,,,"Showroom, Feni",BCA EDC Machine
+12303,03/06/2024,Kim Natalia,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, Feni",
+11620,03/06/2024,Shinta Indriyaty Thio,Rp.  0,Rp.  2.130.000,closed,,,"Online, Repeat Customer, Jakarta",Xendit Online Shop
+11706,02/06/2024,Marnix - Dutch Business Network,Rp.  0,Rp.  22.692.780,closed,,,"Whatsapp, Repeat Customer, Stefan",Bank Transfer
+11615,02/06/2024,Sadie Robilliard,Rp.  0,Rp.  3.000.000,closed,,,"Online, Bali",Bank Transfer
+11611,02/06/2024,Serena,Rp.  0,Rp.  5.710.000,closed,,,"Whatsapp, Elise",Bank Transfer
+11610,02/06/2024,Margo Ham,Rp.  0,Rp.  6.890.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11609,02/06/2024,Esther,Rp.  0,Rp.  950.000,closed,,,"Showroom, Elise",Cash
+11606,02/06/2024,Fiona  Ong,Rp.  0,Rp.  6.455.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11605,02/06/2024,Chivonne Cheney,Rp.  0,Rp.  5.080.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11604,02/06/2024,Jeff Waxman,Rp.  0,Rp.  2.700.000,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+11831,01/06/2024,Joelle Louwaars,Rp.  0,Rp.  17.700.000,closed,,,"Whatsapp, Elise, Repeat Customer",Bank Transfer
+11665,01/06/2024,Adzra K.,Rp.  0,Rp.  11.105.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11614,01/06/2024,Eva Stewart,Rp.  0,Rp.  5.067.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11607,01/06/2024,Tom Muris,Rp.  0,Rp.  6.905.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11602,01/06/2024,Youmi Kang,Rp.  0,Rp.  2.150.000,closed,,,"Showroom, Stefan",BCA EDC Machine
+11601,01/06/2024,Wulandari Jenar,Rp.  0,Rp.  2.400.000,closed,,,"Showroom, Stefan",BCA EDC Machine
+11600,01/06/2024,Wulandera,Rp.  0,Rp.  4.320.000,closed,,,"Whatsapp, Elise, Repeat Customer",Bank Transfer
+11599,01/06/2024,Filipp,Rp.  0,Rp.  2.700.000,closed,,,"Showroom, Elise, Russian",BCA EDC Machine
+11598,01/06/2024,Tiara Bramble,Rp.  0,Rp.  1.350.000,closed,,,"Showroom, Partner, Elise",BCA EDC Machine
+11596,01/06/2024,Rachel Jedrek,Rp.  0,Rp.  5.805.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11595,01/06/2024,Cap Karoso Sumba,Rp.  0,Rp.  13.106.250,closed,,,,
+11594,01/06/2024,Cap Karoso Sumba,Rp.  0,Rp.  20.475.000,closed,,,,
+KOL240005-2,31/05/2024,Nada Arini,Rp.  0,Rp.  1.036.844,closed,,,KOL,
+KOL240005-1,31/05/2024,Nike Prima,Rp.  0,Rp.  1.718.649,closed,,,KOL,
+KOL240005,31/05/2024,Jess Buchanan,Rp.  0,Rp.  1.718.797,closed,,,,
+11955,31/05/2024,ALCHEMY,Rp.  0,Rp.  680.000,closed,,,Partner,Bank Transfer
+11732,31/05/2024,Anders,Rp.  0,Rp.  64.683.125,closed,,,"Showroom, Elise",BCA EDC Machine
+11672,31/05/2024,CV. Berkat Oslo Mandiri,Rp.  0,Rp.  3.968.000,closed,,,Partner,Bank Transfer
+11623,31/05/2024,Urban Quarter Bali,Rp.  0,Rp.  7.640.000,closed,,,Partner,Bank Transfer
+11622,31/05/2024,Urban Quarter Kemang Store,Rp.  0,Rp.  2.200.000,closed,,,Partner,Bank Transfer
+11621,31/05/2024,Urban Quarter Plaza Indonesia,Rp.  0,Rp.  10.440.000,closed,,,Partner,Bank Transfer
+11586,31/05/2024,Saba Steck,Rp.  0,Rp.  1.720.000,closed,,,"Feni, Interior Design, Repeat Customer",Bank Transfer
+11660,30/05/2024,Heveya Singapore,Rp.  0,Rp.  2.210.416,closed,,,"Whatsapp, Feni",
+11616,30/05/2024,Alisa Zorn,Rp.  0,Rp.  4.140.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11592,30/05/2024,Annie Halim,Rp.  0,Rp.  5.440.000,closed,,,"Online, Repeat Customer, Jakarta",Xendit Online Shop
+11591,30/05/2024,Retha Sylviana,Rp.  0,Rp.  2.740.000,closed,,,"Online, Repeat Customer, Jakarta",Xendit Online Shop
+11590,30/05/2024,Retha Sylviana,Rp.  0,Rp.  4.140.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11585,30/05/2024,Pavel Rasskazov,Rp.  0,Rp.  45.000.000,closed,,,"Showroom, Feni, Russian",Bank Transfer
+11584,30/05/2024,Nassim Abib,Rp.  0,Rp.  1.422.684,closed,,,"Whatsapp, Feni",
+11583,30/05/2024,Ellen Arthur,Rp.  0,Rp.  4.000.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11582,30/05/2024,John Kivel,Rp.  0,Rp.  931.000,closed,,,"Whatsapp, Feni, Repeat Customer",BCA EDC Machine
+11581,30/05/2024,Lucas Issey,Rp.  0,Rp.  4.150.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11579,30/05/2024,TATIANA TRETYAK,Rp.  0,Rp.  6.740.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+12004,29/05/2024,Gia HK,Rp.  0,Rp.  64.664.600,closed,,,"Showroom, Stefan",Xendit
+11846,29/05/2024,Michelle Smit,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, JJ",BCA EDC Machine
+11755,29/05/2024,Inge De Lathauwer,Rp.  0,Rp.  148.500.000,closed,,,"Repeat Customer, Stefan",Bank Transfer
+11700,29/05/2024,Helena Poma,Rp.  0,Rp.  2.700.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11577,29/05/2024,TATIANA TRETYAK,Rp.  0,Rp.  8.600.000,closed,,,"Whatsapp, Elise, Repeat Customer",Bank Transfer
+11575,29/05/2024,Marina Fame,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11845,28/05/2024,Agnes,Rp.  0,Rp.  31.450.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11671,28/05/2024,MITS - ANNA LUTAEVA,Rp.  0,Rp.  172.450.000,closed,,,"Whatsapp, Feni, Interior Design",Bank Transfer
+11647,28/05/2024,Sharon Kiong,Rp.  0,Rp.  5.200.000,closed,,,"Whatsapp, Feni",Xendit
+11612,28/05/2024,Jess Stansbie,Rp.  0,Rp.  2.700.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11574,28/05/2024,Aristya Indrawan,Rp.  0,Rp.  1.730.000,closed,,,"Whatsapp, Feni, Repeat Customer",Xendit
+11573,28/05/2024,Annabella SG,Rp.  0,Rp.  5.085.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11572,28/05/2024,Yurike Cindy Kusuma,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11655,27/05/2024,Jayde Solana,Rp.  0,Rp.  5.310.000,closed,,,Online,Xendit Online Shop
+11589,27/05/2024,Saba Steck,Rp.  0,Rp.  5.480.000,closed,,,"Feni, Interior Design, Repeat Customer",Bank Transfer
+11588,27/05/2024,Saba Steck,Rp.  0,Rp.  189.000,closed,,,"Feni, Interior Design, Repeat Customer",Bank Transfer
+11568,27/05/2024,Evelyn Greselda,Rp.  0,Rp.  6.100.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11565,27/05/2024,Saba Steck,Rp.  0,Rp.  34.331.000,closed,,,"Feni, Interior Design, Repeat Customer",Bank Transfer
+11564,27/05/2024,Keegan,Rp.  0,Rp.  8.390.000,closed,,,"Whatsapp, Feni, Repeat Customer",BCA EDC Machine
+11562,27/05/2024,Karina Fiorentina,Rp.  0,Rp.  1.350.000,closed,,,"Whatsapp, Feni, Jakarta",Bank Transfer
+11561,27/05/2024,Diva Moy,Rp.  0,Rp.  1.500.000,closed,,,Online,Xendit Online Shop
+11560,26/05/2024,Martine Lavoie,Rp.  0,Rp.  6.390.000,closed,,,"Whatsapp, Elise, Repeat Customer",Bank Transfer
+11842,25/05/2024,Jasmine & Ryan,Rp.  0,Rp.  15.170.000,closed,,,"Showroom, Elise",Xendit
+11617,25/05/2024,Julie Chandra,Rp.  0,Rp.  1.500.000,closed,,,"Whatsapp, Elise, Jakarta",Bank Transfer
+11567,25/05/2024,Innandya Van Der Kolk,Rp.  0,Rp.  2.200.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11558,25/05/2024,Igor I,Rp.  0,Rp.  2.700.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11557,25/05/2024,Johny Reay,Rp.  0,Rp.  4.645.000,closed,,,"Whatsapp, Elise, Repeat Customer",BCA EDC Machine
+11555,25/05/2024,Peggy Marienfeld,Rp.  0,Rp.  4.900.000,closed,,,"Whatsapp, Elise",Bank Transfer
+EB0002,24/05/2024,Ibu Elly Heveya,Rp.  0,Rp.  161.480,closed,,,"Whatsapp, Feni",
+11726,24/05/2024,Uladzislau Vasilkevich,Rp.  0,Rp.  66.600.000,closed,,,"Online, Repeat Customer",Xendit Online Shop
+11629,24/05/2024,Souhela,Rp.  0,Rp.  47.450.000,closed,,,"Hotel/Villa, Feni",Bank Transfer
+11550,24/05/2024,Valentine,Rp.  0,Rp.  1.850.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+11548,24/05/2024,Ellie Morgan Inski,Rp.  0,Rp.  7.185.000,closed,,,"Whatsapp, Elise",Bank Transfer
+11547,24/05/2024,Dom Walsh,Rp.  0,Rp.  3.725.000,closed,,,"Whatsapp, Feni",Xendit
+12161,23/05/2024,Octaviani,Rp.  0,Rp.  48.780.000,closed,,,"Showroom, Elise, Indonesian",BCA EDC Machine
+11554,23/05/2024,Tiffany Chen,Rp.  0,Rp.  5.805.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11546,23/05/2024,James Keet,Rp.  0,Rp.  2.150.000,closed,,,"Online, Bali",Xendit
+11545,23/05/2024,Ribut Purwanti,Rp.  0,Rp.  4.500.000,closed,,,"Showroom, Maria, Jakarta",BCA EDC Machine
+11544,23/05/2024,Pierrik,Rp.  0,Rp.  5.835.000,closed,,,"Showroom, Maria, France",BCA EDC Machine
+KOL240001,22/05/2024,Ayudia C,Rp.  0,Rp.  338.475,closed,,,,
+11862,22/05/2024,Frederique Nault,Rp.  0,Rp.  35.090.000,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+11704,22/05/2024,Racquel Nosworthy,Rp.  0,Rp.  10.330.000,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+11619,22/05/2024,Neya,Rp.  0,Rp.  35.890.000,closed,,,"Showroom, Feni, Repeat Customer",Cash
+11618,22/05/2024,Phoebe Greenacre,Rp.  0,Rp.  44.100.000,closed,,,"Showroom, Repeat Customer, Stefan",Bank Transfer
+11559,22/05/2024,Alix,Rp.  0,Rp.  1.200.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11543,22/05/2024,Selvia Jacob,Rp.  0,Rp.  2.802.500,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11566,21/05/2024,Heveya Dubai,Rp.  0,Rp.  2.286.020,closed,,,"Feni, Email",
+11541,21/05/2024,Cristina Gonzalez,Rp.  0,Rp.  7.740.000,closed,,,"Online, Jakarta",Xendit
+11540,21/05/2024,Ayudia C,Rp.  0,Rp.  780.000,closed,,,"Showroom, Feni, Jakarta",BCA EDC Machine
+11538,21/05/2024,Michelle Hansen,Rp.  0,Rp.  2.150.000,closed,,,"Online, Repeat Customer",Xendit
+11537,21/05/2024,Heveya Dubai,Rp.  0,Rp.  1.015.563,closed,,,"Feni, Email",
+11536,21/05/2024,Rebecca Wilson,Rp.  0,Rp.  3.250.000,closed,,,"Whatsapp, Feni",Xendit
+11535,21/05/2024,Michael Cimino,Rp.  0,Rp.  780.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+11659,20/05/2024,Heveya Singapore,Rp.  0,Rp.  1.183.388,closed,,,"Feni, Email",
+11552,20/05/2024,PT DERIDDER INVESTMENTS BALI,Rp.  0,Rp.  8.490.000,closed,,,"Showroom, JJ",BCA EDC Machine
+11533,20/05/2024,Laura Goodchild,Rp.  0,Rp.  2.100.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11532,20/05/2024,Jenny Preston,Rp.  0,Rp.  11.000.000,closed,,,"Whatsapp, Feni",Xendit
+11531,20/05/2024,Mega Japara,Rp.  0,Rp.  18.890.000,closed,,,"Whatsapp, Feni",Xendit
+11530,20/05/2024,Ben White,Rp.  0,Rp.  15.430.000,closed,,,"Showroom, JJ",Bank Transfer
+11539,19/05/2024,Hannah Edwards,Rp.  0,Rp.  4.189.500,closed,,,"Feni, Email",Bank Transfer
+11529,19/05/2024,Lauren Guy,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11534,18/05/2024,Marlene Marlene,Rp.  0,Rp.  9.025.000,closed,,,"Whatsapp, Maria, Repeat Customer, Indonesian",Bank Transfer
+11528,18/05/2024,Natasha Lubis,Rp.  0,Rp.  4.140.000,closed,,,"Showroom, Maria, Jakarta",BCA EDC Machine
+11527,18/05/2024,Yulia Shigidina,Rp.  0,Rp.  855.000,closed,,,"Whatsapp, Maria, Repeat Customer",Bank Transfer
+11526,18/05/2024,Dan Frolec,Rp.  0,Rp.  4.140.000,closed,,,Online,Xendit Online Shop
+11525,18/05/2024,Timur,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, Maria, Repeat Customer, Russian",BCA EDC Machine
+11524,17/05/2024,Govinda,Rp.  0,Rp.  29.250.000,closed,,,"Showroom, Feni, Bali",Bank Transfer
+11646,16/05/2024,Nicholas Spehler,Rp.  0,Rp.  5.400.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11520,16/05/2024,Alison Goodwill,Rp.  0,Rp.  2.630.000,closed,,,"Showroom, Feni",BCA EDC Machine
+GIFT-0002,15/05/2024,Kurt Latexco Indonesia,Rp.  0,Rp.  440.459,closed,,,"Whatsapp, Feni",
+12137,15/05/2024,Fahri Delarosa,Rp.  0,Rp.  205.200.000,closed,,,"Feni, Architect",Bank Transfer
+11521,15/05/2024,Risma Wulandari,Rp.  0,Rp.  3.870.000,closed,,,"Showroom, Feni, Jakarta",BCA EDC Machine
+11519,15/05/2024,Kenny Lok,Rp.  0,Rp.  2.700.000,closed,,,"Showroom, Feni",Xendit
+11517,15/05/2024,Peter Mason,Rp.  0,Rp.  2.205.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+11514,15/05/2024,James,Rp.  0,Rp.  1.200.000,closed,,,"Showroom, Maria",BCA EDC Machine
+11551,14/05/2024,Svetlana,Rp.  0,Rp.  3.653.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11522,14/05/2024,Kevin LeWinter,Rp.  0,Rp.  9.062.500,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11513,14/05/2024,Peter Mason,Rp.  0,Rp.  4.140.000,closed,,,"Showroom, Feni, Repeat Customer",Cash
+11512,14/05/2024,Holly,Rp.  0,Rp.  617.500,closed,,,"Whatsapp, Feni, Repeat Customer",BCA EDC Machine
+EB0001,13/05/2024,Ibu Elly Heveya,Rp.  0,Rp.  1.458.800,closed,,,Feni,
+11702,13/05/2024,Urban Quarter Kemang Store,Rp.  0,Rp.  6.480.000,closed,,,Partner,Bank Transfer
+11507,13/05/2024,Ramya Haldankar,Rp.  0,Rp.  2.850.000,closed,,,"Whatsapp, Feni, Repeat Customer, Jakarta",
+11505,13/05/2024,Andrew Stedman,Rp.  0,Rp.  7.725.000,closed,,,"Showroom, Maria, Australian",BCA EDC Machine
+11511,12/05/2024,Andry Sutamto,Rp.  0,Rp.  2.700.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11502,12/05/2024,Mqriya,Rp.  0,Rp.  110.000,closed,,,"Showroom, Feni",Cash
+11501,12/05/2024,Mqriya,Rp.  0,Rp.  2.400.000,closed,,,"Showroom, Feni",Cash
+11500,12/05/2024,Tiffany Lung,Rp.  0,Rp.  4.410.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11499,12/05/2024,Gor,Rp.  0,Rp.  243.000,closed,,,"Showroom, Feni, Russian",BCA EDC Machine
+11542,11/05/2024,Michael Soeryadjaya,Rp.  0,Rp.  2.630.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11510,11/05/2024,Suri,Rp.  0,Rp.  11.570.000,closed,,,"Showroom, Stefan, Canada",BCA EDC Machine
+11496,11/05/2024,Jeanette,Rp.  0,Rp.  8.055.000,closed,,,"Showroom, Maria, Germany",BCA EDC Machine
+11495,11/05/2024,Shinta Indriyaty Thio,Rp.  0,Rp.  1.750.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11491,11/05/2024,Dhinmitri,Rp.  0,Rp.  9.025.000,closed,,,"Whatsapp, Maria, Repeat Customer, Indonesian",Bank Transfer
+11490,11/05/2024,Margaretha Runtuwene,Rp.  0,Rp.  6.480.000,closed,,,"Showroom, Maria, Repeat Customer, Jakarta",BCA EDC Machine
+11489,11/05/2024,Nguma Nofrange,Rp.  0,Rp.  7.845.000,closed,,,"Showroom, Maria, France",BCA EDC Machine
+11494,10/05/2024,Jeny Rahardjo,Rp.  0,Rp.  1.500.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11492,10/05/2024,Lara Bernardi,Rp.  0,Rp.  3.515.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11488,10/05/2024,Robindra,Rp.  0,Rp.  4.356.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11486,10/05/2024,Nikolay MATUSHEVSKIY,Rp.  0,Rp.  88.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+11485,10/05/2024,Nikolay MATUSHEVSKIY,Rp.  0,Rp.  4.405.000,closed,,,"Showroom, Feni, Repeat Customer, Russian",BCA EDC Machine
+11484,10/05/2024,Marianna,Rp.  0,Rp.  3.870.000,closed,,,"Showroom, Feni, Repeat Customer, Russian",BCA EDC Machine
+11483,10/05/2024,Birgitte Raben,Rp.  0,Rp.  1.040.000,closed,,,"Feni, Interior Design, Repeat Customer",BCA EDC Machine
+11482,10/05/2024,Michelle,Rp.  0,Rp.  4.675.000,closed,,,"Showroom, Feni, Jakarta",BCA EDC Machine
+11481,10/05/2024,CV. Berkat Oslo Mandiri,Rp.  0,Rp.  6.120.000,closed,,,Partner,Bank Transfer
+11497,09/05/2024,Jerad,Rp.  0,Rp.  3.600.000,closed,,,"Showroom, Stefan",BCA EDC Machine
+11480,09/05/2024,Surya Maotama,Rp.  0,Rp.  812.345,closed,,,"Showroom, Feni",Bank Transfer
+11478,09/05/2024,Dylan Maley,Rp.  0,Rp.  4.595.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+11477,09/05/2024,Keegan,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11476,09/05/2024,Dzintars Derkacs - Riani,Rp.  0,Rp.  1.665.000,closed,,,"Showroom, Feni",Bank Transfer
+11641,08/05/2024,Christian Wojak,Rp.  0,Rp.  10.350.000,closed,,,Online,Xendit
+11504,08/05/2024,Christa,Rp.  0,Rp.  7.865.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+11475,08/05/2024,Viktoria P,Rp.  0,Rp.  11.370.000,closed,,,"Showroom, JJ",Cash
+11473,08/05/2024,Viktoria P,Rp.  0,Rp.  5.850.000,closed,,,"Showroom, Feni, Repeat Customer",Cash
+11472,08/05/2024,Nikolay MATUSHEVSKIY,Rp.  0,Rp.  1.850.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+11471,08/05/2024,Birgitte Raben,Rp.  0,Rp.  2.880.000,closed,,,"Interior Design, Repeat Customer, Stefan",BCA EDC Machine
+11470,08/05/2024,Tara Megan,Rp.  0,Rp.  1.800.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11469,08/05/2024,Isabelle Needham-Didsbury,Rp.  0,Rp.  3.355.000,closed,,,"Showroom, Feni",
+11468,08/05/2024,Waw Project - Anna Skura,Rp.  0,Rp.  5.250.000,closed,,,"Showroom, JJ",BCA EDC Machine
+11467,07/05/2024,Holly,Rp.  0,Rp.  3.350.000,closed,,,"Whatsapp, Feni",Bank Transfer
+11466,07/05/2024,Sofia Charysheva,Rp.  0,Rp.  2.100.000,closed,,,"Online, Repeat Customer",Xendit Online Shop
+11464,07/05/2024,Kim Natalia,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11463,07/05/2024,Komang Didi Yuda Damara,Rp.  0,Rp.  5.250.000,closed,,,"Showroom, JJ",BCA EDC Machine
+11462,07/05/2024,Alexey Klimovich,Rp.  0,Rp.  214.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+11461,07/05/2024,Alexey Klimovich,Rp.  0,Rp.  780.000,closed,,,"Showroom, Feni, Repeat Customer, Russian",BCA EDC Machine
+11518,06/05/2024,Heveya Singapore,(US)$  0,(US)$  87,closed,,,,
+11456,06/05/2024,Ibu Elly Heveya,Rp.  0,Rp.  336.800,closed,,,"Showroom, Feni",BCA EDC Machine
+11455,06/05/2024,Katyo,Rp.  0,Rp.  10.610.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11454,06/05/2024,Marta Zherebetska,Rp.  0,Rp.  850.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11452,06/05/2024,Raisha,Rp.  0,Rp.  8.945.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11450,05/05/2024,Michelle Hansen,Rp.  0,Rp.  2.250.000,closed,,,Online,Xendit Online Shop
+11449,05/05/2024,Arian Ney,Rp.  0,Rp.  7.300.000,closed,,,"Online, Repeat Customer",Xendit Online Shop
+11448,05/05/2024,Tiffany Hill,Rp.  0,Rp.  1.750.000,closed,,,"Whatsapp, Feni",Xendit
+11444,05/05/2024,Septiangga,Rp.  0,Rp.  617.500,closed,,,"Showroom, Feni, Repeat Customer, Jakarta",
+11442,05/05/2024,Septiangga,Rp.  0,Rp.  1.757.500,closed,,,"Showroom, Stefan, Jakarta",
+11441,05/05/2024,Nathalie Harvey,Rp.  0,Rp.  4.480.000,closed,,,"Whatsapp, Feni",Bank Transfer
+11439,05/05/2024,Septiangga,Rp.  0,Rp.  88.000,closed,,,"Showroom, Stefan, Jakarta",BCA EDC Machine
+11438,05/05/2024,Septiangga,Rp.  0,Rp.  2.019.100,closed,,,"Showroom, Stefan, Jakarta",BCA EDC Machine
+11457,04/05/2024,Jeff Payne,Rp.  0,Rp.  650.000,closed,,,"Online, Repeat Customer, Jakarta",Xendit Online Shop
+11447,04/05/2024,Birgitte Raben,Rp.  0,Rp.  780.000,closed,,,"Interior Design, Stefan",BCA EDC Machine
+11446,04/05/2024,Birgitte Raben,Rp.  0,Rp.  62.000,closed,,,"Interior Design, Stefan",BCA EDC Machine
+11440,04/05/2024,Jenny Vincent Minkey,Rp.  0,Rp.  3.350.000,closed,,,"Showroom, Elise",
+11436,04/05/2024,Jenny Vincent Minkey,Rp.  0,Rp.  3.600.000,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+11434,04/05/2024,Diane Djokovic,Rp.  0,Rp.  319.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11833,03/05/2024,Mariska Wandscher,Rp.  0,Rp.  55.809.000,closed,,,"Showroom, Repeat Customer, Stefan",Cash
+11460,03/05/2024,Dwihayati Bong,Rp.  0,Rp.  3.195.000,closed,,,"Online, Repeat Customer, Jakarta",Xendit Online Shop
+11435,03/05/2024,Nadine Khanoyan,Rp.  0,Rp.  1.350.000,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+11433,03/05/2024,Ramya Haldankar,Rp.  0,Rp.  7.550.000,closed,,,"Online, Repeat Customer, Jakarta",Xendit Online Shop
+11432,03/05/2024,Ardelia Apti,Rp.  0,Rp.  2.500.000,closed,,,"Online, Repeat Customer, Jakarta",Xendit Online Shop
+11498,02/05/2024,Marcin,Rp.  0,Rp.  8.240.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11431,02/05/2024,Marvin & Chantelle,Rp.  0,Rp.  900.000,closed,,,"Showroom, Stefan",BCA EDC Machine
+11429,02/05/2024,Aristya Indrawan,Rp.  0,Rp.  380.000,closed,,,"Whatsapp, Feni, Jakarta",Bank Transfer
+11426,02/05/2024,Elise Debaisieux.,Rp.  0,Rp.  6.351.006,closed,,,"Showroom, Feni",BCA EDC Machine
+11424,02/05/2024,"Be Self, Inc",Rp.  0,Rp.  13.536.000,closed,,,"Whatsapp, Elise, Russian",Bank Transfer
+11423,02/05/2024,Chris C,Rp.  0,Rp.  4.140.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11422,02/05/2024,Dzintars Derkacs - Riani,Rp.  0,Rp.  5.500.000,closed,,,"Online, Repeat Customer",Xendit Online Shop
+11421,02/05/2024,Cizanne,Rp.  0,Rp.  4.140.000,closed,,,"Whatsapp, Elise, Repeat Customer",Bank Transfer
+11418,02/05/2024,Bogdan Mihai,Rp.  0,Rp.  6.255.000,closed,,,Online,Xendit Online Shop
+11417,02/05/2024,Jen Darby,Rp.  0,Rp.  8.208.000,closed,,,"Whatsapp, Feni, Repeat Customer",Xendit
+11416,02/05/2024,Rina Wahyuningsih,Rp.  0,Rp.  1.500.000,closed,,,"Whatsapp, Feni",
+11415,01/05/2024,Suri Ali,Rp.  0,Rp.  5.424.500,closed,,,"Showroom, Maria, Repeat Customer, Indonesian",BCA EDC Machine
+11414,01/05/2024,Amber Toal,Rp.  0,Rp.  2.700.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11413,01/05/2024,BOET,Rp.  0,Rp.  157.000,closed,,,"Showroom, Elise, Jakarta",BCA EDC Machine
+11412,01/05/2024,Elisia Chuardy,Rp.  0,Rp.  3.250.000,closed,,,"Whatsapp, Elise, Jakarta",Bank Transfer
+11411,01/05/2024,Ruslen Nazerchks,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, Elise",
+11410,01/05/2024,Cap Karoso Sumba,Rp.  0,Rp.  13.106.250,closed,,,,
+11409,01/05/2024,Cap Karoso Sumba,Rp.  0,Rp.  20.475.000,closed,,,,
+11407,01/05/2024,Alice Dill Prasetyoko,Rp.  0,Rp.  685.900,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11406,01/05/2024,Alice Dill Prasetyoko,Rp.  0,Rp.  5.168.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+KOL042024,30/04/2024,Melody Amadea,Rp.  0,Rp.  1.096.119,closed,,,Maria,
+11954,30/04/2024,ALCHEMY,Rp.  0,Rp.  1.230.000,closed,,,Partner,Bank Transfer
+11445,30/04/2024,Anton & Asia,Rp.  0,Rp.  57.840.000,closed,,,"Showroom, Elise",Bank Transfer
+11428,30/04/2024,Urban Quarter Kemang Store,Rp.  0,Rp.  17.160.000,closed,,,Partner,Bank Transfer
+11427,30/04/2024,Urban Quarter Plaza Indonesia,Rp.  0,Rp.  9.080.000,closed,,,Partner,Bank Transfer
+11401,30/04/2024,Elin Mai,Rp.  0,Rp.  4.500.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11404,29/04/2024,Jeff Payne,Rp.  0,Rp.  7.405.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11403,29/04/2024,Jenny Lyman,Rp.  0,Rp.  2.950.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11398,29/04/2024,Denise,Rp.  0,Rp.  6.255.000,closed,,,"Whatsapp, Feni, Switzerland",BCA EDC Machine
+11397,29/04/2024,Aida,Rp.  0,Rp.  2.950.000,closed,,,"Showroom, Feni, Bali",BCA EDC Machine
+11396,29/04/2024,Jen Darby,Rp.  0,Rp.  5.472.000,closed,,,"Whatsapp, Feni, Repeat Customer, Bali",Bank Transfer
+11395,29/04/2024,Emeli Leuridson,Rp.  0,Rp.  4.250.000,closed,,,"Showroom, Feni, Bali",BCA EDC Machine
+11392,29/04/2024,Ruslen Nazerchks,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, Stefan, Russian",BCA EDC Machine
+11391,29/04/2024,Alix,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, Elise, Bali",BCA EDC Machine
+11608,28/04/2024,Jay Thornhill,Rp.  0,Rp.  45.000.000,closed,,,"Showroom, Elise, Repeat Customer",Bank Transfer
+11508,28/04/2024,Mira Sumanti,Rp.  0,Rp.  52.650.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11390,28/04/2024,Polina Kirvas,Rp.  0,Rp.  1.680.000,closed,,,"Showroom, Elise, Russian",Bank Transfer
+11389,28/04/2024,Cizanne,Rp.  0,Rp.  650.000,closed,,,"Whatsapp, Elise, Repeat Customer",BCA EDC Machine
+11388,28/04/2024,Juliette L,Rp.  0,Rp.  1.850.000,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+11387,27/04/2024,Kohei Leverd,Rp.  0,Rp.  1.500.000,closed,,,"Whatsapp, Elise, Repeat Customer",Bank Transfer
+11385,27/04/2024,Cizanne,Rp.  0,Rp.  6.640.000,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+11384,27/04/2024,Artyom Novokshonov,Rp.  0,Rp.  760.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11458,26/04/2024,Irwan Susanto,Rp.  0,Rp.  5.224.500,closed,,,"Online, Jakarta",Xendit Online Shop
+11430,26/04/2024,Kate Deere,Rp.  0,Rp.  34.300.000,closed,,,"Showroom, Elise, Repeat Customer, New Zealand",Bank Transfer
+11383,26/04/2024,Sissy Reza,Rp.  0,Rp.  1.500.000,closed,,,"Whatsapp, Feni, Repeat Customer, Jakarta",Bank Transfer
+11382,26/04/2024,Elise Debaisieux.,Rp.  0,Rp.  4.304.494,closed,,,"Showroom, Feni",BCA EDC Machine
+11381,26/04/2024,Sofya Tiger,Rp.  0,Rp.  760.000,closed,,,"Whatsapp, Feni, Bali",Bank Transfer
+11380,26/04/2024,Katie Moss,Rp.  0,Rp.  128.000,closed,,,"Showroom, Hotel/Villa, Elise",BCA EDC Machine
+11378,26/04/2024,Alana Warlop,Rp.  0,Rp.  5.490.000,closed,,,"Whatsapp, Feni, Repeat Customer, Bali",Bank Transfer
+11459,25/04/2024,Dian Ariesta,Rp.  0,Rp.  5.629.500,closed,,,"Online, Repeat Customer, Jakarta",Xendit Online Shop
+11377,25/04/2024,Jenny Kusmiati,Rp.  0,Rp.  1.950.000,closed,,,"Whatsapp, Feni, Jakarta",Bank Transfer
+11376,25/04/2024,John Kivel,Rp.  0,Rp.  1.672.000,closed,,,"Showroom, Feni, Repeat Customer, Bali",BCA EDC Machine
+11375,25/04/2024,Sydney Symons,Rp.  0,Rp.  6.590.000,closed,,,"Showroom, Feni, Bali",BCA EDC Machine
+11373,25/04/2024,Egar Yuanatalia,Rp.  0,Rp.  4.140.000,closed,,,"Online, Bali",Xendit Online Shop
+11372,24/04/2024,Jacqueline,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, Feni, Bali",BCA EDC Machine
+11371,24/04/2024,Lynette Kee,Rp.  0,Rp.  780.000,closed,,,"Showroom, Feni, Asean",BCA EDC Machine
+11370,24/04/2024,Doug Freegolk,Rp.  0,Rp.  6.580.000,closed,,,"Showroom, Feni, United States",BCA EDC Machine
+11369,24/04/2024,Doug Freegolk,Rp.  0,Rp.  378.000,closed,,,"Showroom, Feni, United States",BCA EDC Machine
+11368,24/04/2024,Kadek Ratna Yuniari,Rp.  0,Rp.  1.500.000,closed,,,"Online, Bali",Xendit Online Shop
+FREE0008,23/04/2024,Ana Coll,Rp.  0,Rp.  334.830,closed,,,"Feni, Bali",
+11374,23/04/2024,Damayanti Kumara,Rp.  0,Rp.  650.000,closed,,,"Whatsapp, Feni, Jakarta",Bank Transfer
+11367,23/04/2024,Rani,Rp.  0,Rp.  980.000,closed,,,"Showroom, Feni, Jakarta",BCA EDC Machine
+11366,23/04/2024,Rani,Rp.  0,Rp.  298.000,closed,,,"Showroom, Feni, Jakarta",BCA EDC Machine
+11364,23/04/2024,Dina Basalamah,Rp.  0,Rp.  5.553.356,closed,,,"Online, Indonesian",Xendit Online Shop
+11852,22/04/2024,Zoe Tryon,Rp.  0,Rp.  96.750.000,closed,,,"Whatsapp, Feni, Repeat Customer, Bali",Bank Transfer
+11405,22/04/2024,Sahara Hertzke,Rp.  0,Rp.  5.310.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11360,22/04/2024,Airin Eddy,Rp.  0,Rp.  2.400.000,closed,,,"Showroom, Feni, Indonesian",BCA EDC Machine
+11356,22/04/2024,Gaile,Rp.  0,Rp.  4.140.000,closed,,,"Showroom, Repeat Customer, Stefan, Bali",BCA EDC Machine
+11359,21/04/2024,Nadia Sahli,Rp.  0,Rp.  1.743.299,closed,,,"Online, Jakarta",Xendit Online Shop
+11357,21/04/2024,Echa Megawaty,Rp.  0,Rp.  3.870.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11354,21/04/2024,Konstantin,Rp.  0,Rp.  240.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11353,21/04/2024,Philip Dickension,Rp.  0,Rp.  4.706.400,closed,,,"Whatsapp, Elise, Repeat Customer, Bali",Bank Transfer
+11352,21/04/2024,Hayley Archibald,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, Elise, Australian",BCA EDC Machine
+11705,20/04/2024,Marnix - Dutch Business Network,Rp.  0,Rp.  54.000.000,closed,,,"Showroom, Repeat Customer, Stefan",Bank Transfer
+11379,20/04/2024,Shawn Suhaap,Rp.  0,Rp.  20.360.000,closed,,,"Showroom, Gabryella, Netherlands",BCA EDC Machine
+11351,20/04/2024,Hanna Carol,Rp.  0,Rp.  1.850.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11350,20/04/2024,Lewis Callard,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, Gabryella, England",BCA EDC Machine
+11349,20/04/2024,Matt C,Rp.  0,Rp.  9.350.000,closed,,,"Showroom, Elise, Australian",BCA EDC Machine
+11346,20/04/2024,Juliana Sari,Rp.  0,Rp.  2.280.000,closed,,,"Showroom, Gabryella, Indonesian",BCA EDC Machine
+11345,20/04/2024,Ara,Rp.  0,Rp.  2.605.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11344,19/04/2024,Susan Paat,Rp.  0,Rp.  7.129.500,closed,,,"Online, Jakarta",Xendit Online Shop
+11342,19/04/2024,Nadine Khanoyan,Rp.  0,Rp.  9.900.000,closed,,,"Partner, Elise",Bank Transfer
+11340,19/04/2024,Umut,Rp.  0,Rp.  227.000,closed,,,"Showroom, Gabryella, Russian",Cash
+11339,19/04/2024,Nikhat,Rp.  0,Rp.  3.680.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11338,19/04/2024,Penelope Fabert,Rp.  0,Rp.  4.410.000,closed,,,"Showroom, Repeat Customer, Gabryella, Switzerland",BCA EDC Machine
+11336,18/04/2024,Enrika Paton,Rp.  0,Rp.  7.910.000,closed,,,"Showroom, Gabryella, New Zealand",BCA EDC Machine
+11334,18/04/2024,Wulandera,Rp.  0,Rp.  2.580.000,closed,,,"Whatsapp, Feni, Repeat Customer, Jakarta",Bank Transfer
+11333,18/04/2024,Dhinmitri,Rp.  0,Rp.  1.862.000,closed,,,"Whatsapp, Feni, Repeat Customer, Indonesian",Bank Transfer
+11330,17/04/2024,Russel Price,Rp.  0,Rp.  4.140.000,closed,,,"Whatsapp, Feni, Repeat Customer, Bali",Bank Transfer
+11329,17/04/2024,Jay Thornhill,Rp.  0,Rp.  4.140.000,closed,,,"Online, Repeat Customer, Bali",Xendit Online Shop
+11328,17/04/2024,Svetlana,Rp.  0,Rp.  7.600.000,closed,,,"Showroom, Elise, Russian",BCA EDC Machine
+11326,17/04/2024,Dzintars Derkacs - Riani,Rp.  0,Rp.  4.140.000,closed,,,"Online, Repeat Customer, Bali",Xendit Online Shop
+11325,17/04/2024,Dzintars Derkacs - Riani,Rp.  0,Rp.  3.600.000,closed,,,"Online, Repeat Customer, Bali",Xendit Online Shop
+11324,17/04/2024,Martina Liang,Rp.  0,Rp.  3.600.000,closed,,,"Showroom, Feni, Australian",BCA EDC Machine
+11365,16/04/2024,Filisya Thunggawan,Rp.  0,Rp.  1.600.000,closed,,,"Whatsapp, Feni, Repeat Customer, Jakarta",Bank Transfer
+11332,16/04/2024,PT SENSATIA BOTANICALS,Rp.  0,Rp.  3.120.000,closed,,,"Whatsapp, Elise, Repeat Customer",Bank Transfer
+11323,16/04/2024,Ms Sandra Gels,Rp.  0,Rp.  680.000,closed,,,"Whatsapp, Feni, Bali",Bank Transfer
+11321,16/04/2024,Imas Maesaroh,Rp.  0,Rp.  4.140.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11320,16/04/2024,Arumi,Rp.  0,Rp.  6.890.000,closed,,,"Showroom, Feni, Bali",Cash
+11319,16/04/2024,Kate Deere,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, Feni, Bali",
+11318,16/04/2024,Georgie Fletcher,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11317,16/04/2024,Umut,Rp.  0,Rp.  222.000,closed,,,"Showroom, Feni, Russian",Cash
+13177,15/04/2024,Heveya Singapore,Rp.  0,Rp.  48.484.800,closed,,,,
+11587,15/04/2024,Grace Shella Maria,Rp.  0,Rp.  2.750.000,closed,,,"Whatsapp, Gabryella, Indonesian",Bank Transfer
+11394,15/04/2024,Heveya Singapore,(US)$  0,(US)$  28,closed,,,,
+11393,15/04/2024,Heveya Singapore,(US)$  0,(US)$  213,closed,,,,
+11322,15/04/2024,Sissy Reza,Rp.  0,Rp.  3.280.000,closed,,,"Whatsapp, Feni, Indonesian",Bank Transfer
+11315,15/04/2024,Joelianto Noegroho,Rp.  0,Rp.  2.700.000,closed,,,"Showroom, Feni, Indonesian",BCA EDC Machine
+11314,15/04/2024,Rina Wahyuningsih,Rp.  0,Rp.  1.500.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11313,15/04/2024,Intan,Rp.  0,Rp.  450.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11312,15/04/2024,Polina,Rp.  0,Rp.  62.000,closed,,,"Showroom, Feni, Russian",BCA EDC Machine
+11311,15/04/2024,Chloe Lucas,Rp.  0,Rp.  10.240.000,closed,,,"Hotel/Villa, Feni, Bali",Bank Transfer
+11309,15/04/2024,Mutiara,Rp.  0,Rp.  2.750.000,closed,,,"Showroom, Feni, Jakarta",BCA EDC Machine
+11308,15/04/2024,Dya,Rp.  0,Rp.  612.000,closed,,,"Feni, Interior Design, Bali",BCA EDC Machine
+11307,15/04/2024,Kimberley Harrison,Rp.  0,Rp.  4.826.000,closed,,,"Showroom, Feni, Repeat Customer, Bali",Bank Transfer
+11306,15/04/2024,Kimberley Harrison,Rp.  0,Rp.  378.000,closed,,,"Showroom, Feni, Repeat Customer",Bank Transfer
+11400,14/04/2024,Elena S,Rp.  0,Rp.  5.490.000,closed,,,"Showroom, Elise, Russian",BCA EDC Machine
+11310,14/04/2024,Angelique Timmer,Rp.  0,Rp.  57.456.000,closed,,,"Showroom, Gabryella, Netherlands",BCA EDC Machine
+11305,14/04/2024,Awal Rameh,Rp.  0,Rp.  5.440.000,closed,,,"Whatsapp, Elise, Repeat Customer, Bali",Bank Transfer
+11316,13/04/2024,Desa Lima - Alex Goetz,Rp.  0,Rp.  27.200.000,closed,,,"Showroom, Feni, Repeat Customer, Bali",Bank Transfer
+11301,13/04/2024,Ila,Rp.  0,Rp.  8.200.000,closed,,,"Showroom, Repeat Customer, Gabryella",BCA EDC Machine
+11299,13/04/2024,Maria & Sergei,Rp.  0,Rp.  2.700.000,closed,,,"Showroom, Elise, Russian",BCA EDC Machine
+11298,13/04/2024,Lina Yue,Rp.  0,Rp.  1.850.000,closed,,,"Showroom, Elise, Repeat Customer, Asean",BCA EDC Machine
+11297,13/04/2024,Romain Caillez,Rp.  0,Rp.  3.870.000,closed,,,"Showroom, Elise, France",BCA EDC Machine
+11296,13/04/2024,Marta,Rp.  0,Rp.  2.750.000,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+11355,12/04/2024,Christy,Rp.  0,Rp.  990.000,closed,,,"Showroom, Gabryella, Jakarta",Cash
+11331,12/04/2024,PT SENSATIA BOTANICALS,Rp.  0,Rp.  5.040.000,closed,,,"Whatsapp, Elise, Repeat Customer, Bali",BCA EDC Machine
+11292,12/04/2024,Sam Vincent,Rp.  0,Rp.  4.140.000,closed,,,"Whatsapp, Gabryella, Australian",Bank Transfer
+11291,12/04/2024,Jessica Murphy,Rp.  0,Rp.  4.360.000,closed,,,"Interior Design, Repeat Customer, Gabryella, Bali",BCA EDC Machine
+11290,12/04/2024,PT SENSATIA BOTANICALS,Rp.  0,Rp.  6.240.000,closed,,,"Whatsapp, Repeat Customer, Gabryella, Bali",Bank Transfer
+11304,11/04/2024,PT DETHLOFF FAMILY ESTATE,Rp.  0,Rp.  8.960.000,closed,,,"Whatsapp, Repeat Customer, Gabryella, Bali",Bank Transfer
+11286,11/04/2024,Kate Deere,Rp.  0,Rp.  15.210.000,closed,,,"Showroom, Gabryella, New Zealand",BCA EDC Machine
+11282,11/04/2024,PT. TOTAL KEMAJUAN BALI - Tony Ciabarra,Rp.  0,Rp.  3.350.000,closed,,,"Showroom, Elise, Australian",BCA EDC Machine
+11280,11/04/2024,Elizabeth Agnes Celma Marissa,Rp.  0,Rp.  5.024.000,closed,,,"Whatsapp, Elise, Bali",Bank Transfer
+11277,11/04/2024,Cheryl Wee,Rp.  0,Rp.  1.950.000,closed,,,"Showroom, Elise, Asean",BCA EDC Machine
+11276,11/04/2024,Kevin Gunawan,Rp.  0,Rp.  4.500.000,closed,,,"Showroom, Elise, Jakarta",BCA EDC Machine
+11337,10/04/2024,Stephanie Harris,Rp.  0,Rp.  4.140.000,closed,,,"Showroom, Gabryella, Jakarta",BCA EDC Machine
+11289,10/04/2024,Michael Cimino,Rp.  0,Rp.  5.300.000,closed,,,"Showroom, Feni, Repeat Customer",Bank Transfer
+11288,10/04/2024,Gleb P,Rp.  0,Rp.  4.790.000,closed,,,"Whatsapp, Elise, Repeat Customer, Bali",BCA EDC Machine
+11279,10/04/2024,Kurt Luginbuhl,Rp.  0,Rp.  900.000,closed,,,"Showroom, Gabryella, Switzerland",BCA EDC Machine
+11273,10/04/2024,Charles Denson,Rp.  0,Rp.  7.960.000,closed,,,"Showroom, Gabryella, United States",BCA EDC Machine
+11272,10/04/2024,Dzintars Derkacs - Riani,Rp.  0,Rp.  3.000.000,closed,,,"Online, Bali",Xendit Online Shop
+11268,09/04/2024,PT DETHLOFF FAMILY ESTATE,Rp.  0,Rp.  17.200.000,closed,,,"Whatsapp, Feni, Repeat Customer, Bali",Bank Transfer
+11261,09/04/2024,PT PANDAN PARADISE VENTURES,Rp.  0,Rp.  950.000,closed,,,"Showroom, Repeat Customer, Gabryella",BCA EDC Machine
+11259,09/04/2024,Pascal Tremblay,Rp.  0,Rp.  2.700.000,closed,,,"Whatsapp, Elise, Bali",Bank Transfer
+11258,09/04/2024,Helen Agustine,Rp.  0,Rp.  298.000,closed,,,"Showroom, Elise, Jakarta",BCA EDC Machine
+11257,09/04/2024,Helen Agustine,Rp.  0,Rp.  5.850.000,closed,,,"Showroom, Elise, Jakarta",BCA EDC Machine
+11295,08/04/2024,Rost,Rp.  0,Rp.  14.635.000,closed,,,"Showroom, Elise, Bali",Bank Transfer
+11293,08/04/2024,Kimberley Harrison,Rp.  0,Rp.  4.560.000,closed,,,"Whatsapp, Feni, Repeat Customer, Bali",Bank Transfer
+11256,08/04/2024,Ani Taufik,Rp.  0,Rp.  1.500.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11255,08/04/2024,Verena Nicola Budiman,Rp.  0,Rp.  7.960.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11254,08/04/2024,Max Dukuh,Rp.  0,Rp.  2.700.000,closed,,,"Showroom, Feni, Bali",BCA EDC Machine
+11253,08/04/2024,Marie Wanhoefer,Rp.  0,Rp.  1.500.000,closed,,,"Showroom, Feni, European",BCA EDC Machine
+11248,08/04/2024,Angelique Timmer,Rp.  0,Rp.  1.800.000,closed,,,"Showroom, Feni, Bali",BCA EDC Machine
+11247,08/04/2024,Kristin Jaskal,Rp.  0,Rp.  2.700.000,closed,,,"Showroom, Feni, European",BCA EDC Machine
+11244,08/04/2024,Charlie,Rp.  0,Rp.  3.250.000,closed,,,"Showroom, Feni, Bali",BCA EDC Machine
+11243,08/04/2024,Svetlana Maslak,Rp.  0,Rp.  900.000,closed,,,"Showroom, Feni, Repeat Customer, Bali",Cash
+11241,07/04/2024,Jozef S,Rp.  0,Rp.  980.000,closed,,,"Showroom, Elise, Asean",BCA EDC Machine
+11240,06/04/2024,Vonetta Taylor,Rp.  0,Rp.  3.500.000,closed,,,"Showroom, Elise, Bali",BCA EDC Machine
+11239,06/04/2024,Christian Nassia,Rp.  0,Rp.  2.700.000,closed,,,"Showroom, Elise, European",BCA EDC Machine
+11235,05/04/2024,Bernadeth,Rp.  0,Rp.  378.313,closed,,,Feni,BCA EDC Machine
+11234,05/04/2024,Heveya Hongkong,(US)$  0,(US)$  31,closed,,,Intercompany,
+11233,05/04/2024,Wulandera,Rp.  0,Rp.  2.580.000,closed,,,"Whatsapp, Feni, Repeat Customer, Bali",Bank Transfer
+11232,05/04/2024,Heveya Hongkong,(US)$  0,(US)$  138,closed,,,,
+11231,05/04/2024,Heveya Hongkong,(US)$  0,(US)$  138,closed,,,,
+11230,05/04/2024,Noa,Rp.  0,Rp.  4.140.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+11229,04/04/2024,Arian Ney,Rp.  0,Rp.  11.860.000,closed,,,"Online, Bali",Xendit Online Shop
+11228,03/04/2024,Dewa Dwi,Rp.  0,Rp.  534.434,closed,,,"Showroom, Feni",Bank Transfer
+11226,03/04/2024,Romi Caron,Rp.  0,Rp.  1.800.000,closed,,,"Showroom, Repeat Customer, Gabryella, European",BCA EDC Machine
+11225,03/04/2024,Justus Schumacher,Rp.  0,Rp.  4.212.000,closed,,,"Whatsapp, Gabryella, Bali",
+11223,03/04/2024,Marie Michele Potvin Ayotte,Rp.  0,Rp.  4.140.000,closed,,,"Showroom, Feni, Canada",BCA EDC Machine
+11219,02/04/2024,Rob Stowe,Rp.  0,Rp.  15.375.500,closed,,,"Showroom, Feni, Indonesian",BCA EDC Machine
+11218,02/04/2024,Ily,Rp.  0,Rp.  290.000,closed,,,"Showroom, Feni, Asean",BCA EDC Machine
+11402,01/04/2024,Ila,Rp.  0,Rp.  14.980.000,closed,,,"Showroom, Feni, European",BCA EDC Machine
+11215,01/04/2024,Fesi,Rp.  0,Rp.  9.500.000,closed,,,"Whatsapp, Feni, Bali",Bank Transfer
+11214,01/04/2024,Jonathan and Larisa,Rp.  0,Rp.  6.000.000,closed,,,"Showroom, Feni, Repeat Customer, Bali",BCA EDC Machine
+11211,01/04/2024,Breig Property,Rp.  0,Rp.  10.280.000,closed,,,"Showroom, Feni, Bali",Bank Transfer
+11210,01/04/2024,Cap Karoso Sumba,Rp.  0,Rp.  13.106.250,closed,,,,
+11209,01/04/2024,Cap Karoso Sumba,Rp.  0,Rp.  20.475.000,closed,,,,
+12045,31/03/2024,Clint Guenther,Rp.  0,Rp.  102.735.000,closed,,,"Showroom, Elise, Bali",BCA EDC Machine
+11921,31/03/2024,AISTIS,Rp.  0,Rp.  45.685.500,closed,,,"Showroom, Elise, Bali",BCA EDC Machine
+11553,31/03/2024,Riley Tonkin,Rp.  0,Rp.  38.250.000,closed,,,"Showroom, Elise, Australian",Bank Transfer
+11237,31/03/2024,Iyut Siregar,Rp.  0,Rp.  2.850.000,closed,,,"Whatsapp, Elise, Indonesian",Bank Transfer
+11222,31/03/2024,Urban Quarter Bali,Rp.  0,Rp.  8.800.000,closed,,,Partner,Bank Transfer
+11221,31/03/2024,Urban Quarter Kemang Store,Rp.  0,Rp.  8.720.000,closed,,,Partner,Bank Transfer
+11220,31/03/2024,Urban Quarter Plaza Indonesia,Rp.  0,Rp.  12.920.000,closed,,,Partner,Bank Transfer
+11216,31/03/2024,Jonathan Marskell,Rp.  0,Rp.  3.240.000,closed,,,"Online, Jakarta",BCA EDC Machine
+11207,31/03/2024,Timur,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Elise, Russian",BCA EDC Machine
+11206,31/03/2024,Marion Gilroy,Rp.  0,Rp.  1.575.000,closed,,,"Showroom, Elise, Bali",BCA EDC Machine
+11205,31/03/2024,Paloma Blanco,Rp.  0,Rp.  880.000,closed,,,"Showroom, Elise, Indonesian",BCA EDC Machine
+11212,30/03/2024,Priscilia,Rp.  0,Rp.  2.610.000,closed,,,"Showroom, Gabryella, Indonesian",BCA EDC Machine
+11200,30/03/2024,Marlena Mlynarska,Rp.  0,Rp.  5.810.000,closed,,,"Showroom, Elise, Bali",BCA EDC Machine
+11198,30/03/2024,Elise Debaisieux.,Rp.  0,Rp.  983.460,closed,,,"Showroom, Elise",BCA EDC Machine
+11197,30/03/2024,Jekaterina Rimasevska,Rp.  0,Rp.  650.000,closed,,,"Showroom, Elise, Russian",BCA EDC Machine
+11196,30/03/2024,Elkin,Rp.  0,Rp.  4.779.000,closed,,,"Whatsapp, Gabryella, Bali",Bank Transfer
+11195,30/03/2024,Paula Burchett,Rp.  0,Rp.  2.916.000,closed,,,"Whatsapp, Elise, Bali",Bank Transfer
+11194,30/03/2024,Lisa Scerbina,Rp.  0,Rp.  1.750.000,closed,,,"Whatsapp, Elise, Bali",Bank Transfer
+13409,29/03/2024,Therese,Rp.  0,Rp.  11.210.000,closed,,,"Whatsapp, Feni, Bali",Bank Transfer
+11692,29/03/2024,Marisse Reyes,Rp.  0,Rp.  22.176.000,closed,,,"Feni, Interior Design, Repeat Customer, Bali",Bank Transfer
+11192,29/03/2024,Ailin Hartono,Rp.  0,Rp.  8.452.650,closed,,,"Showroom, Feni, Jakarta",Bank Transfer
+11189,29/03/2024,Racquel Nosworthy,Rp.  0,Rp.  900.000,closed,,,"Showroom, Feni, Bali",BCA EDC Machine
+11188,29/03/2024,Chelsea Bell,Rp.  0,Rp.  3.610.000,closed,,,"Showroom, Feni, Repeat Customer, Bali",BCA EDC Machine
+11187,29/03/2024,Julia Andriunina,Rp.  0,Rp.  2.610.000,closed,,,"Whatsapp, Feni, Bali",Xendit
+11185,29/03/2024,Surya Maotama,Rp.  0,Rp.  534.434,closed,,,"Showroom, Feni",
+11182,28/03/2024,Jon Hamilton,Rp.  0,Rp.  3.330.000,closed,,,"Whatsapp, Gabryella, Indonesian",Bank Transfer
+11181,28/03/2024,Sean Barnett,Rp.  0,Rp.  1.377.500,closed,,,"Whatsapp, Feni, Repeat Customer, Bali",Bank Transfer
+11179,28/03/2024,Elise Arnold,Rp.  0,Rp.  3.240.000,closed,,,"Online, Bali",Xendit Online Shop
+11177,28/03/2024,Ian Griffin,Rp.  0,Rp.  2.610.000,closed,,,"Showroom, Feni, Jakarta",BCA EDC Machine
+11217,27/03/2024,Irene Marchelie,Rp.  0,Rp.  2.205.000,closed,,,"Whatsapp, Repeat Customer, Gabryella, Bali",Bank Transfer
+11178,27/03/2024,Keanu,Rp.  0,Rp.  6.480.000,closed,,,"Whatsapp, Gabryella, Bali",Bank Transfer
+11175,27/03/2024,Surya Maotama,Rp.  0,Rp.  534.434,closed,,,Feni,
+11335,26/03/2024,Shyla V,Rp.  0,Rp.  1.160.000,closed,,,"Whatsapp, Feni, Repeat Customer, Bali",Bank Transfer
+11176,26/03/2024,Rachel Dwiayutia,Rp.  0,Rp.  2.916.000,closed,,,"Whatsapp, Feni, Repeat Customer, Jakarta",Xendit
+11169,26/03/2024,Elisabetta Soskic,Rp.  0,Rp.  4.212.000,closed,,,"Showroom, Feni, European",BCA EDC Machine
+11168,26/03/2024,Nadine Marinovich,Rp.  0,Rp.  4.590.000,closed,,,"Showroom, Feni, Australian",BCA EDC Machine
+11167,26/03/2024,Joshua Criado,Rp.  0,Rp.  2.475.000,closed,,,"Whatsapp, Feni, Repeat Customer, Bali",Bank Transfer
+11166,26/03/2024,Diego Muñoz,Rp.  0,Rp.  1.455.000,closed,,,"Whatsapp, Feni, Repeat Customer, Bali",Bank Transfer
+11165,26/03/2024,Joshua Criado,Rp.  0,Rp.  2.475.000,closed,,,"Whatsapp, Feni, Bali",Bank Transfer
+11164,26/03/2024,Heveya Hongkong,Rp.  0,Rp.  2.163.161,closed,,,Feni,Cash
+11245,25/03/2024,Heveya Singapore,Rp.  0,Rp.  2.956.047,closed,,,Feni,
+11201,25/03/2024,Mattew James Day,Rp.  0,Rp.  8.500.000,closed,,,"Showroom, Gabryella, United Kingdom",Bank Transfer
+11163,25/03/2024,Aganta Ramadaanu,Rp.  0,Rp.  1.665.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11160,25/03/2024,Lyndall Mulcony,Rp.  0,Rp.  2.320.000,closed,,,"Whatsapp, Feni, Repeat Customer, Bali",
+11159,25/03/2024,Chris McHutchison,Rp.  0,Rp.  1.450.000,closed,,,"Whatsapp, Feni, Bali",
+11155,25/03/2024,Bernadeth,Rp.  0,Rp.  378.313,closed,,,Feni,
+11154,25/03/2024,Dylan Werner,Rp.  0,Rp.  1.350.000,closed,,,"Whatsapp, Feni, Repeat Customer, Bali",Bank Transfer
+11152,25/03/2024,Dylan Werner,Rp.  0,Rp.  6.615.000,closed,,,"Whatsapp, Feni, Repeat Customer, Bali",
+11151,25/03/2024,Hui Ping,Rp.  0,Rp.  5.645.000,closed,,,"Showroom, Feni, Asean",BCA EDC Machine
+11150,25/03/2024,Gerald Ng,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Feni, Asean",BCA EDC Machine
+11149,25/03/2024,Denis,Rp.  0,Rp.  1.660.000,closed,,,"Showroom, Feni, Russian",BCA EDC Machine
+11162,24/03/2024,Marco Sutedja,Rp.  0,Rp.  2.100.000,closed,,,"Online, Jakarta",Xendit
+11158,24/03/2024,Audrey Budiman,Rp.  0,Rp.  15.000.000,closed,,,"Partner, Elise",Bank Transfer
+11148,24/03/2024,Angelian Luca Lupsan,Rp.  0,Rp.  1.755.000,closed,,,"Online, Bali, Indonesian",Xendit Online Shop
+11145,24/03/2024,Matthew BATHER,Rp.  0,Rp.  2.750.000,closed,,,"Showroom, Elise, Bali",BCA EDC Machine
+11144,24/03/2024,Chris McHutchison,Rp.  0,Rp.  2.100.000,closed,,,"Showroom, Elise, Bali",BCA EDC Machine
+11143,24/03/2024,Lyndall Mulcony,Rp.  0,Rp.  5.210.000,closed,,,"Showroom, Elise, Australian",BCA EDC Machine
+11227,23/03/2024,Reyanne Mustafa,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Gabryella, Bali",BCA EDC Machine
+11171,23/03/2024,Matthew BATHER,Rp.  0,Rp.  8.545.500,closed,,,"Showroom, Elise, Bali",Bank Transfer
+11170,23/03/2024,Lauren R,Rp.  0,Rp.  3.240.000,closed,,,"Whatsapp, Repeat Customer, Gabryella, Bali",Xendit Online Shop
+11156,23/03/2024,Juliette Swan,Rp.  0,Rp.  3.260.000,closed,,,"Showroom, Elise",Bank Transfer
+11147,23/03/2024,Richelle Hanusi,Rp.  0,Rp.  3.690.000,closed,,,"Online, Jakarta",Xendit
+11141,23/03/2024,Oleksandra Stewart,Rp.  0,Rp.  10.260.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11138,23/03/2024,Dylan Werner,Rp.  0,Rp.  20.605.000,closed,,,Online,Xendit
+11137,23/03/2024,Cathrine Bresnehan,Rp.  0,Rp.  250.000,closed,,,"Showroom, Gabryella, Australian",BCA EDC Machine
+11135,23/03/2024,Mister Joe,Rp.  0,Rp.  4.950.000,closed,,,"Showroom, Elise, Bali",Bank Transfer
+12185,22/03/2024,Lydia Parengkuan,Rp.  0,Rp.  2.916.000,closed,,,"Whatsapp, Indonesian",Bank Transfer
+11133,22/03/2024,Amber Grant,Rp.  0,Rp.  8.500.000,closed,,,"Showroom, Gabryella, Australian",BCA EDC Machine
+11132,22/03/2024,Natalie Berand,Rp.  0,Rp.  13.370.000,closed,,,"Showroom, Feni, California",BCA EDC Machine
+11130,22/03/2024,Romi Caron,Rp.  0,Rp.  13.090.000,closed,,,"Showroom, Gabryella, European",Bank Transfer
+11128,22/03/2024,Alexandra Ale,Rp.  0,Rp.  1.755.000,closed,,,"Whatsapp, Feni, Repeat Customer, Bali",Bank Transfer
+11127,22/03/2024,Ruth Bueton,Rp.  0,Rp.  2.430.000,closed,,,"Showroom, Gabryella, Australian",BCA EDC Machine
+11126,22/03/2024,Diane Chapman,Rp.  0,Rp.  3.580.000,closed,,,"Showroom, Feni, Australian",BCA EDC Machine
+11666,21/03/2024,Briggita Faraneva,Rp.  0,Rp.  10.876.000,closed,,,Whatsapp,Bank Transfer
+11125,21/03/2024,Surya Maotama,Rp.  0,Rp.  544.044,closed,,,Feni,
+11124,21/03/2024,Elise Debaisieux.,Rp.  0,Rp.  2.450.246,closed,,,Feni,BCA EDC Machine
+11123,21/03/2024,Susie Vulpas,Rp.  0,Rp.  2.115.000,closed,,,"Whatsapp, Gabryella",Bank Transfer
+11122,21/03/2024,Winnie Doktor,Rp.  0,Rp.  650.000,closed,,,"Showroom, Feni, Bali",BCA EDC Machine
+11121,21/03/2024,Felicia Ciputra,Rp.  0,Rp.  2.716.000,closed,,,"Showroom, Feni, Jakarta",BCA EDC Machine
+11120,21/03/2024,Yulia Shigidina,Rp.  0,Rp.  1.838.250,closed,,,"Whatsapp, Feni, Repeat Customer, Bali",Bank Transfer
+12900,19/03/2024,Amala Villas Ubud,Rp.  0,Rp.  31.600.000,closed,,,"Hotel/Villa, Feni",Bank Transfer
+11204,19/03/2024,Jonathan and Larisa,Rp.  0,Rp.  49.120.000,closed,,,"Whatsapp, Stefan, Bali",Bank Transfer
+11117,19/03/2024,Meutia Admiralda Andini,Rp.  0,Rp.  1.305.000,closed,,,"Online, Jakarta",Xendit Online Shop
+11116,19/03/2024,Dominique Lottes,Rp.  0,Rp.  2.100.000,closed,,,"Online, Bali",Xendit Online Shop
+11115,19/03/2024,Dhinmitri,Rp.  0,Rp.  11.761.000,closed,,,"Whatsapp, Feni, Repeat Customer",Credit Card
+11113,19/03/2024,Stefan Magnus,Rp.  0,Rp.  1.971.916,closed,,,Feni,BCA EDC Machine
+11112,19/03/2024,Malika,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Bobby (2)",BCA EDC Machine
+11111,19/03/2024,Mia Kovagenic,Rp.  0,Rp.  6.750.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+11110,19/03/2024,Alexis Dornier,Rp.  0,Rp.  8.055.000,closed,,,"Whatsapp, Feni, Bali",Bank Transfer
+11109,19/03/2024,Yori Bali Builders Group,Rp.  0,Rp.  3.125.000,closed,,,"Whatsapp, Feni, Bali",Bank Transfer
+11107,19/03/2024,PT Fortuna Invest Bali,Rp.  0,Rp.  3.260.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11106,19/03/2024,Thomas Scholz,Rp.  0,Rp.  950.000,closed,,,"Showroom, Feni, Repeat Customer, Asean",BCA EDC Machine
+11105,19/03/2024,Alexey Klimovich,Rp.  0,Rp.  3.490.000,closed,,,"Showroom, Feni, Russian",BCA EDC Machine
+11183,18/03/2024,Alejandro,Rp.  0,Rp.  1.575.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11099,18/03/2024,Amelie Amam,Rp.  0,Rp.  3.105.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11098,18/03/2024,Sandrine,Rp.  0,Rp.  650.000,closed,,,"Showroom, Feni",Cash
+11096,18/03/2024,Tina Telalyan,Rp.  0,Rp.  580.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11094,18/03/2024,Dhinmitri,Rp.  0,Rp.  4.320.000,closed,,,"Whatsapp, Feni, Repeat Customer",
+11090,18/03/2024,Oria Jamar De Bolsee - Morin Resort Nusa Lembongan,Rp.  0,Rp.  5.655.000,closed,,,"Hotel/Villa, Feni, Repeat Customer",Bank Transfer
+11089,18/03/2024,Alain Fridman,Rp.  0,Rp.  7.290.000,closed,,,"Showroom, Feni",Bank Transfer
+11102,17/03/2024,Indah Sari,Rp.  0,Rp.  2.205.000,closed,,,Online,Xendit Online Shop
+11101,17/03/2024,Christopher L,Rp.  0,Rp.  3.150.592,closed,,,"Online, Repeat Customer",Xendit Online Shop
+11100,17/03/2024,Jennifer Chitwood,Rp.  0,Rp.  4.712.000,closed,,,Online,Xendit Online Shop
+11095,17/03/2024,Anan,Rp.  0,Rp.  900.000,closed,,,"Whatsapp, Repeat Customer, Gabryella",Bank Transfer
+11092,17/03/2024,Emile Pestininkaite,Rp.  0,Rp.  3.905.000,closed,,,Online,Xendit Online Shop
+11088,17/03/2024,Ryanti,Rp.  0,Rp.  2.340.000,closed,,,"Showroom, Gabryella",BCA EDC Machine
+11119,16/03/2024,Matthew Edington,Rp.  0,Rp.  130.000,closed,,,"Showroom, Repeat Customer, Stefan",BCA EDC Machine
+11118,16/03/2024,Matthew Edington,Rp.  0,Rp.  2.475.000,closed,,,"Showroom, Repeat Customer, Stefan",BCA EDC Machine
+11086,16/03/2024,HABITAT 5,Rp.  0,Rp.  16.880.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11361,15/03/2024,Rumah Hujan Villa,Rp.  0,Rp.  40.176.000,closed,,,"Hotel/Villa, Feni, Repeat Customer",Bank Transfer
+11084,15/03/2024,Vijay Chandrani,Rp.  0,Rp.  2.160.000,closed,,,"Showroom, Stefan",BCA EDC Machine
+11081,15/03/2024,Roy,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Feni",Bank Transfer
+11080,15/03/2024,Kimberley Harrison,Rp.  0,Rp.  21.354.900,closed,,,"Showroom, Feni, Repeat Customer",
+11082,14/03/2024,Emilliano Ribeiro,Rp.  0,Rp.  2.916.000,closed,,,"Online, Repeat Customer",Xendit Online Shop
+11074,14/03/2024,Jade,Rp.  0,Rp.  8.160.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11073,14/03/2024,CV. Berkat Oslo Mandiri,Rp.  0,Rp.  1.832.000,closed,,,Partner,
+11072,14/03/2024,Kimberley Harrison,Rp.  0,Rp.  800.000,closed,,,"Showroom, Feni, Repeat Customer",Bank Transfer
+11070,14/03/2024,Kimberley Harrison,Rp.  0,Rp.  9.189.000,closed,,,"Showroom, Feni, Repeat Customer",
+11068,14/03/2024,Ezgi Shönmann,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Elise",
+11067,14/03/2024,Natalie Mal,Rp.  0,Rp.  4.095.000,closed,,,"Whatsapp, Feni",Bank Transfer
+11066,14/03/2024,Marie Faber,Rp.  0,Rp.  4.995.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11064,14/03/2024,Samaya Sungate Behrens,Rp.  0,Rp.  3.097.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11180,13/03/2024,Kiara Galardi,Rp.  0,Rp.  4.513.500,closed,,,"Showroom, Elise",BCA EDC Machine
+11063,13/03/2024,Dhinmitri,Rp.  0,Rp.  1.672.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11062,13/03/2024,Victoria Holmes,Rp.  0,Rp.  540.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11060,13/03/2024,Adrian Savage,Rp.  0,Rp.  3.510.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11059,13/03/2024,Steven Skelly,Rp.  0,Rp.  3.645.000,closed,,,"Showroom, Maria, Repeat Customer",BCA EDC Machine
+11058,13/03/2024,Peter Mason,Rp.  0,Rp.  2.760.000,closed,,,"Showroom, Bobby (2)",BCA EDC Machine
+11057,13/03/2024,Riley Tonkin,Rp.  0,Rp.  12.314.000,closed,,,"Online, Repeat Customer",Xendit Online Shop
+11056,13/03/2024,Mika,Rp.  0,Rp.  1.395.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+11055,13/03/2024,Norah Harvey,Rp.  0,Rp.  5.220.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+13410,12/03/2024,Therese,Rp.  0,Rp.  71.098.000,closed,,,"Whatsapp, Feni",Bank Transfer
+11193,12/03/2024,Shannon Le Avalon,Rp.  0,Rp.  14.740.000,closed,,,"Whatsapp, Feni",Bank Transfer
+11191,12/03/2024,Timothy Prawiro,Rp.  0,Rp.  46.800.000,closed,,,"Showroom, Feni",Bank Transfer
+11184,12/03/2024,Alejandro,Rp.  0,Rp.  43.650.000,closed,,,"Whatsapp, Feni",Bank Transfer
+11054,12/03/2024,Yona - Villa Dibali,Rp.  0,Rp.  3.933.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11053,12/03/2024,Mia Zurindra,Rp.  0,Rp.  650.000,closed,,,Online,Xendit Online Shop
+11051,12/03/2024,Stephanie C,Rp.  0,Rp.  4.500.000,closed,,,"Whatsapp, Feni",Bank Transfer
+11050,12/03/2024,Julia Nikita,Rp.  0,Rp.  1.130.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11047,12/03/2024,Sebastien  Gautier,Rp.  0,Rp.  2.610.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11048,11/03/2024,Nadia,Rp.  0,Rp.  3.240.000,closed,,,"Whatsapp, Feni",Bank Transfer
+11203,10/03/2024,Natalie Giusti,Rp.  0,Rp.  3.928.500,closed,,,Online,Xendit Online Shop
+11049,10/03/2024,Kata Kollar,Rp.  0,Rp.  650.000,closed,,,"Online, Repeat Customer",Xendit Online Shop
+11046,10/03/2024,Kimberley Harrison,Rp.  0,Rp.  7.272.000,closed,,,"Showroom, Repeat Customer, Stefan",BCA EDC Machine
+11202,09/03/2024,Clara De Luca,Rp.  0,Rp.  2.608.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11052,09/03/2024,Dhinmitri,Rp.  0,Rp.  6.089.500,closed,,,"Showroom, Maria",Bank Transfer
+11045,09/03/2024,Christophe Derdeyn,Rp.  0,Rp.  11.110.000,closed,,,"Showroom, Maria",BCA EDC Machine
+11044,09/03/2024,Emma Vipond,Rp.  0,Rp.  4.750.000,closed,,,"Showroom, Maria",BCA EDC Machine
+11043,09/03/2024,Arief Prayoga,Rp.  0,Rp.  580.000,closed,,,"Showroom, Maria",BCA EDC Machine
+11042,09/03/2024,Thomas Mcnaught,Rp.  0,Rp.  1.395.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11041,09/03/2024,Wendy Thomas,Rp.  0,Rp.  11.480.000,closed,,,"Whatsapp, Feni, Repeat Customer",Cash
+11040,09/03/2024,Romina Baldomir,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Maria",BCA EDC Machine
+11039,09/03/2024,Andrejus Lietunovas,Rp.  0,Rp.  2.610.000,closed,,,"Showroom, Elise",BCA EDC Machine
+12383,08/03/2024,PT White Rhino Indonesia,Rp.  0,Rp.  147.150.000,closed,,,"Feni, Interior Design",Bank Transfer
+11825,08/03/2024,Maya L,Rp.  0,Rp.  1.380.000,closed,,,"Whatsapp, Feni",Bank Transfer
+11224,08/03/2024,Justus Schumacher,Rp.  0,Rp.  4.212.000,closed,,,Online,Xendit Online Shop
+11157,08/03/2024,Dhinmitri,Rp.  0,Rp.  52.155.192,closed,,,"Showroom, Feni",Bank Transfer
+11114,08/03/2024,Karen Isdaryono,Rp.  0,Rp.  3.695.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11038,08/03/2024,Margaret Barry,Rp.  0,Rp.  1.270.000,closed,,,"Showroom, Feni",Cash
+12003,07/03/2024,Markus Hofer - The Bohemian Bali,Rp.  0,Rp.  38.250.000,closed,,,"Showroom, Elise",Cash
+11036,07/03/2024,Martine Lavoie,Rp.  0,Rp.  38.250.000,closed,,,"Showroom, Maria, Repeat Customer",BCA EDC Machine
+11032,07/03/2024,Jonas & Innika,Rp.  0,Rp.  5.755.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11031,07/03/2024,Fiji Howat,Rp.  0,Rp.  2.565.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11030,07/03/2024,Florent Paita,Rp.  0,Rp.  2.610.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11027,07/03/2024,Selvia Jacob,Rp.  0,Rp.  12.195.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11186,06/03/2024,Shyla V,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+11035,06/03/2024,Caroline H,Rp.  0,Rp.  1.450.000,closed,,,"Whatsapp, Feni",Bank Transfer
+11025,06/03/2024,Zachary Stockill,Rp.  0,Rp.  4.212.000,closed,,,"Online, Repeat Customer",Xendit Online Shop
+11024,06/03/2024,Yukiko,Rp.  0,Rp.  1.395.000,closed,,,"Showroom, Feni, Repeat Customer",Bank Transfer
+11023,06/03/2024,Bobby Ardani Bintang,Rp.  0,Rp.  588.744,closed,,,"Showroom, Feni",BCA EDC Machine
+11022,06/03/2024,Ronnie,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11021,06/03/2024,Elkin,Rp.  0,Rp.  2.097.900,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11020,05/03/2024,Shelley Maher,Rp.  0,Rp.  2.475.000,closed,,,Online,Xendit Online Shop
+11019,05/03/2024,Augustine,Rp.  0,Rp.  72.150,closed,,,"Showroom, Elise",BCA EDC Machine
+11018,05/03/2024,Boon Piin Tan,Rp.  0,Rp.  1.450.000,closed,,,Online,Xendit Online Shop
+11017,05/03/2024,Alana Warlop,Rp.  0,Rp.  1.305.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11016,05/03/2024,Kristina,Rp.  0,Rp.  5.175.000,closed,,,"Showroom, Maria",BCA EDC Machine
+11015,05/03/2024,Victoria Holmes,Rp.  0,Rp.  2.100.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11014,05/03/2024,Kohei Leverd,Rp.  0,Rp.  4.500.000,closed,,,"Showroom, Bobby (2)",BCA EDC Machine
+11013,05/03/2024,PT. Wisma Ateson Indonesia,Rp.  0,Rp.  580.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11012,05/03/2024,PT. Wisma Ateson Indonesia,Rp.  0,Rp.  580.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11011,05/03/2024,Lilya Likht,Rp.  0,Rp.  9.950.000,closed,,,"Showroom, Feni",Bank Transfer
+11010,05/03/2024,Nico,Rp.  0,Rp.  290.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11008,05/03/2024,Russel Hopkins and Wanda,Rp.  0,Rp.  7.650.000,closed,,,"Showroom, Stefan",BCA EDC Machine
+11007,05/03/2024,Jade,Rp.  0,Rp.  6.952.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+11009,04/03/2024,Emilie Blanchard,Rp.  0,Rp.  2.916.000,closed,,,Online,Xendit Online Shop
+11004,04/03/2024,Soraya Wilson,Rp.  0,Rp.  8.780.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11003,04/03/2024,Lulu Flint,Rp.  0,Rp.  1.160.000,closed,,,"Showroom, Bobby (2)",BCA EDC Machine
+11002,04/03/2024,Mian Davis,Rp.  0,Rp.  4.760.000,closed,,,"Showroom, Bobby (2)",BCA EDC Machine
+11001,04/03/2024,Steven Skelly,Rp.  0,Rp.  3.645.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11000,04/03/2024,Isabelle Needham-Didsbury,Rp.  0,Rp.  8.640.000,closed,,,Online,Xendit Online Shop
+10999,04/03/2024,Gavin Autterson,Rp.  0,Rp.  3.240.000,closed,,,"Whatsapp, Feni, Repeat Customer",BCA EDC Machine
+10998,04/03/2024,Lastri,Rp.  0,Rp.  2.100.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11271,03/03/2024,Michael Cimino,Rp.  0,Rp.  3.240.000,closed,,,"Showroom, Elise",Bank Transfer
+10997,03/03/2024,Yuey Tan,Rp.  0,Rp.  4.455.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10996,03/03/2024,Lotta,Rp.  0,Rp.  650.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10995,03/03/2024,Jeff Waxman,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11097,02/03/2024,Sean Barnett,Rp.  0,Rp.  58.092.500,closed,,,"Showroom, Maria",BCA EDC Machine
+10992,02/03/2024,Yuey Tan,Rp.  0,Rp.  580.000,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+10991,02/03/2024,Kate Lysak,Rp.  0,Rp.  4.160.000,closed,,,"Showroom, Elise",Cash
+10990,02/03/2024,Marie Faber,Rp.  0,Rp.  4.955.000,closed,,,"Showroom, Elise",Cash
+12146,01/03/2024,Kinga Kozlowska and Alexandra,Rp.  0,Rp.  264.100.000,closed,,,"Whatsapp, Elise",Bank Transfer
+11190,01/03/2024,Yuliana Ruslan,Rp.  0,Rp.  91.033.500,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+11026,01/03/2024,Martine Lavoie,Rp.  0,Rp.  11.670.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10993,01/03/2024,Oleksandra Stewart,Rp.  0,Rp.  10.710.000,closed,,,"Showroom, Maria",Bank Transfer
+10989,01/03/2024,Wendy Thomas,Rp.  0,Rp.  1.800.000,closed,,,"Whatsapp, Maria",Bank Transfer
+10987,01/03/2024,GIOVANNI,Rp.  0,Rp.  2.610.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10985,01/03/2024,Cynthia Walsh,Rp.  0,Rp.  2.610.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10982,01/03/2024,Cap Karoso Sumba,Rp.  0,Rp.  13.106.250,closed,,,,
+10981,01/03/2024,Cap Karoso Sumba,Rp.  0,Rp.  20.475.000,closed,,,,
+11006,29/02/2024,Urban Quarter Bali,Rp.  0,Rp.  5.520.000,closed,,,Partner,Bank Transfer
+11005,29/02/2024,Urban Quarter Plaza Indonesia,Rp.  0,Rp.  7.160.000,closed,,,Partner,Bank Transfer
+10986,29/02/2024,Christine W,Rp.  0,Rp.  3.450.000,closed,,,"Online, Repeat Customer",Xendit Online Shop
+10979,29/02/2024,Jessica Murphy,Rp.  0,Rp.  1.160.000,closed,,,"Feni, Interior Design, Repeat Customer",BCA EDC Machine
+10978,29/02/2024,Keith Ngolley,Rp.  0,Rp.  3.600.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+10977,28/02/2024,PT. Wisma Putra Wicaksana,Rp.  0,Rp.  580.000,closed,,,"Whatsapp, Feni, Repeat Customer",BCA EDC Machine
+10976,28/02/2024,Wendy Thomas,Rp.  0,Rp.  5.175.000,closed,,,"Showroom, Maria, Repeat Customer",BCA EDC Machine
+10975,28/02/2024,Kante Webb,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10974,28/02/2024,Andi Nugraha,Rp.  0,Rp.  3.240.000,closed,,,"Showroom, Bobby (2)",Cash
+11108,27/02/2024,Emma Pelan-Pelan Bali,Rp.  0,Rp.  145.762.500,closed,,,"Hotel/Villa, Stefan",Bank Transfer
+10973,27/02/2024,Joelle Louwaars,Rp.  0,Rp.  1.750.000,closed,,,"Whatsapp, Feni",Bank Transfer
+10972,27/02/2024,Dauron,Rp.  0,Rp.  2.420.000,closed,,,"Showroom, Bobby (2)",BCA EDC Machine
+10971,27/02/2024,Suri Ali,Rp.  0,Rp.  8.550.000,closed,,,"Showroom, Maria, Repeat Customer",Bank Transfer
+10970,27/02/2024,Irene Marchelle,Rp.  0,Rp.  2.930.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10969,27/02/2024,Yuey Tan,Rp.  0,Rp.  990.000,closed,,,"Showroom, Bobby (2)",BCA EDC Machine
+10968,26/02/2024,Kate Nikonova,Rp.  0,Rp.  1.000.000,closed,,,"Online, Repeat Customer",Xendit Online Shop
+10967,26/02/2024,Kristina Scott,Rp.  0,Rp.  7.210.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10963,25/02/2024,Chelsea Bell,Rp.  0,Rp.  5.070.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10962,25/02/2024,Jon Blumberg,Rp.  0,Rp.  290.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10961,24/02/2024,Elise Debaisieux.,Rp.  0,Rp.  1.060.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10960,24/02/2024,Willy Thorp,Rp.  0,Rp.  880.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10959,24/02/2024,Joanne Guelke,Rp.  0,Rp.  1.504.500,closed,,,"Showroom, Maria, Repeat Customer",BCA EDC Machine
+10958,24/02/2024,Ezgi Shönmann,Rp.  0,Rp.  6.220.000,closed,,,"Showroom, Elise",Cash
+10957,24/02/2024,Berend van de Seijp,Rp.  0,Rp.  1.950.000,closed,,,Online,Xendit
+10954,23/02/2024,Jonathan Dale,Rp.  0,Rp.  1.750.000,closed,,,"Online, Repeat Customer",Xendit Online Shop
+10953,23/02/2024,Surya Maotama,Rp.  0,Rp.  294.372,closed,,,"Showroom, Feni",Bank Transfer
+10952,23/02/2024,Kathivan Kerber,Rp.  0,Rp.  6.660.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10951,23/02/2024,Elise Debaisieux.,Rp.  0,Rp.  2.120.783,closed,,,"Showroom, Feni",BCA EDC Machine
+10950,23/02/2024,Jade,Rp.  0,Rp.  1.450.000,closed,,,"Whatsapp, Maria",Bank Transfer
+10949,23/02/2024,Mia Kovagenic,Rp.  0,Rp.  3.960.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10948,23/02/2024,Irene Stoffel,Rp.  0,Rp.  7.650.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10956,22/02/2024,MARIAEMILIA MONASTERI,Rp.  0,Rp.  6.150.000,closed,,,"Whatsapp, Feni",Bank Transfer
+10955,22/02/2024,Adrian Savage,Rp.  0,Rp.  900.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+10946,21/02/2024,Sandra Djohan,Rp.  0,Rp.  1.980.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+10945,21/02/2024,Pauly,Rp.  0,Rp.  4.360.000,closed,,,"Showroom, Feni",Xendit
+10944,21/02/2024,Sandra Djohan,Rp.  0,Rp.  5.530.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10943,21/02/2024,M.Van Breevoori,Rp.  0,Rp.  2.850.000,closed,,,"Showroom, Feni",BCA EDC Machine
+FREE0007,20/02/2024,Craig Thrupp,Rp.  0,Rp.  1.523.324,closed,,,,
+11146,20/02/2024,PT DETHLOFF FAMILY ESTATE,Rp.  0,Rp.  183.440.000,closed,,,"Showroom, Feni",Bank Transfer
+11071,20/02/2024,Charlie.,Rp.  0,Rp.  2.000.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10939,20/02/2024,Ivan Pradana,Rp.  0,Rp.  5.491.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+10938,20/02/2024,Noa,Rp.  0,Rp.  3.600.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10937,20/02/2024,CV. Berkat Oslo Mandiri,Rp.  0,Rp.  9.024.000,closed,,,Partner,Bank Transfer
+10936,20/02/2024,Deb Loveridge,Rp.  0,Rp.  5.240.000,closed,,,"Showroom, Feni",Bank Transfer
+10935,20/02/2024,Richard Shellcock,Rp.  0,Rp.  2.750.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+10934,20/02/2024,Jonathan Dale,Rp.  0,Rp.  1.950.000,closed,,,Online,Xendit Online Shop
+11034,19/02/2024,Made Chyntia,Rp.  0,Rp.  7.661.750,closed,,,"Whatsapp, Feni",Bank Transfer
+11033,19/02/2024,Jon Hamilton,Rp.  0,Rp.  3.330.000,closed,,,"Whatsapp, Feni",Bank Transfer
+10931,19/02/2024,Evi Sarah,Rp.  0,Rp.  4.807.000,closed,,,"Showroom, Feni",Bank Transfer
+10930,19/02/2024,Matthew Edington,Rp.  0,Rp.  5.130.000,closed,,,"Online, Repeat Customer",Xendit Online Shop
+10929,19/02/2024,Nadine Gray,Rp.  0,Rp.  11.331.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10928,19/02/2024,Robert Moon Rob,Rp.  0,Rp.  6.555.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10925,19/02/2024,Eva Atmala,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Bobby (2)",BCA EDC Machine
+11065,18/02/2024,Sheila Man,Rp.  0,Rp.  57.750.000,closed,,,"Hotel/Villa, Elise",Bank Transfer
+11029,18/02/2024,LENYA,Rp.  0,Rp.  4.140.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10927,18/02/2024,Sandra Assiego,Rp.  0,Rp.  29.979.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10924,18/02/2024,Cameron Biafore,Rp.  0,Rp.  3.600.000,closed,,,"Whatsapp, Elise",Xendit Online Shop
+10923,18/02/2024,Sam Pagett,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11061,17/02/2024,Adrian Savage,Rp.  0,Rp.  6.669.000,closed,,,"Whatsapp, Elise",BCA EDC Machine
+10920,17/02/2024,Benoit Prim,Rp.  0,Rp.  2.610.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10919,17/02/2024,Kirsten De Lange,Rp.  0,Rp.  5.909.000,closed,,,"Showroom, Maria",Bank Transfer
+10916,17/02/2024,Summer,Rp.  0,Rp.  3.500.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10915,17/02/2024,Margaret Barry,Rp.  0,Rp.  6.368.800,closed,,,"Showroom, Elise",BCA EDC Machine
+10994,16/02/2024,Vincent & Kris,Rp.  0,Rp.  2.790.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10921,16/02/2024,Sarita Sekar Putri,Rp.  0,Rp.  1.450.000,closed,,,"Whatsapp, Feni",Bank Transfer
+10918,16/02/2024,Evy Gozali,Rp.  0,Rp.  12.450.600,closed,,,"Showroom, Elise",BCA EDC Machine
+10917,16/02/2024,Yues Burluraux,Rp.  0,Rp.  2.610.000,closed,,,"Showroom, Stefan",BCA EDC Machine
+10914,16/02/2024,Gretchen Smelter,Rp.  0,Rp.  1.380.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10913,16/02/2024,Lucienne,Rp.  0,Rp.  3.406.000,closed,,,"Showroom, Feni",Bank Transfer
+10912,16/02/2024,Dr. Zohra,Rp.  0,Rp.  2.736.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10911,16/02/2024,Claire Markhaim,Rp.  0,Rp.  904.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10910,16/02/2024,Gaile,Rp.  0,Rp.  2.385.000,closed,,,"Showroom, Stefan",BCA EDC Machine
+10909,16/02/2024,Samaya Sungate Behrens,Rp.  0,Rp.  1.377.500,closed,,,"Interior Design, Repeat Customer",Bank Transfer
+10908,16/02/2024,Adrian Savage,Rp.  0,Rp.  5.035.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+10906,16/02/2024,Eva V.,Rp.  0,Rp.  4.500.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10905,16/02/2024,Clairy Saunders,Rp.  0,Rp.  4.465.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10904,16/02/2024,Katrina Szabo,Rp.  0,Rp.  1.800.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10903,16/02/2024,Norah Harvey,Rp.  0,Rp.  3.736.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10902,16/02/2024,Vincent & Kris,Rp.  0,Rp.  4.410.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10901,16/02/2024,Anton,Rp.  0,Rp.  5.075.000,closed,,,"Showroom, Stefan",BCA EDC Machine
+10900,16/02/2024,Alice Daniel,Rp.  0,Rp.  6.358.350,closed,,,"Showroom, Feni",BCA EDC Machine
+10899,16/02/2024,Artika Sulaiman,Rp.  0,Rp.  10.191.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10933,15/02/2024,Janma Carmody,Rp.  0,Rp.  3.600.000,closed,,,"Whatsapp, Feni",Bank Transfer
+10932,15/02/2024,Ksenia Pogrebnichenko,Rp.  0,Rp.  1.550.000,closed,,,"Online, Repeat Customer",Xendit Online Shop
+10907,15/02/2024,Adrian Savage,Rp.  0,Rp.  5.510.000,closed,,,Online,Xendit Online Shop
+10897,15/02/2024,Jovita,Rp.  0,Rp.  2.610.000,closed,,,"Showroom, Bobby (2)",BCA EDC Machine
+10896,15/02/2024,Tammy (PT Here There Investments),Rp.  0,Rp.  5.244.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10895,15/02/2024,Ivan NEUDAKHIN,Rp.  0,Rp.  3.600.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+10894,15/02/2024,Sandy Tiu,Rp.  0,Rp.  250.000,closed,,,"Showroom, Elise",BCA EDC Machine
+12226,14/02/2024,PT Lazy Young Ambitious Guys,Rp.  0,Rp.  140.000.000,closed,,,"Hotel/Villa, Feni",Bank Transfer
+10893,14/02/2024,ARKE STUDIO,Rp.  0,Rp.  12.200.000,closed,,,"Feni, Interior Design",Bank Transfer
+10892,14/02/2024,Giorgia Sutton,Rp.  0,Rp.  4.950.000,closed,,,"Showroom, Elise",BCA EDC Machine
+13939,13/02/2024,Kimberley & Rob,Rp.  90.620.000,Rp.  209.120.000,closed,,,"Elise, Interior Design",Bank Transfer
+10964,13/02/2024,Nadia & Jeppe,Rp.  0,Rp.  12.091.600,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+10891,13/02/2024,Pim & Jade,Rp.  0,Rp.  12.195.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10890,13/02/2024,Leanne,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10889,13/02/2024,Kate Nikonova,Rp.  0,Rp.  1.450.000,closed,,,"Online, Repeat Customer",Xendit Online Shop
+10888,13/02/2024,Matthew BATHER,Rp.  0,Rp.  8.550.000,closed,,,"Showroom, Elise",Bank Transfer
+10887,13/02/2024,Gavalda,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10886,13/02/2024,Chris Barde,Rp.  0,Rp.  3.260.000,closed,,,"Showroom, Feni",BCA EDC Machine
+11506,12/02/2024,Marisse Reyes,Rp.  0,Rp.  55.760.000,closed,,,"Elise, Interior Design",Bank Transfer
+10885,12/02/2024,Marco Sutedja,Rp.  0,Rp.  2.100.000,closed,,,Online,Xendit Online Shop
+10883,12/02/2024,Chenyi Soh,Rp.  0,Rp.  4.050.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10882,12/02/2024,Galuh Sukardi,Rp.  0,Rp.  10.962.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10881,12/02/2024,Lina Yue,Rp.  0,Rp.  3.060.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10880,12/02/2024,Lynnette Koh,Rp.  0,Rp.  3.240.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10879,12/02/2024,Maya Healy,Rp.  0,Rp.  9.360.000,closed,,,"Feni, Interior Design, Repeat Customer",Bank Transfer
+10878,12/02/2024,Alana Warlop,Rp.  0,Rp.  3.240.000,closed,,,"Whatsapp, Feni",Bank Transfer
+10877,12/02/2024,Soren James Molineux,Rp.  0,Rp.  19.116.000,closed,,,"Hotel/Villa, Elise",Bank Transfer
+10876,12/02/2024,Brent Haran,Rp.  0,Rp.  9.639.000,closed,,,"Showroom, Feni",Cash
+10875,12/02/2024,Sasha Doubroff,Rp.  0,Rp.  1.750.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+10874,11/02/2024,Marie & Oli,Rp.  0,Rp.  1.477.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10873,11/02/2024,Lee Parker,Rp.  0,Rp.  3.500.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10872,11/02/2024,Tania,Rp.  0,Rp.  1.900.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10871,11/02/2024,Melissa Silooy,Rp.  0,Rp.  2.850.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10941,10/02/2024,Ryan Fee,Rp.  0,Rp.  17.955.000,closed,,,"Showroom, Maria, Repeat Customer",Cash
+10898,10/02/2024,Kezia Marie,Rp.  0,Rp.  7.362.500,closed,,,Online,Xendit
+10868,09/02/2024,Pamela Petersen,Rp.  0,Rp.  4.420.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+10867,09/02/2024,Manon Payot,Rp.  0,Rp.  40.375.000,closed,,,"Whatsapp, Feni",Bank Transfer
+10863,09/02/2024,Robert (Netherlands),Rp.  0,Rp.  3.600.000,closed,,,"Whatsapp, Feni",Xendit
+10862,09/02/2024,Alex (Airbnb),Rp.  0,Rp.  3.240.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10860,09/02/2024,Keenan,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10861,08/02/2024,Maya Healy,Rp.  0,Rp.  35.520.000,closed,,,"Feni, Interior Design, Repeat Customer",Bank Transfer
+10858,08/02/2024,Nana Isomi,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10857,08/02/2024,Alexandra Matos,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10856,08/02/2024,Anggaraka,Rp.  0,Rp.  1.750.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10926,07/02/2024,Jasmine & Thibault,Rp.  0,Rp.  7.267.500,closed,,,"Showroom, Feni",Xendit Online Shop
+10854,07/02/2024,Sahara Hertzke,Rp.  0,Rp.  3.240.000,closed,,,Online,Xendit Online Shop
+10853,07/02/2024,Ivanna Mg,Rp.  0,Rp.  4.050.000,closed,,,Online,Xendit Online Shop
+10852,07/02/2024,Victoria Hotbox,Rp.  0,Rp.  6.612.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10851,07/02/2024,Matthew Edington,Rp.  0,Rp.  6.042.000,closed,,,"Whatsapp, Feni, Repeat Customer",Xendit Online Shop
+10849,07/02/2024,Alex Walbridge,Rp.  0,Rp.  8.500.000,closed,,,"Showroom, Maria, Repeat Customer",BCA EDC Machine
+10848,07/02/2024,Emma Vipond,Rp.  0,Rp.  4.680.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10847,07/02/2024,Krystina H,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10866,06/02/2024,Brenda Ng,Rp.  0,Rp.  28.000.000,closed,,,"Feni, Interior Design, Repeat Customer",Bank Transfer
+10850,06/02/2024,Simon Kibalo,Rp.  0,Rp.  2.850.000,closed,,,Online,Xendit Online Shop
+10845,06/02/2024,Dhanie Syawaliah,Rp.  0,Rp.  1.460.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+10844,06/02/2024,Luke Gurieff,Rp.  0,Rp.  5.135.778,closed,,,Online,Xendit Online Shop
+10843,06/02/2024,Alexandra Hardes,Rp.  0,Rp.  3.990.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10842,06/02/2024,Oliver,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10841,06/02/2024,Celine Bergamini,Rp.  0,Rp.  9.000.000,closed,,,Online,Xendit Online Shop
+10840,06/02/2024,Carissa,Rp.  0,Rp.  4.050.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+10839,06/02/2024,Sofia Charysheva,Rp.  0,Rp.  5.400.000,closed,,,Online,Xendit Online Shop
+10838,05/02/2024,Marcella Johan,Rp.  0,Rp.  3.300.000,closed,,,Online,Xendit Online Shop
+10834,05/02/2024,Skye,Rp.  0,Rp.  1.450.000,closed,,,"Whatsapp, Feni",BCA EDC Machine
+10837,04/02/2024,Jonathan Marskell,Rp.  0,Rp.  2.450.000,closed,,,Online,Xendit Online Shop
+10833,04/02/2024,Pramana Agus,Rp.  0,Rp.  2.930.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10832,04/02/2024,Marta,Rp.  0,Rp.  3.870.000,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+10831,04/02/2024,Elizabeth VERHAAG,Rp.  0,Rp.  6.520.000,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+10884,03/02/2024,Almathea Fauziah,Rp.  0,Rp.  4.500.000,closed,,,Online,Xendit
+10846,03/02/2024,Kamu Concepts - Victoria Kromojahjo,Rp.  0,Rp.  6.400.000,closed,,,"Feni, Interior Design, Repeat Customer",Bank Transfer
+10828,03/02/2024,Suri Ali,Rp.  0,Rp.  3.360.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10827,03/02/2024,Peter Amor,Rp.  0,Rp.  780.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10826,02/02/2024,David Goldin,Rp.  0,Rp.  2.100.000,closed,,,Online,Xendit Online Shop
+10823,02/02/2024,Arlene,Rp.  0,Rp.  1.750.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10822,02/02/2024,Kate Nikonova,Rp.  0,Rp.  2.900.000,closed,,,Online,Xendit Online Shop
+10820,02/02/2024,MAGDA,Rp.  0,Rp.  780.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10819,02/02/2024,Frederique Nault,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10818,02/02/2024,Donatella,Rp.  0,Rp.  12.500.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10947,01/02/2024,Nurwati Widodo,Rp.  0,Rp.  38.500.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+10836,01/02/2024,Jan Seelen - Lost Lindeberg,Rp.  0,Rp.  3.600.000,closed,,,"Hotel/Villa, Elise",Bank Transfer
+10817,01/02/2024,Eka Jaya Tumewu,Rp.  0,Rp.  1.950.000,closed,,,"Whatsapp, Feni",Bank Transfer
+10814,01/02/2024,Jeffry Wija Soju,Rp.  0,Rp.  9.614.000,closed,,,"Showroom, Maria, Repeat Customer",BCA EDC Machine
+10813,01/02/2024,Nathalie Carroll,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10812,01/02/2024,Cap Karoso Sumba,Rp.  0,Rp.  13.106.250,closed,,,,
+10811,01/02/2024,Cap Karoso Sumba,Rp.  0,Rp.  20.475.000,closed,,,,
+10809,01/02/2024,Stephanie George,Rp.  0,Rp.  2.022.500,closed,,,"Showroom, Feni",BCA EDC Machine
+10808,01/02/2024,Michelle Wang,Rp.  0,Rp.  2.100.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10807,01/02/2024,Anna Gorsuikuina,Rp.  0,Rp.  290.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10830,31/01/2024,Urban Quarter Kemang Store,Rp.  0,Rp.  7.240.000,closed,,,Partner,Bank Transfer
+10829,31/01/2024,Urban Quarter Plaza Indonesia,Rp.  0,Rp.  2.280.000,closed,,,Partner,Bank Transfer
+10806,31/01/2024,Nur Muhammad Iskandar Bin Reindio,Rp.  0,Rp.  14.208.500,closed,,,"Showroom, Feni",BCA EDC Machine
+10802,31/01/2024,Tatiana Semakova,Rp.  0,Rp.  700.000,closed,,,"Showroom, Feni",QRIS
+FREE0006,30/01/2024,PT Segara Dreams Hospitality,Rp.  0,Rp.  62.981,closed,,,"Whatsapp, Feni",
+10965,30/01/2024,Nadia & Jeppe,Rp.  0,Rp.  32.492.375,closed,,,"Whatsapp, Feni",Bank Transfer
+10803,30/01/2024,Audrey Budiman,Rp.  0,Rp.  15.000.000,closed,,,"Partner, Feni",Bank Transfer
+10801,30/01/2024,Yuliyanti Wijaya,Rp.  0,Rp.  1.550.000,closed,,,Online,Xendit Online Shop
+10794,30/01/2024,Evelien Akerboom,Rp.  0,Rp.  650.000,closed,,,"Showroom, Feni",Bank Transfer
+10793,30/01/2024,Stefanie and Max Studio Jencquel,Rp.  0,Rp.  1.584.000,closed,,,"Feni, Interior Design, Repeat Customer",Bank Transfer
+10791,30/01/2024,PT. Sedana Sari Murni,Rp.  0,Rp.  2.760.000,closed,,,"Showroom, Elise",
+10788,30/01/2024,Mario,Rp.  0,Rp.  800.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+10815,29/01/2024,Michael Bugdoll,Rp.  0,Rp.  7.200.000,closed,,,Online,Xendit Online Shop
+10798,29/01/2024,Pevita Pearce,Rp.  0,Rp.  3.250.000,closed,,,"Whatsapp, Feni, Repeat Customer",Xendit
+10796,29/01/2024,Kevin Yulias,Rp.  0,Rp.  555.000,closed,,,"Whatsapp, Feni",Bank Transfer
+10795,29/01/2024,Kevin Yulias,Rp.  0,Rp.  2.846.589,closed,,,"Online, Repeat Customer",Xendit Online Shop
+10784,29/01/2024,Pavel Morozov,Rp.  0,Rp.  3.910.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10782,29/01/2024,Camilla,Rp.  0,Rp.  3.330.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+10781,29/01/2024,Alena Volkova,Rp.  0,Rp.  4.140.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10780,29/01/2024,Gianluca Sestito,Rp.  0,Rp.  2.900.000,closed,,,"Whatsapp, Feni",
+10779,29/01/2024,J-Jack Putallaz,Rp.  0,Rp.  2.113.500,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+10778,29/01/2024,Artem,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10776,28/01/2024,Genevieve Langford,Rp.  0,Rp.  9.344.000,closed,,,"Elise, Interior Design",Xendit
+10775,28/01/2024,Rain Regis,Rp.  0,Rp.  4.015.000,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+10774,28/01/2024,Gianluca Sestito,Rp.  0,Rp.  3.180.000,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+10773,28/01/2024,Annabelle Shuman,Rp.  0,Rp.  800.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10772,28/01/2024,Suri Ali,Rp.  0,Rp.  8.120.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10771,28/01/2024,Sinead MacCana,Rp.  0,Rp.  2.850.000,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+10770,28/01/2024,Sarah Stanford,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10824,27/01/2024,james Bayliss,Rp.  0,Rp.  10.450.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10769,27/01/2024,Joana Correia,Rp.  0,Rp.  650.000,closed,,,"Whatsapp, Maria, Repeat Customer",Bank Transfer
+10767,27/01/2024,Fay Li,Rp.  0,Rp.  3.600.000,closed,,,"Whatsapp, Maria, Repeat Customer",Bank Transfer
+10766,27/01/2024,Sinead MacCana,Rp.  0,Rp.  3.230.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10765,27/01/2024,Rain Regis,Rp.  0,Rp.  1.150.000,closed,,,"Showroom, Maria",QRIS
+10764,27/01/2024,Yjin Bibi,Rp.  0,Rp.  2.550.000,closed,,,"Showroom, Bobby (2), Elise",BCA EDC Machine
+10760,27/01/2024,Gianluca Sestito,Rp.  0,Rp.  15.450.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10759,27/01/2024,Nadine Schroedi,Rp.  0,Rp.  2.027.500,closed,,,"Showroom, Maria",BCA EDC Machine
+10805,26/01/2024,Martim Dias Da Lunha,Rp.  0,Rp.  7.200.000,closed,,,"Showroom, Feni",Bank Transfer
+10763,26/01/2024,Keith Ngolley,Rp.  0,Rp.  3.600.000,closed,,,"Whatsapp, Maria, Repeat Customer",Bank Transfer
+10758,26/01/2024,Riyani Chitra,Rp.  0,Rp.  1.750.000,closed,,,"Whatsapp, Feni",Bank Transfer
+10757,26/01/2024,Viona Alsadila,Rp.  0,Rp.  2.450.000,closed,,,Online,Xendit Online Shop
+10756,26/01/2024,Robert Charles Koelsch,Rp.  0,Rp.  2.850.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10755,26/01/2024,Diah Yaniarti,Rp.  0,Rp.  15.950.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+10754,26/01/2024,Nicole Seeger,Rp.  0,Rp.  1.750.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10753,26/01/2024,Anna Queen,Rp.  0,Rp.  1.230.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+10752,26/01/2024,Roman - Uluwatu,Rp.  0,Rp.  4.895.100,closed,,,"Whatsapp, Feni",Xendit
+10750,25/01/2024,Helen Cahya,Rp.  0,Rp.  1.450.000,closed,,,Online,Xendit Online Shop
+10749,25/01/2024,Sofia,Rp.  0,Rp.  880.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10746,25/01/2024,Tifanny Wilson,Rp.  0,Rp.  19.310.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10816,24/01/2024,Christoper Moon,Rp.  0,Rp.  3.510.000,closed,,,"Whatsapp, Feni",Bank Transfer
+10768,24/01/2024,Christopher Paul,Rp.  0,Rp.  2.550.000,closed,,,"Whatsapp, Elise, Repeat Customer",Bank Transfer
+10761,24/01/2024,PT. Sedana Sari Murni,Rp.  0,Rp.  14.040.000,closed,,,"Elise, Interior Design",BCA EDC Machine
+10751,24/01/2024,Alex Peak-Watkinson,Rp.  0,Rp.  1.800.000,closed,,,"Online, Repeat Customer",Xendit Online Shop
+10744,24/01/2024,Erika Pena,Rp.  0,Rp.  13.632.500,closed,,,"Showroom, Maria, Repeat Customer",BCA EDC Machine
+10743,24/01/2024,Ryan Fontana,Rp.  0,Rp.  9.880.000,closed,,,"Showroom, Repeat Customer, Stefan",BCA EDC Machine
+10742,24/01/2024,Simon McCormack,Rp.  0,Rp.  8.193.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10741,24/01/2024,Hakim and Olia Olga,Rp.  0,Rp.  1.625.000,closed,,,"Whatsapp, Feni",QRIS
+10740,24/01/2024,PT KARANG MAS SEJAHTERA,Rp.  0,Rp.  13.000.000,closed,,,"Hotel/Villa, Stefan",
+10739,24/01/2024,Astrid,Rp.  0,Rp.  5.925.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10738,23/01/2024,Dolly,Rp.  0,Rp.  1.450.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+10737,23/01/2024,PT Segara Dreams Hospitality,Rp.  0,Rp.  9.903.000,closed,,,"Hotel/Villa, Feni",Bank Transfer
+10736,23/01/2024,Phoebe Greenacre,Rp.  0,Rp.  4.750.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+10735,23/01/2024,Renars,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10734,23/01/2024,Kirsten De Lange,Rp.  0,Rp.  12.905.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+10733,23/01/2024,Bella Wina,Rp.  0,Rp.  1.950.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10800,22/01/2024,Magda Eunike,Rp.  0,Rp.  2.350.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+10731,22/01/2024,Magda Eunike,Rp.  0,Rp.  6.310.000,closed,,,Online,Xendit Online Shop
+10727,22/01/2024,Mathias Kaminski,Rp.  0,Rp.  2.850.000,closed,,,Online,
+10799,21/01/2024,Reski Damayanti,Rp.  0,Rp.  1.450.000,closed,,,"Online, Repeat Customer",Xendit Online Shop
+10732,21/01/2024,Dong Hwa Heo,Rp.  0,Rp.  2.000.000,closed,,,Online,Xendit Online Shop
+10726,21/01/2024,Kata Kollar,Rp.  0,Rp.  1.450.000,closed,,,"Online, Repeat Customer",Xendit Online Shop
+10725,21/01/2024,Ryan Fontana,Rp.  0,Rp.  5.722.500,closed,,,"Showroom, Elise",BCA EDC Machine
+10724,21/01/2024,Wanlong He,Rp.  0,Rp.  3.240.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10723,21/01/2024,Giorgia Sutton,Rp.  0,Rp.  4.950.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10722,21/01/2024,Genevieve Langford,Rp.  0,Rp.  800.000,closed,,,"Hotel/Villa, Elise",BCA EDC Machine
+10721,21/01/2024,Ivan Vasilyev,Rp.  0,Rp.  2.610.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10720,21/01/2024,Sonya Mulkeet,Rp.  0,Rp.  7.910.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10730,20/01/2024,Nelly Huang,Rp.  0,Rp.  700.000,closed,,,"Whatsapp, Feni",Bank Transfer
+10719,20/01/2024,Dian Widayanti,Rp.  0,Rp.  3.600.000,closed,,,"Whatsapp, Feni, Repeat Customer",
+10715,20/01/2024,Christopher Paul,Rp.  0,Rp.  2.750.000,closed,,,"Showroom, Elise",QRIS
+10714,20/01/2024,Jam,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Maria, Repeat Customer",BCA EDC Machine
+10713,20/01/2024,Fay Li,Rp.  0,Rp.  3.600.000,closed,,,Online,Xendit Online Shop
+10712,20/01/2024,Martim Dias Da Lunha,Rp.  0,Rp.  5.300.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10711,20/01/2024,Asuka Fujiki,Rp.  0,Rp.  4.160.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10710,20/01/2024,Zachary Decit,Rp.  0,Rp.  1.550.000,closed,,,"Showroom, Maria",Cash
+10707,20/01/2024,Alex Russian,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10706,20/01/2024,Nikolay MATUSHEVSKIY,Rp.  0,Rp.  2.450.000,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+10940,19/01/2024,Ryan Fee,Rp.  0,Rp.  80.300.000,closed,,,"Showroom, Feni, Maria",Cash
+10835,19/01/2024,Suriansyah & Evin,Rp.  0,Rp.  39.500.000,closed,,,"Whatsapp, Feni",Bank Transfer
+10718,19/01/2024,Dwihayati Bong,Rp.  0,Rp.  1.550.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+10717,19/01/2024,Karen Isdaryono,Rp.  0,Rp.  2.165.000,closed,,,"Whatsapp, Feni",Bank Transfer
+10716,19/01/2024,Mathias Kaminski,Rp.  0,Rp.  2.017.000,closed,,,"Whatsapp, Feni",Bank Transfer
+10709,19/01/2024,Keith Ngolley,Rp.  0,Rp.  1.400.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+10708,19/01/2024,Ksenia Pogrebnichenko,Rp.  0,Rp.  4.500.000,closed,,,"Online, Repeat Customer",Xendit Online Shop
+10702,19/01/2024,Angie Melia,Rp.  0,Rp.  1.173.000,closed,,,"Showroom, Bobby (2)",Cash
+10701,19/01/2024,Herbert Ypma,Rp.  0,Rp.  3.600.000,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+10700,19/01/2024,Nicole Seeger,Rp.  0,Rp.  3.430.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10699,19/01/2024,Debby and Brian,Rp.  0,Rp.  4.950.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+10698,19/01/2024,Anna Queen,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Elise",
+10703,18/01/2024,Heveya Singapore,(US)$  0,(US)$  40,closed,,,Feni,
+10697,18/01/2024,PT NINDYA KARYA,Rp.  0,Rp.  12.250.000,closed,,,"Whatsapp, Feni",Bank Transfer
+10696,18/01/2024,Lilian Ng,Rp.  0,Rp.  3.050.000,closed,,,"Online, Repeat Customer",Xendit Online Shop
+10693,18/01/2024,PT KARANG MAS SEJAHTERA,Rp.  0,Rp.  11.200.000,closed,,,"Hotel/Villa, Feni",Bank Transfer
+10690,17/01/2024,Jill Van Ottelen,Rp.  0,Rp.  2.333.376,closed,,,Online,Xendit Online Shop
+10689,17/01/2024,Cella Alvarez,Rp.  0,Rp.  4.050.000,closed,,,,Xendit Online Shop
+10688,17/01/2024,Irene Stoffel,Rp.  0,Rp.  1.232.500,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+10687,17/01/2024,Cassie Lewfatt,Rp.  0,Rp.  8.970.000,closed,,,"Showroom, Bobby (2)",BCA EDC Machine
+10686,17/01/2024,MARINA,Rp.  0,Rp.  495.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10685,17/01/2024,Sonya Mulkeet,Rp.  0,Rp.  75.000,closed,,,"Showroom, Feni, Repeat Customer",Cash
+10684,17/01/2024,Ida Royani,Rp.  0,Rp.  2.450.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10683,17/01/2024,Giacomo Fedele,Rp.  0,Rp.  2.880.000,closed,,,"Showroom, Feni",BCA EDC Machine
+FREE0005,16/01/2024,Aghniny Haque,Rp.  0,Rp.  172.077,closed,,,"Whatsapp, Feni, Repeat Customer",
+10747,16/01/2024,Urban Quarter Kemang Store,Rp.  0,Rp.  6.800.000,closed,,,Partner,Bank Transfer
+10680,16/01/2024,Tishya SAGAR,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10679,16/01/2024,Susan.,Rp.  0,Rp.  13.500.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10678,16/01/2024,IKKOSHI OTA,Rp.  0,Rp.  880.000,closed,,,"Showroom, Bobby (2)",QRIS
+10676,16/01/2024,IKKOSHI OTA,Rp.  0,Rp.  9.700.000,closed,,,"Showroom, Bobby (2)",QRIS
+10675,16/01/2024,Suzi Antic,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10673,16/01/2024,MARINA,Rp.  0,Rp.  210.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10672,16/01/2024,Leah,Rp.  0,Rp.  27.584.000,closed,,,"Hotel/Villa, Elise, Repeat Customer",BCA EDC Machine
+10695,15/01/2024,Ratih Panggabean,Rp.  0,Rp.  8.500.000,closed,,,Online,Xendit Online Shop
+10670,15/01/2024,Mathias Kaminski,Rp.  0,Rp.  2.850.000,closed,,,Online,Xendit Online Shop
+10668,15/01/2024,Citra Dewi,Rp.  0,Rp.  1.450.000,closed,,,Online,Xendit Online Shop
+10666,15/01/2024,Kata Kollar,Rp.  0,Rp.  2.100.000,closed,,,Online,Xendit Online Shop
+10665,15/01/2024,Sofie Whelan,Rp.  0,Rp.  4.140.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10664,15/01/2024,Marushka Stipinovich,Rp.  0,Rp.  4.860.000,closed,,,Online,Xendit Online Shop
+10663,15/01/2024,Anna Queen,Rp.  0,Rp.  2.610.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10662,15/01/2024,Steve Willinon,Rp.  0,Rp.  10.350.000,closed,,,"Showroom, Feni",Cash
+10661,15/01/2024,Michael Madrid,Rp.  0,Rp.  3.600.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+11284,14/01/2024,Matt Pochodyla,Rp.  0,Rp.  7.200.000,closed,,,Online,BCA EDC Machine
+10660,14/01/2024,Manon Payot,Rp.  0,Rp.  5.150.000,closed,,,"Whatsapp, Elise, Repeat Customer",Bank Transfer
+10658,14/01/2024,Yulia Tereshina,Rp.  0,Rp.  3.660.000,closed,,,"Showroom, Elise",BCA EDC Machine
+13040,13/01/2024,Katrina Szabo,Rp.  0,Rp.  1.760.000,closed,,,Showroom,Bank Transfer
+10681,13/01/2024,Aghniny Haque,Rp.  0,Rp.  3.600.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+10669,13/01/2024,Kristin Collins,Rp.  0,Rp.  495.000,closed,,,Online,Xendit Online Shop
+10667,13/01/2024,Dieni,Rp.  0,Rp.  5.220.000,closed,,,"Showroom, Maria, Repeat Customer",Bank Transfer
+10656,13/01/2024,Donna Jakins,Rp.  0,Rp.  3.200.000,closed,,,Online,Xendit
+10654,13/01/2024,Logan Bailey,Rp.  0,Rp.  5.085.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10653,13/01/2024,Dina Tay,Rp.  0,Rp.  4.340.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10652,13/01/2024,Kamu Concepts - Victoria Kromojahjo,Rp.  0,Rp.  8.280.000,closed,,,"Elise, Interior Design",BCA EDC Machine
+FREE0004,12/01/2024,Neville Mars,Rp.  0,Rp.  434.077,closed,,,Hotel/Villa,
+10748,12/01/2024,Nurwati Widodo,Rp.  0,Rp.  150.000.000,closed,,,"Whatsapp, Feni",Bank Transfer
+10671,12/01/2024,Christine W,Rp.  0,Rp.  4.250.000,closed,,,Online,Xendit Online Shop
+10650,12/01/2024,Pamela Usanto,Rp.  0,Rp.  1.550.000,closed,,,Online,Xendit Online Shop
+10649,12/01/2024,Shane Tracey,Rp.  0,Rp.  3.260.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10647,12/01/2024,Marianna,Rp.  0,Rp.  10.970.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10704,11/01/2024,Heveya Singapore,(US)$  0,(US)$  29,closed,,,Feni,
+10659,11/01/2024,Alex Peak-Watkinson,Rp.  0,Rp.  2.850.000,closed,,,Online,Xendit Online Shop
+10645,11/01/2024,Reski Damayanti,Rp.  0,Rp.  3.050.000,closed,,,Online,Xendit Online Shop
+10644,11/01/2024,Nia Andi,Rp.  0,Rp.  2.900.000,closed,,,Online,Xendit Online Shop
+10643,11/01/2024,Jeri W,Rp.  0,Rp.  900.000,closed,,,Online,Xendit Online Shop
+10641,11/01/2024,Mia Gigandet,Rp.  0,Rp.  1.750.000,closed,,,Online,Xendit Online Shop
+10640,11/01/2024,Daniel Bolton,Rp.  0,Rp.  9.000.000,closed,,,Online,Xendit Online Shop
+10639,11/01/2024,Eva Diena,Rp.  0,Rp.  2.610.000,closed,,,"Whatsapp, Feni, Repeat Customer",Bank Transfer
+10638,11/01/2024,Mary Muryn,Rp.  0,Rp.  1.950.000,closed,,,"Showroom, Elise, Repeat Customer",
+10636,11/01/2024,Yinyin Widyanata,Rp.  0,Rp.  1.750.000,closed,,,"Showroom, Bobby (2)",BCA EDC Machine
+10635,11/01/2024,Tristina & Koni,Rp.  0,Rp.  6.893.000,closed,,,"Showroom, Maria, Repeat Customer",QRIS
+10634,11/01/2024,Zac Watson,Rp.  0,Rp.  1.160.000,closed,,,"Showroom, Elise",
+FREE0003,10/01/2024,Monica Peter Artawan,Rp.  0,Rp.  366.245,closed,,,Interior Design,
+10787,10/01/2024,Desa Lima - Alex Goetz,Rp.  0,Rp.  27.200.000,closed,,,"Showroom, Maria",Bank Transfer
+10777,10/01/2024,PT Clements Soulutions Bali,Rp.  0,Rp.  81.586.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10627,10/01/2024,Inna,Rp.  0,Rp.  2.250.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10626,10/01/2024,Dmitrii Bertosh,Rp.  0,Rp.  2.100.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10624,10/01/2024,Luke Mishell,Rp.  0,Rp.  4.680.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10622,10/01/2024,Lionel Palar,Rp.  0,Rp.  1.450.000,closed,,,Online,Xendit Online Shop
+FREE0002,09/01/2024,Oria Jamar De Bolsee - Morin Resort Nusa Lembongan,Rp.  0,Rp.  366.245,closed,,,Hotel/Villa,
+10797,09/01/2024,Eva Celia,Rp.  0,Rp.  26.180.000,closed,,,"Whatsapp, Thijs",Bank Transfer
+10646,09/01/2024,Dolly,Rp.  0,Rp.  1.450.000,closed,,,"Whatsapp, Feni",Bank Transfer
+10618,09/01/2024,Nikki Flook,Rp.  0,Rp.  3.410.000,closed,,,"Showroom, Feni, Repeat Customer",BCA EDC Machine
+FREE0001,08/01/2024,Friedrich Hamker,Rp.  0,Rp.  366.245,closed,,,Showroom,
+10705,08/01/2024,Heveya Singapore,(US)$  0,(US)$  64,closed,,,Feni,
+10642,08/01/2024,Benny Benny,Rp.  0,Rp.  6.542.752,closed,,,Online,Xendit Online Shop
+10617,08/01/2024,Klara Astrid,Rp.  0,Rp.  2.610.000,closed,,,Online,Xendit Online Shop
+10614,08/01/2024,Jeri W,Rp.  0,Rp.  4.250.000,closed,,,Online,Xendit Online Shop
+10612,08/01/2024,Noviea S,Rp.  0,Rp.  450.000,closed,,,Online,Xendit Online Shop
+10611,07/01/2024,Rodd Myers,Rp.  0,Rp.  3.534.000,closed,,,"Whatsapp, Maria, Repeat Customer",Bank Transfer
+10609,07/01/2024,Aren Bahia,Rp.  0,Rp.  6.366.500,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+10608,07/01/2024,Andrey Merzlyakov,Rp.  0,Rp.  2.610.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11252,06/01/2024,Zac Watson,Rp.  0,Rp.  11.110.000,closed,,,Showroom,BCA EDC Machine
+10606,06/01/2024,Matthew Edington,Rp.  0,Rp.  2.260.000,closed,,,"Whatsapp, Maria",BCA EDC Machine
+10605,06/01/2024,Irene Stoffel,Rp.  0,Rp.  2.720.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10604,06/01/2024,Aleksandr Kamenev,Rp.  0,Rp.  2.900.000,closed,,,Online,Xendit
+10603,06/01/2024,Anastasia Shumikhina,Rp.  0,Rp.  1.450.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10602,06/01/2024,Mary Muryn,Rp.  0,Rp.  5.350.000,closed,,,Showroom,BCA EDC Machine
+10601,06/01/2024,Chris Dudman,Rp.  0,Rp.  2.250.000,closed,,,Showroom,Cash
+10600,06/01/2024,IKKOSHI OTA,Rp.  0,Rp.  14.160.000,closed,,,"Showroom, Maria",Bank Transfer
+10599,06/01/2024,Sam Bencheghib,Rp.  0,Rp.  3.840.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10677,05/01/2024,Leah,Rp.  0,Rp.  122.160.000,closed,,,Showroom,BCA EDC Machine
+10598,05/01/2024,EDITA,Rp.  0,Rp.  3.600.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10597,05/01/2024,Ery Nika Dianda,Rp.  0,Rp.  2.610.000,closed,,,Online,Xendit Online Shop
+10594,05/01/2024,Logan Bailey,Rp.  0,Rp.  7.650.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10593,05/01/2024,Tessel de Boer,Rp.  0,Rp.  4.050.000,closed,,,"Showroom, Elise",BCA EDC Machine
+GIFT-0001,04/01/2024,Kurt Latexco Indonesia,Rp.  0,Rp.  497.016,closed,,,,
+10591,04/01/2024,Jamee Newland,Rp.  0,Rp.  5.310.000,closed,,,Online,Xendit Online Shop
+10590,04/01/2024,Celine Serot,Rp.  0,Rp.  5.400.000,closed,,,Online,Xendit Online Shop
+10586,04/01/2024,Erin Linn Kyna,Rp.  0,Rp.  3.105.000,closed,,,"Showroom, Elise",
+10585,04/01/2024,Marko,Rp.  0,Rp.  3.600.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10584,04/01/2024,DS,Rp.  0,Rp.  2.390.000,closed,,,"Showroom, Maria",BCA EDC Machine
+10583,04/01/2024,Mika,Rp.  0,Rp.  3.600.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10582,04/01/2024,Brice,Rp.  0,Rp.  4.365.000,closed,,,"Showroom, Feni",BCA EDC Machine
+10580,04/01/2024,Kyan Noack - Villa BOND Bali,Rp.  0,Rp.  6.160.000,closed,,,"Showroom, Elise, Repeat Customer",BCA EDC Machine
+10616,03/01/2024,Abigail Wilson,Rp.  0,Rp.  5.050.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10576,03/01/2024,Nola Gunawan,Rp.  0,Rp.  2.450.000,closed,,,Online,Xendit Online Shop
+10574,03/01/2024,Andreea,Rp.  0,Rp.  1.550.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10573,03/01/2024,Ivett,Rp.  0,Rp.  1.150.000,closed,,,"Whatsapp, Feni",BCA EDC Machine
+10572,03/01/2024,Tara M,Rp.  0,Rp.  3.325.000,closed,,,"Showroom, Elise",
+10570,03/01/2024,Nandip,Rp.  0,Rp.  14.590.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10569,03/01/2024,Tara M,Rp.  0,Rp.  5.420.000,closed,,,,BCA EDC Machine
+10568,03/01/2024,Ali Bhanji,Rp.  0,Rp.  3.200.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10566,03/01/2024,Yassine Boujida,Rp.  0,Rp.  2.610.000,closed,,,"Showroom, Elise",BCA EDC Machine
+11287,02/01/2024,Matt Pochodyla,Rp.  0,Rp.  21.490.000,closed,,,"Showroom, Feni",
+10613,02/01/2024,Ghea Mellissa,Rp.  0,Rp.  18.980.000,closed,,,"Showroom, Elise",BCA EDC Machine
+10592,02/01/2024,Cynthia Walsh,Rp.  0,Rp.  1.750.000,closed,,,Online,Xendit Online Shop
+10565,02/01/2024,Esmeralda Rachel Sitorus,Rp.  0,Rp.  6.300.000,closed,,,Online,Xendit Online Shop
+10561,02/01/2024,Eva Diena,Rp.  0,Rp.  1.450.000,closed,,,"Whatsapp, Feni",Bank Transfer
+10560,02/01/2024,Samaya Sungate Behrens,Rp.  0,Rp.  3.420.000,closed,,,"Whatsapp, Feni",Bank Transfer
+10559,02/01/2024,Jenny,Rp.  0,Rp.  1.450.000,closed,,,"Whatsapp, Feni",Bank Transfer
+10558,02/01/2024,Regina Octavia,Rp.  0,Rp.  5.010.000,closed,,,"Showroom, Feni",Bank Transfer
+10556,02/01/2024,Pascale Leclere,Rp.  0,Rp.  2.450.000,closed,,,"Whatsapp, Feni",Bank Transfer
+10554,02/01/2024,Alexandra Gracia,Rp.  0,Rp.  3.500.000,closed,,,"Showroom, Feni, Repeat Customer",Cash
+10550,01/01/2024,Cap Karoso Sumba,Rp.  0,Rp.  13.106.250,closed,,,Hotel/Villa,
+10549,01/01/2024,Cap Karoso Sumba,Rp.  0,Rp.  20.475.000,closed,,,Hotel/Villa,

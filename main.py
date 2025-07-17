@@ -11,7 +11,7 @@ from dashboard import render_api_sales_by_category, render_api_sales_by_subcateg
 from sales_quote import render_sales_quote, render_create_quote, render_save_quote, render_edit_quote
 from products import render_products
 from sales_invoices import render_refresh_invoices, render_sales_invoices, sync_sales_invoices, bulk_update_status, bulk_update_etd
-from sales_order_detail import render_sales_invoices_detail, save_sales_invoices_detail, parse_mattress_name
+from sales_invoices_detail import render_sales_invoices_detail, save_sales_invoices_detail, parse_mattress_name
 from purchase_order import render_purchase_order, save_purchase_order, update_po_eta
 from create_po import render_create_po
 from transfer_warehouse import render_transfer_list, render_create_transfer
@@ -188,14 +188,6 @@ def refresh_invoices():
 @app.route("/sales_invoices")
 def sales_invoices():
     return render_sales_invoices()
-
-# @app.route('/sales_order')
-# def sales_order():
-#     return render_sales_order()
-
-# @app.route("/sales_order/update_etd", methods=["POST"])
-# def sales_order_etd():
-#     return update_single_etd()
 
 @app.route("/sales_invoices/bulk_update_status", methods=["POST"])
 def sales_invoices_bulk_status():
