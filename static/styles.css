@@ -8,6 +8,27 @@ h2 {
     margin-top: 40px;
 }
 
+/*Dashboard Column Pie Charts*/
+.chart-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.chart-box {
+  flex: 1;
+  min-width: 400px;
+  max-width: 48%;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+
+
 @media (max-width: 900px) {
   .chart-row {
     grid-template-columns: 1fr;

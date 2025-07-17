@@ -42,18 +42,18 @@ function renderSalesPie(data) {
     insidetextorientation: "radial",
     textfont: { size: 12 },
   }], {
-    height: 400,     // keep height
+    height: 500,     // keep height
     // remove width
     legend: {
-      orientation: "v",
+      orientation: "h",
       x: 0.9,
       xanchor: "right",
-      y: 0.5,
+      y: -0.3,
       itemwidth: 50,// ⬅️ Reduce this to pull text closer to the color box
       yanchor: "middle",
       font: { size: 12 }
     },
-    margin: { l: 20, r: 100, t: 50, b: 40 }
+    margin: { l: 30, r: 50, t: 50, b: 40 }
   }, {
     responsive: true
   });
@@ -117,18 +117,18 @@ function renderInventoryPie(data) {
     insidetextorientation: "radial",
     textfont: { size: 12 },
   }], {
-    height: 400,     // keep height
+    height: 500,     // keep height
     // remove width
     legend: {
-      orientation: "v",
+      orientation: "h",
       x: 0.9,
       xanchor: "right",
-      y: 0.5,
+      y: -0.3,
       itemwidth: 50,// ⬅️ Reduce this to pull text closer to the color box
       yanchor: "middle",
       font: { size: 12 }
     },
-    margin: { l: 20, r: 100, t: 50, b: 40 }
+    margin: { l: 30, r: 50, t: 50, b: 40 }
   }, {
     responsive: true
   });
@@ -159,18 +159,18 @@ function renderCustomerPie(data) {
     textinfo: "label+percent+value",
     textposition: "inside",
   }], {
-    height: 400,     // keep height
+    height: 500,     // keep height
     // remove width
     legend: {
-      orientation: "v",
+      orientation: "h",
       x: 0.9,
       xanchor: "right",
-      y: 0.5,
+      y: -0.3,
       itemwidth: 50,// ⬅️ Reduce this to pull text closer to the color box
       yanchor: "middle",
       font: { size: 12 }
     },
-    margin: { l: 20, r: 100, t: 50, b: 40 }
+    margin: { l: 30, r: 50, t: 50, b: 40 }
   }, {
     responsive: true
   });
