@@ -60,7 +60,10 @@ function renderSalesPie(data) {
 
   document.getElementById("salesPieChart").on('plotly_click', function(eventData) {
     const clickedCategory = eventData.points[0].label;
-    fetch(`/api/sales-by-subcategory?category=${encodeURIComponent(clickedCategory)}`)
+    const startDate = document.getElementById("startDate").value;
+    const endDate = document.getElementById("endDate").value;
+
+    fetch(`/api/sales-by-subcategory?category=${encodeURIComponent(clickedCategory)}&start_date=${startDate}&end_date=${endDate}`)
       .then(res => res.json())
       .then(renderSubcategoryPie);
   });
@@ -72,12 +75,21 @@ function renderSubcategoryPie(data) {
     type: "pie",
     labels: data.map(d => d.name),
     values: data.map(d => d.value),
-    textinfo: "label+percent"
+    textinfo: "label+percent+value",
+    textposition: "inside",
   }], {
-    height: 400,
-    width: 400
+    title: "Subcategory Breakdown",
+    height: 500,
+    legend: {
+      orientation: "h",
+      x: 0.9,
+      xanchor: "right",
+      y: -0.3,
+      font: { size: 12 }
+    }
   });
 }
+
 
 
 // Basic CSV parser

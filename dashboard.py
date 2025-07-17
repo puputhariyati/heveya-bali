@@ -85,3 +85,55 @@ def render_api_sales_by_category():
     print("📊 Final Payload:", payload)
 
     return jsonify(payload)
+
+def render_api_sales_by_subcategory():
+    # map item → subcategory from CSV
+    item_to_subcat = {}
+    with PRODUCTS_STD.open(newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            norm_name = _norm(row["name"])
+            subcat = (row["Subcategory"] or "Unknown").strip()
+            item_to_subcat[norm_name] = subcat
+
+    # map item → category (to filter)
+    item_to_cat = {}
+    with PRODUCTS_STD.open(newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            item_to_cat[_norm(row["name"])] = (row["Category"] or "Unknown").strip()
+
+    conn = sqlite3.connect(DATABASE)
+    cur = conn.cursor()
+
+    category = request.args.get("category", "")
+    start_date = request.args.get("start_date", "2025-06-01")
+    end_date = request.args.get("end_date", "2025-06-30")
+    print(f"🔍 Subcategory request for: {category}")
+
+    cur.execute("""
+        SELECT d.item, SUM(d.qty) AS total_qty
+        FROM sales_invoices_detail d
+        JOIN sales_invoices o ON TRIM(d.transaction_no) = TRIM(o.transaction_no)
+        WHERE substr(o.transaction_date, 7, 4) || '-' ||
+              substr(o.transaction_date, 4, 2) || '-' ||
+              substr(o.transaction_date, 1, 2)
+              BETWEEN ? AND ?
+        GROUP BY d.item
+    """, (start_date, end_date))
+
+    rows = cur.fetchall()
+    conn.close()
+
+    subcat_totals = {}
+    for item, qty in rows:
+        norm_item = _norm(item)
+        item_cat = item_to_cat.get(norm_item)
+        if item_cat != category:
+            continue
+        subcat = item_to_subcat.get(norm_item, "Unknown")
+        subcat_totals[subcat] = subcat_totals.get(subcat, 0) + (qty or 0)
+
+    payload = [
+        {"name": subcat, "value": qty}
+        for subcat, qty in sorted(subcat_totals.items(), key=lambda x: -x[1])
+    ]
+    return jsonify(payload)
