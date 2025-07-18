@@ -232,8 +232,8 @@ document.addEventListener("DOMContentLoaded", loadAllCharts);
 
 async function renderSalesVsTarget() {
   const view = document.getElementById("viewSelect").value;
-  let start = document.getElementById("startDate").value;
-  let end = document.getElementById("endDate").value;
+  let start = document.getElementById("startDateBar").value;
+  let end = document.getElementById("endDateBar").value;
   if (!start) start = "2025-01-01";
   if (!end) end = "2025-07-31";
   try {

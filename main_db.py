@@ -157,13 +157,11 @@ cursor = conn.cursor()
 #     conn = sqlite3.connect(DATABASE)
 #     cursor = conn.cursor()
 #     updated_count = 0
-#
 #     for invoice in data:
 #         tx_no = invoice.get("transaction_no")
 #         lines = invoice.get("transaction_lines_attributes", [])
 #         if not lines:
 #             continue
-#
 #         try:
 #             total_discount = float(invoice.get("discount_price", 0))
 #             num_lines = len(lines)
@@ -189,14 +187,17 @@ cursor = conn.cursor()
 #
 #     conn.commit()
 #     conn.close()
-#     print(f"✅ Updated unit_sold_price for {updated_count} lines from {json_path}.")
+#     print(f" Updated unit_sold_price for {updated_count} lines from {json_path}.")
 #
 # # 🔁 Add more files here
-# update_unit_sold_price_from_json("static/data/sales_invoices_2025_0103.json")
-
-
-
-
+# update_unit_sold_price_from_json("static/data/sales_invoices_2022_0106.json")
+# update_unit_sold_price_from_json("static/data/sales_invoices_2022_0712.json")
+# update_unit_sold_price_from_json("static/data/sales_invoices_2023_0106.json")
+# update_unit_sold_price_from_json("static/data/sales_invoices_2023_0712.json")
+# update_unit_sold_price_from_json("static/data/sales_invoices_2024_0106.json")
+# update_unit_sold_price_from_json("static/data/sales_invoices_2024_0712.json")
+# # update_unit_sold_price_from_json("static/data/sales_invoices_2025_0103.json")
+# update_unit_sold_price_from_json("static/data/sales_invoices_2025_0406.json")
 
 
 # # ✅debug_table_schema
@@ -211,7 +212,7 @@ cursor = conn.cursor()
 
 
 
-# # Insert multiple Sales Orders csv to sales_order table
+# # ✅Insert multiple Sales Orders csv to sales_order table
 # # Paths to your CSV files
 # csv_files = [
 #     'static/data/sales_orders_jun2025.csv',
@@ -274,7 +275,7 @@ cursor = conn.cursor()
 # print(f"✅ Insert complete! Inserted: {inserted}, Skipped (already exists): {skipped}")
 
 
-# # One-time script to update all totals in sales_order table:
+# # ✅ One-time script to update all totals in sales_order table:
 # def format_to_rupiah(value):
 #     try:
 #         value = int(float(value))
@@ -301,9 +302,9 @@ cursor = conn.cursor()
 # conn.commit()
 # conn.close()
 #
-# print(f"✅ Updated {updated} totals to currency format.")
+# print(f" Updated {updated} totals to currency format.")
 
-# Add Column into existing table
+# ✅ Add Column into existing table
 # conn = sqlite3.connect("main.db")
 # cursor = conn.cursor()
 # cursor.execute("ALTER TABLE sales_order_detail ADD COLUMN description TEXT")
@@ -392,14 +393,14 @@ cursor = conn.cursor()
 # conn.close()
 
 
-# #✅ Export your SQLite tables to .csv
-# import pandas as pd
-# # Load sales_order table
-# df = pd.read_sql_query("SELECT * FROM sales_invoices_detail", conn)
-# # Save to CSV
-# df.to_csv("db_sales_invoices_detail.csv", index=False)
-# conn.close()
-# print("db_sales_invoices_detail.csv")
+#✅ Export your SQLite tables to .csv
+import pandas as pd
+# Load sales_order table
+df = pd.read_sql_query("SELECT * FROM sales_targets", conn)
+# Save to CSV
+df.to_csv("sales_targets.csv", index=False)
+conn.close()
+print("sales_targets.csv")
 
 
 # # ✅  Run a quick count test
@@ -412,15 +413,15 @@ cursor = conn.cursor()
 # count = cursor.fetchone()[0]
 # print("Total rows in sales_invoices_detail:", count)
 
-# ✅  Run a quick count test to check join tables mismatch
-cursor.execute("""
-    SELECT COUNT(*) 
-    FROM sales_invoices_detail d
-    JOIN sales_invoices o ON TRIM(d.transaction_no) = TRIM(o.transaction_no)
-    WHERE d.unit_sold_price IS NOT NULL;
-""")
-count = cursor.fetchone()[0]
-print("✅ Matched rows with unit_sold_price (sales_invoices_detail × sales_invoices):", count)
+# # ✅  Run a quick count test to check join tables mismatch
+# cursor.execute("""
+#     SELECT COUNT(*)
+#     FROM sales_invoices_detail d
+#     JOIN sales_invoices o ON TRIM(d.transaction_no) = TRIM(o.transaction_no)
+#     WHERE d.unit_sold_price IS NOT NULL;
+# """)
+# count = cursor.fetchone()[0]
+# print("✅ Matched rows with unit_sold_price (sales_invoices_detail × sales_invoices):", count)
 
 
 # # ✅ RENAME TABLE

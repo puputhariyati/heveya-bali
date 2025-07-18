@@ -169,28 +169,28 @@ def render_set_monthly_target():
 # ✅ for @app.route("/api/sales-vs-target")
 def render_api_sales_vs_target():
     view = request.args.get("view", "monthly")
-    start_date = request.args.get("start_date", "2025-01-01")
-    end_date = request.args.get("end_date", "2025-07-31")
+    start_date = request.args.get("start_date", "")
+    end_date = request.args.get("end_date", "")
 
     conn = sqlite3.connect(DATABASE)
     cur = conn.cursor()
 
     # 1️⃣ Get actual sales per day
     cur.execute("""
-        SELECT substr(o.transaction_date, 7, 4) || '-' ||
-               substr(o.transaction_date, 4, 2) || '-' ||
-               substr(o.transaction_date, 1, 2) AS date,
-               SUM(unit_sold_price) AS amount
+        SELECT 
+            substr(o.transaction_date, 7, 4) || '-' || 
+            substr(o.transaction_date, 4, 2) || '-' || 
+            substr(o.transaction_date, 1, 2) AS date,
+            SUM(COALESCE(d.unit_sold_price, 0))
         FROM sales_invoices_detail d
-        JOIN sales_invoices o ON TRIM (d.transaction_no) = TRIM (o.transaction_no)
+        JOIN sales_invoices o ON TRIM(d.transaction_no) = TRIM(o.transaction_no)
         WHERE (
             substr(o.transaction_date, 7, 4) || '-' ||
             substr(o.transaction_date, 4, 2) || '-' ||
             substr(o.transaction_date, 1, 2)
-        ) BETWEEN ?  AND ?
-        GROUP BY date
+        ) BETWEEN ? AND ?
+        GROUP BY o.transaction_date
     """, (start_date, end_date))
-
     daily_sales = cur.fetchall()
 
     # 2️⃣ Get monthly targets
@@ -215,46 +215,59 @@ def render_api_sales_vs_target():
             key = str(date.year)
         else:
             key = date.strftime("%Y-%m")
-
         actuals[key] += amount
 
     # 4️⃣ Prepare targets
     targets = defaultdict(float)
 
-    if view == "daily":
-        for date_str, _ in daily_sales:
-            date = datetime.strptime(date_str, "%Y-%m-%d")
-            month_str = date.strftime("%Y-%m")
-            days_in_month = calendar.monthrange(date.year, date.month)[1]
-            daily_target = monthly_targets_raw.get(month_str, 0) / days_in_month
-            targets[date_str] = daily_target
-
-    elif view == "monthly":
-        for month_str, target in monthly_targets_raw.items():
-            targets[month_str] = target
-
+    if view == "monthly":
+        def in_range(period_str):
+            return start_date[:7] <= period_str <= end_date[:7]
+    elif view == "daily":
+        def in_range(period_str):
+            return start_date <= period_str <= end_date
     elif view == "quarterly":
-        for month_str, target in monthly_targets_raw.items():
-            dt = datetime.strptime(month_str, "%Y-%m")
-            quarter = (dt.month - 1) // 3 + 1
-            qkey = f"{dt.year}-Q{quarter}"
-            targets[qkey] += target
-
+        def in_range(period_str):
+            y, q = period_str.split("-Q")
+            month = (int(q) - 1) * 3 + 1
+            dt = datetime(int(y), month, 1)
+            return start_date <= dt.strftime("%Y-%m-%d") <= end_date
     elif view == "yearly":
-        for month_str, target in monthly_targets_raw.items():
-            dt = datetime.strptime(month_str, "%Y-%m")
-            ykey = str(dt.year)
-            targets[ykey] += target
+        def in_range(period_str):
+            return start_date[:4] <= period_str <= end_date[:4]
+    else:
+        def in_range(period_str):
+            return True
 
-    # 5️⃣ Merge periods
-    periods = sorted(set(actuals.keys()) | set(targets.keys()))
+    for period, target in monthly_targets_raw.items():
+        if view == "monthly" and in_range(period):
+            targets[period] = target
+        elif view == "quarterly":
+            dt = datetime.strptime(period, "%Y-%m")
+            key = f"{dt.year}-Q{(dt.month - 1) // 3 + 1}"
+            if in_range(key):
+                targets[key] += target
+        elif view == "yearly":
+            year = period[:4]
+            if in_range(year):
+                targets[year] += target
+
+    # 5️⃣ Combine actuals and targets
+    filtered_actuals = {k: v for k, v in actuals.items() if in_range(k)}
+    filtered_targets = {k: v for k, v in targets.items() if in_range(k)}
+
+    periods = sorted(set(filtered_actuals) | set(filtered_targets))
+
     result = [
         {
             "period": p,
-            "actual": actuals.get(p, 0),
-            "target": targets.get(p, 0)
+            "actual": round(filtered_actuals.get(p, 0), 2),
+            "target": round(filtered_targets.get(p, 0), 2)
         }
         for p in periods
     ]
+
     return jsonify(result)
+
+
 
