@@ -3,11 +3,15 @@ from pathlib import Path
 
 DATABASE = Path(__file__).parent / "main.db"
 
-def get_db_connection():
-    conn = sqlite3.connect(DATABASE)
-    conn.row_factory = sqlite3.Row
-    return conn
+# def get_db_connection():
+#     conn = sqlite3.connect(DATABASE)
+#     conn.row_factory = sqlite3.Row
+#     return conn
 
+conn = sqlite3.connect(DATABASE)
+cursor = conn.cursor()
+
+# ✅ create sales_order_detail table
 # def init_db():
 #     conn = get_db_connection()
 #     cursor = conn.cursor()
@@ -32,6 +36,12 @@ def get_db_connection():
 #
 #     conn.commit()
 #     conn.close()
+# print("✅ sales_order_detail table created.")
+
+cursor.execute("ALTER TABLE sales_invoices_detail ADD COLUMN unit_sold_price REAL")
+conn.commit()
+conn.close()
+print("✅ Column added to sales_invoices_detail table.")
 
     # # Create sales_invoices table if it doesn't exist
     # cursor.execute("""
@@ -61,31 +71,6 @@ def get_db_connection():
 # conn.commit()
 # conn.close()
 # print("✅ Column added to sales_order table.")
-
-    # # Create only the new sales_order_detail table or any others you need
-    # def init_db():
-    #     conn = get_db_connection()
-    #     cursor = conn.cursor()
-    #     # Example: your new sales_order_detail table
-    #     cursor.execute("""
-    #         CREATE TABLE IF NOT EXISTS sales_order_detail (
-    #             id INTEGER PRIMARY KEY AUTOINCREMENT,
-    #             transaction_no TEXT,
-    #             line INTEGER,
-    #             item TEXT,
-    #             qty INTEGER,
-    #             unit TEXT,
-    #             delivered INTEGER DEFAULT 0,
-    #             remain_qty INTEGER,
-    #             po_no TEXT,
-    #             warehouse_option TEXT,
-    #             delivery_date TEXT,
-    #             status TEXT
-    #         )
-    #     """)
-    #     conn.commit()
-    #     conn.close()
-    # print("✅ sales_order_detail table created.")
 
     # conn = sqlite3.connect('main.db')
     # cursor = conn.cursor()
@@ -148,6 +133,17 @@ def get_db_connection():
     # conn.commit()
     # conn.close()
     # print("✅ Table 'sales_quote_items' created.")
+
+# # ✅ create sales_targets table
+# cursor.execute('''
+#     CREATE TABLE IF NOT EXISTS sales_targets (
+#         month TEXT PRIMARY KEY,   -- format: '2025-01'
+#         target REAL NOT NULL      -- amount in IDR
+#     );
+# ''')
+# conn.commit()
+# conn.close()
+# print("Table 'sales_targets' created.")
 
     # conn = sqlite3.connect('main.db')
     # cursor = conn.cursor()

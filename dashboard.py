@@ -2,7 +2,9 @@ import requests
 import csv, sqlite3, re
 from flask import jsonify, request
 from pathlib import Path
-from datetime import datetime
+from collections import defaultdict
+from datetime import datetime, timedelta
+import calendar
 
 PRODUCTS_STD = Path("static/data/products_std.csv")   # adjust if elsewhere
 DATABASE = Path(__file__).parent / "main.db"
@@ -137,3 +139,102 @@ def render_api_sales_by_subcategory():
         for subcat, qty in sorted(subcat_totals.items(), key=lambda x: -x[1])
     ]
     return jsonify(payload)
+
+# ✅ for @app.route("/api/set-monthly-target", methods=["POST"])
+def render_set_monthly_target():
+    import sqlite3
+    data = request.get_json()
+    month = data.get("month")  # format: '2025-07'
+    target = float(data.get("target", 0))
+    if not month:
+        return jsonify({"error": "Month is required"}), 400
+    conn = sqlite3.connect(DATABASE)
+    cur = conn.cursor()
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS sales_targets (
+            month TEXT PRIMARY KEY,
+            target REAL NOT NULL
+        )
+    """)
+    cur.execute("""
+        INSERT INTO sales_targets (month, target)
+        VALUES (?, ?)
+        ON CONFLICT(month) DO UPDATE SET target=excluded.target
+    """, (month, target))
+    conn.commit()
+    conn.close()
+    return jsonify({"message": "Target saved"})
+
+
+# ✅ for @app.route("/api/sales-vs-target")
+def render_api_sales_vs_target():
+    view = request.args.get("view", "monthly")
+    start_date = request.args.get("start_date", "2025-01-01")
+    end_date = request.args.get("end_date", "2025-07-31")
+    conn = sqlite3.connect(DATABASE)
+    cur = conn.cursor()
+    # 1️⃣ Get actual sales per day
+    cur.execute("""
+        SELECT
+            substr(o.transaction_date, 7, 4) || '-' ||  -- yyyy
+            substr(o.transaction_date, 4, 2) || '-' ||  -- mm
+            substr(o.transaction_date, 1, 2) AS date,
+            SUM(d.qty * d.unit_price) AS amount
+        FROM sales_invoices_detail d
+        JOIN sales_invoices o ON TRIM(d.transaction_no) = TRIM(o.transaction_no)
+        WHERE date BETWEEN ? AND ?
+        GROUP BY date
+    """, (start_date, end_date))
+    daily_sales = cur.fetchall()
+    # 2️⃣ Get monthly targets
+    cur.execute("SELECT month, target FROM sales_targets")
+    monthly_targets_raw = dict(cur.fetchall())
+    conn.close()
+    # 3️⃣ Prepare period-based aggregations
+    actuals = defaultdict(float)
+    targets = defaultdict(float)
+    for date_str, amount in daily_sales:
+        date = datetime.strptime(date_str, "%Y-%m-%d")
+        month_str = date.strftime("%Y-%m")
+        monthly_target = monthly_targets_raw.get(month_str, 0)
+        if view == "daily":
+            key = date.strftime("%Y-%m-%d")
+            days_in_month = calendar.monthrange(date.year, date.month)[1]
+            target = monthly_target / days_in_month
+        elif view == "monthly":
+            key = month_str
+            target = monthly_target
+        elif view == "quarterly":
+            quarter = (date.month - 1) // 3 + 1
+            key = f"{date.year}-Q{quarter}"
+            target = 0  # We’ll sum monthly targets later
+        elif view == "yearly":
+            key = str(date.year)
+            target = 0  # We’ll sum monthly targets later
+        else:
+            key = month_str
+            target = monthly_target
+        actuals[key] += amount
+        if view in ("daily", "monthly"):
+            targets[key] += target
+    # 4️⃣ Aggregate quarterly & yearly targets from monthly targets
+    if view in ("quarterly", "yearly"):
+        for month_str, target in monthly_targets_raw.items():
+            dt = datetime.strptime(month_str, "%Y-%m")
+            if view == "quarterly":
+                qkey = f"{dt.year}-Q{((dt.month - 1) // 3 + 1)}"
+                targets[qkey] += target
+            elif view == "yearly":
+                ykey = str(dt.year)
+                targets[ykey] += target
+    # 5️⃣ Merge periods
+    periods = sorted(set(actuals.keys()) | set(targets.keys()))
+    result = [
+        {
+            "period": p,
+            "actual": actuals.get(p, 0),
+            "target": targets.get(p, 0)
+        }
+        for p in periods
+    ]
+    return jsonify(result)

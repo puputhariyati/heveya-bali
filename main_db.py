@@ -73,7 +73,7 @@ cursor = conn.cursor()
 # insert_orders_from_json("static/data/sales_invoices_2025_0406.json")
 #
 #
-# ✅ merge multiple json data to 1 table sales_invoices_detail
+# # ✅ merge multiple json data to 1 table sales_invoices_detail
 # def insert_sales_orders_detail_from_json(json_path):
 #     with open(json_path, "r", encoding="utf-8") as f:
 #         data = json.load(f)
@@ -87,7 +87,7 @@ cursor = conn.cursor()
 #         tx_no = order.get("transaction_no")
 #         inserted = False
 #
-#         # Insert lines into sales_order_detail
+#         # Insert lines into sales_invoices_detail
 #         lines = order.get("transaction_lines_attributes", [])
 #         for i, line in enumerate(lines, start=1):
 #             product_data = line.get("product", {})
@@ -123,7 +123,7 @@ cursor = conn.cursor()
 #
 #     conn.commit()
 #     conn.close()
-#     print(f"✅ Imported {order_count} sales invoices detail and {detail_count} detail lines from {json_path}.")
+#     print(f" Imported {order_count} sales invoices detail and {detail_count} detail lines from {json_path}.")
 #
 # # # 🔁 Add more files here
 # insert_sales_orders_detail_from_json("static/data/sales_invoices_2022_0106.json")
@@ -136,18 +136,67 @@ cursor = conn.cursor()
 # insert_sales_orders_detail_from_json("static/data/sales_invoices_2025_0406.json")
 
 # # ✅ create a composite unique constraint on (transaction_no, line) for the sales_invoices_detail
-db_path = "main.db"  # Make sure this is the one your app uses
-def ensure_tx_line_index():
-    conn = sqlite3.connect(db_path)
-    cur = conn.cursor()
-    cur.execute("""
-        CREATE UNIQUE INDEX IF NOT EXISTS idx_tx_line
-        ON sales_invoices_detail (transaction_no, line)
-    """)
-    conn.commit()
-    conn.close()
-    print("✅ Composite UNIQUE index on (transaction_no, line) ensured.")
-ensure_tx_line_index()
+# db_path = "main.db"  # Make sure this is the one your app uses
+# def ensure_tx_line_index():
+#     conn = sqlite3.connect(db_path)
+#     cur = conn.cursor()
+#     cur.execute("""
+#         CREATE UNIQUE INDEX IF NOT EXISTS idx_tx_line
+#         ON sales_invoices_detail (transaction_no, line)
+#     """)
+#     conn.commit()
+#     conn.close()
+#     print(" Composite UNIQUE index on (transaction_no, line) ensured.")
+# ensure_tx_line_index()
+
+# # ✅ Function to Only Update unit_sold_price column
+# def update_unit_sold_price_from_json(json_path):
+#     import sqlite3, json
+#
+#     with open(json_path, "r", encoding="utf-8") as f:
+#         data = json.load(f)
+#
+#     conn = sqlite3.connect("main.db")
+#     cursor = conn.cursor()
+#     updated_count = 0
+#
+#     for order in data:
+#         tx_no = order.get("transaction_no")
+#         lines = order.get("transaction_lines_attributes", [])
+#         if not lines:
+#             continue
+#
+#         total_discount = sum(float(line.get("discount_price", 0)) for line in lines)
+#         num_lines = len(lines)
+#         if num_lines == 0:
+#             continue
+#
+#         per_line_discount = total_discount / num_lines
+#
+#         for i, line in enumerate(lines, start=1):
+#             try:
+#                 amount = float(line.get("amount", 0))
+#                 unit_sold_price = round((amount * 1.11) - per_line_discount, 2)
+#             except Exception as e:
+#                 print(f"❌ Error calculating for {tx_no} line {i}: {e}")
+#                 continue
+#
+#             cursor.execute("""
+#                 UPDATE sales_invoices_detail
+#                 SET unit_sold_price = ?
+#                 WHERE transaction_no = ? AND line = ?
+#             """, (unit_sold_price, tx_no, i))
+#             updated_count += 1
+#
+#     conn.commit()
+#     conn.close()
+#     print(f" Updated unit_sold_price for {updated_count} lines from {json_path}.")
+# # 🔁 Add more files here
+# update_unit_sold_price_from_json("static/data/sales_invoices_2025_0103.json")
+
+
+
+
 
 
 # # ✅debug_table_schema
@@ -313,9 +362,18 @@ ensure_tx_line_index()
 #           >= '2025-07-01'
 # """)
 # deleted_rows = cursor.rowcount
-# print(f"🗑️ Deleted {deleted_rows} existing rows")
 # conn.commit()
 # conn.close()
+# print(f"🗑️ Deleted {deleted_rows} existing rows")
+
+# # ✅ Delete values in a column: Set all values to NULL
+# cursor.execute("UPDATE sales_invoices_detail SET unit_sold_price = NULL;")
+# conn.commit()
+# conn.close()
+# print(" All values in 'unit_sold_price' have been cleared (set to NULL).")
+
+
+
 #
 # #✅ To see what tables list in my main.db
 # conn = sqlite3.connect("main.db")
@@ -334,14 +392,14 @@ ensure_tx_line_index()
 # conn.close()
 
 
-# #✅ Export your SQLite tables to .csv
-# import pandas as pd
-# # Load sales_order table
-# df = pd.read_sql_query("SELECT * FROM sales_invoices", conn)
-# # Save to CSV
-# df.to_csv("db_sales_invoices_test.csv", index=False)
-# conn.close()
-# print("db_sales_invoices_test.csv")
+#✅ Export your SQLite tables to .csv
+import pandas as pd
+# Load sales_order table
+df = pd.read_sql_query("SELECT * FROM sales_invoices_detail", conn)
+# Save to CSV
+df.to_csv("db_sales_invoices_detail.csv", index=False)
+conn.close()
+print("db_sales_invoices_detail.csv")
 
 
 # # Run a quick count test

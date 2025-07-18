@@ -30,20 +30,54 @@
   <!-- ✅ Sales + Inventory Side by Side -->
   <div class="chart-row">
     <div class="chart-box">
-      <h3>Sales by Category</h3>
+      <h3>Sales by Quantity</h3>
       <div id="salesPieChart"></div>
     </div>
+    <div class="chart-box">
+      <h3>Sales by Amount </h3>
+      <div id="salesAmountPieChart"></div>
+    </div>
+  </div>
+
+  <!-- ✅ Inventory + Customer Pie Chart -->
+  <div class="chart-row">
     <div class="chart-box">
       <h3>Inventory by Category</h3>
       <div id="inventoryPieChart"></div>
     </div>
-  </div>
-
-  <!-- ✅ Customer Pie Chart -->
-  <div class="chart-row">
     <div class="chart-box">
       <h3>Customers by Total Payment</h3>
       <div id="customerPieChart"></div>
     </div>
   </div>
+
+  <div>
+    <label>View:
+      <select id="viewSelect">
+        <option value="daily">Daily</option>
+        <option value="monthly" selected>Monthly</option>
+        <option value="quarterly">Quarterly</option>
+        <option value="yearly">Yearly</option>
+      </select>
+    </label>
+    <input type="date" id="startDate" value="2025-01-01">
+    <input type="date" id="endDate" value="2025-07-31">
+    <button onclick="renderSalesVsTarget()">Apply</button>
+  </div>
+
+  <div id="salesVsTargetChart" style="height: 500px; width: 100%; max-width: 900px; margin-top: 20px;"></div>
+
+  <!-- 🧾 Add Monthly Target Form -->
+  <div style="margin-top: 40px;">
+    <h3>📈 Set Monthly Sales Target</h3>
+    <label for="targetMonth">Month:</label>
+    <input type="month" id="targetMonth" value="2025-07">
+
+    <label for="targetAmount">Target Amount:</label>
+    <input type="number" id="targetAmount" placeholder="e.g. 150000000">
+
+    <button onclick="submitMonthlyTarget()">Save Target</button>
+    <div id="targetSaveStatus" style="margin-top: 10px; color: green;"></div>
+  </div>
+
 {% endblock %}
