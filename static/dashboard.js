@@ -235,49 +235,62 @@ async function renderSalesVsTarget() {
   let start = document.getElementById("startDate").value;
   let end = document.getElementById("endDate").value;
 
-  // ✅ Fallback if dates are empty
   if (!start) start = "2025-01-01";
   if (!end) end = "2025-07-31";
 
   try {
     const res = await fetch(`/api/sales-vs-target?view=${view}&start_date=${start}&end_date=${end}`);
-
-    if (!res.ok) {
-      throw new Error(`Server error: ${res.status}`);
-    }
+    if (!res.ok) throw new Error(`Server error: ${res.status}`);
 
     const data = await res.json();
+    console.log("DATA", data);
 
     const x = data.map(d => d.period);
-    const actual = data.map(d => d.actual);
-    const target = data.map(d => d.target);
+    const actual = data.map(d => d.actual / 1e9);  // 👉 Scale to billions
+    const target = data.map(d => d.target / 1e9);  // 👉 Scale to billions
 
-    const layout = {
+    Plotly.newPlot("salesVsTargetChart", [
+      {
+        type: "bar",
+        x,
+        y: actual,
+        name: "Actual",
+        marker: { color: "#1f77b4" }
+      },
+      {
+        type: "bar",
+        x,
+        y: target,
+        name: "Target",
+        marker: { color: "#ff7f0e" }
+      }
+    ], {
       title: `Sales vs Target (${view})`,
-      barmode: 'group',
-      yaxis: { title: 'Amount (IDR)' }
-    };
+      barmode: "group",
+      yaxis: {
+        title: "Amount (Billions IDR)",
+        tickformat: ",.2f",        // ✅ Show 2 decimals with commas
+        separatethousands: true
+      },
+      legend: {
+        orientation: "h",
+        x: 0.95,
+        xanchor: "right",
+        y: -0.2,
+        font: { size: 12 }
+      },
+      margin: { l: 40, r: 30, t: 50, b: 40 }
+    }, {
+      responsive: true
+    });
 
-    const traceActual = {
-      x, y: actual,
-      type: 'bar',
-      name: 'Actual',
-      marker: { color: '#1f77b4' }
-    };
-
-    const traceTarget = {
-      x, y: target,
-      type: 'bar',
-      name: 'Target',
-      marker: { color: '#ff7f0e' }
-    };
-
-    Plotly.newPlot("salesVsTargetChart", [traceActual, traceTarget], layout);
   } catch (err) {
     console.error("❌ Failed to fetch sales vs target data:", err);
     alert("Error loading chart. Please check your server or network.");
   }
 }
+
+
 
 
 async function submitMonthlyTarget() {

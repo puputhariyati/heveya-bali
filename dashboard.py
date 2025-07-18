@@ -171,62 +171,77 @@ def render_api_sales_vs_target():
     view = request.args.get("view", "monthly")
     start_date = request.args.get("start_date", "2025-01-01")
     end_date = request.args.get("end_date", "2025-07-31")
+
     conn = sqlite3.connect(DATABASE)
     cur = conn.cursor()
+
     # 1️⃣ Get actual sales per day
     cur.execute("""
         SELECT
             substr(o.transaction_date, 7, 4) || '-' ||  -- yyyy
             substr(o.transaction_date, 4, 2) || '-' ||  -- mm
             substr(o.transaction_date, 1, 2) AS date,
-            SUM(d.qty * d.unit_price) AS amount
+            SUM(unit_sold_price) AS amount
         FROM sales_invoices_detail d
         JOIN sales_invoices o ON TRIM(d.transaction_no) = TRIM(o.transaction_no)
         WHERE date BETWEEN ? AND ?
         GROUP BY date
     """, (start_date, end_date))
     daily_sales = cur.fetchall()
+
     # 2️⃣ Get monthly targets
     cur.execute("SELECT month, target FROM sales_targets")
     monthly_targets_raw = dict(cur.fetchall())
     conn.close()
-    # 3️⃣ Prepare period-based aggregations
+
+    # 3️⃣ Prepare actuals
     actuals = defaultdict(float)
-    targets = defaultdict(float)
     for date_str, amount in daily_sales:
+        amount = amount or 0
         date = datetime.strptime(date_str, "%Y-%m-%d")
-        month_str = date.strftime("%Y-%m")
-        monthly_target = monthly_targets_raw.get(month_str, 0)
+
         if view == "daily":
             key = date.strftime("%Y-%m-%d")
-            days_in_month = calendar.monthrange(date.year, date.month)[1]
-            target = monthly_target / days_in_month
         elif view == "monthly":
-            key = month_str
-            target = monthly_target
+            key = date.strftime("%Y-%m")
         elif view == "quarterly":
             quarter = (date.month - 1) // 3 + 1
             key = f"{date.year}-Q{quarter}"
-            target = 0  # We’ll sum monthly targets later
         elif view == "yearly":
             key = str(date.year)
-            target = 0  # We’ll sum monthly targets later
         else:
-            key = month_str
-            target = monthly_target
+            key = date.strftime("%Y-%m")
+
         actuals[key] += amount
-        if view in ("daily", "monthly"):
-            targets[key] += target
-    # 4️⃣ Aggregate quarterly & yearly targets from monthly targets
-    if view in ("quarterly", "yearly"):
+
+    # 4️⃣ Prepare targets
+    targets = defaultdict(float)
+
+    if view == "daily":
+        for date_str, _ in daily_sales:
+            date = datetime.strptime(date_str, "%Y-%m-%d")
+            month_str = date.strftime("%Y-%m")
+            days_in_month = calendar.monthrange(date.year, date.month)[1]
+            daily_target = monthly_targets_raw.get(month_str, 0) / days_in_month
+            targets[date_str] = daily_target
+
+    elif view == "monthly":
+        for month_str, target in monthly_targets_raw.items():
+            targets[month_str] = target
+
+    elif view == "quarterly":
         for month_str, target in monthly_targets_raw.items():
             dt = datetime.strptime(month_str, "%Y-%m")
-            if view == "quarterly":
-                qkey = f"{dt.year}-Q{((dt.month - 1) // 3 + 1)}"
-                targets[qkey] += target
-            elif view == "yearly":
-                ykey = str(dt.year)
-                targets[ykey] += target
+            quarter = (dt.month - 1) // 3 + 1
+            qkey = f"{dt.year}-Q{quarter}"
+            targets[qkey] += target
+
+    elif view == "yearly":
+        for month_str, target in monthly_targets_raw.items():
+            dt = datetime.strptime(month_str, "%Y-%m")
+            ykey = str(dt.year)
+            targets[ykey] += target
+
     # 5️⃣ Merge periods
     periods = sorted(set(actuals.keys()) | set(targets.keys()))
     result = [
@@ -237,4 +252,6 @@ def render_api_sales_vs_target():
         }
         for p in periods
     ]
+
     return jsonify(result)
+
