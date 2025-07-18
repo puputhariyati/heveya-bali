@@ -149,50 +149,50 @@ cursor = conn.cursor()
 #     print(" Composite UNIQUE index on (transaction_no, line) ensured.")
 # ensure_tx_line_index()
 
-# # ✅ Function to Only Update unit_sold_price column
-# def update_unit_sold_price_from_json(json_path):
-#     import sqlite3, json
-#
-#     with open(json_path, "r", encoding="utf-8") as f:
-#         data = json.load(f)
-#
-#     conn = sqlite3.connect("main.db")
-#     cursor = conn.cursor()
-#     updated_count = 0
-#
-#     for order in data:
-#         tx_no = order.get("transaction_no")
-#         lines = order.get("transaction_lines_attributes", [])
-#         if not lines:
-#             continue
-#
-#         total_discount = sum(float(line.get("discount_price", 0)) for line in lines)
-#         num_lines = len(lines)
-#         if num_lines == 0:
-#             continue
-#
-#         per_line_discount = total_discount / num_lines
-#
-#         for i, line in enumerate(lines, start=1):
-#             try:
-#                 amount = float(line.get("amount", 0))
-#                 unit_sold_price = round((amount * 1.11) - per_line_discount, 2)
-#             except Exception as e:
-#                 print(f"❌ Error calculating for {tx_no} line {i}: {e}")
-#                 continue
-#
-#             cursor.execute("""
-#                 UPDATE sales_invoices_detail
-#                 SET unit_sold_price = ?
-#                 WHERE transaction_no = ? AND line = ?
-#             """, (unit_sold_price, tx_no, i))
-#             updated_count += 1
-#
-#     conn.commit()
-#     conn.close()
-#     print(f" Updated unit_sold_price for {updated_count} lines from {json_path}.")
-# # 🔁 Add more files here
-# update_unit_sold_price_from_json("static/data/sales_invoices_2025_0103.json")
+# ✅ Function to Only Update unit_sold_price column
+def update_unit_sold_price_from_json(json_path):
+    import sqlite3, json
+    with open(json_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    updated_count = 0
+
+    for invoice in data:
+        tx_no = invoice.get("transaction_no")
+        lines = invoice.get("transaction_lines_attributes", [])
+        if not lines:
+            continue
+
+        try:
+            total_discount = float(invoice.get("discount_price", 0))
+            num_lines = len(lines)
+            per_line_discount = (total_discount * 1.11) / num_lines if num_lines > 0 else 0
+        except Exception as e:
+            print(f"❌ Error parsing discount for {tx_no}: {e}")
+            continue
+
+        for i, line in enumerate(lines, start=1):
+            try:
+                amount = float(line.get("amount", 0))
+                unit_sold_price = round((amount * 1.11) - per_line_discount, 2)
+            except Exception as e:
+                print(f"❌ Error calculating unit_sold_price for {tx_no} line {i}: {e}")
+                continue
+
+            cursor.execute("""
+                UPDATE sales_invoices_detail
+                SET unit_sold_price = ?
+                WHERE transaction_no = ? AND line = ?
+            """, (unit_sold_price, tx_no, i))
+            updated_count += 1
+
+    conn.commit()
+    conn.close()
+    print(f"✅ Updated unit_sold_price for {updated_count} lines from {json_path}.")
+
+# 🔁 Add more files here
+update_unit_sold_price_from_json("static/data/sales_invoices_2025_0103.json")
 
 
 
