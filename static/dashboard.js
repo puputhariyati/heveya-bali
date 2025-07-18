@@ -69,7 +69,6 @@ function renderSalesPie(data) {
   });
 }
 
-
 function renderSubcategoryPie(data) {
   Plotly.newPlot("salesPieChart", [{
     type: "pie",
@@ -91,46 +90,43 @@ function renderSubcategoryPie(data) {
 }
 
 
-
 // Basic CSV parser
 function parseCSV(csvText) {
-  const [headerLine, ...lines] = csvText.trim().split("\n");
-  const headers = headerLine.split(",").map(h => h.trim());
-
-  return lines.map(line => {
-    const values = line.split(",").map(v => v.trim());
-    const obj = {};
-    headers.forEach((h, i) => {
-      obj[h] = values[i];
-    });
-    return obj;
-  });
+  return Papa.parse(csvText, {
+    header: true,
+    skipEmptyLines: true
+  }).data;
 }
-
 
 function renderInventoryPie(data) {
   const totals = {};
   for (const row of data) {
-    const cat = row.Category || "Unknown";
-    const qty = parseFloat(row.warehouse_qty || 0);
-    totals[cat] = (totals[cat] || 0) + qty;
-  }
+    const cat = row.Category?.trim() || "Unknown";
 
-  const labels = Object.keys(totals);
-  const values = Object.values(totals);
+    const showroomRaw = row.showroom_qty || "";
+    const warehouseRaw = row.warehouse_qty || "";
+
+    // Remove commas and non-numeric characters, then parse
+    const showroom = parseFloat(showroomRaw.replace(/[^\d.-]/g, "")) || 0;
+    const warehouse = parseFloat(warehouseRaw.replace(/[^\d.-]/g, "")) || 0;
+    const qty = showroom + warehouse;
+    totals[cat] = (totals[cat] || 0) + qty;
+    if (qty > 1000) {
+      console.warn(`🚨 Suspicious qty for ${row.name}:`, { showroomRaw, warehouseRaw, showroom, warehouse, qty });
+    }
+  }
 
   Plotly.newPlot("inventoryPieChart", [{
     type: "pie",
     showlegend: true,
-    labels,
-    values,
+    labels: Object.keys(totals),
+    values: Object.values(totals),
     textinfo: "label+percent+value",
     textposition: "inside",
     insidetextorientation: "radial",
     textfont: { size: 12 },
   }], {
-    height: 500,     // keep height
-    // remove width
+    height: 500,
     legend: {
       orientation: "h",
       x: 0.9,
@@ -145,6 +141,7 @@ function renderInventoryPie(data) {
     responsive: true
   });
 }
+
 
 function renderCustomerPie(data) {
   const buckets = {
