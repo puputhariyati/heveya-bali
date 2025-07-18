@@ -91,7 +91,7 @@ def save_sales_invoices_detail(transaction_no):
                 delivered = int(float(delivered_list[i])) if delivered_list[i] else 0
                 warehouse_option = warehouse_option_list[i]
 
-            remain = int(float(remain_qty_list[i])) if remain_qty_list[i] else max(qty - delivered, 0)
+            remain = max(qty - delivered, 0)
             item_name = item_list[i]
 
             # Get previous delivered value to calculate stock difference
