@@ -234,10 +234,8 @@ async function renderSalesVsTarget() {
   const view = document.getElementById("viewSelect").value;
   let start = document.getElementById("startDate").value;
   let end = document.getElementById("endDate").value;
-
   if (!start) start = "2025-01-01";
   if (!end) end = "2025-07-31";
-
   try {
     const res = await fetch(`/api/sales-vs-target?view=${view}&start_date=${start}&end_date=${end}`);
     if (!res.ok) throw new Error(`Server error: ${res.status}`);

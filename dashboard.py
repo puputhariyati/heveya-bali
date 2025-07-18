@@ -177,16 +177,20 @@ def render_api_sales_vs_target():
 
     # 1️⃣ Get actual sales per day
     cur.execute("""
-        SELECT
-            substr(o.transaction_date, 7, 4) || '-' ||  -- yyyy
-            substr(o.transaction_date, 4, 2) || '-' ||  -- mm
-            substr(o.transaction_date, 1, 2) AS date,
-            SUM(unit_sold_price) AS amount
+        SELECT substr(o.transaction_date, 7, 4) || '-' ||
+               substr(o.transaction_date, 4, 2) || '-' ||
+               substr(o.transaction_date, 1, 2) AS date,
+               SUM(unit_sold_price) AS amount
         FROM sales_invoices_detail d
-        JOIN sales_invoices o ON TRIM(d.transaction_no) = TRIM(o.transaction_no)
-        WHERE date BETWEEN ? AND ?
+        JOIN sales_invoices o ON TRIM (d.transaction_no) = TRIM (o.transaction_no)
+        WHERE (
+            substr(o.transaction_date, 7, 4) || '-' ||
+            substr(o.transaction_date, 4, 2) || '-' ||
+            substr(o.transaction_date, 1, 2)
+        ) BETWEEN ?  AND ?
         GROUP BY date
     """, (start_date, end_date))
+
     daily_sales = cur.fetchall()
 
     # 2️⃣ Get monthly targets
@@ -252,6 +256,5 @@ def render_api_sales_vs_target():
         }
         for p in periods
     ]
-
     return jsonify(result)
 
