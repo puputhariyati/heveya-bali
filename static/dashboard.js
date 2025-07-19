@@ -246,6 +246,12 @@ async function renderSalesVsTarget() {
     const x = data.map(d => d.period);
     const actual = data.map(d => d.actual / 1e9);  // 👉 Scale to billions
     const target = data.map(d => d.target / 1e9);  // 👉 Scale to billions
+    const formattedX = x.map(dateStr => {
+      const [year, month] = dateStr.split("-");
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      return `${monthNames[parseInt(month) - 1]} ${year}`;
+    });
 
     Plotly.newPlot("salesVsTargetChart", [
       {
@@ -256,11 +262,13 @@ async function renderSalesVsTarget() {
         marker: { color: "#1f77b4" }
       },
       {
-        type: "bar",
+        type: "scatter",  // ✅ Change to scatter
+        mode: "lines+markers",  // ✅ Line with points
         x,
         y: target,
         name: "Target",
-        marker: { color: "#ff7f0e" }
+        line: { color: "#ff7f0e", width: 4 },
+        marker: { size: 8 }
       }
     ], {
       title: `Sales vs Target (${view})`,
@@ -270,6 +278,12 @@ async function renderSalesVsTarget() {
         tickformat: ",.2f",        // ✅ Show 2 decimals with commas
         separatethousands: true
       },
+      xaxis: {
+        tickangle: 0,  // ⬅️ Rotate month labels
+        tickmode: "array",
+        tickvals: x,       // Force Plotly to show ALL months in `x` array
+        ticktext: formattedX        // Optional: use same as values
+      },
       legend: {
         orientation: "h",
         x: 0.95,
@@ -277,7 +291,8 @@ async function renderSalesVsTarget() {
         y: -0.2,
         font: { size: 12 }
       },
-      margin: { l: 40, r: 30, t: 50, b: 40 }
+      margin: { l: 60, r: 40, t: 50, b: 80 },
+      width: 1000
     }, {
       responsive: true
     });
@@ -287,9 +302,6 @@ async function renderSalesVsTarget() {
     alert("Error loading chart. Please check your server or network.");
   }
 }
-
-
-
 
 async function submitMonthlyTarget() {
   const month = document.getElementById("targetMonth").value;
